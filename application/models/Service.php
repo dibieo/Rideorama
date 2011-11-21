@@ -7,7 +7,7 @@ class Application_Model_Service
     protected $mail;
     
     public function __construct(){
-        $this->doctrineContainer = \Zend_Registry::get('doctrine');
+        $this->doctrineContainer = Zend_Registry::get('doctrine');
         $this->em = $this->doctrineContainer->getEntityManager();
         $this->mail = new Zend_Mail();
     }
@@ -57,5 +57,13 @@ class Application_Model_Service
            return $link;
 
      }
+     
+   
+    
+   
+    
+    
+    
+    
 }
 

@@ -1,0 +1,26 @@
+<?php
+    $this->title = "View all landmark categories";
+    $this->headTitle($this->title);
+?>
+<br /><br />
+<div id="view-content">
+<p><a href="<?php echo $this->url(array('module'=> 'admin', 'controller'=>'landmark-category', 
+        'action'=>'add-category'));?>">Add a new landmark category</a></p>
+<table>
+<tr>
+    <th>Landmark Category</th>
+</tr>
+<?php foreach($this->categories as $cats) : ?>
+<tr>
+    <td><?php echo $this->escape($cats->name);?></td>
+    <td>
+        <a href="<?php echo $this->url(array('module' => 'admin', 'controller'=>'landmark-category', 
+            'action'=>'edit-category', 'id'=>$cats->id));?>">Edit</a>
+        <a href="<?php echo $this->url(array('module' => 'admin', 'controller'=>'landmark-category', 
+            'action'=>'delete-category', 'id'=>$cats->id));?>">Delete</a>
+    </td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+</div>

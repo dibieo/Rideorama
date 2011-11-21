@@ -4,7 +4,7 @@
  * @todo Change the getStates and makeStates methods to work
  * with Doctrine Entity instead
  */
-class Admin_Form_City extends Zend_Form
+class Admin_Form_City extends Application_Form_Base 
 {
 
     public function init()
@@ -28,25 +28,7 @@ class Admin_Form_City extends Zend_Form
         $this->addElements(array($id, $city_name, $state_id, $submit));
     }
 
-    private function getStates(){
-        
-        $states = new Admin_Model_DbTable_State();
-       return $states->getStates();
-    }
-    
-    private function makeStatesArray(){
-       $states_array = array();
-       $states = $this->getStates();
-       
-       foreach($states as $state){
-          
-          array_push($states_array, array(
-              'key'=> $state->id,
-              'value' => $state->name
-          ));
-       }
-       return $states_array;
-    }
+
 
 }
 

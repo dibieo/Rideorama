@@ -1,0 +1,26 @@
+<br /><br />
+<div id="view-content">
+	<p>View script for controller <b>Index</b> and script/action name <b>search</b></p>
+ 
+        <p>Trip listings!</p>
+<?php foreach($this->rides as $ride): ?>
+    
+        <?php $rideKey = $ride['key'];
+              $rideValue = $ride['value'];
+        ?>
+        
+       <br> Published by : <?php echo ($rideKey['first_name']) . " " . $this->escape($rideKey['last_name']); ?> </br>
+       <br> Leaving from : <?php echo $this->escape($ride['key']['pick_up_address']); ?> </br>
+
+        <br> Distance from you: <?php echo $this->escape($rideValue); ?> </br>
+        <br>Number of seats available: <?php echo $this->escape($rideKey['number_of_seats']); ?></br>
+        <br>Cost per seat: <?php echo $this->currency($this->escape($rideKey['cost'])); ?></br>
+        <br>Message about the trip: <?php echo $this->escape($rideKey['trip_msg']); ?></br>
+        <br>Number of luggage(s): <?php echo $this->escape($rideKey['num_luggages']); ?></br>
+        <br>Luggage sizes: <?php echo $this->escape($rideKey['luggage_size']); ?></br>
+
+
+        <p></p>
+    
+ <?php endforeach; ?>
+</div>

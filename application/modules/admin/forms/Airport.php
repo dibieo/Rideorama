@@ -1,6 +1,6 @@
 <?php
 
-class Admin_Form_Airport extends Zend_Form
+class Admin_Form_Airport extends Application_Form_Base
 {
 
     public function init()
@@ -40,25 +40,7 @@ class Admin_Form_Airport extends Zend_Form
         $this->addElements(array($id, $airport_name, $iata, $pic, $city_id, $submit));
     }
 
-    private function getCities(){
-        
-       $cities = new Admin_Model_CityService();
-       return $cities->getAllCities();
-    }
-    
-    private function makeCityArray(){
-       $cities_array = array();
-       $cities = $this->getCities();
-       
-       foreach($cities as $city){
-          
-          array_push($cities_array, array(
-              'key'=> $city->id,
-              'value' => $city->name . ',  ' . $city->state->abbv
-          ));
-       }
-       return $cities_array;
-    }
+   
 
 
 }

@@ -10,7 +10,7 @@ namespace Rideorama\Entity;
 /**
  * 
  * @Table(name="city")
- * @Entity
+ * @Entity(repositoryClass="Rideorama\Entity\Repository\CityRepository")
  * @author ovo
  */
 class City extends \Rideorama\Entity\rideoramaEntity

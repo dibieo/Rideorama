@@ -10,7 +10,7 @@ namespace Rideorama\Entity;
 /**
  * 
  * @Table(name="rides_to_airport")
- * @Entity
+ * @Entity(repositoryClass="Rideorama\Entity\Repository\RidestoairportRepository")
  * @author ovo
  */
 class Ridestoairport extends \Rideorama\Entity\rideoramaEntity {
@@ -81,38 +81,39 @@ class Ridestoairport extends \Rideorama\Entity\rideoramaEntity {
      */
     protected $departure_time;
     
-    /**
-     * @Column(type="time", nullable=false)
-     * @var time
-     * This stores the arrival time of the trip
-     */
-    protected $arrival_time;
-    
+  
     
     /**
-     * @Column(type="float",nullable=false)
+     * @Column(type="string",nullable=true)
      * @var float
      * This stores the distance of trip.
      */
-    protected $distance;
+    protected $distance = null;
 
-      /**
-     * @Column(type="string", length = 60, nullable=true)
-     * @var string
-     * This provides a brief message about how much luggage the user 
-     * is able to carry per passenger
-     */
-    protected $luggages;
     
     /**
      *
+     * @var integer
+     * @Column(name="luggages", type="integer",nullable=false)
+     */
+    protected $num_luggages = 0;
+    
+      /**
+     * @Column(type="string", length = 60, nullable=true)
+     * @var string
+     * This provides a brief description on the size of the luggage
+     */
+    protected $luggage_size;
+    
+    /**
+     * This is the cost per trip
      * @var integer
      * @Column(name="cost", type="integer",nullable=false)
      */
     protected $cost = 0;
     
     /**
-     *
+     * Departure location
      * @var string
      * @Column(name="pick_up_address", type="string")
      * This stores the pick up address of the user
@@ -121,24 +122,14 @@ class Ridestoairport extends \Rideorama\Entity\rideoramaEntity {
     
     
     /**
-     *
-     * @var integer
-     * @ManyToOne(targetEntity="City")
-     * @JoinColumns({
-     *  @JoinColumn(name="city_id", referencedColumnName="id")
-     * })
-     */
-    protected $city;
-    
-    /**
-      @Column(type="float",nullable=false)
+      @Column(type="string", nullable=false)
      * @var float
-     * This stores the duraation of trip.
+     * This stores the duration of trip.
      */
-    protected $trip_duration;
+    protected $duration;
     
     public function __construct(){
      
-      $this->post_date = new \DateTime(date("Y-m-d H:i:s"));
+      $this->post_date = new \DateTime(date("Y-m-d"));
     }
 }

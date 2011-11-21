@@ -1,0 +1,22 @@
+<br /><br />
+<div id="view-content">
+	<p>View script for controller <b>Events</b> and script/action name <b>index</b></p>
+        
+<?php foreach($this->events as $event) : ?>
+ 
+        Event name:  <?php echo $this->escape($event->name);?><br></br>
+        Event date:   <?php echo $this->escape($event->event_date);?> <br></br>
+        Event city: <?php echo $this->escape($event->findParentRow('Admin_Model_DbTable_City')->name); ?> <br></br> 
+        Event time : <?php echo $this->escape($event->event_time); ?> <br></br>
+        Event image: <img src="<?php echo Zend_Controller_Front::getInstance()->getBaseUrl() . '/img/' . $event->banner; ?>"> </img>
+        
+        
+        <a href="<?php echo $this->url(array('controller'=>'events', 
+            'action'=>'edit', 'id'=>$event->id));?>">Edit</a>
+        <a href="<?php echo $this->url(array('controller'=>'events', 
+            'action'=>'delete', 'id'=>$event->id));?>">Delete</a>
+        <p></p>
+<?php endforeach; ?>
+
+
+</div>

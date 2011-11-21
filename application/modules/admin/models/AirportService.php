@@ -61,22 +61,7 @@ class Admin_Model_AirportService extends Application_Model_Service
     }
 
     
-    /**
-     *
-     * @param type $id
-     * @return type City Entity
-     */
-    private function getCity($id){
-        
-        return $this->em->find('\Rideorama\Entity\City', $id);
-    }
-    
-    
-    private function getAirport($id){
-        
-        return $this->em->find('\Rideorama\Entity\Airport', $id);
-    }
-    
+ 
     
     /**
      * Gets a specific airport instance
@@ -92,5 +77,27 @@ class Admin_Model_AirportService extends Application_Model_Service
         
         return $this->getAll('Rideorama\Entity\Airport');
     }
+    
+     /**
+     * Gets an airport instance
+     * @param type $id
+     * @return type 
+     */
+    public function getAirport($id){
+        
+        return $this->em->find('\Rideorama\Entity\Airport', $id);
+    }
+    
+   /**
+     * RFinds and returns an airport when given name.s
+     * @param type $name
+     * @return Doctrine Entity Airport 
+     */
+    public function getAirportByName($name){
+        
+     return   $this->em->getRepository('\Rideorama\Entity\Airport')->findOneBy(array("name" =>$name));
+    }
+    
+ 
 }
 

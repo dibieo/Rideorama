@@ -1,0 +1,25 @@
+<?php
+    $this->title = "View all States";
+    $this->headTitle($this->title);
+?>
+<p><a href="<?php echo $this->url(array('module'=> 'admin', 'controller'=>'state', 
+        'action'=>'add-state'));?>">Add new state</a></p>
+<table>
+<tr>
+    <th>State</th>
+    <th>Abbreviation</th>
+    <th>&nbsp;</th>
+</tr>
+<?php foreach($this->state_list as $state) : ?>
+<tr>
+    <td><?php echo $this->escape($state->name);?></td>
+    <td><?php echo $this->escape($state->abbv);?></td>
+    <td>
+        <a href="<?php echo $this->url(array('module' => 'admin', 'controller'=>'state', 
+            'action'=>'edit-state', 'id'=>$state->id));?>">Edit</a>
+        <a href="<?php echo $this->url(array('module' => 'admin', 'controller'=>'state', 
+            'action'=>'delete-state', 'id'=>$state->id));?>">Delete</a>
+    </td>
+</tr>
+<?php endforeach; ?>
+</table>

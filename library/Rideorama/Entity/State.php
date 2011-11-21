@@ -9,7 +9,7 @@ namespace Rideorama\Entity;
 /**
  * 
  * @Table(name="state")
- * @Entity
+ * @Entity(repositoryClass="Rideorama\Entity\Repository\StateRepository")
  * @author ovo
  */
 class State extends \Rideorama\Entity\rideoramaEntity

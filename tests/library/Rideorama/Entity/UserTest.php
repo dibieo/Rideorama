@@ -30,16 +30,7 @@ class UserTest extends \ModelTestCase{
     }
 
     
-     /**
-     *
-     * @return User
-     */
-    private function getTestUser()
-    {
-        $u = new User();
-        $u->addUser("ovoa@cnn.com", "doctor","male","Peter", "Hawkins", "C:\my_pic", "lasdjasldasjd", "asd");
-        return $u;
-    }
+     
 
 }
 

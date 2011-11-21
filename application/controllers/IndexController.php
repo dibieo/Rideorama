@@ -4,23 +4,49 @@
 
 class IndexController extends Zend_Controller_Action
 {
-
-    public function init(){
+    protected $form;
+    
+    public function init()
+    {
         
-       $a = new Application_Model_Service();
+        $this->form = new Application_Form_Searchride();
        
    
         
     }
+
     public function indexAction()
     {
-        $form = new Application_Form_Searchride();
-        $this->view->form = $form;
-        
-        if ($this->getRequest()->isDispatched()){
-        print_r($this->getRequest()->getParam('dest_city'));
-    }
+        $this->view->form = $this->form;
+    
     }
     
+    public function searchAction(){
+        
+        
+        if ($this->getRequest()->isDispatched()){
+           
+            $formData = $this->getRequest()->getParams();
+            
+              if ($this->form->isValid($formData)){
+                  
+                $ride = new Rides_Model_RidesService($formData['where']);
+                $ride_data =  $ride->search($formData, $formData['where']);
+                
+               // print_r($ride_data);
+                
+               $this->view->rides = $ride_data;
+    
+        }
+    
+    }
+    
+    }
+
+  
+
+
 }
+
+
 

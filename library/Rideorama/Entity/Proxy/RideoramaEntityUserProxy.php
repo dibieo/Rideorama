@@ -33,9 +33,21 @@ class RideoramaEntityUserProxy extends \Rideorama\Entity\User implements \Doctri
         return parent::addUser($email, $profession, $sex, $first_name, $last_name, $profile_pic, $email_hash, $password, $flogin);
     }
 
+    public function __get($property)
+    {
+        $this->_load();
+        return parent::__get($property);
+    }
+
+    public function __set($property, $value)
+    {
+        $this->_load();
+        return parent::__set($property, $value);
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'first_name', 'last_name', 'email', 'password_hash', 'profile_pic', 'role', 'sex', 'profession', 'email_hash', 'facebook_login', 'last_login', 'date_registered');
+        return array('__isInitialized__', 'id', 'first_name', 'last_name', 'email', 'password_hash', 'profile_pic', 'role', 'sex', 'profession', 'email_hash', 'facebook_login', 'last_login', 'date_registered', 'rides_to_airport');
     }
 }

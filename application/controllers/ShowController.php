@@ -13,9 +13,13 @@ class ShowController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
         // action body
         
+        echo strtotime("00:00:00");
+        
+        try {
+            
         $client = new Zend_Http_Client('http://maps.googleapis.com/maps/api/distancematrix/json');
  
-        $departure = urlencode('1777 Exposition Avenue Boulder');
+        $departure = urlencode('1777 Expostion Avenue Boulder CO');
         $destination = urlencode('Denver International Airport');
  
         $client->setParameterGet('sensor', 'false'); // Do we have a GPS sensor? Probably not on most servers.
@@ -24,13 +28,26 @@ class ShowController extends Zend_Controller_Action
         $client->setParameterGet('units', 'imperial');
  
         $response = $client->request('GET'); // We must send our parameters in GET mode, not POST
- 
+        
+        
         $val = Zend_Http_Response::extractBody($response);
         
         $val = json_decode($val);
         
-        //print_r($val);
-         print_r($val->rows[0]->elements[0]->distance->text);
+        print_r($val);
+        
+      
+        echo $val->rows[0]->elements[0]->distance->text;
+        echo "<br>";
+        echo $val->rows[0]->elements[0]->duration->text;
+
+          }catch(Exception $ex){
+            
+            echo "COuldn't contact server";
+        }
+         
+         //test
+         
     }
 
 

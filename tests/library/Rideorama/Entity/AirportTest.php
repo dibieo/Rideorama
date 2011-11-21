@@ -10,7 +10,6 @@
  *
  * @author ovo
  */
-
 namespace Rideorama\Entity;
 class AirportTest extends \ModelTestCase {
     //put your code here
@@ -24,6 +23,7 @@ class AirportTest extends \ModelTestCase {
     }
        public function testCanCreateAirport()
     {
+     
         $this->assertInstanceOf('Rideorama\Entity\Airport', $this->getTestAirport());
     }
     
@@ -42,32 +42,7 @@ class AirportTest extends \ModelTestCase {
         $this->assertEquals('Denver International Airport',$airports[0]->name);
         $this->assertEquals('DEN',$airports[0]->iata); 
     }
-      /**
-     *
-     * @return Airport
-     */
-    private function getTestAirport()
-    {
-        $a = new Airport();
-        $a->name = "Denver International Airport";
-        $a->picture = "picture.jpg";
-        $a->city = $this->getTestCity();
-        $a->iata = "DEN";
-        return $a;
-    }
-    
-    /**
-     *
-     * @return City 
-     */
-    private function getTestCity(){
-        
-        $c = new City();
-        $em = $this->doctrineContainer->getEntityManager();
-        $em->persist($c);
-        $em->flush();
-        return $c;
-    }
+   
 }
 
-?>
+

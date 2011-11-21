@@ -25,6 +25,7 @@
  * DEALINGS IN THE SOFTWARE.
  */
 
+
 class ModelTestCase
     extends PHPUnit_Framework_TestCase
 {
@@ -37,6 +38,7 @@ class ModelTestCase
     
     public function setUp()
     {
+        
         global $application;
         $application->bootstrap();
         $this->doctrineContainer = Zend_Registry::get('doctrine');
@@ -59,5 +61,45 @@ class ModelTestCase
         parent::tearDown();
     }
     
+    /**
+     *
+     * @return User
+     */
+    protected function getTestUser()
+    {
+        $u = new \Rideorama\Entity\User();
+        $u->addUser("ovoa@cnn.com", "doctor","male","Peter", "Hawkins", "C:\my_pic", "lasdjasldasjd", "asd");
+        return $u;
+    }
+    
+       /**
+     *
+     * @return Airport
+     */
+    protected function getTestAirport()
+    {
+        $a = new \Rideorama\Entity\Airport();
+        $a->name = "Denver International Airport";
+        $a->picture = "picture.jpg";
+        $a->city = $this->getTestCity();
+        $a->iata = "DEN";
+        $em = $this->doctrineContainer->getEntityManager();
+        $em->persist($a);
+        $em->flush();
+        return $a;
+    }
+    
+    /**
+     *
+     * @return City 
+     */
+    protected function getTestCity(){
+        
+        $c = new \Rideorama\Entity\City();
+        $em = $this->doctrineContainer->getEntityManager();
+        $em->persist($c);
+        $em->flush();
+        return $c;
+    }
 }
 

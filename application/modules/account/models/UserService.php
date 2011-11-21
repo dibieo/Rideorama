@@ -88,5 +88,11 @@ class Account_Model_UserService extends Application_Model_Service
         $user = $this->em->getRepository('Rideorama\Entity\User')->findOneBy(array('email' => $email));
         return $user;
     }
+    
+     public function getUser($id){
+        
+        return $this->em->find('\Rideorama\Entity\User', $id);
+    }
+   
 }
 

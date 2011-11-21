@@ -8,7 +8,7 @@ namespace Rideorama\Entity;
 /**
  * 
  * @Table(name="rating")
- * @Entity
+ * @Entity(repositoryClass="Rideorama\Entity\Repository\RatingRepository")
  * @author ovo
  */
 class Rating extends \Rideorama\Entity\rideoramaEntity

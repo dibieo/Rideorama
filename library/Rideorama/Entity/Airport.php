@@ -9,7 +9,7 @@ namespace Rideorama\Entity;
 /**
  * 
  * @Table(name="airport")
- * @Entity
+ * @Entity(repositoryClass="Rideorama\Entity\Repository\AirportRepository")
  * @author ovo
  */
 class Airport extends \Rideorama\Entity\rideoramaEntity
@@ -52,6 +52,15 @@ class Airport extends \Rideorama\Entity\rideoramaEntity
      * })
      */
     protected $city;
+
+    
+   /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridestoairport",mappedBy="airport", cascade={"persist","remove"})
+     */
+    protected $rides_to_airport;
 
     
     

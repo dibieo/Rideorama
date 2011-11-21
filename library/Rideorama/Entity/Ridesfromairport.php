@@ -10,7 +10,7 @@ namespace Rideorama\Entity;
 /**
  * 
  * @Table(name="rides_from_airport")
- * @Entity
+ * @Entity(repositoryClass="Rideorama\Entity\Repository\RidesfromairportRepository")
  * @author ovo
  */
 class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
@@ -22,7 +22,7 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     
     /**
@@ -30,14 +30,14 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      * @var integer $number_of_seats
      * @Column(name="number_of_seats", type="integer",nullable=false)
      */
-    private $number_of_seats;
+    protected $number_of_seats;
     
     /**
      * @Column(type="text",nullable=true)
      * @var text
      * 
      */
-    private $trip_msg;
+    protected $trip_msg;
     
      /**
      *
@@ -47,7 +47,7 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      *  @JoinColumn(name="publisher_id", referencedColumnName="id")
      * })
      */
-    private $publisher;
+    protected $publisher;
    
     
       /**
@@ -58,35 +58,35 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      *  @JoinColumn(name="airport_id", referencedColumnName="id")
      * })
      */
-   private $airport;
+   protected $airport;
     
     /**
      * @Column(type="date",nullable=false)
      * @var datetime
      * This stores the date trip was posted.
      */
-    private $post_date;
+    protected $post_date;
      
     /**
      * @Column(type="date",nullable=false)
      * @var datetime
      * This stores the departure date of the trip.
      */
-    private $departure_date;
+    protected $departure_date;
      
    /**
      * @Column(type="time",nullable=false)
      * @var time
      * This stores the departure time of the trip.
      */
-    private $departure_time;
+    protected $departure_time;
     
     /**
      * @Column(type="time", nullable=false)
      * @var time
      * This stores the arrival time of the trip
      */
-    private $arrival_time;
+    protected $arrival_time;
     
     
     /**
@@ -94,7 +94,7 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      * @var float
      * This stores the distance of trip.
      */
-    private $distance;
+    protected $distance;
 
       /**
      * @Column(type="string", length = 60, nullable=true)
@@ -102,22 +102,33 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      * This provides a brief message about how much luggage the user 
      * is able to carry per passenger
      */
-    private $luggages;
+    protected $luggages;
     
     /**
      *
      * @var integer
      * @Column(name="cost", type="integer",nullable=false)
      */
-    private $cost = 0;
+    protected $cost = 0;
     
     /**
      *
      * @var string
      * @Column(name="pick_up_address", type="string")
-     * This stores the pick up address of the user
+     * This stores the pick up address of the user.
+     * In this case it would be where in the airport to be picked up from
+     * i.e. the terminal
      */
-    private $pick_up_address;
+    protected $pick_up_address;
+    
+    
+      /**
+     *
+     * @var string
+     * @Column(name="drop_off_address", type="string")
+     * This stores the drop off address
+     */
+    protected $drop_off_address;
     
     
     /**
@@ -128,12 +139,12 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      *  @JoinColumn(name="city_id", referencedColumnName="id")
      * })
      */
-    private $city;
+    protected $city;
     
     /**
       @Column(type="float",nullable=false)
      * @var float
      * This stores the duraation of trip.
      */
-    private $trip_duration;
+    protected $trip_duration;
 }

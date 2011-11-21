@@ -9,7 +9,7 @@ namespace Rideorama\Entity;
 /**
  * 
  * @Table(name="user")
- * @Entity
+ * @Entity(repositoryClass="Rideorama\Entity\Repository\UserRepository")
  * @author ovo
  */
 class User  extends \Rideorama\Entity\rideoramaEntity
@@ -111,6 +111,15 @@ class User  extends \Rideorama\Entity\rideoramaEntity
      */
     protected $date_registered;
     
+    
+    
+    /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridestoairport",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $rides_to_airport;
     
     /**
      * This function  adds a new user to the database

@@ -13,6 +13,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->addHelperPath('ZendX/JQuery/View/Helper', 
                             'ZendX_JQuery_View_Helper');
 
+        $currency = new Zend_Currency('en_US');
+        Zend_Registry::set('Zend_Currency', $currency);
     }
     
     /**

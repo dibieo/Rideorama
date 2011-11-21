@@ -9,7 +9,7 @@ namespace Rideorama\Entity;
 /**
  * 
  * @Table(name="preuser")
- * @Entity
+ * @Entity(repositoryClass="Rideorama\Entity\Repository\PreUserRepository")
  * @author ovo
  */
 class PreUser extends \Rideorama\Entity\rideoramaEntity

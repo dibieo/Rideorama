@@ -42,6 +42,6 @@ class RideoramaEntityRidesfromairportProxy extends \Rideorama\Entity\Ridesfromai
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'number_of_seats', 'trip_msg', 'publisher', 'airport', 'post_date', 'departure_date', 'departure_time', 'arrival_time', 'distance', 'luggages', 'cost', 'pick_up_address', 'city', 'trip_duration');
+        return array('__isInitialized__', 'id', 'number_of_seats', 'trip_msg', 'publisher', 'airport', 'post_date', 'departure_date', 'departure_time', 'arrival_time', 'distance', 'luggages', 'cost', 'pick_up_address', 'drop_off_address', 'city', 'trip_duration');
     }
 }

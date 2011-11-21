@@ -16,6 +16,8 @@ class Admin_StateController extends Zend_Controller_Action
        $this->view->state_list = $states->getAllStates();
     }
 
+    
+    
     /**
      * This adds a new state
      * to the application
@@ -43,6 +45,21 @@ class Admin_StateController extends Zend_Controller_Action
         }
     
     }
+    
+//    public function previewAction($name, $abbv, $states){
+//        
+//        $this->view->name = $name;
+//        $this->view->abbv = $abbv;
+//        
+//    }
+//   
+//    public function goBack(){}
+//    public function submitAction($name, $abbv, $states){
+//        $states->add($name, $abbv);
+//        $this->_forward('index');
+//
+//    }
+        
     
     public function deleteStateAction()
     {
