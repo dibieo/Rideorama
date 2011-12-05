@@ -28,7 +28,8 @@ class Rides_IndexController extends Zend_Controller_Action
            
              $ride = new Rides_Model_RidesService($formData['where']);
              $ride->addRide($formData, $formData['where']);
-
+             
+             $this->view->msg = "Ride posted";
             //$this->_helper->redirector('index');
         }else{
             

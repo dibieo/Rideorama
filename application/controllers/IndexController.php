@@ -31,12 +31,18 @@ class IndexController extends Zend_Controller_Action
               if ($this->form->isValid($formData)){
                   
                 $ride = new Rides_Model_RidesService($formData['where']);
+                
+                try{
                 $ride_data =  $ride->search($formData, $formData['where']);
                 
-               // print_r($ride_data);
+                $this->view->date = $formData['trip_date'];
                 
                $this->view->rides = $ride_data;
-    
+               
+                }catch (Exception $ex){
+                   
+                }
+   
         }
     
     }

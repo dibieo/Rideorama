@@ -1,26 +1,34 @@
+<?php echo $this->errors ?>
 <br /><br />
 <div id="view-content">
-	<p>View script for controller <b>Index</b> and script/action name <b>search</b></p>
  
-        <p>Trip listings!</p>
+        <p>Trip listings for <?php echo $this->date; ?> !</p>
+
+<?php if (count($this->rides) > 1): ?>
 <?php foreach($this->rides as $ride): ?>
     
         <?php $rideKey = $ride['key'];
               $rideValue = $ride['value'];
         ?>
         
-       <br> Published by : <?php echo ($rideKey['first_name']) . " " . $this->escape($rideKey['last_name']); ?> </br>
-       <br> Leaving from : <?php echo $this->escape($ride['key']['pick_up_address']); ?> </br>
-
-        <br> Distance from you: <?php echo $this->escape($rideValue); ?> </br>
-        <br>Number of seats available: <?php echo $this->escape($rideKey['number_of_seats']); ?></br>
-        <br>Cost per seat: <?php echo $this->currency($this->escape($rideKey['cost'])); ?></br>
-        <br>Message about the trip: <?php echo $this->escape($rideKey['trip_msg']); ?></br>
-        <br>Number of luggage(s): <?php echo $this->escape($rideKey['num_luggages']); ?></br>
-        <br>Luggage sizes: <?php echo $this->escape($rideKey['luggage_size']); ?></br>
+       <br> <b>Published by : </b> <?php echo ($rideKey['first_name']) . " " . $this->escape($rideKey['last_name']); ?> </br>
+       <br><b> Leaving from : </b><?php echo $this->escape($ride['key']['pick_up_address']); ?> </br>
+       <br><b> Departure time :</b> <?php echo $this->escape($ride['key']['departure_time']); ?> </br>
+       <br><b> Distance from you: </b><?php echo $this->escape($rideValue); ?> </br>
+        <br><b>Number of seats available:</b> <?php echo $this->escape($rideKey['number_of_seats']); ?></br>
+        <br><b>Cost per seat: </b><?php echo $this->currency($this->escape($rideKey['cost'])); ?></br>
+        <br><b>Message about the trip:</b> <?php echo $this->escape($rideKey['trip_msg']); ?></br>
+        <br><b>Number of luggage(s): </b><?php echo $this->escape($rideKey['num_luggages']); ?></br>
+        <br><b>Luggage sizes: </b><?php echo $this->escape($rideKey['luggage_size']); ?></br>
+        <br><a href="<?php echo $this->url(array('controller'=>'#', 
+            'action'=>'#'));?>">Buy this seat</a></br>
 
 
         <p></p>
     
  <?php endforeach; ?>
+  
+  <?php else : ?>
+        <div id="norides">Sorry there are no rides for the date selected</div>
+   <?php endif; ?>
 </div>

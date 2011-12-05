@@ -8,8 +8,6 @@
 class Admin_Model_stateService extends Application_Model_Service  {
     
     
-//    protected $doctrineContainer;
-//    protected $em;
       protected $state;
     
     public function __construct(){
@@ -17,8 +15,6 @@ class Admin_Model_stateService extends Application_Model_Service  {
        parent::__construct();
 
       $this->state = new \Rideorama\Entity\State();
-//        $this->doctrineContainer = \Zend_Registry::get('doctrine');
-//        $this->em = $this->doctrineContainer->getEntityManager();
     }
     
     

@@ -14,6 +14,8 @@ class Rides_Model_RidesService extends Application_Model_Service
     protected $user;
     protected $OnlyAlnumFilter;
     
+    protected $sorted_trips = array();  //Gets the sorted trips
+    protected $hwfar = array();        // Used for sorting the trips in a multi-dimensional array
 
     public function __construct($where){
         parent::__construct();
@@ -45,13 +47,18 @@ class Rides_Model_RidesService extends Application_Model_Service
     }
     
     
+    /**
+     * Performs a search that matches a user's criteria
+     * @param array $search_data
+     * @param type $where
+     * @return type Array of trips
+     */
     public function search(array $search_data, $where){
         
         $data = null;
         if ($where == "toAirport"){
-            
-         $data =  $this->findRidesToAirport($search_data);
-        // var_dump($data);
+           
+          $data = $this->findRidesToAirport($search_data);
             
         }else if ($where == "fromAirport"){
             
@@ -72,44 +79,82 @@ class Rides_Model_RidesService extends Application_Model_Service
     $date = $search_data['trip_date'];
     $time = $search_data['trip_time'];
     
-     $sorted_trips = array();
-     $hwfar = array();
-     
-    //This returns rides 
+    //Get the rides
+    // Sort rides by closest to my location
     if ($search_data['trip_time'] == "anytime"){
      
       $rides = $this->findAnytimeRidesToAirport($airport, $date);
-     
-      foreach ($rides as $r){
+      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+
+
+    }else if ($search_data['trip_time'] == "morning"){
+      
+      $rides =  $this->findAfernoonRidesToAirport($date, $airport, '100:00:00', "12:00:00");
+      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      
+    } else if ($search_data['trip_time'] == "afternoon"){
+        
+      $rides =  $this->findAfernoonRidesToAirport($date, $airport, '12:00:00', "18:00:00");
+      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+        
+    }else if ($search_data['trip_time'] == "evening"){
+        
+      $rides =  $this->findEveningRidesToAirport($date, $airport, '18:00:00', "23:55:59");
+      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      
+    }else {
+       throw new Exception("Choose a valid time range!");
+    }
+    
+    array_multisort($this->hwfar, $this->sorted_trips);
+    return $this->sorted_trips;
+    }
+    
+    /**
+     * Sorts the trips by their distance from a user's current location
+     * @param type $rides
+     * @param type $departure 
+     */
+    private function sortTripsByDistanceToMyLocation($rides, $departure){
+        
+        
+      foreach($rides as $r){
           
           $departure = $this->OnlyAlnumFilter->filter($departure);
           $destination = $this->OnlyAlnumFilter->filter($r['pick_up_address']);
           $distance = $this->getTripDistance($departure, $destination);
           $distance = $distance['distance'];
-          
+          $distValue = $distance['distValue'];
        
-          array_push($sorted_trips, array(
+          array_push($this->sorted_trips, array(
              
             'key' => $r,
               
-            'value'  => $distance
+            'value'  => $distance,
+              
+            'distValue' => $distValue
               
           ));
                     
       }
       
-      foreach ($sorted_trips as $key => $value) {
+      foreach ($this->sorted_trips as $key => $value) {
 
-            $hwfar[$key] = $value['value'];
-    }
-      //Perform a ranking based on distance to each of this departure locations using google
+            $this->hwfar[$key] = $value['value'];
+            }
     }
     
-    array_multisort($hwfar, $sorted_trips);
- //   var_dump($sorted_trips);
-    return $sorted_trips;
+    protected function sortTripsByTime(){
+        
+    }
+    
+    protected function sortTripsByUser(){
+        
     }
    
+    protected function sortTripsByPrice(){
+        
+    }
     /**
      * Finds all rides that matches the input airport name and date
      * @param type $airport
@@ -128,29 +173,71 @@ class Rides_Model_RidesService extends Application_Model_Service
               p where u.airport = $airport->id and u.departure_date = 
              '$date'");
 
-     //$q = $q->setHint(\Doctrine\ORM\Query::HINT_INCLUDE_META_COLUMNS, true);
-    // $q->setHydrationMode(Doctrine_Core::HYDRATE_ARRAY);
       $rides = $q->getResult();
 
-   //   Zend_Debug::dump($query);
-       
-      //die();
        return $rides;
     }
     
-    private function findAfternoonRidesToAirport($search_data){
-        
-    }
+
     
+    /**
+     * Gets all morning rides (12am - 12pm)
+     * @param type $date
+     * @param type $airport
+     * @param type $time1 After what time
+     * @param type $time2 Before what time
+     * @return type array
+     */
     private function findMorningRidesToAirport($search_data){
         
-    }
-    
-    private function findAfernoonRidesToAirport($search_data){
+        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
+
         
     }
     
+    /**
+     * Get all afternoon rides (12pm - 6pm)
+     * @param type $date
+     * @param type $airport
+     * @param type $time1 After what time
+     * @param type $time2 Before what time
+     * @return type array
+     */
+    private function findAfernoonRidesToAirport($date, $airport, $time1, $time2){
+        
+        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
+        
+    }
     
+    /**
+     * Gets all evening rides to the airport (6pm - 12am)
+     * @param type $date
+     * @param type $airport
+     * @param type $time1 After what time
+     * @param type $time2 Before what time
+     * @return type array
+     */
+    private function findEveningRidesToAirport($date, $airport, $time1, $time2){
+        
+        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
+    }
+    private function ReturnRidesToAirport($date, $airport, $time1, $time2){
+        
+     $airport = $this->airport->getAirportByName($airport);
+     
+     $q = $this->em->createQuery("select u.id, u.pick_up_address, u.number_of_seats, u.num_luggages,
+             u.trip_msg, u.departure_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
+              p.last_name
+              from Rideorama\Entity\Ridestoairport u JOIN u.publisher 
+              p where u.airport = $airport->id and u.departure_date = 
+             '$date' and u.departure_time > '$time1' and u.departure_time < '$time2'");
+
+      $rides = $q->getResult();
+
+      
+      return $rides;
+       
+    }
     private function findRidesFromAirport($search_data){
         
     }
@@ -220,12 +307,13 @@ class Rides_Model_RidesService extends Application_Model_Service
         
         $duration = $val->rows[0]->elements[0]->duration->text;
         $distance = $val->rows[0]->elements[0]->distance->text;
-        
+        $distValue = $val->rows[0]->elements[0]->distance->value;
        
         //
         $data = array(
             "duration" => $duration, 
-            "distance" => $distance
+            "distance" => $distance,
+            "distValue" => $distValue
             );
         
         

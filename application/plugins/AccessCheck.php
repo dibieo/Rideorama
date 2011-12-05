@@ -26,9 +26,9 @@ class Application_Plugin_AccessCheck extends Zend_Controller_Plugin_Abstract {
     //   echo "predispatch working";
                         
    //Now get the Module, Controller, and Actions for that specific resource.
-       $module = $request->getModuleName();
-       $resource = $request->getControllerName();
-       $action = $request->getActionName();
+       $module = strtolower($request->getModuleName());
+       $resource = strtolower($request->getControllerName());
+       $action = strtolower($request->getActionName());
                 
         if (!$this->_acl->isAllowed(Zend_Registry::get('role'), $module. ":" .$resource, $action)){
             $request->setModuleName('account')

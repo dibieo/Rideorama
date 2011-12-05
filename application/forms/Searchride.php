@@ -10,9 +10,12 @@ class Application_Form_Searchride extends Application_Form_Base
         $allCities = $this->_cities->getCityStates();
         /* Form Elements & Other Definitions Here ... */
         
-        $depart_city = new Zend_Form_Element_Text('departure');
-        $depart_city->setLabel("From")
+        $depart_city = new ZendX_JQuery_Form_Element_AutoComplete('departure',
+          array('label' => 'From'));
+        $depart_city->setJQueryParams(array('source'=>$this->getAirports()))
+                    
                     ->setRequired(true);
+        
         
         
         
@@ -40,11 +43,16 @@ class Application_Form_Searchride extends Application_Form_Base
         $where->setValue('toAirport');
          
        $submit = new Zend_Form_Element_Submit('submit');
+       $submit->setLabel('Find a ride');
+       
+       $requestRide = new Zend_Form_Element_Button('request');
+       $requestRide->setAttrib('onClick', gotoPostRidePage());
+       $requestRide->setLabel('Request a ride');
        
        $this->setMethod('GET');
        $this->setAction('index/search');
        
-       $this->addElements(array($depart_city, $dest_city, $trip_date, $trip_time, $where, $submit));
+       $this->addElements(array($depart_city, $dest_city, $trip_date, $trip_time, $where, $submit, $requestRide));
     }
 
     /**

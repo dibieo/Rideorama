@@ -176,6 +176,7 @@ class Account_UserController extends Zend_Controller_Action
     public function registerAction()
     {
         // action body
+       
         $form = new Account_Form_User();
         $this->view->form = $form;
         
@@ -185,7 +186,7 @@ class Account_UserController extends Zend_Controller_Action
                 $data = $form->getValues();
                 $email_hash = md5($data['email']);
                 $password = md5($data['password']);
-                
+               
                 $this->_user->addUser($data['first_name'],
                 $data['last_name'], $data['email'], $email_hash,
                 $data['profession'], $data['sex'], 

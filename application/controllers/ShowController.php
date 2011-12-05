@@ -19,8 +19,8 @@ class ShowController extends Zend_Controller_Action
             
         $client = new Zend_Http_Client('http://maps.googleapis.com/maps/api/distancematrix/json');
  
-        $departure = urlencode('1777 Expostion Avenue Boulder CO');
-        $destination = urlencode('Denver International Airport');
+        $departure = urlencode('King Soopers Table Mesa Boulder CO');
+        $destination = urlencode('2985 Aurora avene boulder co');
  
         $client->setParameterGet('sensor', 'false'); // Do we have a GPS sensor? Probably not on most servers.
         $client->setParameterGet('origins', $departure); // Should now be '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
@@ -34,13 +34,14 @@ class ShowController extends Zend_Controller_Action
         
         $val = json_decode($val);
         
-        print_r($val);
+       // print_r($val);
         
-      
+       
         echo $val->rows[0]->elements[0]->distance->text;
         echo "<br>";
         echo $val->rows[0]->elements[0]->duration->text;
-
+        
+        
           }catch(Exception $ex){
             
             echo "COuldn't contact server";

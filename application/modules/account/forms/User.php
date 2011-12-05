@@ -51,10 +51,16 @@ class Account_Form_User extends Zend_Form
         'label' => 'Confirm Password'
        ));
         
-        $fileDest = realpath(APPLICATION_PATH . '/../public/img/users'); //Destination for user images
+        $fileDest = realpath(APPLICATION_PATH . '/../public/img/users/'); //Destination for user images
          $image = new Zend_Form_Element_File('profile_pic');
          $image->setLabel('Profile picture')
                  ->setDestination($fileDest);
+         
+         $image->addFilter('Rename', array(
+             'target' => $fileDest,
+             'overwrite' => true
+         ));
+         
          
        $register = new Zend_Form_Element_Submit('register');
        $register->setLabel('Register')

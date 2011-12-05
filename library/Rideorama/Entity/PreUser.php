@@ -132,6 +132,7 @@ class PreUser extends \Rideorama\Entity\rideoramaEntity
         $this->last_login = new \DateTime(date("Y-m-d H:i:s"));
         $this->profession = $profession;
         $this->password_hash = $password;
+        $this->role = "user";
     }
     
     

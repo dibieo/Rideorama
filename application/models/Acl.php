@@ -33,6 +33,7 @@ class Application_Model_Acl extends Zend_Acl
 			 ->add(new Zend_Acl_Resource('admin:index'), 'admin')
 			 ->add(new Zend_Acl_Resource('admin:state'), 'admin')
 			 ->add(new Zend_Acl_Resource('admin:city'), 'admin')
+                         ->add(new Zend_Acl_Resource('admin:landmarkcategory'), 'admin')
                          ->add(new Zend_Acl_Resource('admin:airport'), 'admin');
 			 
 		
@@ -66,6 +67,7 @@ class Application_Model_Acl extends Zend_Acl
                 $this->allow('admin', 'admin:index', array('index'));
                 $this->allow('admin', 'admin:airport', array('index', 'add', 'edit', 'delete'));
                 $this->allow('admin', 'admin:city', array('index', 'add-city', 'edit-city', 'delete-city'));
+                $this->allow('admin', 'admin:landmarkcategory', array('index', 'add'));
                 $this->allow('admin', 'admin:state', array('index', 'delete-state', 'edit-state', 'add-state'));
                 		//->allow('admin', 'admin:courses', array('index', 'viewschools', 'getdepts', 'getactions', 'getcourses', 'edit', 'delete'));
 
