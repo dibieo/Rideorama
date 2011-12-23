@@ -12,7 +12,7 @@ namespace Rideorama\Entity;
  * @Entity(repositoryClass="Rideorama\Entity\Repository\UserRepository")
  * @author ovo
  */
-class User  extends \Rideorama\Entity\rideoramaEntity
+class User extends \Rideorama\Entity\rideoramaEntity
 
 {
      /**
@@ -120,6 +120,64 @@ class User  extends \Rideorama\Entity\rideoramaEntity
      * @OneToMany(targetEntity="Ridestoairport",mappedBy="user", cascade={"persist","remove"})
      */
     protected $rides_to_airport;
+    
+      /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridestolandmark",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $rides_to_landmark;
+    
+      /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridesfromlandmark",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $rides_from_landmark;
+    
+      /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridesfromlandmark",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $rides_from_airport;
+    
+    
+      /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Requeststolandmark",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $requests_to_landmark;
+    
+      /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Requestsfromlandmark",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $requests_from_landmark;
+    
+      /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Requestsfromairport",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $requests_from_airport;
+    
+   /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Requeststoairport",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $requests_to_airport;
+    
     
     /**
      * This function  adds a new user to the database

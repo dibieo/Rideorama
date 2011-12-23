@@ -58,7 +58,7 @@ class Admin_Model_CityService extends Application_Model_Service
      * @param type $id
      * @return type City Entity
      */
-    protected function getCity($id){
+    public function getCity($id){
         
         return $this->em->find('\Rideorama\Entity\City', $id);
     }

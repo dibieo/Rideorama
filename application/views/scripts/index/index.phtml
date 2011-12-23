@@ -3,20 +3,66 @@
       $("#tabs").tabs();
   });
 </script>
+
 <div id="tabs">
-	<ul>
-		<li><a href="#tabs-1">I am a passenger</a></li>
-		<li><a href="#tabs-2">I am a driver</a></li>
-	</ul>
+<ul>
+<li><a href="#tabs-1">I am a passenger</a></li>
+<li><a href="#tabs-2">I am a driver</a></li>
+</ul>
 <?php
 echo $this->escape($this->title);
 ?>
     <div id ="tabs-1">
 <?php
-echo $this->form;
-?>
+echo $this->form;?>
     </div>
     
     <div id ="tabs-2">
-        Second form would go here
+    <?php echo $this->driverform; ?>
     </div>
+
+    <script>
+     $(function() {
+         $("#where-toAirport").click(function(){
+            $("#departure").attr('placeholder', "Enter your address");
+           $("#destination").attr('placeholder', "Enter airport name");
+           $("#departure").autocomplete({"source": []});
+           $("#destination").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
+           
+         });
+     }) ;
+        
+      $(function() {
+         $("#where-fromAirport").click(function(){
+            $("#departure").attr('placeholder', "Enter airport name");
+           // $("#departure").autocomplete({"source":[{"key":2,"value":"Denver International airport"},{"key":3,"value":"Phoenix International Airport"}]});
+           $("#destination").attr('placeholder', "Enter your address");
+           $("#departure").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
+           $("#destination").autocomplete({"source" : []}); //Clears the other field
+            
+         });
+     }) ;
+     
+     
+       $(function() {
+         $("#driverwhere-toAirport").click(function(){
+            $("#driverdeparture").attr('placeholder', "Enter your address");
+           $("#driverdestination").attr('placeholder', "Enter airport name");
+           $("#driverdeparture").autocomplete({"source": []});
+           $("#driverdestination").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
+           
+         });
+     }) ;
+        
+      $(function() {
+         $("#driverwhere-fromAirport").click(function(){
+            $("#driverdeparture").attr('placeholder', "Enter airport name");
+           // $("#departure").autocomplete({"source":[{"key":2,"value":"Denver International airport"},{"key":3,"value":"Phoenix International Airport"}]});
+           $("#driverdestination").attr('placeholder', "Enter your address");
+           $("#driverdeparture").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
+           $("#driverdestination").autocomplete({"source" : []}); //Clears the other field
+            
+         });
+     }) ;
+    </script>
+ 

@@ -4,11 +4,63 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title></title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <!--[if IE]><script src="excanvas.compressed.js"></script><![endif]-->
-    <script src="RGraph.common.core.js" ></script>
-    <script src="RGraph.common.tooltips.js" ></script>
-    <script src="RGraph.bar.js" ></script>
-    <script src="RGraph.scatter.js" ></script>
+    <script src="jquery.min.js" type="text/javascript"></script>
+    <script src="highcharts.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+          var classCoverageDistribution = new Highcharts.Chart({
+             chart: {
+                renderTo: 'classCoverageDistribution',
+                type: 'column'
+             },
+             title: {text: ''},
+             legend: {enabled: false},
+             credits: {enabled: false},
+             tooltip: {enabled: false},
+             xAxis: {
+                 labels: {style: {fontSize: '8px'}},
+                 categories: [
+                 '0%','0-10%','10-20%','20-30%','30-40%','40-50%','50-60%','60-70%','70-80%','80-90%','90-100%','100%'
+                 ]
+            },
+            yAxis: {
+                title: '',
+                labels: {style: {fontSize: '8px'}},
+            },
+            series: [{
+                data: [41,1,4,4,1,1,1,2,0,0,0,26]
+            }],
+          });
+
+        var classComplexity = new Highcharts.Chart({
+            chart: {
+              renderTo: 'classComplexity',
+              type: 'scatter'
+            },
+            title: {text: ''},
+            legend: {enabled: false},
+            credits: {enabled: false},
+            xAxis: {
+               labels: {enabled: false},
+            },
+            yAxis: {
+              title: '',
+              labels: {enabled: false},
+            },
+            tooltip: {
+                formatter: function() {
+                    return this.point.config[2];
+                }
+            },
+            series: [{
+              data: [[65.625,10,"<a href=\"application_controllers_ErrorController.php.html#3\">ErrorController<\/a>"],[35.714285714286,6,"<a href=\"application_controllers_IndexController.php.html#5\">IndexController<\/a>"],[0,2,"<a href=\"application_controllers_NewerController.php.html#3\">NewerController<\/a>"],[0,3,"<a href=\"application_controllers_ShowController.php.html#3\">ShowController<\/a>"],[27.027027027027,10,"<a href=\"application_forms_Base.php.html#3\">Application_Form_Base<\/a>"],[0,3,"<a href=\"application_forms_Events.php.html#3\">Application_Form_Events<\/a>"],[100,1,"<a href=\"application_forms_Searchrequest.php.html#3\">Application_Form_Searchrequest<\/a>"],[100,1,"<a href=\"application_forms_Searchride.php.html#3\">Application_Form_Searchride<\/a>"],[100,1,"<a href=\"application_models_Acl.php.html#3\">Application_Model_Acl<\/a>"],[28.571428571429,6,"<a href=\"application_models_Service.php.html#3\">Application_Model_Service<\/a>"],[100,0,"<a href=\"application_modules_account_Bootstrap.php.html#3\">Account_Bootstrap<\/a>"],[18.446601941748,21,"<a href=\"application_modules_account_controllers_UserController.php.html#5\">Account_UserController<\/a>"],[0,1,"<a href=\"application_modules_account_forms_Login.php.html#3\">Account_Form_Login<\/a>"],[100,1,"<a href=\"application_modules_account_forms_User.php.html#3\">Account_Form_User<\/a>"],[0,0,"<a href=\"application_modules_account_models_DbTable_Users.php.html#8\">Account_Model_DbTable_Users<\/a>"],[20.689655172414,6,"<a href=\"application_modules_account_models_UserService.php.html#7\">Account_Model_UserService<\/a>"],[100,0,"<a href=\"application_modules_admin_Bootstrap.php.html#8\">Admin_Bootstrap<\/a>"],[0,10,"<a href=\"application_modules_admin_controllers_AirportController.php.html#3\">Admin_AirportController<\/a>"],[0,10,"<a href=\"application_modules_admin_controllers_CityController.php.html#3\">Admin_CityController<\/a>"],[0,2,"<a href=\"application_modules_admin_controllers_IndexController.php.html#3\">Admin_IndexController<\/a>"],[4.1666666666667,7,"<a href=\"application_modules_admin_controllers_LandmarkController.php.html#3\">Admin_LandmarkController<\/a>"],[0,10,"<a href=\"application_modules_admin_controllers_LandmarkcategoryController.php.html#6\">Admin_LandmarkcategoryController<\/a>"],[0,10,"<a href=\"application_modules_admin_controllers_StateController.php.html#3\">Admin_StateController<\/a>"],[0,1,"<a href=\"application_modules_admin_controllers_helpers_Multiples.php.html#8\">Admin_Controller_Helper_Multiples<\/a>"],[0,1,"<a href=\"application_modules_admin_forms_Airport.php.html#3\">Admin_Form_Airport<\/a>"],[0,1,"<a href=\"application_modules_admin_forms_City.php.html#7\">Admin_Form_City<\/a>"],[50,1,"<a href=\"application_modules_admin_forms_Landmark.php.html#9\">Admin_Form_Landmark<\/a>"],[0,1,"<a href=\"application_modules_admin_forms_LandmarkCateogry.php.html#3\">Admin_Form_LandmarkCateogry<\/a>"],[0,1,"<a href=\"application_modules_admin_forms_State.php.html#3\">Admin_Form_State<\/a>"],[14.814814814815,8,"<a href=\"application_modules_admin_models_AirportService.php.html#3\">Admin_Model_AirportService<\/a>"],[0,8,"<a href=\"application_modules_admin_models_CityService.php.html#3\">Admin_Model_CityService<\/a>"],[48,8,"<a href=\"application_modules_admin_models_DbTable_City.php.html#3\">Admin_Model_DbTable_City<\/a>"],[0,5,"<a href=\"application_modules_admin_models_DbTable_Landmark.php.html#3\">Admin_Model_DbTable_Landmark<\/a>"],[10.526315789474,7,"<a href=\"application_modules_admin_models_DbTable_LandmarkCategory.php.html#3\">Admin_Model_DbTable_LandmarkCategory<\/a>"],[0,5,"<a href=\"application_modules_admin_models_DbTable_State.php.html#6\">Admin_Model_DbTable_State<\/a>"],[0,3,"<a href=\"application_modules_admin_models_landmarkcategoryService.php.html#13\">Admin_Model_landmarkcategoryService<\/a>"],[0,6,"<a href=\"application_modules_admin_models_stateService.php.html#8\">Admin_Model_stateService<\/a>"],[100,0,"<a href=\"application_modules_rides_Bootstrap.php.html#3\">Rides_Bootstrap<\/a>"],[0,10,"<a href=\"application_modules_rides_controllers_IndexController.php.html#3\">Rides_IndexController<\/a>"],[0,2,"<a href=\"application_modules_rides_controllers_RequestController.php.html#3\">Rides_RequestController<\/a>"],[0,1,"<a href=\"application_modules_rides_forms_Rides.php.html#3\">Rides_Form_Rides<\/a>"],[0,1,"<a href=\"application_modules_rides_forms_RidesFromAirport.php.html#3\">Rides_Form_RidesFromAirport<\/a>"],[12.408759124088,35,"<a href=\"application_modules_rides_models_RidesService.php.html#7\">Rides_Model_RidesService<\/a>"],[100,3,"<a href=\"application_plugins_AccessCheck.php.html#14\">Application_Plugin_AccessCheck<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Airport.php.html#15\">Airport<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_City.php.html#16\">City<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Landmark.php.html#16\">Landmark<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_LandmarkCategory.php.html#16\">LandmarkCategory<\/a>"],[0,1,"<a href=\"library_Rideorama_Entity_PreUser.php.html#15\">PreUser<\/a>"],[0,8,"<a href=\"library_Rideorama_Entity_Proxy_RideoramaEntityAirportProxy.php.html#8\">RideoramaEntityAirportProxy<\/a>"],[0,8,"<a href=\"library_Rideorama_Entity_Proxy_RideoramaEntityCityProxy.php.html#8\">RideoramaEntityCityProxy<\/a>"],[0,9,"<a href=\"library_Rideorama_Entity_Proxy_RideoramaEntityPreUserProxy.php.html#8\">RideoramaEntityPreUserProxy<\/a>"],[0,8,"<a href=\"library_Rideorama_Entity_Proxy_RideoramaEntityRatingProxy.php.html#8\">RideoramaEntityRatingProxy<\/a>"],[0,8,"<a href=\"library_Rideorama_Entity_Proxy_RideoramaEntityRidesfromairportProxy.php.html#8\">RideoramaEntityRidesfromairportProxy<\/a>"],[0,8,"<a href=\"library_Rideorama_Entity_Proxy_RideoramaEntityRidestoairportProxy.php.html#8\">RideoramaEntityRidestoairportProxy<\/a>"],[0,9,"<a href=\"library_Rideorama_Entity_Proxy_RideoramaEntityStateProxy.php.html#8\">RideoramaEntityStateProxy<\/a>"],[0,9,"<a href=\"library_Rideorama_Entity_Proxy_RideoramaEntityUserProxy.php.html#8\">RideoramaEntityUserProxy<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Rating.php.html#14\">Rating<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Repository_AirportRepository.php.html#13\">AirportRepository<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Repository_CityRepository.php.html#13\">CityRepository<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Repository_LandmarkRepository.php.html#13\">LandmarkRepository<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Repository_PreUserRepository.php.html#13\">PreUserRepository<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Repository_RatingRepository.php.html#13\">RatingRepository<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Repository_RidesfromairportRepository.php.html#13\">RidesfromairportRepository<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Repository_RidestoairportRepository.php.html#13\">RidestoairportRepository<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Repository_StateRepository.php.html#13\">StateRepository<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Repository_UserRepository.php.html#13\">UserRepository<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Repository_landmarkcategoryRepository.php.html#13\">landmarkcategoryRepository<\/a>"],[0,1,"<a href=\"library_Rideorama_Entity_Requestsfromairport.php.html#16\">Requestsfromairport<\/a>"],[0,1,"<a href=\"library_Rideorama_Entity_Requestsfromlandmark.php.html#16\">Requestsfromlandmark<\/a>"],[0,1,"<a href=\"library_Rideorama_Entity_Requeststoairport.php.html#16\">Requeststoairport<\/a>"],[0,1,"<a href=\"library_Rideorama_Entity_Requeststolandmark.php.html#16\">Requeststolandmark<\/a>"],[100,0,"<a href=\"library_Rideorama_Entity_Ridesfromairport.php.html#16\">Ridesfromairport<\/a>"],[0,1,"<a href=\"library_Rideorama_Entity_Ridesfromlandmark.php.html#16\">Ridesfromlandmark<\/a>"],[100,1,"<a href=\"library_Rideorama_Entity_Ridestoairport.php.html#16\">Ridestoairport<\/a>"],[0,1,"<a href=\"library_Rideorama_Entity_Ridestolandmark.php.html#16\">Ridestolandmark<\/a>"],[0,2,"<a href=\"library_Rideorama_Entity_State.php.html#15\">State<\/a>"],[100,1,"<a href=\"library_Rideorama_Entity_User.php.html#15\">User<\/a>"],[66.666666666667,2,"<a href=\"library_Rideorama_Entity_rideoramaEntity.php.html#10\">rideoramaEntity<\/a>"],[0,14,"<a href=\"library_facebook.php.html#15\">FacebookApiException<\/a>"],[20.905923344948,99,"<a href=\"library_facebook.php.html#98\">Facebook<\/a>"]],
+              marker: {
+                  symbol: 'diamond'
+              }
+            }],
+        });
+    });
+    </script>
   </head>
 
   <body>
@@ -25,51 +77,28 @@
         <tr>
           <td valign="top">
             <h2>Class Coverage Distribution</h2>
-            <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
-            <script>
-            var ccd = new RGraph.Bar('classCoverageDistribution', [37,10,2,4,0,0,0,0,1,0,0,18]);
-            ccd.Set('chart.background.barcolor1', 'white');
-            ccd.Set('chart.background.barcolor2', 'white');
-            ccd.Set('chart.colors', ['blue']);
-            ccd.Set('chart.shadow', true);
-            ccd.Set('chart.shadow.offsetx', 3);
-            ccd.Set('chart.shadow.offsety', 3);
-            ccd.Set('chart.labels', ['0%','0-10%','10-20%','20-30%','30-40%','40-50%','50-60%','60-70%','70-80%','80-90%','90-100%','100%']);
-            ccd.Set('chart.text.size', 5);
-            ccd.Draw();
-            </script>
+            <div id="classCoverageDistribution"></div>
           </td>
 
           <td valign="top">
             <h2>Class Complexity</h2>
-            <canvas id="classComplexity" width="475" height="200"></canvas>
-            <script>
-            var cc = new RGraph.Scatter('classComplexity', [[0,10,"blue","ErrorController"],[0,3,"blue","IndexController"],[0,2,"blue","NewerController"],[0,2,"blue","RidesController"],[0,3,"blue","ShowController"],[0,9,"blue","Application_Form_Base"],[0,3,"blue","Application_Form_Events"],[0,2,"blue","Application_Form_Searchride"],[100,1,"blue","Application_Model_Acl"],[27.272727272727,6,"blue","Application_Model_Service"],[100,0,"blue","Account_Bootstrap"],[0,21,"blue","Account_UserController"],[0,1,"blue","Account_Form_Login"],[0,1,"blue","Account_Form_User"],[0,0,"blue","Account_Model_DbTable_Users"],[16.666666666667,6,"blue","Account_Model_UserService"],[100,0,"blue","Admin_Bootstrap"],[0,10,"blue","Admin_AirportController"],[0,10,"blue","Admin_CityController"],[0,2,"blue","Admin_IndexController"],[0,10,"blue","Admin_LandmarkCategoryController"],[0,7,"blue","Admin_LandmarkController"],[0,10,"blue","Admin_StateController"],[0,1,"blue","Admin_Controller_Helper_Multiples"],[0,1,"blue","Admin_Form_Airport"],[0,1,"blue","Admin_Form_City"],[0,1,"blue","Admin_Form_Landmark"],[0,1,"blue","Admin_Form_LandmarkCateogry"],[0,1,"blue","Admin_Form_State"],[14.285714285714,8,"blue","Admin_Model_AirportService"],[0,8,"blue","Admin_Model_CityService"],[0,8,"blue","Admin_Model_DbTable_City"],[0,5,"blue","Admin_Model_DbTable_Landmark"],[0,7,"blue","Admin_Model_DbTable_LandmarkCategory"],[0,5,"blue","Admin_Model_DbTable_State"],[0,6,"blue","Admin_Model_stateService"],[100,0,"blue","Events_Bootstrap"],[0,7,"blue","Events_EventsController"],[0,1,"blue","Events_Form_Events"],[0,3,"blue","Events_Model_DbTable_Events"],[100,0,"blue","Rides_Bootstrap"],[0,6,"blue","Rides_IndexController"],[0,1,"blue","Rides_Form_Rides"],[28.070175438596,13,"blue","Rides_Model_RidesService"],[25,3,"blue","Application_Plugin_AccessCheck"],[100,0,"blue","Airport"],[100,0,"blue","City"],[8.3333333333333,1,"blue","PreUser"],[6.25,8,"blue","RideoramaEntityAirportProxy"],[6.25,8,"blue","RideoramaEntityCityProxy"],[5.5555555555556,9,"blue","RideoramaEntityPreUserProxy"],[6.25,8,"blue","RideoramaEntityRatingProxy"],[6.25,8,"blue","RideoramaEntityRidesfromairportProxy"],[6.25,8,"blue","RideoramaEntityRidestoairportProxy"],[5.5555555555556,9,"blue","RideoramaEntityStateProxy"],[5.5555555555556,9,"blue","RideoramaEntityUserProxy"],[100,0,"blue","Rating"],[0,0,"blue","AirportRepository"],[100,0,"blue","CityRepository"],[100,0,"blue","PreUserRepository"],[100,0,"blue","RatingRepository"],[100,0,"blue","RidesfromairportRepository"],[100,0,"blue","RidestoairportRepository"],[100,0,"blue","StateRepository"],[100,0,"blue","UserRepository"],[100,0,"blue","Ridesfromairport"],[100,1,"blue","Ridestoairport"],[20,2,"blue","State"],[100,1,"blue","User"],[75,2,"blue","rideoramaEntity"],[0,14,"blue","FacebookApiException"],[1.7064846416382,99,"blue","Facebook"]]);
-            cc.Set('chart.xmax', 100);
-            cc.Set('chart.background.barcolor1', 'white');
-            cc.Set('chart.background.barcolor2', 'white');
-            cc.Set('chart.tickmarks', 'plus');
-            cc.Set('chart.ticksize', 5);
-            cc.Set('chart.text.size', 5);
-            cc.Set('chart.ylabels', false);
-            cc.Draw();
-            </script>
+            <div id="classComplexity"></div>
           </td>
         </tr>
         <tr>
           <td valign="top">
             <h2>Top Project Risks</h2>
             <ul>
-              <li><a href="library_facebook.php.html#98">Facebook</a> (9406)</li>
-              <li><a href="application_modules_account_controllers_UserController.php.html#5">Account_UserController</a> (462)</li>
+              <li><a href="library_facebook.php.html#98">Facebook</a> (4948)</li>
+              <li><a href="application_modules_rides_models_RidesService.php.html#7">Rides_Model_RidesService</a> (858)</li>
+              <li><a href="application_modules_account_controllers_UserController.php.html#5">Account_UserController</a> (260)</li>
               <li><a href="library_facebook.php.html#15">FacebookApiException</a> (210)</li>
-              <li><a href="application_modules_admin_controllers_AirportController.php.html#3">Admin_AirportController</a> (110)</li>
-              <li><a href="application_modules_admin_controllers_CityController.php.html#3">Admin_CityController</a> (110)</li>
-              <li><a href="application_modules_admin_controllers_LandmarkCategoryController.php.html#6">Admin_LandmarkCategoryController</a> (110)</li>
-              <li><a href="application_controllers_ErrorController.php.html#3">ErrorController</a> (110)</li>
               <li><a href="application_modules_admin_controllers_StateController.php.html#3">Admin_StateController</a> (110)</li>
-              <li><a href="application_forms_Base.php.html#3">Application_Form_Base</a> (90)</li>
-              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityStateProxy.php.html#8">RideoramaEntityStateProxy</a> (77)</li>
+              <li><a href="application_modules_rides_controllers_IndexController.php.html#3">Rides_IndexController</a> (110)</li>
+              <li><a href="application_modules_admin_controllers_CityController.php.html#3">Admin_CityController</a> (110)</li>
+              <li><a href="application_modules_admin_controllers_LandmarkcategoryController.php.html#6">Admin_LandmarkcategoryController</a> (110)</li>
+              <li><a href="application_modules_admin_controllers_AirportController.php.html#3">Admin_AirportController</a> (110)</li>
+              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityPreUserProxy.php.html#8">RideoramaEntityPreUserProxy</a> (90)</li>
 
             </ul>
           </td>
@@ -77,16 +106,16 @@
           <td valign="top">
             <h2>Least Tested Methods</h2>
             <ul>
-              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityCityProxy.php.html#43">RideoramaEntityCityProxy::__sleep</a> (0%)</li>
-              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityCityProxy.php.html#36">RideoramaEntityCityProxy::__set</a> (0%)</li>
-              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityPreUserProxy.php.html#13">RideoramaEntityPreUserProxy::__construct</a> (0%)</li>
-              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityPreUserProxy.php.html#18">RideoramaEntityPreUserProxy::_load</a> (0%)</li>
-              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityPreUserProxy.php.html#30">RideoramaEntityPreUserProxy::addUser</a> (0%)</li>
-              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityCityProxy.php.html#30">RideoramaEntityCityProxy::__get</a> (0%)</li>
+              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityAirportProxy.php.html#43">RideoramaEntityAirportProxy::__sleep</a> (0%)</li>
+              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityAirportProxy.php.html#36">RideoramaEntityAirportProxy::__set</a> (0%)</li>
+              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityCityProxy.php.html#13">RideoramaEntityCityProxy::__construct</a> (0%)</li>
               <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityCityProxy.php.html#18">RideoramaEntityCityProxy::_load</a> (0%)</li>
+              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityCityProxy.php.html#30">RideoramaEntityCityProxy::__get</a> (0%)</li>
               <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityAirportProxy.php.html#30">RideoramaEntityAirportProxy::__get</a> (0%)</li>
               <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityAirportProxy.php.html#18">RideoramaEntityAirportProxy::_load</a> (0%)</li>
-              <li><a href="library_Rideorama_Entity_Proxy_RideoramaEntityAirportProxy.php.html#36">RideoramaEntityAirportProxy::__set</a> (0%)</li>
+              <li><a href="application_modules_rides_models_RidesService.php.html#400">Rides_Model_RidesService::updateRideToAirport</a> (0%)</li>
+              <li><a href="application_modules_rides_models_RidesService.php.html#396">Rides_Model_RidesService::deleteRideToAirport</a> (0%)</li>
+              <li><a href="application_modules_rides_models_RidesService.php.html#404">Rides_Model_RidesService::updateRideFromAirport</a> (0%)</li>
 
             </ul>
           </td>
@@ -98,7 +127,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.5</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.2-1ubuntu4.10</a> and PHPUnit 3.5.15 at Thu Nov 17 20:05:22 MST 2011.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.1.1</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.2-1ubuntu4.11</a> and PHPUnit 3.6.4 at Mon Dec 19 17:25:36 MST 2011.</td></tr>
     </table>
 
     <br/>

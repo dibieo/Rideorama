@@ -1,6 +1,5 @@
 <?php
 
-// require_once 'Zend/Cache/Backend/ExtendedInterface.php';
 
 class IndexController extends Zend_Controller_Action
 {
@@ -10,49 +9,61 @@ class IndexController extends Zend_Controller_Action
     {
         
         $this->form = new Application_Form_Searchride();
-       
-   
-        
+        $this->driverform = new Application_Form_Searchrequest();     
     }
 
     public function indexAction()
     {
         $this->view->form = $this->form;
-    
-    }
-    
-    public function searchAction(){
+        $this->view->driverform = $this->driverform;
+        $this->view->airportList = $this->getAirportList();
         
-        
-        if ($this->getRequest()->isDispatched()){
-           
+        echo $this->view->airportList;
+        if ($this->getRequest()->getParam('trip_time')){
+            
             $formData = $this->getRequest()->getParams();
             
-              if ($this->form->isValid($formData)){
-                  
-                $ride = new Rides_Model_RidesService($formData['where']);
+            if ($this->form->isValid($formData)){
                 
-                try{
-                $ride_data =  $ride->search($formData, $formData['where']);
-                
-                $this->view->date = $formData['trip_date'];
-                
-               $this->view->rides = $ride_data;
-               
-                }catch (Exception $ex){
-                   
-                }
-   
-        }
+                $this->_forward('search', 'index', 'default', $formData);
+            }
+
+          }
+            
+       }
+        
     
-    }
     
+    
+    public function searchAction(){
+        $formData= $this->_getAllParams();
+        $ride = new Rides_Model_RidesService($formData['where']);
+        $ride_data = $ride->search($formData, $formData['where']);
+        $this->view->date = $formData['trip_date'];
+        $this->view->rides = $ride_data;
     }
 
+    private function getAirportList(){
+        
+        $all_airports = null;
+        $airports = $this->form->getAirports();
+        foreach($airports as $a){
+           $var = "{\"key\" " . ":" . $a["key"] . ", " . "\"value\"" . ":"  . "\""
+            . $a["value"]  .
+            "\"" . "}," ;
+           
+           $all_airports.= $var;
+        }
+        
+        return $all_airports;
+    }
   
 
 
+
+
 }
+
 
 
 

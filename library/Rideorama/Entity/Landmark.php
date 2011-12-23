@@ -48,7 +48,40 @@ class Landmark extends \Rideorama\Entity\rideoramaEntity
     protected $landmark_category;
     
     
- 
+     
+   /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridestolandmark",mappedBy="landmark", cascade={"persist","remove"})
+     */
+    protected $ridestolandmark;
+    
+    
+   /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridesfromlandmark",mappedBy="landmark", cascade={"persist","remove"})
+     */
+    protected $ridesfromlandmark;
 
+
+
+     /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Requeststolandmark",mappedBy="landmark", cascade={"persist","remove"})
+     */
+    protected $requeststolandmark;
+    
+     /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Requestsfromlandmark",mappedBy="landmark", cascade={"persist","remove"})
+     */
+    protected $requestsfromlandmark;
 }
-?>
+

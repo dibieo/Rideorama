@@ -61,7 +61,7 @@ class Application_Form_Base extends Zend_Form
      * Fetches all the airports currently in the database
      * @return array of airports
      */
-     protected function getAirports(){
+     public function getAirports(){
          
         $airport = new Admin_Model_AirportService();
         $all_airports = array();
@@ -75,6 +75,27 @@ class Application_Form_Base extends Zend_Form
         return $all_airports;
     
    }
+   
+   //gets string version
+   public function getStringAirports(){
+       
+       
+   }
+    /**
+     * get all the trip times
+     * @return type Array of tripTimes
+     */
+    
+    protected function getTripTimes(){
+        
+       return array(
+            'anytime' => 'anytime',
+            'morning' => 'morning',
+            'afternoon' => 'afternoon',
+            'evening' => 'evening'
+           
+        );
+    }
     
   }
 

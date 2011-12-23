@@ -49,6 +49,12 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      */
     protected $publisher;
    
+      /**
+     *
+     * @var integer
+     * @Column(name="luggages", type="integer",nullable=false)
+     */
+    protected $num_luggages = 0;
     
       /**
      *
@@ -81,28 +87,14 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      */
     protected $departure_time;
     
-    /**
-     * @Column(type="time", nullable=false)
-     * @var time
-     * This stores the arrival time of the trip
-     */
-    protected $arrival_time;
-    
     
     /**
-     * @Column(type="float",nullable=false)
+     * @Column(type="float",nullable=true)
      * @var float
      * This stores the distance of trip.
      */
-    protected $distance;
+    protected $distance = null;
 
-      /**
-     * @Column(type="string", length = 60, nullable=true)
-     * @var string
-     * This provides a brief message about how much luggage the user 
-     * is able to carry per passenger
-     */
-    protected $luggages;
     
     /**
      *
@@ -130,21 +122,16 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      */
     protected $drop_off_address;
     
-    
-    /**
-     *
-     * @var integer
-     * @ManyToOne(targetEntity="City")
-     * @JoinColumns({
-     *  @JoinColumn(name="city_id", referencedColumnName="id")
-     * })
-     */
-    protected $city;
-    
     /**
       @Column(type="float",nullable=false)
      * @var float
      * This stores the duraation of trip.
      */
-    protected $trip_duration;
+    protected $duration;
+    
+
+    public function __construct(){
+     
+      $this->post_date = new \DateTime(date("Y-m-d"));
+    }
 }

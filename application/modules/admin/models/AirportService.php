@@ -3,11 +3,12 @@
 class Admin_Model_AirportService extends Application_Model_Service
 {
 
-    protected  $airport;
+    protected  $airport, $city;
     
     public function __construct() {
         parent::__construct();
         $this->airport = new \Rideorama\Entity\Airport();
+        $this->city = new Admin_Model_CityService();
     }
     
     /**
@@ -22,7 +23,7 @@ class Admin_Model_AirportService extends Application_Model_Service
         $this->airport->name = $name;
         $this->airport->pic = $pic;
         $this->airport->iata = $iata;
-        $this->airport->city = $this->getCity($city);
+        $this->airport->city = $this->city->getCity($city);
         $this->em->persist($this->airport);
         $this->em->flush();
     }
@@ -49,7 +50,7 @@ class Admin_Model_AirportService extends Application_Model_Service
     public function updateAirport($id, $name, $iata, $pic, $city){
         
         $airport = $this->getAirport($id);
-        $city = $this->getCity($city);
+        $city = $this->city->getCity($city);
         
         $airport->name = $name;
         $airport->iata = $iata;

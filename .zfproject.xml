@@ -11,6 +11,12 @@
         <controllerFile controllerName="Index">
           <actionMethod actionName="index"/>
           <actionMethod actionName="search"/>
+          <actionMethod actionName="success"/>
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="index"/>
         </controllerFile>
         <controllerFile controllerName="Error"/>
         <controllerFile controllerName="Test">
@@ -33,10 +39,16 @@
         <controllerFile controllerName="Rides">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Index"/>
+        <controllerFile controllerName="Index"/>
+        <controllerFile controllerName="Index"/>
+        <controllerFile controllerName="Index"/>
+        <controllerFile controllerName="Index"/>
       </controllersDirectory>
       <formsDirectory enabled="false">
         <formFile formName="Searchride"/>
         <formFile formName="Base"/>
+        <formFile formName="Searchrequest"/>
       </formsDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
@@ -161,11 +173,16 @@
             <controllerFile controllerName="Index">
               <actionMethod actionName="index"/>
               <actionMethod actionName="post"/>
+              <actionMethod actionName="success"/>
+            </controllerFile>
+            <controllerFile controllerName="Request">
+              <actionMethod actionName="index"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
             <formFile formName="Rides"/>
             <formFile formName="Test"/>
+            <formFile formName="RidesFromAirport"/>
           </formsDirectory>
           <layoutsDirectory enabled="false"/>
           <modelsDirectory>
@@ -179,7 +196,39 @@
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="post"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Request">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="success"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
+            <viewHelpersDirectory/>
+            <viewFiltersDirectory/>
+          </viewsDirectory>
+        </moduleDirectory>
+        <moduleDirectory moduleName="requests">
+          <apisDirectory enabled="false"/>
+          <configsDirectory enabled="false"/>
+          <controllersDirectory/>
+          <formsDirectory enabled="false"/>
+          <layoutsDirectory enabled="false"/>
+          <modelsDirectory/>
+          <viewsDirectory>
+            <viewScriptsDirectory/>
+            <viewHelpersDirectory/>
+            <viewFiltersDirectory/>
+          </viewsDirectory>
+        </moduleDirectory>
+        <moduleDirectory moduleName="request">
+          <apisDirectory enabled="false"/>
+          <configsDirectory enabled="false"/>
+          <controllersDirectory/>
+          <formsDirectory enabled="false"/>
+          <layoutsDirectory enabled="false"/>
+          <modelsDirectory/>
+          <viewsDirectory>
+            <viewScriptsDirectory/>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
           </viewsDirectory>
@@ -216,6 +265,24 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Index">
             <viewScriptFile forActionName="search"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="success"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
@@ -254,6 +321,12 @@
           <testApplicationControllerFile forControllerName="Index">
             <testApplicationActionMethod forActionName="index"/>
             <testApplicationActionMethod forActionName="search"/>
+            <testApplicationActionMethod forActionName="success"/>
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="index"/>
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Test">
             <testApplicationActionMethod forActionName="index"/>
@@ -310,6 +383,7 @@
               <testApplicationControllerFile forControllerName="Index">
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="post"/>
+                <testApplicationActionMethod forActionName="success"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

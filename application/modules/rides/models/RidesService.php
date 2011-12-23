@@ -192,8 +192,7 @@ class Rides_Model_RidesService extends Application_Model_Service
         
         return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
 
-        
-    }
+     }
     
     /**
      * Get all afternoon rides (12pm - 6pm)
@@ -221,26 +220,69 @@ class Rides_Model_RidesService extends Application_Model_Service
         
         return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
     }
+    
+    /**
+     * Returns all rides to the airport according to the airport
+     * @param type $date
+     * @param type $airport
+     * @param type $time1
+     * @param type $time2
+     * @return array of all rides to airport 
+     */
     private function ReturnRidesToAirport($date, $airport, $time1, $time2){
-        
-     $airport = $this->airport->getAirportByName($airport);
-     
-     $q = $this->em->createQuery("select u.id, u.pick_up_address, u.number_of_seats, u.num_luggages,
-             u.trip_msg, u.departure_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
-              p.last_name
-              from Rideorama\Entity\Ridestoairport u JOIN u.publisher 
-              p where u.airport = $airport->id and u.departure_date = 
-             '$date' and u.departure_time > '$time1' and u.departure_time < '$time2'");
-
-      $rides = $q->getResult();
-
-      
-      return $rides;
        
+       return $this->getAirportRides($date, $airport, $time1, $time2, 'Rideorama\Entity\Ridestoairport');
     }
-    private function findRidesFromAirport($search_data){
+    
+    
+    /**
+     * Returns all rides from the airport
+     * @param type $date
+     * @param type $airport
+     * @param type $time1
+     * @param type $time2
+     * @return array of all rides from airport
+     */
+    private function ReturnRidesFromAirport($date, $airport,$time1, $time2){
+        return $this->getAirportRides($date, $airport, $time1, $time2, 'Rideorama\Entity\Ridesfromairport');
+    }
+    
+    
+    /**
+     * This function returns all rides bound to a landmark
+     * @param type $date
+     * @param type $airport
+     * @param type $time1
+     * @param type $time2
+     * @param type $targetEntity 
+     */
+    private function getLandmarkRides($date, $airport, $time1, $time2, $targetEntity){
         
     }
+    /**
+     * This function returns Airport bound rides
+     * @param type $date
+     * @param type $airport
+     * @param type $time1
+     * @param type $time2
+     * @param type $targetEntity
+     * @return type 
+     */
+    private function getAirportRides($date, $airport, $time1, $time2, $targetEntity){
+        
+        $airport = $this->airport->getAirportByName($airport);
+        
+        $q = $this->em->createQuery("select u.id, u.pick_up_address, u.number_of_seats, u.num_luggages,
+             u.trip_msg, u.departure_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
+              p.last_name from '$targetEntity' 
+             u JOIN u.publisher p where u.airport = $airport->id and u.departure_date = 
+             '$date' and u.departure_time > '$time1' and u.departure_time < '$time2'");
+        
+        $rides = $q->getResult();
+        
+        return $rides;
+    }
+    
     
 
     /**
@@ -278,6 +320,38 @@ class Rides_Model_RidesService extends Application_Model_Service
                 
     }
     
+    /**
+     * Function addRideFromAirport
+     * This function adds a ride from airport to any address
+     * 
+     * @param type $trip_data 
+     */
+    private function addRideFromAirport($trip_data){
+        
+        $this->ridesFromAirport->pick_up_address = $trip_data['departure_spot'];
+        $this->ridesFromAirport->number_of_seats = $trip_data['num_seats'];
+        $this->ridesFromAirport->drop_off_address = $trip_data['destination'];
+        $this->ridesFromAirport->trip_msg = $trip_data['trip_msg'];
+        $this->ridesFromAirport->publisher = $this->user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
+        $this->ridesFromAirport->airport  = $this->airport->getAirportByName($trip_data['departure']);
+        $this->ridesFromAirport->departure_date = new \DateTime(date($trip_data['trip_date']));
+        $this->ridesFromAirport->departure_time = new DateTime(($trip_data['trip_time']));
+        $this->ridesFromAirport->num_luggages = $trip_data['luggage'];
+        $this->ridesFromAirport->luggage_size = $trip_data['luggage_size'];
+        $this->ridesFromAirport->cost = $trip_data['trip_cost'];
+        
+        //Get the Distance and duration of this trip
+        $departure = $this->OnlyAlnumFilter->filter($trip_data['departure']);
+        $destination = $this->OnlyAlnumFilter->filter($trip_data['destination']);
+     
+        $distanceAndDuration = $this->getTripDistance($departure, $destination);
+        $this->ridesFromAirport->distance = $distanceAndDuration['distance'];
+        $this->ridesFromAirport->duration = $distanceAndDuration['duration'];
+        
+        Zend_Registry::get('doctrine')->getEntityManager()->persist($this->ridesFromAirport);
+        Zend_Registry::get('doctrine')->getEntityManager()->flush();
+                
+    }
     
     /**
      * Calls the Google maps service to get the distance between two locations.
@@ -322,11 +396,6 @@ class Rides_Model_RidesService extends Application_Model_Service
     }
     
   
-   
-    private function addRideFromAirport(){
-        
-    }
-    
     private function deleteRideFromAirport(){
         
     }

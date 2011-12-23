@@ -2,18 +2,70 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>application/modules/admin/controllers</title>
+    <title>controllers</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <!--[if IE]><script src="excanvas.compressed.js"></script><![endif]-->
-    <script src="RGraph.common.core.js" ></script>
-    <script src="RGraph.common.tooltips.js" ></script>
-    <script src="RGraph.bar.js" ></script>
-    <script src="RGraph.scatter.js" ></script>
+    <script src="jquery.min.js" type="text/javascript"></script>
+    <script src="highcharts.js" type="text/javascript"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+          var classCoverageDistribution = new Highcharts.Chart({
+             chart: {
+                renderTo: 'classCoverageDistribution',
+                type: 'column'
+             },
+             title: {text: ''},
+             legend: {enabled: false},
+             credits: {enabled: false},
+             tooltip: {enabled: false},
+             xAxis: {
+                 labels: {style: {fontSize: '8px'}},
+                 categories: [
+                 '0%','0-10%','10-20%','20-30%','30-40%','40-50%','50-60%','60-70%','70-80%','80-90%','90-100%','100%'
+                 ]
+            },
+            yAxis: {
+                title: '',
+                labels: {style: {fontSize: '8px'}},
+            },
+            series: [{
+                data: [6,1,0,0,0,0,0,0,0,0,0,0]
+            }],
+          });
+
+        var classComplexity = new Highcharts.Chart({
+            chart: {
+              renderTo: 'classComplexity',
+              type: 'scatter'
+            },
+            title: {text: ''},
+            legend: {enabled: false},
+            credits: {enabled: false},
+            xAxis: {
+               labels: {enabled: false},
+            },
+            yAxis: {
+              title: '',
+              labels: {enabled: false},
+            },
+            tooltip: {
+                formatter: function() {
+                    return this.point.config[2];
+                }
+            },
+            series: [{
+              data: [[0,10,"<a href=\"application_modules_admin_controllers_AirportController.php.html#3\">Admin_AirportController<\/a>"],[0,10,"<a href=\"application_modules_admin_controllers_CityController.php.html#3\">Admin_CityController<\/a>"],[0,2,"<a href=\"application_modules_admin_controllers_IndexController.php.html#3\">Admin_IndexController<\/a>"],[4.1666666666667,7,"<a href=\"application_modules_admin_controllers_LandmarkController.php.html#3\">Admin_LandmarkController<\/a>"],[0,10,"<a href=\"application_modules_admin_controllers_LandmarkcategoryController.php.html#6\">Admin_LandmarkcategoryController<\/a>"],[0,10,"<a href=\"application_modules_admin_controllers_StateController.php.html#3\">Admin_StateController<\/a>"],[0,1,"<a href=\"application_modules_admin_controllers_helpers_Multiples.php.html#8\">Admin_Controller_Helper_Multiples<\/a>"]],
+              marker: {
+                  symbol: 'diamond'
+              }
+            }],
+        });
+    });
+    </script>
   </head>
 
   <body>
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr><td class="title">application/modules/admin/controllers</td></tr>
+      <tr><td class="title">controllers</td></tr>
       <tr><td><div align="center"><p><a href="application_modules_admin_controllers.html">Back to Code Coverage report</a></p></div></td></tr>
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
     </table>
@@ -25,46 +77,23 @@
         <tr>
           <td valign="top">
             <h2>Class Coverage Distribution</h2>
-            <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
-            <script>
-            var ccd = new RGraph.Bar('classCoverageDistribution', [7,0,0,0,0,0,0,0,0,0,0,0]);
-            ccd.Set('chart.background.barcolor1', 'white');
-            ccd.Set('chart.background.barcolor2', 'white');
-            ccd.Set('chart.colors', ['blue']);
-            ccd.Set('chart.shadow', true);
-            ccd.Set('chart.shadow.offsetx', 3);
-            ccd.Set('chart.shadow.offsety', 3);
-            ccd.Set('chart.labels', ['0%','0-10%','10-20%','20-30%','30-40%','40-50%','50-60%','60-70%','70-80%','80-90%','90-100%','100%']);
-            ccd.Set('chart.text.size', 5);
-            ccd.Draw();
-            </script>
+            <div id="classCoverageDistribution"></div>
           </td>
 
           <td valign="top">
             <h2>Class Complexity</h2>
-            <canvas id="classComplexity" width="475" height="200"></canvas>
-            <script>
-            var cc = new RGraph.Scatter('classComplexity', [[0,10,"blue","Admin_AirportController"],[0,10,"blue","Admin_CityController"],[0,2,"blue","Admin_IndexController"],[0,10,"blue","Admin_LandmarkCategoryController"],[0,7,"blue","Admin_LandmarkController"],[0,10,"blue","Admin_StateController"],[0,1,"blue","Admin_Controller_Helper_Multiples"]]);
-            cc.Set('chart.xmax', 100);
-            cc.Set('chart.background.barcolor1', 'white');
-            cc.Set('chart.background.barcolor2', 'white');
-            cc.Set('chart.tickmarks', 'plus');
-            cc.Set('chart.ticksize', 5);
-            cc.Set('chart.text.size', 5);
-            cc.Set('chart.ylabels', false);
-            cc.Draw();
-            </script>
+            <div id="classComplexity"></div>
           </td>
         </tr>
         <tr>
           <td valign="top">
             <h2>Top Project Risks</h2>
             <ul>
-              <li><a href="application_modules_admin_controllers_StateController.php.html#3">Admin_StateController</a> (110)</li>
+              <li><a href="application_modules_admin_controllers_LandmarkcategoryController.php.html#6">Admin_LandmarkcategoryController</a> (110)</li>
               <li><a href="application_modules_admin_controllers_AirportController.php.html#3">Admin_AirportController</a> (110)</li>
-              <li><a href="application_modules_admin_controllers_LandmarkCategoryController.php.html#6">Admin_LandmarkCategoryController</a> (110)</li>
               <li><a href="application_modules_admin_controllers_CityController.php.html#3">Admin_CityController</a> (110)</li>
-              <li><a href="application_modules_admin_controllers_LandmarkController.php.html#3">Admin_LandmarkController</a> (56)</li>
+              <li><a href="application_modules_admin_controllers_StateController.php.html#3">Admin_StateController</a> (110)</li>
+              <li><a href="application_modules_admin_controllers_LandmarkController.php.html#3">Admin_LandmarkController</a> (50)</li>
 
             </ul>
           </td>
@@ -72,13 +101,13 @@
           <td valign="top">
             <h2>Least Tested Methods</h2>
             <ul>
-              <li><a href="application_modules_admin_controllers_LandmarkController.php.html#21">Admin_LandmarkController::addAction</a> (0%)</li>
+              <li><a href="application_modules_admin_controllers_LandmarkcategoryController.php.html#24">Admin_LandmarkcategoryController::addAction</a> (0%)</li>
+              <li><a href="application_modules_admin_controllers_LandmarkcategoryController.php.html#46">Admin_LandmarkcategoryController::deleteAction</a> (0%)</li>
+              <li><a href="application_modules_admin_controllers_LandmarkcategoryController.php.html#18">Admin_LandmarkcategoryController::indexAction</a> (0%)</li>
+              <li><a href="application_modules_admin_controllers_LandmarkcategoryController.php.html#11">Admin_LandmarkcategoryController::init</a> (0%)</li>
               <li><a href="application_modules_admin_controllers_LandmarkController.php.html#43">Admin_LandmarkController::deleteAction</a> (0%)</li>
-              <li><a href="application_modules_admin_controllers_LandmarkController.php.html#15">Admin_LandmarkController::indexAction</a> (0%)</li>
-              <li><a href="application_modules_admin_controllers_LandmarkController.php.html#8">Admin_LandmarkController::init</a> (0%)</li>
-              <li><a href="application_modules_admin_controllers_LandmarkCategoryController.php.html#46">Admin_LandmarkCategoryController::deleteCategoryAction</a> (0%)</li>
-              <li><a href="application_modules_admin_controllers_LandmarkCategoryController.php.html#55">Admin_LandmarkCategoryController::editCategoryAction</a> (0%)</li>
               <li><a href="application_modules_admin_controllers_LandmarkController.php.html#53">Admin_LandmarkController::editAction</a> (0%)</li>
+              <li><a href="application_modules_admin_controllers_LandmarkcategoryController.php.html#55">Admin_LandmarkcategoryController::editAction</a> (0%)</li>
               <li><a href="application_modules_admin_controllers_StateController.php.html#6">Admin_StateController::init</a> (0%)</li>
               <li><a href="application_modules_admin_controllers_StateController.php.html#74">Admin_StateController::editStateAction</a> (0%)</li>
               <li><a href="application_modules_admin_controllers_helpers_Multiples.php.html#10">Admin_Controller_Helper_Multiples::direct</a> (0%)</li>
@@ -93,7 +122,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.5</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.2-1ubuntu4.10</a> and PHPUnit 3.5.15 at Thu Nov 17 20:05:22 MST 2011.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.1.1</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.2-1ubuntu4.11</a> and PHPUnit 3.6.4 at Mon Dec 19 17:25:36 MST 2011.</td></tr>
     </table>
 
     <br/>

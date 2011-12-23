@@ -73,18 +73,15 @@ class Rides_Form_Rides extends Application_Form_Base
                    ->setAttrib('rows', '7');
         
        $submit = new Zend_Form_Element_Submit('submit');
-           $submit->setLabel('Post ride')
+        $submit->setLabel('Post ride')
                   
                 ->setAttrib('id', 'submitbutton');
-         
-        $where = new Zend_Form_Element_Hidden('where');
-        $where->setValue('toAirport');
          
         
         $this->addElements(array($id, $from, $to, $num_seats, $trip_cost,
                                     $luggage, $luggage_size,
                                     $trip_msg, $trip_date, 
-                                    $trip_time, $where,$submit));
+                                    $trip_time,$submit));
     }
 
 }

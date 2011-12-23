@@ -27,6 +27,7 @@ class Application_Model_Acl extends Zend_Acl
                 //Rides module resources -- All resources inherit from the rides module
 		$this->add(new Zend_Acl_Resource('rides'))
 			 ->add(new Zend_Acl_Resource('rides:index'), 'rides');
+                         
 			 
 		//Admin Module Resources --All resources inherid from the module admin
 		$this->add(new Zend_Acl_Resource('admin'))
@@ -61,7 +62,7 @@ class Application_Model_Acl extends Zend_Acl
 		$this->allow('user', 'account:user', array('logout', 'edit', 'viewprofile'))										 
 		     ->deny('user', 'account:user', array('login', 'register'));
 		
-                $this->allow('user', 'rides:index', array('index', 'post', 'validateform'));
+                $this->allow('user', 'rides:index', array('index', 'post', 'validateform', 'success'));
                 
 //		$this->allow('admin', 'admin:usermanagement', array('listusers','deluser', 'avgratings', 'viewcomments'))
                 $this->allow('admin', 'admin:index', array('index'));

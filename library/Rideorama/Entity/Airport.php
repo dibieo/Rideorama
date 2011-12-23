@@ -62,7 +62,30 @@ class Airport extends \Rideorama\Entity\rideoramaEntity
      */
     protected $rides_to_airport;
 
+       /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridesfromairport",mappedBy="airport", cascade={"persist","remove"})
+     */
+    protected $rides_from_airport;
+
+       /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Requeststoairport",mappedBy="airport", cascade={"persist","remove"})
+     */
+    protected $requests_to_airport;
     
+   /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Requestsfromairport",mappedBy="airport", cascade={"persist","remove"})
+     */
+    protected $requests_from_airport;
+
     
 
     
