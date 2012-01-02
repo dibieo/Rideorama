@@ -1,8 +1,9 @@
-<?php
+r<?php
 
 
 /**
  * This Service provides an interface to the rides entity
+ * It handles the posting  searching of rides in the database
  */
 class Rides_Model_RidesService extends Application_Model_Service
 {
@@ -71,7 +72,50 @@ class Rides_Model_RidesService extends Application_Model_Service
     /**
      *
      * @param type $search_data
-     * @return type Entity collection of Ridetoairport 
+     * @return type array of rides sorted by those closest to your destination location
+     */
+    protected function findRidesFromAirport($search_data){
+        
+    $airport = $search_data['departure'];
+    $departure = $search_data['destination'];
+    $date = $search_data['trip_date'];
+    $time = $search_data['trip_time'];
+    
+      //Get the rides
+    // Sort rides by closest to my location
+    if ($search_data['trip_time'] == "anytime"){
+     
+      $rides = $this->findAnytimeRidesFromAirport($airport, $date);
+      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+
+
+    }else if ($search_data['trip_time'] == "morning"){
+      
+      $rides =  $this->findAfernoonRidesFromAirport($date, $airport, '100:00:00', "12:00:00");
+      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      
+    } else if ($search_data['trip_time'] == "afternoon"){
+        
+      $rides =  $this->findAfternoonRidesFromAirport($date, $airport, '12:00:00', "18:00:00");
+      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+        
+    }else if ($search_data['trip_time'] == "evening"){
+        
+      $rides =  $this->findEveningRidesFromAirport($date, $airport, '18:00:00', "23:55:59");
+      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      
+    }else {
+       throw new Exception("Choose a valid time range!");
+    }
+    
+    array_multisort($this->hwfar, $this->sorted_trips);
+    return $this->sorted_trips;
+        
+    }
+    /**
+     * Gets all rides to the airport
+     * @param type $search_data
+     * @return type Entity collection of Ridetoairport sorted by closest ride to user
      */
     protected function findRidesToAirport($search_data){
     $airport = $search_data['destination'];
@@ -94,7 +138,7 @@ class Rides_Model_RidesService extends Application_Model_Service
       
     } else if ($search_data['trip_time'] == "afternoon"){
         
-      $rides =  $this->findAfernoonRidesToAirport($date, $airport, '12:00:00', "18:00:00");
+      $rides =  $this->findAfternoonRidesToAirport($date, $airport, '12:00:00', "18:00:00");
       $this->sortTripsByDistanceToMyLocation($rides, $departure);
         
     }else if ($search_data['trip_time'] == "evening"){
@@ -126,7 +170,8 @@ class Rides_Model_RidesService extends Application_Model_Service
           $distance = $distance['distance'];
           $distValue = $distance['distValue'];
        
-          array_push($this->sorted_trips, array(
+
+              array_push($this->sorted_trips, array(
              
             'key' => $r,
               
@@ -202,7 +247,7 @@ class Rides_Model_RidesService extends Application_Model_Service
      * @param type $time2 Before what time
      * @return type array
      */
-    private function findAfernoonRidesToAirport($date, $airport, $time1, $time2){
+    private function findAfternoonRidesToAirport($date, $airport, $time1, $time2){
         
         return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
         
@@ -248,6 +293,35 @@ class Rides_Model_RidesService extends Application_Model_Service
     }
     
     
+    protected function findAnytimeRidesFromAirport($airport, $date){
+        
+        
+     $airport = $this->airport->getAirportByName($airport);
+     
+     $q = $this->em->createQuery("select u.id, u.drop_off_address, u.number_of_seats, u.num_luggages,
+             u.trip_msg, u.departure_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
+              p.last_name
+              from Rideorama\Entity\Ridesfromairport u JOIN u.publisher 
+              p where u.airport = $airport->id and u.departure_date = 
+             '$date'");
+
+      $rides = $q->getResult();
+
+       return $rides;
+        
+    }
+    
+    protected function findMorningRidesFromAirport(){
+        
+    }
+    
+    protected function findAfternoonnRidesFromAirport(){
+        
+    }
+    
+    protected function findEveningRidesFromAirport(){
+        
+    }
     /**
      * This function returns all rides bound to a landmark
      * @param type $date
@@ -314,7 +388,8 @@ class Rides_Model_RidesService extends Application_Model_Service
         $distanceAndDuration = $this->getTripDistance($departure, $destination);
         $this->ridesToAirport->distance = $distanceAndDuration['distance'];
         $this->ridesToAirport->duration = $distanceAndDuration['duration'];
-        
+        $this->ridesToAirport->arrival_time = new DateTime($this->getArrivalTime($trip_data['trip_date'], $trip_data['trip_time'],$distanceAndDuration['durValue']));
+
         Zend_Registry::get('doctrine')->getEntityManager()->persist($this->ridesToAirport);
         Zend_Registry::get('doctrine')->getEntityManager()->flush();
                 
@@ -328,7 +403,7 @@ class Rides_Model_RidesService extends Application_Model_Service
      */
     private function addRideFromAirport($trip_data){
         
-        $this->ridesFromAirport->pick_up_address = $trip_data['departure_spot'];
+      //  $this->ridesFromAirport->pick_up_address = $trip_data['departure_spot'];
         $this->ridesFromAirport->number_of_seats = $trip_data['num_seats'];
         $this->ridesFromAirport->drop_off_address = $trip_data['destination'];
         $this->ridesFromAirport->trip_msg = $trip_data['trip_msg'];
@@ -347,6 +422,7 @@ class Rides_Model_RidesService extends Application_Model_Service
         $distanceAndDuration = $this->getTripDistance($departure, $destination);
         $this->ridesFromAirport->distance = $distanceAndDuration['distance'];
         $this->ridesFromAirport->duration = $distanceAndDuration['duration'];
+        $this->ridesFromAirport->arrival_time = new DateTime($this->getArrivalTime($trip_data['trip_date'], $trip_data['trip_time'],$distanceAndDuration['durValue']));
         
         Zend_Registry::get('doctrine')->getEntityManager()->persist($this->ridesFromAirport);
         Zend_Registry::get('doctrine')->getEntityManager()->flush();
@@ -354,48 +430,22 @@ class Rides_Model_RidesService extends Application_Model_Service
     }
     
     /**
-     * Calls the Google maps service to get the distance between two locations.
-     * @param type $departure
-     * @param type $destination
-     * @return type array (Distance, Duration)
+     * Adds duration to current time to get the
+     * return time of the trip
+     * @param String $trip_date
+     * @param String $departure_time
+     * @param String $add_time (in seconds)
+     * @return String Arrival time
      */
-    protected function getTripDistance($departure, $destination){
-       
-        $client = new Zend_Http_Client('http://maps.googleapis.com/maps/api/distancematrix/json');
- 
-        $departure = urlencode($departure);
-        $destination = urlencode($destination);
- 
-        $client->setParameterGet('sensor', 'false'); // Do we have a GPS sensor? Probably not on most servers.
-        $client->setParameterGet('origins', $departure);
-        $client->setParameterGet('destinations', $destination);
-        $client->setParameterGet('units', 'imperial');
- 
-        $response = $client->request('GET'); // We must send our parameters in GET mode, not POST
- 
-        $val = Zend_Http_Response::extractBody($response);
+    private function getArrivalTime($trip_date,$departure_time, $add_time){
         
-        $val = json_decode($val);
-        
-       // var_dump($val);
-        
-        $duration = $val->rows[0]->elements[0]->duration->text;
-        $distance = $val->rows[0]->elements[0]->distance->text;
-        $distValue = $val->rows[0]->elements[0]->distance->value;
-       
-        //
-        $data = array(
-            "duration" => $duration, 
-            "distance" => $distance,
-            "distValue" => $distValue
-            );
-        
-        
-        //print_r($val);
-        return  $data;    
+        $time = new Zend_Date();
+        $time->setDate($trip_date, "YYYY-MM-DD");
+        $time->setTime($departure_time, "HH:mm:ss");
+        $time->addSecond($add_time);
+        return $time->get("H:m:s");
     }
-    
-  
+   
     private function deleteRideFromAirport(){
         
     }

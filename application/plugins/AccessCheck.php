@@ -34,6 +34,10 @@ class Application_Plugin_AccessCheck extends Zend_Controller_Plugin_Abstract {
             $request->setModuleName('account')
                     ->setControllerName('user')
                     ->setActionName('login');
+            
+            $frontController = Zend_Controller_Front::getInstance();
+            $url = "http://" .$_SERVER['SERVER_NAME'] . $frontController->getRequest()->getRequestUri();
+            Zend_Registry::set('return', $url);
                                 }
                 }
   }

@@ -3,9 +3,11 @@
 class Rides_IndexController extends Zend_Controller_Action
 {
 
+    protected $ride_form;
     public function init()
     {
         /* Initialize action controller here */
+        $this->ride_form = new Rides_Form_Rides();
     }
 
     public function indexAction()
@@ -22,15 +24,42 @@ class Rides_IndexController extends Zend_Controller_Action
         
         if ($where == "toAirport"){
         // action body
-       $form = new Rides_Form_Rides();
-       $form->departure->setValue($departure);
-       $form->destination->setValue($destination);
+            
+       $this->getRideFormPage($where, $departure, $destination, $trip_date);
+    
+         }else if ($where == "fromAirport"){
        
-       $this->view->form = $form;
+            $this->getRideFormPage($where, $departure, $destination, $trip_date);
+           
+            
+        }
+    }
+
+    public function validateformAction()
+    {
+        
+        $this->_helper->formvalidate($this->ride_form, $this->_helper, $this->_getAllParams());
+    }
+
+    
+    /**
+     * Displays the appropriate form for posting a ride and submits the user's post
+     * to the Ride_Model_Service
+     * @param string $where (fromAirport or toAirport)
+     * @param string $departure
+     * @param string $destination
+     * @param string $trip_date 
+     */
+    private function getRideFormPage($where, $departure, $destination, $trip_date ){
+       $this->view->where = $where;
+       $this->ride_form->departure->setValue($departure);
+       $this->ride_form->destination->setValue($destination);
+       $this->ride_form->trip_date->setValue($trip_date);
+       $this->view->form = $this->ride_form;
        
-           if ($this->getRequest()->isPost()){
+         if ($this->getRequest()->isPost()){
             $formData = $this->getRequest()->getPost();
-            if ($form->isValid($formData)){
+            if ($this->ride_form->isValid($formData)){
            
            
              $ride = new Rides_Model_RidesService($where);
@@ -39,56 +68,11 @@ class Rides_IndexController extends Zend_Controller_Action
              $this->_forward('success', 'index', 'rides', $formData);
         }else{
             
-            $form->populate($formData);
+            $this->ride_form->populate($formData);
         }
            
     }
-    
-    
-    }else if ($where == "fromAirport"){
-        
-          // action body
-       $form = new Rides_Form_RidesFromAirport();
-       $form->departure->setValue($departure);
-       $form->destination->setValue($destination);
-       $form->trip_date->setValue($trip_date);
-       
-       $this->view->form = $form;
-       
-           if ($this->getRequest()->isPost()){
-            $formData = $this->getRequest()->getPost();
-            if ($form->isValid($formData)){
-           
-             $ride = new Rides_Model_RidesService($where);
-             $ride->addRide($formData, $where);
-             $this->view->msg = "Ride posted";
-            $this->_forward('success', 'index', 'rides', $formData);
-
-            //$this->_helper->redirector('success');
-        }else{
-            
-            $form->populate($formData);
-        }
-           
     }
-    
-    }
-    }
-
-    public function validateformAction()
-    {
-    
-      $this->_helper->viewRenderer->setNoRender();
-      $this->_helper->getHelper('layout')->disableLayout();
-
-        $f = new Rides_Form_Rides();
-        $f->isValid($this->_getAllParams());
-        $json = $f->getMessages();
-        header('Content-type: application/json');
-        echo Zend_Json::encode($json);
-
-    }
-
     public function successAction()
     {
         $this->view->params = $this->_getAllParams();

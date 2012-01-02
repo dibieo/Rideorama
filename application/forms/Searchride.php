@@ -45,7 +45,7 @@ class Application_Form_Searchride extends Application_Form_Base
        $submit->setLabel('Find a ride');
        
        $requestRide = new Zend_Form_Element_Button('request');
-       $requestRide->setAttrib('onClick', 'goToRequestRidePage()');
+       $requestRide->setAttrib('onClick', 'gotoRequestRidePage()');
        $requestRide->setLabel('Request a ride');
        
        $this->setMethod('GET');

@@ -1,3 +1,5 @@
+ <?php echo $this->headScript()->appendFile( $this->baseUrl() . '/js/homepage.js'); ?>
+
 <script>
   $(function(){
       $("#tabs").tabs();
@@ -64,5 +66,5 @@ echo $this->form;?>
             
          });
      }) ;
-    </script>
- 
+ </script>
+ <?php echo $this->headScript()->appendFile($this->baseUrl() . "/js/validateform.js"); ?>

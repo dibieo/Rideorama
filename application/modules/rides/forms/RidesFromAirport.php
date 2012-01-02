@@ -21,10 +21,7 @@ class Rides_Form_RidesFromAirport extends Application_Form_Base
         $from->setJQueryParams(array('source' =>$this->getAirports()));
         $from->addFilter($OnlyAlnumFilter);
         
-        $departure_spot = new Zend_Form_Element_Text('departure_spot');
-        $departure_spot->setLabel('Departure(spot)')
-                        ->setAttrib('placeholder', 'Enter the terminal or location at airport you are leaving from');
-        
+   
         $to = new Zend_Form_Element_Text('destination');
         $to->setRequired('true')
               ->setAttrib('placeholder', 'Enter your destination location')
@@ -78,7 +75,7 @@ class Rides_Form_RidesFromAirport extends Application_Form_Base
                 ->setAttrib('id', 'submitbutton');
          
         
-        $this->addElements(array($id, $from, $departure_spot, $to, $num_seats, $trip_cost,
+        $this->addElements(array($id, $from, $to, $num_seats, $trip_cost,
                                     $luggage, $luggage_size,
                                     $trip_msg, $trip_date, 
                                     $trip_time,$submit));

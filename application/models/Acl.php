@@ -27,7 +27,10 @@ class Application_Model_Acl extends Zend_Acl
                 //Rides module resources -- All resources inherit from the rides module
 		$this->add(new Zend_Acl_Resource('rides'))
 			 ->add(new Zend_Acl_Resource('rides:index'), 'rides');
-                         
+                
+                
+                $this->add(new Zend_Acl_Resource('requests'))
+                      ->add(new Zend_Acl_Resource('requests:index'), 'requests');
 			 
 		//Admin Module Resources --All resources inherid from the module admin
 		$this->add(new Zend_Acl_Resource('admin'))
@@ -48,9 +51,9 @@ class Application_Model_Acl extends Zend_Acl
 		 *A guest is able to login, register and view the about pages of the system.
 		 *A guest is also able to view all options in the Community module except for rating a course.
 		 */
-		$this->allow('guest', 'default:index', array('index', 'search'))
+		$this->allow('guest', 'default:index', array('validateform', 'validatedriverform', 'index', 'search'))
 			 ->allow('guest', 'default:error', 'error')
-                         ->allow('guest', 'default:show', 'index')
+                         ->allow('guest', 'default:show', array('index', 'calc'))
 			 ->allow('guest', 'account:user', array('login', 'register', 'recover', 'thanks', 'activate'));
 	
 			 
@@ -59,10 +62,11 @@ class Application_Model_Acl extends Zend_Acl
 		 * Users have all permissions as guests with the additional permission of being able to rate 
 		 * a particular course
 		 */
-		$this->allow('user', 'account:user', array('logout', 'edit', 'viewprofile'))										 
+		$this->allow('user', 'account:user', array('logout', 'edit', 'index', 'viewprofile'))										 
 		     ->deny('user', 'account:user', array('login', 'register'));
 		
-                $this->allow('user', 'rides:index', array('index', 'post', 'validateform', 'success'));
+                $this->allow('user', 'rides:index', array('index', 'post', 'validateform', 'success'))
+                      ->allow('user', 'requests:index', array('index', 'post', 'validateform'));
                 
 //		$this->allow('admin', 'admin:usermanagement', array('listusers','deluser', 'avgratings', 'viewcomments'))
                 $this->allow('admin', 'admin:index', array('index'));

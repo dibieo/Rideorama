@@ -3,8 +3,9 @@
 
 class IndexController extends Zend_Controller_Action
 {
-    protected $form;
-    
+
+    protected $form = null;
+
     public function init()
     {
         
@@ -30,12 +31,10 @@ class IndexController extends Zend_Controller_Action
 
           }
             
-       }
-        
-    
-    
-    
-    public function searchAction(){
+    }
+
+    public function searchAction()
+    {
         $formData= $this->_getAllParams();
         $ride = new Rides_Model_RidesService($formData['where']);
         $ride_data = $ride->search($formData, $formData['where']);
@@ -43,7 +42,8 @@ class IndexController extends Zend_Controller_Action
         $this->view->rides = $ride_data;
     }
 
-    private function getAirportList(){
+    private function getAirportList()
+    {
         
         $all_airports = null;
         $airports = $this->form->getAirports();
@@ -57,12 +57,24 @@ class IndexController extends Zend_Controller_Action
         
         return $all_airports;
     }
-  
 
+    public function validateformAction()
+    {
+        // action body
 
+        $this->_helper->formvalidate($this->form, $this->_helper, $this->_getAllParams());
+    }
 
+    public function validatesecondformAction(){
+        
+        $this->_helper->formvalidate($this->driverform, $this->_helper, $this->_getAllParams());
+    }
 
 }
+
+
+
+
 
 
 

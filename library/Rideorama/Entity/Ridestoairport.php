@@ -81,6 +81,13 @@ class Ridestoairport extends \Rideorama\Entity\rideoramaEntity {
      */
     protected $departure_time;
     
+      
+   /**
+     * @Column(type="time",nullable=true)
+     * @var time
+     * This stores the departure time of the trip.
+     */
+    protected $arrival_time;
   
     
     /**

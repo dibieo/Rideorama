@@ -9,6 +9,7 @@ class Account_UserController extends Zend_Controller_Action
 
     protected $_fb = null;
     
+    protected $fbsession = null;
 
     public function init()
     {
@@ -20,37 +21,22 @@ class Account_UserController extends Zend_Controller_Action
             'cookie' => true,
          ));
        
-       
     }
 
     public function indexAction()
     {
-        // action body
         
-     //  $data = $this->_user->getUserByEmail('ovoalways@yahoo.com');
-       if (Zend_Auth::getInstance()->hasIdentity()){
-           
-           echo "Session still valid!";
-       }else{
-           
-           echo "Session invalid";
-       
-    }
     }
 
     public function loginAction()
     {
         echo Zend_Registry::get('role');
-        //If user is logged in already redirect to index
-//        if (Zend_Auth::getInstance()->hasIdentity()){
-//            
-//            $this->_helper->redirector('index');
-//        }
         
        $session = null;
         //Gets instance of facebook
         $fb = $this->_fb;
-        $session = $fb->getSession(); //Stores the facebook user session
+        $session = $fb->getUser(); //Stores the facebook user session
+        $this->fbsession = $session;
         $me = null;
 
     //If User is logged into facebook get profile info we need
@@ -65,6 +51,8 @@ class Account_UserController extends Zend_Controller_Action
         if ($findUser == null){
       
             $this->firstTimeFacebookUser($me);
+            $this->_redirect(Zend_Registry::get('return')); // Send the user to where he's coming from
+
             
         }else { 
           ///This user already exists and we didn't just logout with facebook so we proceed to regular login.
@@ -73,6 +61,7 @@ class Account_UserController extends Zend_Controller_Action
             $result = $this->checkAuthCred($authAdapter, $email, $me['id']);
             if ($result->isValid()){
                 $this->writeAuthStorage($authAdapter, Zend_Auth::getInstance());
+                $this->_redirect(Zend_Registry::get('return'));
             }
         }
      }   catch (FacebookApiException $e) {
@@ -80,23 +69,32 @@ class Account_UserController extends Zend_Controller_Action
      }
     
     }
+       //  $return_url = $loginForm->getValue('return');
+
+       //  echo "This is the return url: " . $return_url;
         // login or logout url will be needed depending on current user state.
         // $this->view->me = $me;
         
         // $logoutUrl = $fb->getLogoutUrl(); //Gets Facebook LogoutURL
-         $loginUrl = $fb->getLoginUrl(array('req_perms' => 'email'));  // Gets Facebook LoginURL
+           
+         $loginUrl = $fb->getLoginUrl(array(
+             'scope' => 'email,offline_access,publish_stream,user_birthday,user_work_history,user_about_me',
+              'redirect_uri' => Zend_Registry::get('return')
+             
+             ));  // Gets Facebook LoginURL
 
         //Assign login & logout urls to the view
         $this->view->fblogin = $loginUrl;
         
-        
-       $loginForm = new Account_Form_Login();
+        $loginForm = new Account_Form_Login();
+
        $this->view->loginForm = $loginForm;
        
        if ($this->getRequest()->isPost()){
            $formData = $this->getRequest()->getPost();
     
            if ($loginForm->isValid($formData)){
+               
                
                $authAdapter = $this->getAuthAdapter();
                $email = $loginForm->getValue('email');
@@ -139,36 +137,40 @@ class Account_UserController extends Zend_Controller_Action
         
     }
 
+   
+    
     /**
-     * Sets the login credentials of the current user to the Zend_Session namespace
-     * @param type $authAdapter 
-     *
+     * Sets the login credentials of current user and forwards to the requested action
+     * before login
+     * @param type $authAdapter
+     * @param type $auth
+     * @param type $forward
+     * @return type void
      */
-    private function writeAuthStorage($authAdapter, $auth, $forward)
+    private function writeAuthStorage($authAdapter, $auth, $forward = null)
     {
-        
+      
          $identity = $authAdapter->getResultRowObject();
           $authStorage = $auth->getStorage();
           $authStorage->write($identity);
           
-	  //$this->view->errorMessage=$forward;	
-         $home = 'account/user/login';
-	 $pos = strpos($forward, $home);
-         //We were at a page, before being forced to login
         echo "we got here";
-	if ($pos === false ){
+      
+        if ($this->fbsession == null){
+        
+        if ($forward != null){
               return $this->_redirect($forward);
 	}
 	else{
-            return $this->_redirect('account/user/index');
+            return $this->_forward('index', 'user', 'account');
         }			
-         
+        }
     }
 
     public function logoutAction()
     {
         // action body
-        $this->_fb->setSession();   //Clears facebook session
+        $this->_fb->destroySession();   //Clears facebook session
         Zend_Auth::getInstance()->clearIdentity();
         $this->_helper->redirector('index');
     }
@@ -240,6 +242,7 @@ class Account_UserController extends Zend_Controller_Action
             //Add to the database
             $this->_user->addConfirmedUser($email, $profession, $sex, $firstName, $lastName,
                                    $pic, $email_hash,$password, true);
+            
         
     }
 

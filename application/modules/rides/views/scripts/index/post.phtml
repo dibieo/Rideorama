@@ -3,43 +3,25 @@
 	<p>View script for controller <b>Index</b> and script/action name <b>post</b></p>
         <?php echo $this->msg; ?>
 </div>
-<script type="text/javascript">
-$(function()
-{
-    $("input").blur(function()
-    {
-        var formElementId = $(this).parent().prev().find('label').attr('for');
-        doValidation(formElementId);
-    });
-});
-function doValidation(id)
-{
- //  alert(id);
+<?php echo $this->form; ?>
 
-    
-    var url = 'validateform'
-    var data = {};
-    $("input").each(function()
-    {
-        data[$(this).attr('name')] = $(this).val();
-    });
-    $.post(url,data,function(resp)
-    {
-        $("#"+id).parent().find('.errors').remove();
-        $("#"+id).parent().append(getErrorHtml(resp[id], id));
-    },'json');
-}
-function getErrorHtml(formErrors , id)
-{
-    var o = '<ul id="errors-'+id+'" class="errors">';
-    for(errorKey in formErrors)
-    {
-        o += '<li>' + formErrors[errorKey] + '</li>';
-    }
-    o += '</ul>';
-    return o;
-}
-
+<?php if ($this->where == "toAirport"): ?>
+<script>
+  function setDepartureAutoComplete(){
+      var input = document.getElementById('departure');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+     }
+     google.maps.event.addDomListener(window, 'load', setDepartureAutoComplete)  
 </script>
-<?php
-echo $this->form; ?>
+<?php endif; ?>
+
+<?php if ($this->where == "fromAirport"): ?>
+<script>
+     function setDestinationAutoComplete(){
+      var input = document.getElementById('destination');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+     }
+     google.maps.event.addDomListener(window, 'load', setDestinationAutoComplete);
+ </script>
+<?php endif; ?>
+ <?php echo $this->headScript()->appendFile($this->baseUrl() . "/js/validateform.js"); ?>

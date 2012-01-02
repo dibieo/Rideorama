@@ -89,6 +89,11 @@
      google.maps.event.addDomListener(window, 'load', initializedriverdestinationAutocomplete);
  
    function gotoPostRidePage(){
+       if ($("#tabs-2 input[type='radio']:checked").val() == undefined){
+            
+            alert("You must select whether you're going to or leaving an airport to continue");
+       }
+       else{
        var departure = $("#driverdeparture").val();
        var destination = $("#driverdestination").val();
        var tripdate = $("#driverdate").val();
@@ -96,5 +101,41 @@
        
        window.location = "rides/index/post?where=" + where + "&trip_date=" +
        tripdate + "&from=" + departure + "&to=" + destination ;
+       }
        
    }
+   
+   /**
+    * This function redirects the user to a request ride page  when the button is clicked
+    * on the homepage.
+    */
+    function gotoRequestRidePage(){
+       var radioInput =$("#tabs-1 input[type='radio']:checked").val();
+       if (radioInput == undefined){
+            
+            alert("You must select whether you're going to or leaving an airport to continue");
+       }
+       else{
+       var departure = $("#departure").val();
+       var destination = $("#destination").val();
+       var tripdate = $("#trip_date").val();
+       var where = radioInput;
+       
+       window.location = "requests/index/post?where=" + where + "&trip_date=" +
+       tripdate + "&from=" + departure + "&to=" + destination ;
+       }
+       
+   }
+   
+//   /*
+//    * setFieldAutoComplete
+//    * This function sets the field(passed by id)  autocomplete with google
+//    * @param id of the field
+//    */
+//   function setFieldAutoComplete(){
+//       
+//        var input = $("#departure");
+//        new google.maps.places.Autocomplete(input);
+//   }
+//  
+//  google.maps.event.addDomListener($("#departure"), 'click', setFieldAutoComplete);

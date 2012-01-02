@@ -65,6 +65,13 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      * })
      */
    protected $airport;
+   
+     /**
+     * @Column(type="string", length = 60, nullable=true)
+     * @var string
+     * This provides a brief description on the size of the luggage
+     */
+    protected $luggage_size;
     
     /**
      * @Column(type="date",nullable=false)
@@ -103,15 +110,7 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      */
     protected $cost = 0;
     
-    /**
-     *
-     * @var string
-     * @Column(name="pick_up_address", type="string")
-     * This stores the pick up address of the user.
-     * In this case it would be where in the airport to be picked up from
-     * i.e. the terminal
-     */
-    protected $pick_up_address;
+    
     
     
       /**
@@ -122,12 +121,12 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      */
     protected $drop_off_address;
     
-    /**
-      @Column(type="float",nullable=false)
-     * @var float
-     * This stores the duraation of trip.
+     /**
+     * @Column(type="time",nullable=true)
+     * @var time
+     * This stores the departure time of the trip.
      */
-    protected $duration;
+    protected $arrival_time;
     
 
     public function __construct(){

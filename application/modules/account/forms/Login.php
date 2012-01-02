@@ -27,8 +27,9 @@ class Account_Form_Login extends Zend_Form
         $this->addElement('hidden', 'return', array(
         'value' => $url
         ));
-        echo $url;
-	
+       // echo $url;
+        
+	echo "Registry return url value: " . Zend_Registry::get('return');
         $submit = new Zend_Form_Element_Submit('login');
         $submit->setLabel('login')
                 ->setAttrib('id', 'submitbutton');

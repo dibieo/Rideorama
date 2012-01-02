@@ -27,6 +27,11 @@ class Application_Model_Service
         return $this->em->getRepository($entity)->findAll();
     }
     
+    /**
+     * Function: sendEmail.
+     * This function is used to send an email
+     * @param array $data {includes recipient_email, recipient_name, subject, and body
+     */
      public function sendEmail(array $data){
          
        $this->mail->addTo($data['recipient_email'], $data['recipient_name'])
@@ -59,6 +64,51 @@ class Application_Model_Service
      }
      
    
+      /**
+     * Calls the Google maps service to get the distance between two locations.
+     * @param type $departure
+     * @param type $destination
+     * @return type array (Distance, Duration)
+     */
+    protected function getTripDistance($departure, $destination){
+       
+        $client = new Zend_Http_Client('http://maps.googleapis.com/maps/api/distancematrix/json');
+ 
+        $departure = urlencode($departure);
+        $destination = urlencode($destination);
+ 
+        $client->setParameterGet('sensor', 'false'); // Do we have a GPS sensor? Probably not on most servers.
+        $client->setParameterGet('origins', $departure);
+        $client->setParameterGet('destinations', $destination);
+        $client->setParameterGet('units', 'imperial');
+ 
+        $response = $client->request('GET'); // We must send our parameters in GET mode, not POST
+ 
+        $val = Zend_Http_Response::extractBody($response);
+        
+        $val = json_decode($val);
+        
+       // var_dump($val);
+        
+        $duration = $val->rows[0]->elements[0]->duration->text;
+        $distance = $val->rows[0]->elements[0]->distance->text;
+        $distValue = $val->rows[0]->elements[0]->distance->value;
+        $durValue = $val->rows[0]->elements[0]->duration->value;
+       
+        //
+        $data = array(
+            "duration" => $duration, 
+            "distance" => $distance,
+            "distValue" => $distValue,
+            "durValue" => $durValue
+            );
+        
+        
+        //print_r($val);
+        return  $data;    
+    }
+    
+  
     
    
     

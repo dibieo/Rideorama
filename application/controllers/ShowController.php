@@ -10,17 +10,29 @@ class ShowController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        $this->_helper->layout->disableLayout();
-        // action body
+       
+        $time = new Zend_Date();
+        $time->setTime('17:00:00', 'HH:mm:ss'); 
+        $time->addSecond(3950);
+      //  echo $time;
+        //echo $time->getTimestamp();
+      
+      // echo date("H:i:s", $time->getTimestamp());
+        echo $time->get("H:m:s");
+       // $time= $time->get(Zend_Date::TIME_SHORT);
+       // echo $time;
+    }
+    
+
+    public function calcAction(){
         
-        echo strtotime("00:00:00");
-        
+     
         try {
             
         $client = new Zend_Http_Client('http://maps.googleapis.com/maps/api/distancematrix/json');
  
-        $departure = urlencode('King Soopers Table Mesa Boulder CO');
-        $destination = urlencode('2985 Aurora avene boulder co');
+        $departure = urlencode('Phoenix Sky Harbor Airport');
+        $destination = urlencode('Denver International Airport');
  
         $client->setParameterGet('sensor', 'false'); // Do we have a GPS sensor? Probably not on most servers.
         $client->setParameterGet('origins', $departure); // Should now be '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
@@ -34,12 +46,12 @@ class ShowController extends Zend_Controller_Action
         
         $val = json_decode($val);
         
-       // print_r($val);
+        print_r($val);
         
        
-        echo $val->rows[0]->elements[0]->distance->text;
-        echo "<br>";
-        echo $val->rows[0]->elements[0]->duration->text;
+//        echo $val->rows[0]->elements[0]->distance->text;
+//        echo "<br>";
+//        echo $val->rows[0]->elements[0]->duration->text;
         
         
           }catch(Exception $ex){
@@ -47,10 +59,7 @@ class ShowController extends Zend_Controller_Action
             echo "COuldn't contact server";
         }
          
-         //test
-         
     }
-
 
 }
 

@@ -4,7 +4,6 @@
         <meta charset="utf-8"></meta>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
-
  <?php
         
         echo $this->headTitle("Rideorama");
@@ -13,9 +12,6 @@
             echo $this->jQuery()
                      ->setVersion('1.6.2')
                      ->setUIVersion('1.8.14');
-       
-       echo $this->headScript()->appendFile( $this->baseUrl() . '/js/homepage.js');
-
    ?>
    
     <script>
