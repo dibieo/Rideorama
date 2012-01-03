@@ -30,7 +30,7 @@ class Account_Model_UserService extends Application_Model_Service
     public function addUser($first_name, $last_name, $email, $email_hash,
                             $profession, $sex, $profile_pic, $password){
         
-     $this->puser->addUser($email, $profession,$sex,$first_name, $last_name,
+     $this->puser->addUserToDatabase($email, $profession,$sex,$first_name, $last_name,
                           $profile_pic, $email_hash, $password);
     
         $this->em->persist($this->puser);
@@ -63,14 +63,21 @@ class Account_Model_UserService extends Application_Model_Service
     
     
     /**
-     * Function: addConfirmedUser
-     * Adds a confirmed user to the user database
+     * Adds confirmed user to the database
+     * @param type $email
+     * @param type $profession
+     * @param type $sex
+     * @param type $firstname
+     * @param type $lastname
+     * @param type $profile_pic
+     * @param type $email_hash
+     * @param type $password_hash 
      */
     public function addConfirmedUser($email, $profession, $sex, $firstname, $lastname, $profile_pic,
-                                     $email_hash, $password_hash)
+                                     $email_hash, $password_hash, $flogin)
      {
-        $this->user->addUser($email, $profession, $sex, $firstname, $lastname, $profile_pic,
-                              $email_hash, $password_hash);
+        $this->user->addUserToDatabase($email, $profession, $sex, $firstname, $lastname, $profile_pic,
+                              $email_hash, $password_hash, $flogin);
     
         $this->em->persist($this->user);
         $this->em->flush(); 

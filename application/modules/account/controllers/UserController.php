@@ -15,8 +15,8 @@ class Account_UserController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $this->_user = new Account_Model_UserService();
-        $this->_fb =  new Facebook(array(
-            'appId'  => '239308316101537',
+        $this->_fb = new Facebook(array(
+            'appId' => '239308316101537',
             'secret' => 'ce008ac5b02c0c21641a38b6acbd9b2b',
             'cookie' => true,
          ));
@@ -25,18 +25,24 @@ class Account_UserController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        
+       $session = null;
+       if (Zend_Registry::isRegistered('fbsession')){
+               $session = Zend_Registry::get('fbsession');
+       }
+       echo "Facebook login token :" . $session;
+       echo "Role : " . Zend_Auth::getInstance()->getStorage()->read()->role;
     }
 
     public function loginAction()
     {
-        echo Zend_Registry::get('role');
+       // echo Zend_Registry::get('role');
         
        $session = null;
         //Gets instance of facebook
         $fb = $this->_fb;
         $session = $fb->getUser(); //Stores the facebook user session
         $this->fbsession = $session;
+        Zend_Registry::set('fbsession', $session);
         $me = null;
 
     //If User is logged into facebook get profile info we need
@@ -51,37 +57,26 @@ class Account_UserController extends Zend_Controller_Action
         if ($findUser == null){
       
             $this->firstTimeFacebookUser($me);
-            $this->_redirect(Zend_Registry::get('return')); // Send the user to where he's coming from
+            $this->processFacebookLoginAndRedirect($email, $me['id']);
+          //  $this->_redirect(Zend_Registry::get('return')); // Send the user to where he's coming from
 
             
-        }else { 
+        }else {
           ///This user already exists and we didn't just logout with facebook so we proceed to regular login.
-             
-            $authAdapter = $this->getAuthAdapter();
-            $result = $this->checkAuthCred($authAdapter, $email, $me['id']);
-            if ($result->isValid()){
-                $this->writeAuthStorage($authAdapter, Zend_Auth::getInstance());
-                $this->_redirect(Zend_Registry::get('return'));
-            }
+            $this->processFacebookLoginAndRedirect($email, $me['id']);
+
         }
-     }   catch (FacebookApiException $e) {
+     } catch (FacebookApiException $e) {
          error_log($e);
      }
     
     }
-       //  $return_url = $loginForm->getValue('return');
-
-       //  echo "This is the return url: " . $return_url;
-        // login or logout url will be needed depending on current user state.
-        // $this->view->me = $me;
-        
-        // $logoutUrl = $fb->getLogoutUrl(); //Gets Facebook LogoutURL
            
          $loginUrl = $fb->getLoginUrl(array(
              'scope' => 'email,offline_access,publish_stream,user_birthday,user_work_history,user_about_me',
               'redirect_uri' => Zend_Registry::get('return')
              
-             ));  // Gets Facebook LoginURL
+             )); // Gets Facebook LoginURL
 
         //Assign login & logout urls to the view
         $this->view->fblogin = $loginUrl;
@@ -120,11 +115,11 @@ class Account_UserController extends Zend_Controller_Action
     }
 
     /**
-     * Checks the authentication credentials of a user;
-     * @param type $authAdapter
-     * @return type 
-     *
-     */
+* Checks the authentication credentials of a user;
+* @param type $authAdapter
+* @return type
+*
+*/
     private function checkAuthCred($authAdapter, $email, $password)
     {
         
@@ -132,7 +127,7 @@ class Account_UserController extends Zend_Controller_Action
                            ->setCredentialTreatment('md5(?)')
                            ->setCredential($password);
            $auth = Zend_Auth::getInstance();
-         $result = $auth->authenticate($authAdapter);      
+         $result = $auth->authenticate($authAdapter);
          return $result;
         
     }
@@ -140,13 +135,13 @@ class Account_UserController extends Zend_Controller_Action
    
     
     /**
-     * Sets the login credentials of current user and forwards to the requested action
-     * before login
-     * @param type $authAdapter
-     * @param type $auth
-     * @param type $forward
-     * @return type void
-     */
+* Sets the login credentials of current user and forwards to the requested action
+* before login
+* @param type $authAdapter
+* @param type $auth
+* @param type $forward
+* @return type void
+*/
     private function writeAuthStorage($authAdapter, $auth, $forward = null)
     {
       
@@ -158,19 +153,21 @@ class Account_UserController extends Zend_Controller_Action
       
         if ($this->fbsession == null){
         
-        if ($forward != null){
-              return $this->_redirect($forward);
-	}
-	else{
+            if ($forward != null){
+                  return $this->_redirect($forward);    
+              
+             }
+            else
+            {
             return $this->_forward('index', 'user', 'account');
-        }			
+            }
         }
     }
 
     public function logoutAction()
     {
         // action body
-        $this->_fb->destroySession();   //Clears facebook session
+        $this->_fb->destroySession(); //Clears facebook session
         Zend_Auth::getInstance()->clearIdentity();
         $this->_helper->redirector('index');
     }
@@ -191,7 +188,7 @@ class Account_UserController extends Zend_Controller_Action
                
                 $this->_user->addUser($data['first_name'],
                 $data['last_name'], $data['email'], $email_hash,
-                $data['profession'], $data['sex'], 
+                $data['profession'], $data['sex'],
                 $data['profile_pic'],$password);
                 
                 $this->_helper->redirector('index');
@@ -226,30 +223,46 @@ class Account_UserController extends Zend_Controller_Action
     }
 
     /**
-     * This function adds a first time facebook user to the database
-     * and logs them into the application also.
-     * @param $me type JSON object.
-     */
+* This function adds a first time facebook user to the database
+* and logs them into the application also.
+* @param $me type JSON object.
+*/
     private function firstTimeFacebookUser($me){
            $firstName = $me['first_name'];
             $lastName = $me['last_name'];
-            $pic = "https://graph.facebook.com/ " . $me['id'] . "/picture";
+            $profile_pic = "https://graph.facebook.com/ " . $me['id'] . "/picture";
             $password = $me['id'];
             $sex = $me['gender'];
+            $email = $me['email'];
             $email_hash = md5($email);
+            $password_hash = md5($password);
             $profession = "other";
             
             //Add to the database
-            $this->_user->addConfirmedUser($email, $profession, $sex, $firstName, $lastName,
-                                   $pic, $email_hash,$password, true);
-            
-        
+            $u = new Account_Model_UserService();
+            $u->addConfirmedUser($email, $profession, $sex, $firstName, $lastName, $profile_pic, $email_hash, $password_hash, "true");
+           
     }
 
+    /**
+     * This function writes the logged in Facebook account to Authstorage
+     * 
+     * @param type $email
+     * @param type $id 
+     */
+    private function processFacebookLoginAndRedirect($email, $id){
+           $authAdapter = $this->getAuthAdapter();
+            $result = $this->checkAuthCred($authAdapter, $email, $id);
+            if ($result->isValid()){
+                $this->writeAuthStorage($authAdapter, Zend_Auth::getInstance());
+                $this->_redirect(Zend_Registry::get('return'));
+            }
+    }
 }
 
 
     
+
 
 
 

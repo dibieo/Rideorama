@@ -10,7 +10,7 @@ function gotoPostRidePage(){
  
         <p>Trip listings for <?php echo $this->date; ?> !</p>
 
-<?php if (count($this->rides) > 1): ?>
+<?php if (count($this->rides) > 0): ?>
 <?php foreach($this->rides as $ride): ?>
     
         <?php $rideKey = $ride['key'];
@@ -18,8 +18,13 @@ function gotoPostRidePage(){
         ?>
         
        <br> <b>Published by : </b> <?php echo ($rideKey['first_name']) . " " . $this->escape($rideKey['last_name']); ?> </br>
-       <br><b> Leaving from : </b><?php echo $this->escape($ride['key']['pick_up_address']); ?> </br>
+       <?php if ($this->where == "fromAirport"):?>
+       <br><b> Destination : </b><?php echo $this->escape($ride['key']['drop_off_address']); ?> </br>
+       <?php else: ?>
+       <br><b> Departure : </b><?php echo $this->escape($ride['key']['pick_up_address']); ?> </br>
+       <?php endif; ?>
        <br><b> Departure time :</b> <?php echo $this->escape($ride['key']['departure_time']); ?> </br>
+       <br><b> Estimate arrival time :</b> <?php echo $this->escape($ride['key']['arrival_time']); ?> </br>
        <br><b> Distance from you: </b><?php echo $this->escape($rideValue); ?> </br>
         <br><b>Number of seats available:</b> <?php echo $this->escape($rideKey['number_of_seats']); ?></br>
         <br><b>Cost per seat: </b><?php echo $this->currency($this->escape($rideKey['cost'])); ?></br>

@@ -40,6 +40,7 @@ class IndexController extends Zend_Controller_Action
         $ride_data = $ride->search($formData, $formData['where']);
         $this->view->date = $formData['trip_date'];
         $this->view->rides = $ride_data;
+        $this->view->where = $formData['where'];
     }
 
     private function getAirportList()

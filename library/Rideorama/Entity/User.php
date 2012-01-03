@@ -91,11 +91,11 @@ class User extends \Rideorama\Entity\rideoramaEntity
     protected $email_hash;
     
     /**
-     * @Column(type="boolean",length=10,nullable=true)
+     * @Column(type="string",length=10,nullable=true)
      * @var boolean
      * This stores the registration type of the user
      */
-    protected $facebook_login = false;
+    protected $facebook_login = "false";
     
     /**
      *
@@ -187,7 +187,7 @@ class User extends \Rideorama\Entity\rideoramaEntity
      * @param type $profile_pic
      * @param type $email_hash 
      */
-    public function addUser($email, $profession,$sex,$first_name, $last_name, $profile_pic, $email_hash, $password, $flogin = false){
+    public function addUserToDatabase($email, $profession,$sex,$first_name, $last_name, $profile_pic, $email_hash, $password, $flogin = false){
         
         $this->email = $email;
         $this->first_name = $first_name;
@@ -200,6 +200,7 @@ class User extends \Rideorama\Entity\rideoramaEntity
         $this->profession = $profession;
         $this->password_hash = $password;
         $this->facebook_login = $flogin;
+        $this->role = "user";
     }
     
 }
