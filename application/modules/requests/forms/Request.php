@@ -7,16 +7,22 @@ class Requests_Form_Request extends Application_Form_Base
     {
      $OnlyAlnumFilter = new Zend_Filter_Alnum(true);
 
+       $from = new ZendX_JQuery_Form_Element_AutoComplete('departure', array(
+           
+                'label' => 'Departure',
+                'required' => true
+            ));
+        $from->setJQueryParams(array('source' =>''));
+        $from->addFilter($OnlyAlnumFilter);
+        
+       $to = new ZendX_JQuery_Form_Element_AutoComplete('destination', array(
+           
+                'label' => 'Destination',
+                'required' => true
+            ));
+        $to->setJQueryParams(array('source' =>''));
 
-       $from = new Zend_Form_Element_Text('departure');
-        $from->setRequired(true)
-             ->setLabel('Departure')
-             ->addFilter($OnlyAlnumFilter);
-         
-       $to = new Zend_Form_Element_Text('destination');
-        $to->setRequired(true)
-           ->setLabel('Destination')
-            ->addFilter($OnlyAlnumFilter);
+        $to->addFilter($OnlyAlnumFilter);
         
        $trip_date = new ZendX_JQuery_Form_Element_DatePicker('trip_date', array(
                  'label' => 'Date',
@@ -36,6 +42,19 @@ class Requests_Form_Request extends Application_Form_Base
                   ->addValidators(array('NotEmpty'))
                   ->setRequired(true);
         
+        $luggage = new Zend_Form_Element_Text('luggage');
+        $luggage->setLabel('Number of luggages')
+                ->setRequired(true)
+                ->setAttrib('value', 1);
+        
+        $luggage_size = new Zend_Form_Element_Select('luggage_size');
+        $luggage_size->setLabel('Size of luggages')
+                     ->addMultiOptions(array(
+        "small" => "small",
+         "medium" => "medium",
+          "large" => "large"
+        ));
+        
         $trip_msg = new Zend_Form_Element_Textarea('trip_msg');
         $trip_msg->setLabel('Trip message')
                   ->setAttrib('cols', '25')
@@ -49,7 +68,7 @@ class Requests_Form_Request extends Application_Form_Base
     //   $this->setAction('index/search');
        
        $this->addElements(array($from, $to, $trip_date, $trip_time,
-                                $trip_cost,$trip_msg,  $submit));
+                                $trip_cost,$luggage, $luggage_size,$trip_msg,  $submit));
     }
 
 

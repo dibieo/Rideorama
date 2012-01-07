@@ -1,4 +1,14 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Index</b> and script/action name <b>success</b></p>
-</div>
+<?php echo $this->msg; ?>
+<br></br>
+<button id="returnTrip">Post a return request</button>
+
+<p>This is your trip!</p>
+<br>Departure: <?php echo $this->params['departure']; ?></br>
+<br>Destination: <?php echo $this->params['destination']; ?></br>
+<br>Trip date: <?php echo $this->params['trip_date']; ?> </br>
+<br>Trip time: <?php echo $this->params['trip_time']; ?></br>
+<br>Offering: <?php echo $this->params['trip_cost']; ?></br>
+<br>Number of luggage(s): <?php echo $this->params['luggage']; ?></br>
+<br>size of luggage(s): <?php echo $this->params['luggage_size']; ?></br>
+<br></br>
+<button id="edit-Trip">Edit this trip</button>

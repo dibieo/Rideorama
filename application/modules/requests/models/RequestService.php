@@ -1,6 +1,6 @@
 <?php
 
-class Requests_Model_RequestService
+class Requests_Model_RequestService extends Application_Model_Service
 {
 
    
@@ -18,10 +18,10 @@ class Requests_Model_RequestService
         parent::__construct();
        
       if ($where == "toAirport") {
-        $this->requestsToAirport = new \Requestorama\Entity\Requeststoairport();
+        $this->requestsToAirport = new \Rideorama\Entity\Requeststoairport();
       }
      else  if ($where == "fromAirport"){
-        $this->requestsFromAirport = new \Requestorama\Entity\Requestsfromairport();
+        $this->requestsFromAirport = new \Rideorama\Entity\Requestsfromairport();
     }
     
     $this->airport = new Admin_Model_AirportService();
@@ -40,15 +40,15 @@ class Requests_Model_RequestService
             
             $this->addRequestFromAirport($trip_data);
         }
-        
     }
     
+   
     
     /**
      * Performs a search that matches a user's criteria
-     * @param array $search_data
-     * @param type $where
-     * @return type Array of trips
+     * @param array $search_data search parameters
+     * @param string $where Is this to the airport or from the airport 
+     * @return Array Array of trips
      */
     public function search(array $search_data, $where){
         
@@ -68,41 +68,86 @@ class Requests_Model_RequestService
     
     protected function findrequestsFromAirport($search_data){
         
-        return null;
-    }
-    /**
-     *
-     * @param type $search_data
-     * @return type Entity collection of Requesttoairport 
-     */
-    protected function findrequestsToAirport($search_data){
-    $airport = $search_data['destination'];
-    $departure = $search_data['departure'];
-    $date = $search_data['trip_date'];
-    $time = $search_data['trip_time'];
+      $airport = $search_data['driverdeparture'];
+      $destination = $search_data['driverdestination'];
+      $date = $search_data['driverdate'];
+      $time = $search_data['drivertrip_time'];
     
     //Get the requests
     // Sort requests by closest to my location
-    if ($search_data['trip_time'] == "anytime"){
+    if ($time == "anytime"){
      
-      $requests = $this->findAnytimerequestsToAirport($airport, $date);
-      $this->sortTripsByDistanceToMyLocation($requests, $departure);
+      $requests = $this->findAnyTimerequestsFromAirport($airport, $date, "u.drop_off_address", "Rideorama\Entity\Requestsfromairport");
+      $results = $this->sortTripsByDistanceToMyLocation($requests, $destination, "fromAirport");
+      $this->setSortTripMemberVariables($results);
 
+    }else if ($time == "morning"){
+      
+      $requests =  $this->findMorningrequestsFromAirport($date, $airport, '00:00:00', "12:00:00");
+      $results = $this->sortTripsByDistanceToMyLocation($requests, $destination, "fromAirport");
+      $this->setSortTripMemberVariables($results);
 
-    }else if ($search_data['trip_time'] == "morning"){
       
-      $requests =  $this->findAfernoonrequestsToAirport($date, $airport, '100:00:00', "12:00:00");
-      $this->sortTripsByDistanceToMyLocation($requests, $departure);
+    } else if ($time == "afternoon"){
+        
+      $requests =  $this->findAfternoonrequestsFromAirport($date, $airport, '12:00:00', "18:00:00");
+      $results = $this->sortTripsByDistanceToMyLocation($requests, $destination, "fromAirport");
+      $this->setSortTripMemberVariables($results);
+
+        
+    }else if ($time == "evening"){
+        
+      $requests =  $this->findEveningrequestsFromAirport($date, $airport, '18:00:00', "23:55:59");
+      $results = $this->sortTripsByDistanceToMyLocation($requests, $destination, "fromAirport");
+      $this->setSortTripMemberVariables($results);
+
       
-    } else if ($search_data['trip_time'] == "afternoon"){
+    }else {
+       throw new Exception("Choose a valid time range!");
+    }
+    
+    array_multisort($this->hwfar, $this->sorted_trips);
+    return $this->sorted_trips;
+    }
+    /**
+     * Finds all rides to the airport
+     * @param Array $search_data
+     * @return Array Entity collection of Requesttoairport 
+     */
+    protected function findrequestsToAirport($search_data){
+    $airport = $search_data['driverdestination'];
+    $departure = $search_data['driverdeparture'];
+    $date = $search_data['driverdate'];
+    $time = $search_data['drivertrip_time'];
+    
+    //Get the requests
+    // Sort requests by closest to my location
+    if ($time == "anytime"){
+     
+      $requests = $this->findAnytimerequestsToAirport($airport, $date, "u.pick_up_address", "Rideorama\Entity\Requeststoairport");
+      $results = $this->sortTripsByDistanceToMyLocation($requests, $departure);
+      $this->setSortTripMemberVariables($results);
+
+    }else if ($time == "morning"){
+      
+      $requests =  $this->findMorningrequestsToAirport($date, $airport, '100:00:00', "12:00:00");
+      $results = $this->sortTripsByDistanceToMyLocation($requests, $departure);
+      $this->setSortTripMemberVariables($results);
+
+      
+    } else if ($time == "afternoon"){
         
-      $requests =  $this->findAfernoonrequestsToAirport($date, $airport, '12:00:00', "18:00:00");
-      $this->sortTripsByDistanceToMyLocation($requests, $departure);
+      $requests =  $this->findAfternoonrequestsToAirport($date, $airport, '12:00:00', "18:00:00");
+      $results = $this->sortTripsByDistanceToMyLocation($requests, $departure);
+      $this->setSortTripMemberVariables($results);
+
         
-    }else if ($search_data['trip_time'] == "evening"){
+    }else if ($time == "evening"){
         
       $requests =  $this->findEveningrequestsToAirport($date, $airport, '18:00:00', "23:55:59");
-      $this->sortTripsByDistanceToMyLocation($requests, $departure);
+      $results = $this->sortTripsByDistanceToMyLocation($requests, $departure);
+      $this->setSortTripMemberVariables($results);
+
       
     }else {
        throw new Exception("Choose a valid time range!");
@@ -113,39 +158,13 @@ class Requests_Model_RequestService
     }
     
     /**
-     * Sorts the trips by their distance from a user's current location
-     * @param type $requests
-     * @param type $departure 
+     *
+     * @param Array This array is returned from the sortTripsByDistanceToMyLocation 
      */
-    private function sortTripsByDistanceToMyLocation($requests, $departure){
-        
-        
-      foreach($requests as $r){
-          
-          $departure = $this->OnlyAlnumFilter->filter($departure);
-          $destination = $this->OnlyAlnumFilter->filter($r['pick_up_address']);
-          $distance = $this->getTripDistance($departure, $destination);
-          $distance = $distance['distance'];
-          $distValue = $distance['distValue'];
-       
-          array_push($this->sorted_trips, array(
-             
-            'key' => $r,
-              
-            'value'  => $distance,
-              
-            'distValue' => $distValue
-              
-          ));
-                    
-      }
-      
-      foreach ($this->sorted_trips as $key => $value) {
-
-            $this->hwfar[$key] = $value['value'];
-            }
+    private function setSortTripMemberVariables($data){
+        $this->sorted_trips = $data['sorted_trips'];
+        $this->hwfar = $data ['hwfar'];
     }
-    
     protected function sortTripsByTime(){
         
     }
@@ -157,30 +176,49 @@ class Requests_Model_RequestService
     protected function sortTripsByPrice(){
         
     }
-    /**
-     * Finds all requests that matches the input airport name and date
-     * @param type $airport
-     * @param type $date
-     * @return type requeststoairport Entity collection
-     */
-    private function findAnytimerequestsToAirport($airport, $date){
+  /**
+   * Finds all requests that matches the input airport name and date
+   * @param type $airport
+   * @param string $date
+   * @param string $dest
+   * @param string $targetEntity
+   * @return array  all requests to the airport for that data
+   */
+    private function findAnytimerequestsToAirport($airport, $date, $dest, $targetEntity){
      
     
-     $airport = $this->airport->getAirportByName($airport);
+     return $this->processAnytimeRequests($airport, $date, $dest, $targetEntity);
+
+    }
+    
+    private function findAnyTimerequestsFromAirport($airport, $date, $dest, $targetEntity){
+        
+        return $this->processAnytimeRequests($airport, $date, $dest, $targetEntity);
+    }
+    
+    
+    /**
+     *
+     * @param string $airport
+     * @param string $date
+     * @param string $dest This is either pickup or drop off address
+     * @param Doctrine2 $targetEntity
+     * @return type 
+     */
+    private function processAnytimeRequests($airport, $date, $dest, $targetEntity){
+            $airport = $this->airport->getAirportByName($airport);
      
-     $q = $this->em->createQuery("select u.id, u.pick_up_address, u.number_of_seats, u.num_luggages,
-             u.trip_msg, u.departure_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
-              p.last_name
-              from Requestorama\Entity\requeststoairport u JOIN u.publisher 
+     $q = $this->em->createQuery("select u.id, $dest, u.num_luggages,
+             u.request_msg, u.departure_time, u.cost, u.duration, u.luggage_size, p.first_name, p.id as user_id,
+              p.last_name from $targetEntity u JOIN u.publisher 
               p where u.airport = $airport->id and u.departure_date = 
              '$date'");
 
       $requests = $q->getResult();
-
-       return $requests;
-    }
     
-
+       return $requests;
+        
+    }
     
     /**
      * Gets all morning requests (12am - 12pm)
@@ -204,7 +242,7 @@ class Requests_Model_RequestService
      * @param type $time2 Before what time
      * @return type array
      */
-    private function findAfernoonrequestsToAirport($date, $airport, $time1, $time2){
+    private function findAfternoonrequestsToAirport($date, $airport, $time1, $time2){
         
         return $this->ReturnrequestsToAirport($date, $airport, $time1, $time2);
         
@@ -223,30 +261,66 @@ class Requests_Model_RequestService
         return $this->ReturnrequestsToAirport($date, $airport, $time1, $time2);
     }
     
+   /**
+     *
+     * @param string $date Date in format YYYY-MM-DD
+     * @param string $airport Airport name
+     * @param string $time1 start of time range
+     * @param string $time2 end of time range
+     * @return array All requests from airport that match the criteria 
+     */
+    private function findMorningrequestsFromAirport($date, $airport, $time1, $time2){
+        return $this->ReturnrequestsFromAirport($date, $airport, $time1, $time2);
+    }
+    
+    /**
+     *
+     * @param string $date Date in format YYYY-MM-DD
+     * @param string $airport Airport name
+     * @param string $time1 start of time range
+     * @param string $time2 end of time range
+     * @return array All requests from airport that match the criteria 
+     */
+    private function findAfternoonrequestsFromAirport($date, $airport, $time1, $time2){
+        
+        return $this->ReturnrequestsFromAirport($date, $airport, $time1, $time2);
+    }
+   
+    /**
+     *
+     * @param string $date Date in format YYYY-MM-DD
+     * @param string $airport Airport name
+     * @param string $time1 start of time range
+     * @param string $time2 end of time range
+     * @return array All requests from airport that match the criteria 
+     */
+    private function findEveningrequestsFromAirport($date, $airport, $time1, $time2){
+        return $this->ReturnrequestsFromAirport($date, $airport, $time1, $time2);
+    }
     /**
      * Returns all requests to the airport according to the airport
-     * @param type $date
-     * @param type $airport
-     * @param type $time1
-     * @param type $time2
-     * @return array of all requests to airport 
+     * @param string $date date in format YYYY-MM-DD
+     * @param string $airport Airport name
+     * @param string $time1 start of time range
+     * @param string $time2 end of time range
+     * @return array All requests to airport that match the specified parameters
      */
     private function ReturnrequestsToAirport($date, $airport, $time1, $time2){
        
-       return $this->getAirportrequests($date, $airport, $time1, $time2, 'Requestorama\Entity\requeststoairport');
+       return $this->getAirportrequests($date, $airport, $time1, $time2, "u.pick_up_address", 'Rideorama\Entity\Requeststoairport');
     }
     
     
     /**
      * Returns all requests from the airport
-     * @param type $date
-     * @param type $airport
-     * @param type $time1
-     * @param type $time2
-     * @return array of all requests from airport
+     * @param string $date date in format YYYY-MM-DD
+     * @param string $airport Airport name
+     * @param string $time1 start of the time range
+     * @param string $time2 end of the time range
+     * @return array All requests from the airport that match the specified parameters
      */
     private function ReturnrequestsFromAirport($date, $airport,$time1, $time2){
-        return $this->getAirportrequests($date, $airport, $time1, $time2, 'Requestorama\Entity\requestsfromairport');
+        return $this->getAirportrequests($date, $airport, $time1, $time2, "u.drop_off_address", 'Rideorama\Entity\Requestsfromairport');
     }
     
     
@@ -263,19 +337,20 @@ class Requests_Model_RequestService
     }
     /**
      * This function returns Airport bound requests
-     * @param type $date
-     * @param type $airport
-     * @param type $time1
-     * @param type $time2
-     * @param type $targetEntity
-     * @return type 
+     * @param string $date  Date of the trip in YYYY-MM-DD format
+     * @param string $airport Name of the airport
+     * @param string $time1 start of time range
+     * @param string $time2 end of time range
+     * @param string $specialField (Pass in drop_off_address if request is from airport or pick_up_address if request is to airport)
+     * @param string $targetEntity Full namespace of Doctrine 2 Entity 
+     * @return array Rides that match passed parameters 
      */
-    private function getAirportrequests($date, $airport, $time1, $time2, $targetEntity){
+    private function getAirportrequests($date, $airport, $time1, $time2, $specialField, $targetEntity){
         
         $airport = $this->airport->getAirportByName($airport);
         
-        $q = $this->em->createQuery("select u.id, u.pick_up_address, u.number_of_seats, u.num_luggages,
-             u.trip_msg, u.departure_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
+        $q = $this->em->createQuery("select u.id, $specialField, u.num_luggages,
+             u.request_msg, u.departure_time, u.duration, u.cost, u.luggage_size, p.first_name, p.id as user_id,
               p.last_name from '$targetEntity' 
              u JOIN u.publisher p where u.airport = $airport->id and u.departure_date = 
              '$date' and u.departure_time > '$time1' and u.departure_time < '$time2'");
@@ -329,8 +404,7 @@ class Requests_Model_RequestService
      */
     private function addRequestFromAirport($trip_data){
         
-      //  $this->requestsFromAirport->pick_up_address = $trip_data['departure_spot'];
-        $this->requestsFromAirport->drop_off_address = $trip_data['destination'];
+        $this->requestsFromAirport->destination_address = $trip_data['destination'];
         $this->requestsFromAirport->request_msg = $trip_data['trip_msg'];
         $this->requestsFromAirport->publisher = $this->user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
         $this->requestsFromAirport->airport  = $this->airport->getAirportByName($trip_data['departure']);
@@ -353,47 +427,6 @@ class Requests_Model_RequestService
                 
     }
     
-    /**
-     * Calls the Google maps service to get the distance between two locations.
-     * @param type $departure
-     * @param type $destination
-     * @return type array (Distance, Duration)
-     */
-    protected function getTripDistance($departure, $destination){
-       
-        $client = new Zend_Http_Client('http://maps.googleapis.com/maps/api/distancematrix/json');
- 
-        $departure = urlencode($departure);
-        $destination = urlencode($destination);
- 
-        $client->setParameterGet('sensor', 'false'); // Do we have a GPS sensor? Probably not on most servers.
-        $client->setParameterGet('origins', $departure);
-        $client->setParameterGet('destinations', $destination);
-        $client->setParameterGet('units', 'imperial');
- 
-        $response = $client->request('GET'); // We must send our parameters in GET mode, not POST
- 
-        $val = Zend_Http_Response::extractBody($response);
-        
-        $val = json_decode($val);
-        
-       // var_dump($val);
-        
-        $duration = $val->rows[0]->elements[0]->duration->text;
-        $distance = $val->rows[0]->elements[0]->distance->text;
-        $distValue = $val->rows[0]->elements[0]->distance->value;
-       
-        //
-        $data = array(
-            "duration" => $duration, 
-            "distance" => $distance,
-            "distValue" => $distValue
-            );
-        
-        
-        //print_r($val);
-        return  $data;    
-    }
     
   
     private function deleteRequestFromAirport(){

@@ -1,4 +1,4 @@
-r<?php
+<?php
 
 
 /**
@@ -87,23 +87,26 @@ class Rides_Model_RidesService extends Application_Model_Service
     if ($search_data['trip_time'] == "anytime"){
      
       $rides = $this->findAnytimeRidesFromAirport($airport, $date);
-      $this->sortTripsByDistanceToMyLocation($rides, $destination, "fromAirport");
-
+      $ride_data = $this->sortTripsByDistanceToMyLocation($rides, $destination, "fromAirport");
+      $this->setSortTripMemberVariables($ride_data);
 
     }else if ($search_data['trip_time'] == "morning"){
       
-      $rides =  $this->findAfernoonRidesFromAirport($date, $airport, '100:00:00', "12:00:00");
-      $this->sortTripsByDistanceToMyLocation($rides, $departure,"fromAirport");
+      $rides =  $this->findMorningRidesFromAirport($date, $airport, '00:00:00', "12:00:00");
+      $ride_data = $this->sortTripsByDistanceToMyLocation($rides, $destination, "fromAirport");
+      $this->setSortTripMemberVariables($ride_data);
       
     } else if ($search_data['trip_time'] == "afternoon"){
         
       $rides =  $this->findAfternoonRidesFromAirport($date, $airport, '12:00:00', "18:00:00");
-      $this->sortTripsByDistanceToMyLocation($rides, $departure,"fromAirport");
-        
+      $ride_data = $this->sortTripsByDistanceToMyLocation($rides, $destination, "fromAirport");
+      $this->setSortTripMemberVariables($ride_data);
+      
     }else if ($search_data['trip_time'] == "evening"){
         
       $rides =  $this->findEveningRidesFromAirport($date, $airport, '18:00:00', "23:55:59");
-      $this->sortTripsByDistanceToMyLocation($rides, $departure, "fromAirport");
+      $ride_data = $this->sortTripsByDistanceToMyLocation($rides, $destination, "fromAirport");
+      $this->setSortTripMemberVariables($ride_data);
       
     }else {
        throw new Exception("Choose a valid time range!");
@@ -129,23 +132,27 @@ class Rides_Model_RidesService extends Application_Model_Service
     if ($search_data['trip_time'] == "anytime"){
      
       $rides = $this->findAnytimeRidesToAirport($airport, $date);
-      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      $ride_data = $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      $this->setSortTripMemberVariables($ride_data);
 
 
     }else if ($search_data['trip_time'] == "morning"){
       
-      $rides =  $this->findAfernoonRidesToAirport($date, $airport, '100:00:00', "12:00:00");
-      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      $rides =  $this->findAfternoonRidesToAirport($date, $airport, '00:00:00', "12:00:00");
+      $ride_data = $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      $this->setSortTripMemberVariables($ride_data);
       
     } else if ($search_data['trip_time'] == "afternoon"){
         
       $rides =  $this->findAfternoonRidesToAirport($date, $airport, '12:00:00', "18:00:00");
-      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      $ride_data = $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      $this->setSortTripMemberVariables($ride_data);
         
     }else if ($search_data['trip_time'] == "evening"){
         
       $rides =  $this->findEveningRidesToAirport($date, $airport, '18:00:00', "23:55:59");
-      $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      $ride_data = $this->sortTripsByDistanceToMyLocation($rides, $departure);
+      $this->setSortTripMemberVariables($ride_data);
       
     }else {
        throw new Exception("Choose a valid time range!");
@@ -155,48 +162,6 @@ class Rides_Model_RidesService extends Application_Model_Service
     return $this->sorted_trips;
     }
     
-    
-    /**
-     * Sorts the trips by their distance from a user's current location
-     * @param type $rides
-     * @param type $departure
-     * @param type $where 
-     */
-    private function sortTripsByDistanceToMyLocation($rides, $departure, $where= null){
-       
-        
-      foreach($rides as $r){
-          
-          $departure = $this->OnlyAlnumFilter->filter($departure);
-          if ($where == "fromAirport"){
-          $destination = $this->OnlyAlnumFilter->filter($r['drop_off_address']);
-          }else{
-         $destination = $this->OnlyAlnumFilter->filter($r['pick_up_address']); 
-          }
-          $distance = $this->getTripDistance($departure, $destination);
-          $distance = $distance['distance'];
-          $distValue = $distance['distValue'];
-       
-
-              array_push($this->sorted_trips, array(
-             
-            'key' => $r,
-              
-            'value'  => $distance,
-              
-            'distValue' => $distValue
-              
-          ));
-                    
-      }
-    // print_r($this->sorted_trips);
-      foreach ($this->sorted_trips as $key => $value) {
-
-            $this->hwfar[$key] = $value['value'];
-        }
-            
- //     print_r($this->hwfar);
-    }
     
     protected function sortTripsByTime(){
         
@@ -208,6 +173,15 @@ class Rides_Model_RidesService extends Application_Model_Service
    
     protected function sortTripsByPrice(){
         
+    }
+    
+     /**
+     *
+     * @param Array This array is returned from the sortTripsByDistanceToMyLocation 
+     */
+    private function setSortTripMemberVariables($data){
+        $this->sorted_trips = $data['sorted_trips'];
+        $this->hwfar = $data ['hwfar'];
     }
     /**
      * Finds all rides that matches the input airport name and date
@@ -244,7 +218,7 @@ class Rides_Model_RidesService extends Application_Model_Service
      */
     private function findMorningRidesToAirport($search_data){
         
-        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
+        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2, "u.pick_up_address");
 
      }
     
@@ -258,7 +232,7 @@ class Rides_Model_RidesService extends Application_Model_Service
      */
     private function findAfternoonRidesToAirport($date, $airport, $time1, $time2){
         
-        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
+        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2, "u.pick_up_address");
         
     }
     
@@ -272,7 +246,7 @@ class Rides_Model_RidesService extends Application_Model_Service
      */
     private function findEveningRidesToAirport($date, $airport, $time1, $time2){
         
-        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
+        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2, "u.pick_up_address");
     }
     
     /**
@@ -283,22 +257,24 @@ class Rides_Model_RidesService extends Application_Model_Service
      * @param type $time2
      * @return array of all rides to airport 
      */
-    private function ReturnRidesToAirport($date, $airport, $time1, $time2){
+    private function ReturnRidesToAirport($date, $airport, $time1, $time2, $variableAddress){
        
-       return $this->getAirportRides($date, $airport, $time1, $time2, 'Rideorama\Entity\Ridestoairport');
+       return $this->getAirportRides($date, $airport, $time1, $time2, 'Rideorama\Entity\Ridestoairport', $variableAddress);
     }
     
     
     /**
-     * Returns all rides from the airport
-     * @param type $date
-     * @param type $airport
-     * @param type $time1
-     * @param type $time2
-     * @return array of all rides from airport
+     * Returns a list of rides from the airport that fall between the range of times
+     * defined by time1 and time2
+     * @param string $date Departure Date
+     * @param string $airport Departure Airport
+     * @param string $time1  Start time
+     * @param string $time2  ENd time
+     * @param string $variableAddress Pass pick up or drop off address depending on whether heading to or leaving airport
+     * @return Array Collection of rides
      */
-    private function ReturnRidesFromAirport($date, $airport,$time1, $time2){
-        return $this->getAirportRides($date, $airport, $time1, $time2, 'Rideorama\Entity\Ridesfromairport');
+    private function ReturnRidesFromAirport($date, $airport,$time1, $time2, $variableAddress){
+        return $this->getAirportRides($date, $airport, $time1, $time2, 'Rideorama\Entity\Ridesfromairport', $variableAddress);
     }
     
     
@@ -320,16 +296,19 @@ class Rides_Model_RidesService extends Application_Model_Service
         
     }
     
-    protected function findMorningRidesFromAirport(){
+    protected function findMorningRidesFromAirport($date, $airport, $time1, $time2){
         
+        return $this->ReturnRidesFromAirport($date, $airport, $time1, $time2, "u.drop_off_address");
     }
     
-    protected function findAfternoonnRidesFromAirport(){
+    protected function findAfternoonRidesFromAirport($date, $airport, $time1, $time2){
         
+        return $this->ReturnRidesFromAirport($date, $airport, $time1, $time2, "u.drop_off_address");
     }
     
     protected function findEveningRidesFromAirport(){
         
+        return $this->ReturnRidesFromAirport($date, $airport, $time1, $time2, "u.drop_off_address");
     }
     /**
      * This function returns all rides bound to a landmark
@@ -351,12 +330,12 @@ class Rides_Model_RidesService extends Application_Model_Service
      * @param type $targetEntity
      * @return type 
      */
-    private function getAirportRides($date, $airport, $time1, $time2, $targetEntity){
+    private function getAirportRides($date, $airport, $time1, $time2, $targetEntity, $variableAddress){
         
         $airport = $this->airport->getAirportByName($airport);
         
-        $q = $this->em->createQuery("select u.id, u.pick_up_address, u.number_of_seats, u.num_luggages,
-             u.trip_msg, u.departure_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
+        $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
+             u.trip_msg, u.departure_time, u.arrival_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
               p.last_name from '$targetEntity' 
              u JOIN u.publisher p where u.airport = $airport->id and u.departure_date = 
              '$date' and u.departure_time > '$time1' and u.departure_time < '$time2'");

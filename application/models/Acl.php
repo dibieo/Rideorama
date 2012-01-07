@@ -51,7 +51,7 @@ class Application_Model_Acl extends Zend_Acl
 		 *A guest is able to login, register and view the about pages of the system.
 		 *A guest is also able to view all options in the Community module except for rating a course.
 		 */
-		$this->allow('guest', 'default:index', array('validateform', 'validatedriverform', 'index', 'search'))
+		$this->allow('guest', 'default:index', array('validateform', 'validatedriverform', 'findpassenger', 'index', 'search'))
 			 ->allow('guest', 'default:error', 'error')
                          ->allow('guest', 'default:show', array('index', 'calc'))
 			 ->allow('guest', 'account:user', array('login', 'register', 'recover', 'thanks', 'activate'));
@@ -66,7 +66,7 @@ class Application_Model_Acl extends Zend_Acl
 		     ->deny('user', 'account:user', array('login', 'register'));
 		
                 $this->allow('user', 'rides:index', array('index', 'post', 'validateform', 'success'))
-                      ->allow('user', 'requests:index', array('index', 'post', 'validateform'));
+                      ->allow('user', 'requests:index', array('index', 'post', 'success', 'validateform'));
                 
 //		$this->allow('admin', 'admin:usermanagement', array('listusers','deluser', 'avgratings', 'viewcomments'))
                 $this->allow('admin', 'admin:index', array('index'));

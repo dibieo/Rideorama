@@ -6,6 +6,8 @@ class IndexController extends Zend_Controller_Action
 
     protected $form = null;
 
+    protected $driverform = null;
+
     public function init()
     {
         
@@ -21,17 +23,28 @@ class IndexController extends Zend_Controller_Action
         
         echo $this->view->airportList;
         if ($this->getRequest()->getParam('trip_time')){
-            
-            $formData = $this->getRequest()->getParams();
-            
+
+                 //$formData = $this->getRequest()->getParams();
+                 $formData= $this->_getAllParams();
+             
             if ($this->form->isValid($formData)){
                 
                 $this->_forward('search', 'index', 'default', $formData);
             }
 
-          }
+       }
+       
+       if ($this->getRequest()->getParam('drivertrip_time')){
+           
+                $formData = $this->_getAllParams();
+                
+                if ($this->driverform->isValid($formData)){
+                    $this->_forward('findpassenger', 'index', 'default', $formData);
+                }
+       }
             
     }
+    
 
     public function searchAction()
     {
@@ -59,6 +72,9 @@ class IndexController extends Zend_Controller_Action
         return $all_airports;
     }
 
+    /**
+     * Ajax validation for form under I am a passenger tab
+     */
     public function validateformAction()
     {
         // action body
@@ -66,12 +82,31 @@ class IndexController extends Zend_Controller_Action
         $this->_helper->formvalidate($this->form, $this->_helper, $this->_getAllParams());
     }
 
-    public function validatesecondformAction(){
+    /**
+     * Ajax validation for form under I am a driver tab
+     */
+    public function validatesecondformAction()
+    {
         
         $this->_helper->formvalidate($this->driverform, $this->_helper, $this->_getAllParams());
     }
 
+    public function findpassengerAction()
+    {
+        // action body
+        $formData= $this->_getAllParams();
+        $request = new Requests_Model_RequestService($formData['driverwhere']);
+        $request_data = $request->search($formData, $formData['driverwhere']);
+       // print_r($request_data);
+        $this->view->date = $formData['driverdate'];
+        $this->view->requests = $request_data;
+        $this->view->where = $formData['driverwhere'];
+    }
+
+
 }
+
+
 
 
 

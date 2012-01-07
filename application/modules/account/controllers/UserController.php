@@ -15,44 +15,50 @@ class Account_UserController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $this->_user = new Account_Model_UserService();
+        
+       // echo Zend_Registry::get('role');
         $this->_fb = new Facebook(array(
             'appId' => '239308316101537',
             'secret' => 'ce008ac5b02c0c21641a38b6acbd9b2b',
             'cookie' => true,
          ));
-       
     }
 
     public function indexAction()
     {
-       $session = null;
-       if (Zend_Registry::isRegistered('fbsession')){
-               $session = Zend_Registry::get('fbsession');
-       }
-       echo "Facebook login token :" . $session;
-       echo "Role : " . Zend_Auth::getInstance()->getStorage()->read()->role;
+         if (Zend_Auth::getInstance()->hasIdentity()){
+           
+           echo "Session still valid!";
+       }else{
+           
+           echo "Session invalid";
+       
+    }
     }
 
     public function loginAction()
     {
-       // echo Zend_Registry::get('role');
-        
+       
        $session = null;
         //Gets instance of facebook
         $fb = $this->_fb;
-        $session = $fb->getUser(); //Stores the facebook user session
+        $session = $this->_fb->getUser(); //Stores the facebook user session
         $this->fbsession = $session;
-        Zend_Registry::set('fbsession', $session);
         $me = null;
-
+        echo "Outside session: " . $session;
     //If User is logged into facebook get profile info we need
     if ($session) {
-            try {
+        echo "Session : " . $session;
+        try {
         
         $me = $fb->api('/me');
         $email= $me['email'];
         $findUser = $this->_user->getUserByEmail($email);
         
+        } catch(FacebookApiException $e){
+            error_log($e);
+            $user = null;  
+        }
         //First time facebook user,then add them to the database
         if ($findUser == null){
       
@@ -63,21 +69,18 @@ class Account_UserController extends Zend_Controller_Action
             
         }else {
           ///This user already exists and we didn't just logout with facebook so we proceed to regular login.
-            $this->processFacebookLoginAndRedirect($email, $me['id']);
+          $this->processFacebookLoginAndRedirect($email, $me['id']);
 
         }
-     } catch (FacebookApiException $e) {
-         error_log($e);
-     }
+
     
     }
            
          $loginUrl = $fb->getLoginUrl(array(
-             'scope' => 'email,offline_access,publish_stream,user_birthday,user_work_history,user_about_me',
-              'redirect_uri' => Zend_Registry::get('return')
+             'scope' => 'email,offline_access,publish_stream,user_birthday,user_work_history,user_about_me'
              
              )); // Gets Facebook LoginURL
-
+         
         //Assign login & logout urls to the view
         $this->view->fblogin = $loginUrl;
         
@@ -153,14 +156,12 @@ class Account_UserController extends Zend_Controller_Action
       
         if ($this->fbsession == null){
         
-            if ($forward != null){
-                  return $this->_redirect($forward);    
-              
-             }
-            else
-            {
+        if ($forward != null){
+              return $this->_redirect($forward);
+}
+    else{
             return $this->_forward('index', 'user', 'account');
-            }
+        }
         }
     }
 

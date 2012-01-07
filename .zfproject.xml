@@ -20,6 +20,7 @@
           <actionMethod actionName="index"/>
           <actionMethod actionName="post"/>
           <actionMethod actionName="validateform"/>
+          <actionMethod actionName="findpassenger"/>
         </controllerFile>
         <controllerFile controllerName="Error"/>
         <controllerFile controllerName="Test">
@@ -319,6 +320,9 @@
           <viewControllerScriptsDirectory forControllerName="Index">
             <viewScriptFile forActionName="validateform"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="findpassenger"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -365,6 +369,7 @@
             <testApplicationActionMethod forActionName="index"/>
             <testApplicationActionMethod forActionName="post"/>
             <testApplicationActionMethod forActionName="validateform"/>
+            <testApplicationActionMethod forActionName="findpassenger"/>
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Test">
             <testApplicationActionMethod forActionName="index"/>

@@ -109,21 +109,12 @@ class Requestsfromairport extends \Rideorama\Entity\rideoramaEntity {
     /**
      * Departure location
      * @var string
-     * @Column(name="destination_address", type="string")
+     * @Column(name="drop_off_address", type="string")
      * This stores the pick up address of the user
      */
-    protected $destination_address;
+    protected $drop_off_address;
     
     
-    /**
-     *
-     * @var string
-     * @Column(name="pick_up_address", type="string")
-     * This stores the pick up address of the user.
-     * In this case it would be where in the airport to be picked up from
-     * i.e. the terminal
-     */
-    protected $pick_up_address;
     
     /**
       @Column(type="string", nullable=true)

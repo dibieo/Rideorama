@@ -31,7 +31,7 @@ class Requeststoairport extends \Rideorama\Entity\rideoramaEntity {
      * @var text
      * 
      */
-    protected $trip_msg;
+    protected $request_msg;
     
      /**
      *

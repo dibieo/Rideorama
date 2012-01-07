@@ -108,7 +108,55 @@ class Application_Model_Service
         return  $data;    
     }
     
-  
+   /**
+    *
+    * @param array $requests 
+    * @param string $departure
+    * @param string $where toAirport or fromAirport used to determine field to sort on your address
+    * @return array Rides sorted by closest to your departure or destination (depends on whether you are heading to or leaving the airport)
+    */
+    protected function sortTripsByDistanceToMyLocation($requests, $departure, $where = null){
+        
+      $hwfar = array();
+      $sorted_trips = array();
+      
+      foreach($requests as $r){
+          
+          $departure = $this->OnlyAlnumFilter->filter($departure);
+         if ($where == "fromAirport"){
+          $destination = $this->OnlyAlnumFilter->filter($r['drop_off_address']);
+          }else{
+         $destination = $this->OnlyAlnumFilter->filter($r['pick_up_address']); 
+          }
+          $distance_data = $this->getTripDistance($departure, $destination);
+          $distance = $distance_data['distance'];
+          $distValue = $distance_data['distValue'];
+       
+          array_push($sorted_trips, array(
+             
+            'key' => $r,
+              
+            'value'  => $distance,
+              
+            'distValue' => $distValue
+              
+          ));
+                    
+      }
+      
+     // print_r($sorted_trips);
+     
+      foreach ($sorted_trips as $key => $value) {
+
+            $hwfar[$key] = $value['distValue'];
+            }
+            
+      $data = array();
+      $data['hwfar'] = $hwfar;
+      $data['sorted_trips'] = $sorted_trips;
+     return $data;       
+    }
+    
     
    
     

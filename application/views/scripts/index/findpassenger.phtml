@@ -1,0 +1,40 @@
+
+<?php echo $this->errors ?>
+<br /><br />
+<div id="view-content">
+ 
+        <p>Ride requests for <?php echo $this->date; ?> !</p>
+
+<?php if (count($this->requests) > 0): ?>
+<?php foreach($this->requests as $request): ?>
+    
+        <?php $requestKey = $request['key'];
+              $requestValue = $request['value'];
+        ?>
+        
+        
+       <br> <b>Published by : </b> <?php echo ($requestKey['first_name']) . " " . $this->escape($requestKey['last_name']); ?> </br>
+       <?php if ($this->where == "fromAirport"):?>
+       <br><b> Destination : </b><?php echo $this->escape($request['key']['drop_off_address']); ?> </br>
+       <?php else: ?>
+       <br><b> Departure : </b><?php echo $this->escape($request['key']['pick_up_address']); ?> </br>
+       <?php endif; ?>
+       <br><b> Departure time :</b> <?php echo $this->escape($request['key']['departure_time']); ?> </br>
+       <br><b> Estimate trip duration :</b> <?php echo $this->escape($request['key']['duration']); ?> </br>
+       <br><b> Distance from you: </b><?php echo $this->escape($requestValue); ?> </br>
+        <br><b>Cost per seat: </b><?php echo $this->currency($this->escape($requestKey['cost'])); ?></br>
+        <br><b>Message about request:</b> <?php echo $this->escape($requestKey['request_msg']); ?></br>
+        <br><b>Number of luggage(s): </b><?php echo $this->escape($requestKey['num_luggages']); ?></br>
+        <br><b>Luggage sizes: </b><?php echo $this->escape($requestKey['luggage_size']); ?></br>
+        <br><a href="<?php echo $this->url(array('controller'=>'#', 
+            'action'=>'#'));?>">Buy this seat</a></br>
+
+
+        <p></p>
+    
+ <?php endforeach; ?>
+  
+  <?php else : ?>
+        <div id="norides">Sorry there are no rides for the date selected</div>
+   <?php endif; ?>
+</div>

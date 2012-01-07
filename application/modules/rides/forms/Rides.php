@@ -15,13 +15,13 @@ class Rides_Form_Rides extends Application_Form_Base
         $from = new Zend_Form_Element_Text('departure'); 
         $from->setRequired('true')
                     ->setAttrib('placeholder', 'Enter where you would be leaving from')
-                    ->setLabel('Departure location')
+                    ->setLabel('Departure')
                    ->addValidators(array('NotEmpty'))
                    ->addFilters(array('StripTags', 'StringTrim', $OnlyAlnumFilter));
         
        
        $to = new ZendX_JQuery_Form_Element_AutoComplete('destination', array(
-            'label' => 'Destination airport',
+            'label' => 'Destination',
              'placeholder' => 'Enter airport name',
             'required' => true
           
