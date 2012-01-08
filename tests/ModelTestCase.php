@@ -68,7 +68,8 @@ class ModelTestCase
     protected function getTestUser()
     {
         $u = new \Rideorama\Entity\User();
-        $u->addUser("ovoa@cnn.com", "doctor","male","Peter", "Hawkins", "C:\my_pic", "lasdjasldasjd", "asd");
+       // $u->addUserToDatabase("$email", $profession, $sex, $first_name, $last_name, $profile_pic, $email_hash, $password)
+        $u->addUserToDatabase("ovoa@cnn.com", "doctor","male","Peter", "Hawkins", "C:\my_pic", "lasdjasldasjd", "lexiconasd");
         return $u;
     }
     

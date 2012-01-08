@@ -38,6 +38,11 @@ class Account_UserController extends Zend_Controller_Action
 
     public function loginAction()
     {
+       //If the user is logged in, redirect them back to their login page.
+        if (Zend_Auth::getInstance()->hasIdentity()){
+            
+           return $this->_forward('index', 'user', 'account');
+        }
        
        $session = null;
         //Gets instance of facebook
@@ -97,7 +102,7 @@ class Account_UserController extends Zend_Controller_Action
                $authAdapter = $this->getAuthAdapter();
                $email = $loginForm->getValue('email');
                $password = $loginForm->getValue('password');
-               $return = $loginForm->getValue('return');
+               $return = Zend_Registry::isRegistered('return') ? Zend_Registry::get('return') : 'account/user/index';
                $result = $this->checkAuthCred($authAdapter, $email, $password);
                
                if ($result->isValid()){
@@ -116,8 +121,7 @@ class Account_UserController extends Zend_Controller_Action
         
        
     }
-
-    /**
+ /**
 * Checks the authentication credentials of a user;
 * @param type $authAdapter
 * @return type
@@ -152,7 +156,7 @@ class Account_UserController extends Zend_Controller_Action
           $authStorage = $auth->getStorage();
           $authStorage->write($identity);
           
-        echo "we got here";
+        //echo "we got here";
       
         if ($this->fbsession == null){
         
@@ -254,9 +258,10 @@ class Account_UserController extends Zend_Controller_Action
     private function processFacebookLoginAndRedirect($email, $id){
            $authAdapter = $this->getAuthAdapter();
             $result = $this->checkAuthCred($authAdapter, $email, $id);
+            $redirect = Zend_Registry::isRegistered('return') ? Zend_Registry::get('return') : 'account/user/index';
             if ($result->isValid()){
                 $this->writeAuthStorage($authAdapter, Zend_Auth::getInstance());
-                $this->_redirect(Zend_Registry::get('return'));
+                $this->_redirect($redirect);
             }
     }
 }

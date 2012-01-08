@@ -55,10 +55,10 @@ class Rides_Models_ridesServiceTest extends \ModelTestCase {
     
     private function getAirportData(){
         
+        Zend_Auth::getInstance()->getInstance()->id = 1;
         $trip_data = array(
             "departure" => "1777 Exposition Drive Boulder CO",
             "destination" => $this->getTestAirport(),
-            "publisher" => $this->getTestUser(),
             "num_seats" => 3,
             "luggage" => 2,
             "luggage_size"=> "medium",
@@ -66,11 +66,23 @@ class Rides_Models_ridesServiceTest extends \ModelTestCase {
             "trip_msg" => "Test ride",
             "trip_date" => "2011-11-19",
             "trip_time" => "11:00::00",
-            "trip_msg" => "This trip leaves at 3:00pm prompt",
+            "trip_msg" => "This trip leaves at 3:00pm prompt"
             
             );
         
         return $trip_data;
+    }
+    
+     private function loginUser($email, $passwd, $shortLeague)
+    {
+        $authParams = array(
+            'email' => $email,
+            'password' => $passwd
+        );
+        $adapter = new Xmlteam_Auth($authParams);
+        $auth = Zend_Auth::getInstance();
+        $result = $auth->authenticate($adapter);
+        $this->assertTrue($auth->hasIdentity());
     }
 }
 

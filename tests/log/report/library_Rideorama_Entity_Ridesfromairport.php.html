@@ -64,11 +64,11 @@
           <td class="coverNumHi">1 / 1</td>
           <td class="coverBar">
             <div class="coverBarOutline" title="100.00%">
-                <div class="size snow"  style="width:100%" title="100.00%"></div>
+                <div class="size chameleon"  style="width:100%" title="100.00%"></div>
             </div>
           </td>
-          <td class="coverPerNone">100.00%</td>
-          <td class="coverNumNone">&nbsp;</td>
+          <td class="coverPerHi">100.00%</td>
+          <td class="coverNumHi">1 / 1</td>
           <td class="crap"><acronym title="Change Risk Anti-Patterns (CRAP) Index">CRAP</acronym></td>
           <td class="coverBar">
             <div class="coverBarOutline" title="100.00%">
@@ -76,7 +76,7 @@
             </div>
           </td>
           <td class="coverPerHi">100.00%</td>
-          <td class="coverNumHi">1 / 1</td>
+          <td class="coverNumHi">2 / 2</td>
         </tr>
 
         <tr>
@@ -90,12 +90,23 @@
           <td class="coverNumHi">1 / 1</td>
           <td class="coverBar">
             <div class="coverBarOutline" title="100.00%">
-                <div class="size snow"  style="width:100%" title="100.00%"></div>
+                <div class="size chameleon"  style="width:100%" title="100.00%"></div>
             </div>
           </td>
-          <td class="coverPerNone">100.00%</td>
-          <td class="coverNumNone">&nbsp;</td>
-          <td class="crap">0</td>
+          <td class="coverPerHi">100.00%</td>
+          <td class="coverNumHi">1 / 1</td>
+          <td class="crap">1</td>
+          <td class="coverBar">
+            <div class="coverBarOutline" title="100.00%">
+                <div class="size chameleon"  style="width:100%" title="100.00%"></div>
+            </div>
+          </td>
+          <td class="coverPerHi">100.00%</td>
+          <td class="coverNumHi">2 / 2</td>
+        </tr>
+
+        <tr>
+          <td class="coverFile" colspan="4">&nbsp;<a href="#132">__construct()</a></td>
           <td class="coverBar">
             <div class="coverBarOutline" title="100.00%">
                 <div class="size chameleon"  style="width:100%" title="100.00%"></div>
@@ -103,6 +114,14 @@
           </td>
           <td class="coverPerHi">100.00%</td>
           <td class="coverNumHi">1 / 1</td>
+          <td class="crap">1</td>
+          <td class="coverBar">
+              <div class="coverBarOutline" title="100.00%">
+                  <div class="size chameleon"  style="width:100%" title="100.00%"></div>
+              </div>
+          </td>
+          <td class="coverPerHi">100.00%</td>
+          <td class="coverNumHi">2 / 2</td>
         </tr>
 
 
@@ -133,7 +152,7 @@
 <span class="lineNum" id="container13"><a name="13"></a><a href="#13" id="line13">      13</a> </span>                : <span class="comment">&nbsp;*&nbsp;@Entity(repositoryClass=&quot;Rideorama\Entity\Repository\RidesfromairportRepository&quot;)</span>
 <span class="lineNum" id="container14"><a name="14"></a><a href="#14" id="line14">      14</a> </span>                : <span class="comment">&nbsp;*&nbsp;@author&nbsp;ovo</span>                                                                      
 <span class="lineNum" id="container15"><a name="15"></a><a href="#15" id="line15">      15</a> </span>                : <span class="comment">&nbsp;*/</span>                                                                                 
-<span class="lineNum" id="container16"><a name="16"></a><a href="#16" id="line16">      16</a> </span><span class="lineCov">              1 : <span class="keyword">class</span><span class="default">&nbsp;</span><span class="default">Ridesfromairport</span><span class="default">&nbsp;</span><span class="keyword">extends</span><span class="default">&nbsp;</span><span class="default">\</span><span class="default">Rideorama</span><span class="default">\</span><span class="default">Entity</span><span class="default">\</span><span class="default">rideoramaEntity</span><span class="default">&nbsp;</span><span class="keyword">{</span>                  </span>
+<span class="lineNum" id="container16"><a name="16"></a><a href="#16" id="line16">      16</a> </span>                : <span class="keyword">class</span><span class="default">&nbsp;</span><span class="default">Ridesfromairport</span><span class="default">&nbsp;</span><span class="keyword">extends</span><span class="default">&nbsp;</span><span class="default">\</span><span class="default">Rideorama</span><span class="default">\</span><span class="default">Entity</span><span class="default">\</span><span class="default">rideoramaEntity</span><span class="default">&nbsp;</span><span class="keyword">{</span>                  
 <span class="lineNum" id="container17"><a name="17"></a><a href="#17" id="line17">      17</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
 <span class="lineNum" id="container18"><a name="18"></a><a href="#18" id="line18">      18</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                            
 <span class="lineNum" id="container19"><a name="19"></a><a href="#19" id="line19">      19</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span>                                                                              
@@ -185,70 +204,75 @@
 <span class="lineNum" id="container65"><a name="65"></a><a href="#65" id="line65">      65</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;})</span>                                                                           
 <span class="lineNum" id="container66"><a name="66"></a><a href="#66" id="line66">      66</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
 <span class="lineNum" id="container67"><a name="67"></a><a href="#67" id="line67">      67</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$airport</span><span class="keyword">;</span>                                                              
-<span class="lineNum" id="container68"><a name="68"></a><a href="#68" id="line68">      68</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
-<span class="lineNum" id="container69"><a name="69"></a><a href="#69" id="line69">      69</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                             
-<span class="lineNum" id="container70"><a name="70"></a><a href="#70" id="line70">      70</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(type=&quot;date&quot;,nullable=false)</span>                                          
-<span class="lineNum" id="container71"><a name="71"></a><a href="#71" id="line71">      71</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;datetime</span>                                                                
-<span class="lineNum" id="container72"><a name="72"></a><a href="#72" id="line72">      72</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;date&nbsp;trip&nbsp;was&nbsp;posted.</span>                                        
+<span class="lineNum" id="container68"><a name="68"></a><a href="#68" id="line68">      68</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;</span>                                                                                    
+<span class="lineNum" id="container69"><a name="69"></a><a href="#69" id="line69">      69</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                            
+<span class="lineNum" id="container70"><a name="70"></a><a href="#70" id="line70">      70</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(type=&quot;string&quot;,&nbsp;length&nbsp;=&nbsp;60,&nbsp;nullable=true)</span>                           
+<span class="lineNum" id="container71"><a name="71"></a><a href="#71" id="line71">      71</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;string</span>                                                                  
+<span class="lineNum" id="container72"><a name="72"></a><a href="#72" id="line72">      72</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;provides&nbsp;a&nbsp;brief&nbsp;description&nbsp;on&nbsp;the&nbsp;size&nbsp;of&nbsp;the&nbsp;luggage</span>                 
 <span class="lineNum" id="container73"><a name="73"></a><a href="#73" id="line73">      73</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
-<span class="lineNum" id="container74"><a name="74"></a><a href="#74" id="line74">      74</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$post_date</span><span class="keyword">;</span>                                                           
-<span class="lineNum" id="container75"><a name="75"></a><a href="#75" id="line75">      75</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
+<span class="lineNum" id="container74"><a name="74"></a><a href="#74" id="line74">      74</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$luggage_size</span><span class="keyword">;</span>                                                        
+<span class="lineNum" id="container75"><a name="75"></a><a href="#75" id="line75">      75</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
 <span class="lineNum" id="container76"><a name="76"></a><a href="#76" id="line76">      76</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                             
 <span class="lineNum" id="container77"><a name="77"></a><a href="#77" id="line77">      77</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(type=&quot;date&quot;,nullable=false)</span>                                          
 <span class="lineNum" id="container78"><a name="78"></a><a href="#78" id="line78">      78</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;datetime</span>                                                                
-<span class="lineNum" id="container79"><a name="79"></a><a href="#79" id="line79">      79</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;departure&nbsp;date&nbsp;of&nbsp;the&nbsp;trip.</span>                                  
+<span class="lineNum" id="container79"><a name="79"></a><a href="#79" id="line79">      79</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;date&nbsp;trip&nbsp;was&nbsp;posted.</span>                                        
 <span class="lineNum" id="container80"><a name="80"></a><a href="#80" id="line80">      80</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
-<span class="lineNum" id="container81"><a name="81"></a><a href="#81" id="line81">      81</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$departure_date</span><span class="keyword">;</span>                                                      
+<span class="lineNum" id="container81"><a name="81"></a><a href="#81" id="line81">      81</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$post_date</span><span class="keyword">;</span>                                                           
 <span class="lineNum" id="container82"><a name="82"></a><a href="#82" id="line82">      82</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
-<span class="lineNum" id="container83"><a name="83"></a><a href="#83" id="line83">      83</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                              
-<span class="lineNum" id="container84"><a name="84"></a><a href="#84" id="line84">      84</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(type=&quot;time&quot;,nullable=false)</span>                                          
-<span class="lineNum" id="container85"><a name="85"></a><a href="#85" id="line85">      85</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;time</span>                                                                    
-<span class="lineNum" id="container86"><a name="86"></a><a href="#86" id="line86">      86</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;departure&nbsp;time&nbsp;of&nbsp;the&nbsp;trip.</span>                                  
+<span class="lineNum" id="container83"><a name="83"></a><a href="#83" id="line83">      83</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                             
+<span class="lineNum" id="container84"><a name="84"></a><a href="#84" id="line84">      84</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(type=&quot;date&quot;,nullable=false)</span>                                          
+<span class="lineNum" id="container85"><a name="85"></a><a href="#85" id="line85">      85</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;datetime</span>                                                                
+<span class="lineNum" id="container86"><a name="86"></a><a href="#86" id="line86">      86</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;departure&nbsp;date&nbsp;of&nbsp;the&nbsp;trip.</span>                                  
 <span class="lineNum" id="container87"><a name="87"></a><a href="#87" id="line87">      87</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
-<span class="lineNum" id="container88"><a name="88"></a><a href="#88" id="line88">      88</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$departure_time</span><span class="keyword">;</span>                                                      
-<span class="lineNum" id="container89"><a name="89"></a><a href="#89" id="line89">      89</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
-<span class="lineNum" id="container90"><a name="90"></a><a href="#90" id="line90">      90</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
-<span class="lineNum" id="container91"><a name="91"></a><a href="#91" id="line91">      91</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                             
-<span class="lineNum" id="container92"><a name="92"></a><a href="#92" id="line92">      92</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(type=&quot;float&quot;,nullable=false)</span>                                         
-<span class="lineNum" id="container93"><a name="93"></a><a href="#93" id="line93">      93</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;float</span>                                                                   
-<span class="lineNum" id="container94"><a name="94"></a><a href="#94" id="line94">      94</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;distance&nbsp;of&nbsp;trip.</span>                                            
-<span class="lineNum" id="container95"><a name="95"></a><a href="#95" id="line95">      95</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
-<span class="lineNum" id="container96"><a name="96"></a><a href="#96" id="line96">      96</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$distance</span><span class="keyword">;</span>                                                            
-<span class="lineNum" id="container97"><a name="97"></a><a href="#97" id="line97">      97</a> </span>                :                                                                                     
-<span class="lineNum" id="container98"><a name="98"></a><a href="#98" id="line98">      98</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
-<span class="lineNum" id="container99"><a name="99"></a><a href="#99" id="line99">      99</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                             
-<span class="lineNum" id="container100"><a name="100"></a><a href="#100" id="line100">     100</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span>                                                                              
-<span class="lineNum" id="container101"><a name="101"></a><a href="#101" id="line101">     101</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;integer</span>                                                                 
-<span class="lineNum" id="container102"><a name="102"></a><a href="#102" id="line102">     102</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(name=&quot;cost&quot;,&nbsp;type=&quot;integer&quot;,nullable=false)</span>                          
-<span class="lineNum" id="container103"><a name="103"></a><a href="#103" id="line103">     103</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
-<span class="lineNum" id="container104"><a name="104"></a><a href="#104" id="line104">     104</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$cost</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">0</span><span class="keyword">;</span>                                                            
+<span class="lineNum" id="container88"><a name="88"></a><a href="#88" id="line88">      88</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$departure_date</span><span class="keyword">;</span>                                                      
+<span class="lineNum" id="container89"><a name="89"></a><a href="#89" id="line89">      89</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
+<span class="lineNum" id="container90"><a name="90"></a><a href="#90" id="line90">      90</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                              
+<span class="lineNum" id="container91"><a name="91"></a><a href="#91" id="line91">      91</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(type=&quot;time&quot;,nullable=false)</span>                                          
+<span class="lineNum" id="container92"><a name="92"></a><a href="#92" id="line92">      92</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;time</span>                                                                    
+<span class="lineNum" id="container93"><a name="93"></a><a href="#93" id="line93">      93</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;departure&nbsp;time&nbsp;of&nbsp;the&nbsp;trip.</span>                                  
+<span class="lineNum" id="container94"><a name="94"></a><a href="#94" id="line94">      94</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
+<span class="lineNum" id="container95"><a name="95"></a><a href="#95" id="line95">      95</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$departure_time</span><span class="keyword">;</span>                                                      
+<span class="lineNum" id="container96"><a name="96"></a><a href="#96" id="line96">      96</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
+<span class="lineNum" id="container97"><a name="97"></a><a href="#97" id="line97">      97</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
+<span class="lineNum" id="container98"><a name="98"></a><a href="#98" id="line98">      98</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                             
+<span class="lineNum" id="container99"><a name="99"></a><a href="#99" id="line99">      99</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(type=&quot;float&quot;,nullable=true)</span>                                          
+<span class="lineNum" id="container100"><a name="100"></a><a href="#100" id="line100">     100</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;float</span>                                                                   
+<span class="lineNum" id="container101"><a name="101"></a><a href="#101" id="line101">     101</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;distance&nbsp;of&nbsp;trip.</span>                                            
+<span class="lineNum" id="container102"><a name="102"></a><a href="#102" id="line102">     102</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
+<span class="lineNum" id="container103"><a name="103"></a><a href="#103" id="line103">     103</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$distance</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">null</span><span class="keyword">;</span>                                                     
+<span class="lineNum" id="container104"><a name="104"></a><a href="#104" id="line104">     104</a> </span>                :                                                                                     
 <span class="lineNum" id="container105"><a name="105"></a><a href="#105" id="line105">     105</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
 <span class="lineNum" id="container106"><a name="106"></a><a href="#106" id="line106">     106</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                             
 <span class="lineNum" id="container107"><a name="107"></a><a href="#107" id="line107">     107</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span>                                                                              
-<span class="lineNum" id="container108"><a name="108"></a><a href="#108" id="line108">     108</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;string</span>                                                                  
-<span class="lineNum" id="container109"><a name="109"></a><a href="#109" id="line109">     109</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(name=&quot;pick_up_address&quot;,&nbsp;type=&quot;string&quot;)</span>                               
-<span class="lineNum" id="container110"><a name="110"></a><a href="#110" id="line110">     110</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;pick&nbsp;up&nbsp;address&nbsp;of&nbsp;the&nbsp;user.</span>                                 
-<span class="lineNum" id="container111"><a name="111"></a><a href="#111" id="line111">     111</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;In&nbsp;this&nbsp;case&nbsp;it&nbsp;would&nbsp;be&nbsp;where&nbsp;in&nbsp;the&nbsp;airport&nbsp;to&nbsp;be&nbsp;picked&nbsp;up&nbsp;from</span>           
-<span class="lineNum" id="container112"><a name="112"></a><a href="#112" id="line112">     112</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;i.e.&nbsp;the&nbsp;terminal</span>                                                            
-<span class="lineNum" id="container113"><a name="113"></a><a href="#113" id="line113">     113</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
-<span class="lineNum" id="container114"><a name="114"></a><a href="#114" id="line114">     114</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$pick_up_address</span><span class="keyword">;</span>                                                     
+<span class="lineNum" id="container108"><a name="108"></a><a href="#108" id="line108">     108</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;integer</span>                                                                 
+<span class="lineNum" id="container109"><a name="109"></a><a href="#109" id="line109">     109</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(name=&quot;cost&quot;,&nbsp;type=&quot;integer&quot;,nullable=false)</span>                          
+<span class="lineNum" id="container110"><a name="110"></a><a href="#110" id="line110">     110</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
+<span class="lineNum" id="container111"><a name="111"></a><a href="#111" id="line111">     111</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$cost</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">0</span><span class="keyword">;</span>                                                            
+<span class="lineNum" id="container112"><a name="112"></a><a href="#112" id="line112">     112</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
+<span class="lineNum" id="container113"><a name="113"></a><a href="#113" id="line113">     113</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
+<span class="lineNum" id="container114"><a name="114"></a><a href="#114" id="line114">     114</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
 <span class="lineNum" id="container115"><a name="115"></a><a href="#115" id="line115">     115</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
-<span class="lineNum" id="container116"><a name="116"></a><a href="#116" id="line116">     116</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
-<span class="lineNum" id="container117"><a name="117"></a><a href="#117" id="line117">     117</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                           
-<span class="lineNum" id="container118"><a name="118"></a><a href="#118" id="line118">     118</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span>                                                                              
-<span class="lineNum" id="container119"><a name="119"></a><a href="#119" id="line119">     119</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;string</span>                                                                  
-<span class="lineNum" id="container120"><a name="120"></a><a href="#120" id="line120">     120</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(name=&quot;drop_off_address&quot;,&nbsp;type=&quot;string&quot;)</span>                              
-<span class="lineNum" id="container121"><a name="121"></a><a href="#121" id="line121">     121</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;drop&nbsp;off&nbsp;address</span>                                             
-<span class="lineNum" id="container122"><a name="122"></a><a href="#122" id="line122">     122</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
-<span class="lineNum" id="container123"><a name="123"></a><a href="#123" id="line123">     123</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$drop_off_address</span><span class="keyword">;</span>                                                    
-<span class="lineNum" id="container124"><a name="124"></a><a href="#124" id="line124">     124</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
-<span class="lineNum" id="container125"><a name="125"></a><a href="#125" id="line125">     125</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                             
-<span class="lineNum" id="container126"><a name="126"></a><a href="#126" id="line126">     126</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Column(type=&quot;float&quot;,nullable=false)</span>                                          
-<span class="lineNum" id="container127"><a name="127"></a><a href="#127" id="line127">     127</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;float</span>                                                                   
-<span class="lineNum" id="container128"><a name="128"></a><a href="#128" id="line128">     128</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;duraation&nbsp;of&nbsp;trip.</span>                                           
-<span class="lineNum" id="container129"><a name="129"></a><a href="#129" id="line129">     129</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
-<span class="lineNum" id="container130"><a name="130"></a><a href="#130" id="line130">     130</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$trip_duration</span><span class="keyword">;</span>                                                       
-<span class="lineNum" id="container131"><a name="131"></a><a href="#131" id="line131">     131</a> </span>                : <span class="keyword">}</span>                                                                                   
+<span class="lineNum" id="container116"><a name="116"></a><a href="#116" id="line116">     116</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                           
+<span class="lineNum" id="container117"><a name="117"></a><a href="#117" id="line117">     117</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span>                                                                              
+<span class="lineNum" id="container118"><a name="118"></a><a href="#118" id="line118">     118</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;string</span>                                                                  
+<span class="lineNum" id="container119"><a name="119"></a><a href="#119" id="line119">     119</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(name=&quot;drop_off_address&quot;,&nbsp;type=&quot;string&quot;)</span>                              
+<span class="lineNum" id="container120"><a name="120"></a><a href="#120" id="line120">     120</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;drop&nbsp;off&nbsp;address</span>                                             
+<span class="lineNum" id="container121"><a name="121"></a><a href="#121" id="line121">     121</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
+<span class="lineNum" id="container122"><a name="122"></a><a href="#122" id="line122">     122</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$drop_off_address</span><span class="keyword">;</span>                                                    
+<span class="lineNum" id="container123"><a name="123"></a><a href="#123" id="line123">     123</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
+<span class="lineNum" id="container124"><a name="124"></a><a href="#124" id="line124">     124</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">/**</span>                                                                            
+<span class="lineNum" id="container125"><a name="125"></a><a href="#125" id="line125">     125</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@Column(type=&quot;time&quot;,nullable=true)</span>                                           
+<span class="lineNum" id="container126"><a name="126"></a><a href="#126" id="line126">     126</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;@var&nbsp;time</span>                                                                    
+<span class="lineNum" id="container127"><a name="127"></a><a href="#127" id="line127">     127</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;This&nbsp;stores&nbsp;the&nbsp;departure&nbsp;time&nbsp;of&nbsp;the&nbsp;trip.</span>                                  
+<span class="lineNum" id="container128"><a name="128"></a><a href="#128" id="line128">     128</a> </span>                : <span class="comment">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>                                                                             
+<span class="lineNum" id="container129"><a name="129"></a><a href="#129" id="line129">     129</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">protected</span><span class="default">&nbsp;</span><span class="default">$arrival_time</span><span class="keyword">;</span>                                                        
+<span class="lineNum" id="container130"><a name="130"></a><a href="#130" id="line130">     130</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
+<span class="lineNum" id="container131"><a name="131"></a><a href="#131" id="line131">     131</a> </span>                :                                                                                     
+<span class="lineNum" id="container132"><a name="132"></a><a href="#132" id="line132">     132</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">public</span><span class="default">&nbsp;</span><span class="keyword">function</span><span class="default">&nbsp;</span><span class="default">__construct</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">{</span>                                                  
+<span class="lineNum" id="container133"><a name="133"></a><a href="#133" id="line133">     133</a> </span>                : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>                                                                                    
+<span class="lineNum" id="container134"><a name="134"></a><a href="#134" id="line134">     134</a> </span><span class="lineCov">              1 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$this</span><span class="default">-&gt;</span><span class="default">post_date</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="keyword">new</span><span class="default">&nbsp;</span><span class="default">\</span><span class="default">DateTime</span><span class="keyword">(</span><span class="default">date</span><span class="keyword">(</span><span class="default">&quot;Y-m-d&quot;</span><span class="keyword">)</span><span class="keyword">)</span><span class="keyword">;</span>                              </span>
+<span class="lineNum" id="container135"><a name="135"></a><a href="#135" id="line135">     135</a> </span><span class="lineCov">              1 : <span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span>                                                                               </span>
+<span class="lineNum" id="container136"><a name="136"></a><a href="#136" id="line136">     136</a> </span>                : <span class="keyword">}</span>                                                                                   
 
 </pre>
         </td>
@@ -257,7 +281,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.1.1</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.2-1ubuntu4.11</a> and PHPUnit 3.6.4 at Mon Dec 19 17:25:36 MST 2011.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.1.1</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.2-1ubuntu4.11</a> and PHPUnit 3.6.4 at Sat Jan 7 19:57:49 MST 2012.</td></tr>
     </table>
 
     <br />
@@ -267,8 +291,13 @@
       $E = YAHOO.util.Event;
       YAHOO.namespace("phpunit.container");
       YAHOO.phpunit.container.panelsData = {
-        "panel16": {
-          "header": "1 test covers line 16",
+        "panel134": {
+          "header": "1 test covers line 134",
+          "body": "<ul><li class=\"testPassed\">Rides_Models_ridesServiceTest::testConstructorReturnsCorrectRideObject</li></ul>",
+          "footer": ""
+        },
+        "panel135": {
+          "header": "1 test covers line 135",
           "body": "<ul><li class=\"testPassed\">Rides_Models_ridesServiceTest::testConstructorReturnsCorrectRideObject</li></ul>",
           "footer": ""
         },
