@@ -4,35 +4,49 @@
         <meta charset="utf-8"></meta>
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+
  <?php
         
+//       echo $this->jQuery()
+//                    ->setVersion('1.6.2')
+//                     ->setUIVersion('1.8.14');
         echo $this->headTitle("Rideorama");
-        
         echo $this->headLink()->appendStylesheet($this->baseUrl(). '/css/smoothness/jquery.css');
-            echo $this->jQuery()
-                     ->setVersion('1.6.2')
-                     ->setUIVersion('1.8.14');
+      
+
+       echo $this->headLink()->prependStylesheet($this->baseUrl() . '/css/style.css');
    ?>
-   
-    <script>
+        
     </script>
-    <style type="text/css">
-  html { height: 100% }
-  body { height: 100%; margin: 0; padding: 0 }
-  #departure { width: 420px}
-  #map_canvas { height: 100% }
-  #destination {width: 420px}
-  #driverdeparture {width: 420px}
-  #driverdestination {width: 420px}
-  #departure_spot {width: 420px }
-  #tabs{width: 650px}
-</style>
-    </head>
+      </head>
+ <div id ="wrapper">
+       <header> <a href="<?php echo $this->baseUrl(); ?>"><img src="<?php echo $this->baseUrl();?>/img/logo.png" alt="" class="logo" /></a>
+    <nav class="top_nav">
+      <ul>
+        <li class="none"><a href="#">sign&nbsp;in</a></li>
+      </ul>
+    </nav>
+  </header>
+       
     <div id="content">
+        
 <?php echo $this->layout()->content; ?>
     </div>
     
-    <div id ="fotter">
-        &copy 2011 Rideorama
-    </div>
+    <footer>
+          <ul>
+      <li><a href="#">About us</a></li>
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms and Conditions</a></li>
+    
+      <li><a href="#">FAQS</a></li>
+      <li> <span class="icons"> <a href="#"><img src="<?php echo $this->baseUrl();?>/img/social_icon1.gif" alt="" /></a> 
+              <a href="#"><img src="<?php echo $this->baseUrl();?>/img/social_icon2.gif" alt="" /></a>
+              <a href="#"><img src="<?php echo $this->baseUrl();?>/img/social_icon3.gif" alt="" /></a> </span> </li>
+              <p><?php echo $this->footer(); ?></p>
+          </ul>
+    
+    </footer>
 </html>

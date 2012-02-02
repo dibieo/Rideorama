@@ -4,7 +4,19 @@ function gotoPostRidePage(){
 }
 </script>
 
-<?php echo $this->errors ?>
+<script>
+function reduceSeatByOne(){
+    
+    var num_seats = $("#numseats").html();
+    num_seats = num_seats -1;
+    $("#numseats").html(num_seats);
+    
+}
+</script>
+<?php 
+$this->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+echo $this->errors; 
+?>
 <br /><br />
 <div id="view-content">
  
@@ -26,15 +38,33 @@ function gotoPostRidePage(){
        <br><b> Departure time :</b> <?php echo $this->escape($ride['key']['departure_time']); ?> </br>
        <br><b> Estimate arrival time :</b> <?php echo $this->escape($ride['key']['arrival_time']); ?> </br>
        <br><b> Distance from you: </b><?php echo $this->escape($rideValue); ?> </br>
-        <br><b>Number of seats available:</b> <?php echo $this->escape($rideKey['number_of_seats']); ?></br>
+        <br><b>Number of seats available:</b><div id="numseats"> <?php echo $this->escape($rideKey['number_of_seats']); ?></div></br>
         <br><b>Cost per seat: </b><?php echo $this->currency($this->escape($rideKey['cost'])); ?></br>
         <br><b>Message about the trip:</b> <?php echo $this->escape($rideKey['trip_msg']); ?></br>
         <br><b>Number of luggage(s): </b><?php echo $this->escape($rideKey['num_luggages']); ?></br>
         <br><b>Luggage sizes: </b><?php echo $this->escape($rideKey['luggage_size']); ?></br>
-        <br><a href="<?php echo $this->url(array('controller'=>'#', 
-            'action'=>'#'));?>">Buy this seat</a></br>
-
-
+        <br>
+        <div id ="buyseat">   <?php 
+        $driverName = $this->escape($rideKey['first_name']) . " " . $this->escape($rideKey['last_name']);
+        $url =  $this->url(array(
+             'module' => 'rides',
+             'controller' => 'index',
+             'action' => 'book',
+             'trip_id' => $rideKey['id'],
+             'publisher_id' => $rideKey['user_id'],
+             'where' => $this->where,
+             'driverEmail' => $rideKey['email'],
+             'driverName' => $driverName
+         ));
+        echo  $this->ajaxLink("Buy Seat!",
+                    "$url",
+                    array(
+                          'update' => '#buyseat',
+                          'beforeSend' => 'slideup',
+                           'complete' => 'reduceSeatByOne()'
+                        )); 
+        ?>
+        </div>
         <p></p>
     
  <?php endforeach; ?>

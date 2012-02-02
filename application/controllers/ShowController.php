@@ -1,32 +1,30 @@
 <?php
 
+require_once 'lib/AdaptivePayments.php'; //Load Facebook Api
+
 class ShowController extends Zend_Controller_Action
 {
+
 
     public function init()
     {
         /* Initialize action controller here */
+      $this->view->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+
     }
 
     public function indexAction()
     {
-       
-        $time = new Zend_Date();
-        $time->setTime('17:00:00', 'HH:mm:ss'); 
-        $time->addSecond(3950);
-      //  echo $time;
-        //echo $time->getTimestamp();
-      
-      // echo date("H:i:s", $time->getTimestamp());
-        echo $time->get("H:m:s");
-       // $time= $time->get(Zend_Date::TIME_SHORT);
-       // echo $time;
+     $this->_helper->getHelper('layout')->disableLayout();
+     echo "proof";
     }
     
 
     public function calcAction(){
         
-     
+       $this->_helper->viewRenderer->setNoRender();
+       $this->_helper->getHelper('layout')->disableLayout();
+       
         try {
             
         $client = new Zend_Http_Client('http://maps.googleapis.com/maps/api/distancematrix/json');
@@ -46,11 +44,11 @@ class ShowController extends Zend_Controller_Action
         
         $val = json_decode($val);
         
-        print_r($val);
+       // print_r($val);
         
         
        
-        echo $val->rows[0]->elements[0]->distance->value;
+        echo $val->rows[0]->elements[0]->distance->text;
 //        echo "<br>";
 //        echo $val->rows[0]->elements[0]->duration->text;
         

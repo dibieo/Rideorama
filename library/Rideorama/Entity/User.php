@@ -56,10 +56,10 @@ class User extends \Rideorama\Entity\rideoramaEntity
     /**
      * @Column(type="string",length=60,nullable=true)
      * @var string
-     * This store the a picture of the aiport
+     * This store the profile picture of the user's car
      */
     protected $profile_pic;
-    
+
      /**
      * @Column(type="string",length=10,nullable=true)
      * @var string
@@ -86,9 +86,27 @@ class User extends \Rideorama\Entity\rideoramaEntity
        /**
      * @Column(type="string",length=60,nullable=true)
      * @var string
-     * This store the role of the user
+     * This store a hash of the user's email.
      */
     protected $email_hash;
+    
+    
+      
+   /**
+     * @Column(type="integer",length=60,nullable=true)
+     * @var integer
+     * This store a the user's phone number
+     */
+    protected $telephone;
+    
+    
+      
+   /**
+     * @Column(type="integer",length=60,nullable=true)
+     * @var integer
+     * This store a the user's age
+     */
+    protected $age;
     
     /**
      * @Column(type="string",length=10,nullable=true)
@@ -141,12 +159,44 @@ class User extends \Rideorama\Entity\rideoramaEntity
      *
      * @param \Doctrine\Common\Collections\Collection $property
      *
-     * @OneToMany(targetEntity="Ridesfromlandmark",mappedBy="user", cascade={"persist","remove"})
+     * @OneToMany(targetEntity="Ridesfromairport",mappedBy="user", cascade={"persist","remove"})
      */
     protected $rides_from_airport;
     
     
-      /**
+   /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridesfromairportbookmanifest",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $rides_from_airport_bookmanifest;
+    
+   /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridestoairportbookmanifest",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $rides_to_airport_bookmanifest;
+    
+//   /**
+//     *
+//     * @param \Doctrine\Common\Collections\Collection $property
+//     *
+//     * @OneToMany(targetEntity="Requestsfromairport_bookmanifest",mappedBy="user", cascade={"persist","remove"})
+//     */
+//    protected $requests_from_airport_bookmanifest;
+//    
+//     /**
+//     *
+//     * @param \Doctrine\Common\Collections\Collection $property
+//     *
+//     * @OneToMany(targetEntity="Requeststoairport_bookmanifest",mappedBy="user", cascade={"persist","remove"})
+//     */
+//    protected $requests_to_airport_bookmanifest;
+    
+    /**
      *
      * @param \Doctrine\Common\Collections\Collection $property
      *
@@ -178,29 +228,13 @@ class User extends \Rideorama\Entity\rideoramaEntity
      */
     protected $requests_to_airport;
     
-    
     /**
-     * This function  adds a new user to the database
-     * @param type $email
-     * @param type $first_name
-     * @param type $last_name
-     * @param type $profile_pic
-     * @param type $email_hash 
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Car",mappedBy="user", cascade={"persist","remove"})
      */
-    public function addUserToDatabase($email, $profession,$sex,$first_name, $last_name, $profile_pic, $email_hash, $password, $flogin = false){
-        
-        $this->email = $email;
-        $this->first_name = $first_name;
-        $this->last_name = $last_name;
-        $this->sex = $sex;
-        $this->profile_pic = $profile_pic;
-        $this->email_hash = $email_hash;
-        $this->date_registered = new \DateTime(date("Y-m-d H:i:s"));
-        $this->last_login = new \DateTime(date("Y-m-d H:i:s"));
-        $this->profession = $profession;
-        $this->password_hash = $password;
-        $this->facebook_login = $flogin;
-        $this->role = "user";
-    }
+    protected $car;
     
+   
 }

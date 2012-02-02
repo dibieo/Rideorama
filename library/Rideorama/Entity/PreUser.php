@@ -91,11 +91,11 @@ class PreUser extends \Rideorama\Entity\rideoramaEntity
     protected $email_hash;
     
     /**
-     * @Column(type="boolean",length=10,nullable=true)
-     * @var boolean
+     * @Column(type="string",length=10,nullable=true)
+     * @var string
      * This stores the registration type of the user
      */
-    protected $facebook_login = false;
+    protected $facebook_login = 'false';
     
     /**
      *

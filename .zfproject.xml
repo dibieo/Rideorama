@@ -49,6 +49,11 @@
         <controllerFile controllerName="Index"/>
         <controllerFile controllerName="Index"/>
         <controllerFile controllerName="Index"/>
+        <controllerFile controllerName="Profile">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Profile"/>
       </controllersDirectory>
       <formsDirectory enabled="false">
         <formFile formName="Searchride"/>
@@ -61,6 +66,7 @@
         <modelFile modelName="Service"/>
         <modelFile modelName="Acl"/>
         <modelFile modelName="Doctrine2Adapter"/>
+        <modelFile modelName="EmailService"/>
       </modelsDirectory>
       <modulesDirectory enabled="false">
         <moduleDirectory moduleName="account">
@@ -74,10 +80,14 @@
               <actionMethod actionName="register"/>
               <actionMethod actionName="activate"/>
             </controllerFile>
+            <controllerFile controllerName="Profile">
+              <actionMethod actionName="index"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory>
             <formFile formName="User"/>
             <formFile formName="Login"/>
+            <formFile formName="Completeprofile"/>
           </formsDirectory>
           <layoutsDirectory enabled="false"/>
           <modelsDirectory>
@@ -85,6 +95,10 @@
               <dbTableFile dbTableName="Users"/>
             </dbTableDirectory>
             <modelFile modelName="UserService"/>
+            <modelFile modelName="UserRole"/>
+            <modelFile modelName="UserProfile"/>
+            <modelFile modelName="ProfileAssertion"/>
+            <modelFile modelName="CasService"/>
           </modelsDirectory>
           <viewsDirectory>
             <viewScriptsDirectory>
@@ -102,6 +116,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="User">
                 <viewScriptFile forActionName="activate"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Profile">
+                <viewScriptFile forActionName="index"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -179,6 +196,8 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="post"/>
               <actionMethod actionName="success"/>
+              <actionMethod actionName="book"/>
+              <actionMethod actionName="details"/>
             </controllerFile>
             <controllerFile controllerName="Request">
               <actionMethod actionName="index"/>
@@ -206,6 +225,12 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="success"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="book"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="details"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -254,6 +279,37 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="success"/>
+              </viewControllerScriptsDirectory>
+            </viewScriptsDirectory>
+            <viewHelpersDirectory/>
+            <viewFiltersDirectory/>
+          </viewsDirectory>
+        </moduleDirectory>
+        <moduleDirectory moduleName="payment">
+          <apisDirectory enabled="false"/>
+          <configsDirectory enabled="false"/>
+          <controllersDirectory>
+            <controllerFile controllerName="Index">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="success"/>
+              <actionMethod actionName="cancel"/>
+            </controllerFile>
+          </controllersDirectory>
+          <formsDirectory enabled="false"/>
+          <layoutsDirectory enabled="false"/>
+          <modelsDirectory>
+            <modelFile modelName="PaypalService"/>
+          </modelsDirectory>
+          <viewsDirectory>
+            <viewScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="success"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="cancel"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -323,6 +379,12 @@
           <viewControllerScriptsDirectory forControllerName="Index">
             <viewScriptFile forActionName="findpassenger"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Profile">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Profile">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -390,6 +452,10 @@
           <testApplicationControllerFile forControllerName="Rides">
             <testApplicationActionMethod forActionName="index"/>
           </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Profile">
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="index"/>
+          </testApplicationControllerFile>
         </testApplicationControllerDirectory>
         <testApplicationModulesDirectory>
           <testApplicationModuleDirectory forModuleName="account">
@@ -400,6 +466,9 @@
                 <testApplicationActionMethod forActionName="logout"/>
                 <testApplicationActionMethod forActionName="register"/>
                 <testApplicationActionMethod forActionName="activate"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Profile">
+                <testApplicationActionMethod forActionName="index"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>
@@ -427,6 +496,8 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="post"/>
                 <testApplicationActionMethod forActionName="success"/>
+                <testApplicationActionMethod forActionName="book"/>
+                <testApplicationActionMethod forActionName="details"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>
@@ -436,6 +507,15 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="post"/>
                 <testApplicationActionMethod forActionName="success"/>
+              </testApplicationControllerFile>
+            </testApplicationControllerDirectory>
+          </testApplicationModuleDirectory>
+          <testApplicationModuleDirectory forModuleName="payment">
+            <testApplicationControllerDirectory>
+              <testApplicationControllerFile forControllerName="Index">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="success"/>
+                <testApplicationActionMethod forActionName="cancel"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

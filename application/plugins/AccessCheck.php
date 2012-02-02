@@ -40,6 +40,8 @@ class Application_Plugin_AccessCheck extends Zend_Controller_Plugin_Abstract {
             Zend_Registry::set('return', $url);
             
                                 }
+                                
+           $this->_acl->setDynamicPermissions();
                 }
   }
    

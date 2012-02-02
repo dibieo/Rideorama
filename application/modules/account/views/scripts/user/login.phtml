@@ -1,13 +1,22 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>User</b> and script/action name <b>login</b></p>
-        
-        <?php
-        echo $this->errorMessage;
-        echo $this->loginForm;
-        
-        ?>
-        
- <p><a href="<?php echo $this->fblogin;?>"><img src="http://static.ak.fbcdn.net/rsrc.php/zB6N8/hash/4li2k73z.gif" /></a></p>
+ <section id="body_container">
+    <!-- starts common container -->
+    <section id="common_container">
+      <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_t_curv.png" alt=""/></div>
+      <section class="common_content">
+          <fieldset>
+          <section class="sign_in_box">
+            <div class="social_link"> <span class="icon1">
+                    <a href="<?php echo $this->fblogin;?>"><img src="http://static.ak.fbcdn.net/rsrc.php/zB6N8/hash/4li2k73z.gif" /></a>
+                </span> <small>or</small> </div>
+             <?php echo $this->errorMessage; ?>
+            <?php echo $this->loginForm; ?>
+          </section>
+          </fieldset>
+      </section>
+      <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_b_curv.png" alt=""/></div>
+      <!-- common container ends -->
+    </section>
+    <div class="sign_up_link"><img src="<?php echo $this->baseUrl(); ?>/img/green_left_curv.png" alt=""/><span>Need an account? <a href="#">SIGN UP NOW</a></span><img src="<?php echo $this->baseUrl(); ?>/img/green_right_curv.png" alt=""/></div>
+  </section>
+  <!--body container ends-->
 
-</div>

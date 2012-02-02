@@ -36,7 +36,7 @@ class Account_Model_UserService extends Application_Model_Service
         $this->em->persist($this->puser);
         $this->em->flush(); 
         
-        $url = $this->emailLink("account", "user", "confirm", array("hash" => $email_hash));
+        $url = $this->emailLink("account", "user", "activate", array("hash" => $email_hash));
         
         $email_options = array(
             'recipient_name' => $first_name . ' ' . $last_name,
@@ -50,17 +50,62 @@ class Account_Model_UserService extends Application_Model_Service
         $this->sendEmail($email_options);
     }
     
-    public function activateUserAccount($hash){
-        
-       $user = $this->em->getRepository('Rideorama\Entity\PreUser')->findOneBy(array('email_hash' => $hash));
-     //  Zend_Debug::dump($user);
-      $this->em->remove($user);
-      
-       $this->addConfirmedUser($user->email, $user->profession, $user->sex, $user->first_name,
-                               $user->last_name, $user->profile_pic, $user->email_hash, $user->password_hash);
-       
+    /**
+     * This function registers a new user on the system.
+     * @param array $data Collection of information for first time registered user
+     */
+    public function registerUser(array $data){
+         $this->puser->first_name = $data['first_name'];
+         $this->puser->last_name = $data['last_name'];
+         $this->puser->email = $data['email'];
+         $this->puser->email_hash = $data['email_hash'];
+         $this->puser->password_hash = $data['password'];
+         $this->puser->date_registered = new \DateTime(date("Y-m-d H:i:s"));
+         $this->puser->last_login = new \DateTime(date("Y-m-d H:i:s"));
+         $this->puser->sex = $data['sex'];
+         
+         $this->em->persist($this->puser);
+         
+         $this->em->flush();
+         
+         $email = new Application_Model_EmailService();
+         $email->sendRegistrationEMail($data['first_name'], $data['last_name'], 
+                                      $data['email_hash'], $data['email']);
+          
     }
     
+    /**
+     *
+     * @param type $hash
+     * @param array $data 
+     */
+    public function activateUserAccount($hash, array $data){
+       
+       $user = $this->em->getRepository('Rideorama\Entity\PreUser')->findOneBy(array('email_hash' => $hash));
+     // Remove the user from preuser model;
+     // $this->em->remove($user);
+      $user_data = array('email' => $user->email, 'profession' => $data['occupation'], 'sex' => $user->sex,
+                    'first_name' => $user->first_name, 'last_name' => $user->last_name,
+                    'user_profile_pic' => $data['user_profile_pic'], 
+                    'password_hash' => $user->password_hash, 'email_hash' => $user->email_hash, 
+                    'age' => $data['age'], 'phone_number' => $data['phone_number']
+                    );
+      
+      $user = $this->addConfirmedUser($user_data);
+       
+       $this->addCarProfile($data, $user);
+    }
+    
+    /**
+     * Intially sets up the car profile
+     * @param array $data
+     * @param User Entity $user
+     */
+    public function addCarProfile($data, $user){
+        
+        $car = new Account_Model_CarService();
+        $car->setUpCarProfile($data, $user);
+    }
     
     /**
      * Adds confirmed user to the database
@@ -72,15 +117,29 @@ class Account_Model_UserService extends Application_Model_Service
      * @param type $profile_pic
      * @param type $email_hash
      * @param type $password_hash 
+     * return the user object
      */
-    public function addConfirmedUser($email, $profession, $sex, $firstname, $lastname, $profile_pic,
-                                     $email_hash, $password_hash, $flogin)
+    public function addConfirmedUser(array $data)
      {
-        $this->user->addUserToDatabase($email, $profession, $sex, $firstname, $lastname, $profile_pic,
-                              $email_hash, $password_hash, $flogin);
-    
+        $this->user->email = $data['email'];
+        $this->user->first_name = $data['first_name'];
+        $this->user->last_name = $data['last_name'];
+        $this->user->sex = $data['sex'];
+        $this->user->age = $data['age'];
+        $this->user->telephone = $data['phone_number'];
+        $this->user->profile_pic = $data['user_profile_pic'];
+        $this->user->email_hash = $data['email_hash'];
+        $this->user->date_registered = new \DateTime(date("Y-m-d H:i:s"));
+        $this->user->last_login = new \DateTime(date("Y-m-d H:i:s"));
+        $this->user->profession = $data['profession'];
+        $this->user->password_hash = $data['password_hash'];
+        $this->user->facebook_login = $data['flogin'];
+        $this->user->role = "user";
         $this->em->persist($this->user);
         $this->em->flush(); 
+
+        return $this->user;
+        
     }
     
    
@@ -101,5 +160,6 @@ class Account_Model_UserService extends Application_Model_Service
         return $this->em->find('\Rideorama\Entity\User', $id);
     }
    
+ 
 }
 

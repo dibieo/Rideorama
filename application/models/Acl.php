@@ -21,7 +21,8 @@ class Application_Model_Acl extends Zend_Acl
 			
 		//Account module resources -- All resources inherit from the account module
 		$this->add(new Zend_Acl_Resource('account'))
-			 ->add(new Zend_Acl_Resource('account:user'), 'account');
+			 ->add(new Zend_Acl_Resource('account:user'), 'account')
+                         ->add(new Zend_Acl_Resource('account:profile'), 'account');
                 
 		
                 //Rides module resources -- All resources inherit from the rides module
@@ -41,6 +42,10 @@ class Application_Model_Acl extends Zend_Acl
                          ->add(new Zend_Acl_Resource('admin:airport'), 'admin');
 			 
 		
+                //Payment Module resources
+                $this->add(new Zend_Acl_Resource('payment'))
+			 ->add(new Zend_Acl_Resource('payment:index'), 'payment');
+                
 		/**
 		 * Resources for the student Module
 		 * 
@@ -54,7 +59,7 @@ class Application_Model_Acl extends Zend_Acl
 		$this->allow('guest', 'default:index', array('validateform', 'validatesecondform', 'findpassenger', 'index', 'search'))
 			 ->allow('guest', 'default:error', 'error')
                          ->allow('guest', 'default:show', array('index', 'calc'))
-			 ->allow('guest', 'account:user', array('login', 'register', 'recover', 'thanks', 'activate'));
+			 ->allow('guest', 'account:user', array('login', 'register', 'recover', 'thanks','validateform', 'activate', 'regfinished'));
 	
 			 
 			 
@@ -62,11 +67,14 @@ class Application_Model_Acl extends Zend_Acl
 		 * Users have all permissions as guests with the additional permission of being able to rate 
 		 * a particular course
 		 */
-		$this->allow('user', 'account:user', array('logout', 'edit', 'index', 'viewprofile'))										 
+                
+		$this->allow('user', 'account:user', array('logout', 'edit', 'index','viewprofile'))										 
 		     ->deny('user', 'account:user', array('login', 'register'));
 		
-                $this->allow('user', 'rides:index', array('index', 'post', 'validateform', 'success'))
-                      ->allow('user', 'requests:index', array('index', 'post', 'success', 'validateform'));
+                $this->allow('user', 'rides:index', array('index', 'post', 'book', 'details','validateform', 'success'))
+                      ->allow('user', 'requests:index', array('index', 'post', 'success', 'validateform'))
+                      ->allow('user', 'payment:index', array('index', 'success'));
+                
                 
 //		$this->allow('admin', 'admin:usermanagement', array('listusers','deluser', 'avgratings', 'viewcomments'))
                 $this->allow('admin', 'admin:index', array('index'));
@@ -77,7 +85,7 @@ class Application_Model_Acl extends Zend_Acl
                 		//->allow('admin', 'admin:courses', array('index', 'viewschools', 'getdepts', 'getactions', 'getcourses', 'edit', 'delete'));
 
 		
-                        
+              
                         		/*
 		$this->allow('admin', 'admin');
 		$this->allow('user', 'index');
@@ -86,6 +94,12 @@ class Application_Model_Acl extends Zend_Acl
 		$this->allow('admin', 'community', 'rate');*/
 		
 	
+    }
+    
+    public function setDynamicPermissions(){
+        
+//        $this->addResource('account:profile');
+//        $this->allow('user', 'account:profile', 'index', new Account_Model_ProfileAssertion());
     }
 
 }

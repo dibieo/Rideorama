@@ -135,6 +135,14 @@ class Ridestoairport extends \Rideorama\Entity\rideoramaEntity {
      */
     protected $duration;
     
+     /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridestoairportbookmanifest",mappedBy="rides_to_airport", cascade={"persist","remove"})
+     */
+   protected $rides_to_airport_booking_manifest;
+    
     public function __construct(){
      
       $this->post_date = new \DateTime(date("Y-m-d"));

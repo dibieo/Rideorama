@@ -17,7 +17,11 @@ class Admin_Model_stateService extends Application_Model_Service  {
       $this->state = new \Rideorama\Entity\State();
     }
     
-    
+    /**
+     * This function adds a state to the database
+     * @param string $name
+     * @param string $abbv 
+     */
     public function add($name, $abbv){
         
         $this->state->addState($name, $abbv);

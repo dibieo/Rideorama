@@ -2,7 +2,7 @@ $(function()
 {
     $("input").blur(function()
     {
-        var formElementId = $(this).parent().prev().find('label').attr('for');
+        var formElementId = $(this).parent().find('label').attr('for');
         doValidation(formElementId);
     });
 });

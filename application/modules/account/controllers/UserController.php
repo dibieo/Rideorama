@@ -10,6 +10,8 @@ class Account_UserController extends Zend_Controller_Action
     protected $_fb = null;
     
     protected $fbsession = null;
+    
+    protected $registration_form = null;
 
     public function init()
     {
@@ -22,6 +24,9 @@ class Account_UserController extends Zend_Controller_Action
             'secret' => 'ce008ac5b02c0c21641a38b6acbd9b2b',
             'cookie' => true,
          ));
+        
+        $this->registration_form = new Account_Form_User();
+        
     }
 
     public function indexAction()
@@ -181,33 +186,36 @@ class Account_UserController extends Zend_Controller_Action
     {
         // action body
        
-        $form = new Account_Form_User();
+        $form = $this->registration_form;
         $this->view->form = $form;
         
         if ($this->getRequest()->isPost()){
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)){
                 $data = $form->getValues();
-                $email_hash = md5($data['email']);
-                $password = md5($data['password']);
-               
-                $this->_user->addUser($data['first_name'],
-                $data['last_name'], $data['email'], $email_hash,
-                $data['profession'], $data['sex'],
-                $data['profile_pic'],$password);
-                
-                $this->_helper->redirector('index');
+                $data['email_hash'] = md5($data['email']);
+                //$email_hash = md5($data['email']);
+                $data['password'] = md5($data['password']);
+                //print_r($data);
+                $this->_user->registerUser($data);
+                $this->_forward('regfinished');
                         
             }else{
                 
                 $form->populate($formData);
-            }
-            
+                }
+       }
+    }
+    
+    public function regcompleteAction(){
+        
         
     }
-    }
 
-    
+    /**
+     * Gets the Auth Adapter
+     * @return Zend_Auth_Adapter_DbTable 
+     */
     private function getAuthAdapter()
     {
          
@@ -222,33 +230,51 @@ class Account_UserController extends Zend_Controller_Action
 
     public function activateAction()
     {
-        // action body
-        $this->_user->activateUserAccount($this->_getParam('hash'));
+        $form = new Account_Form_Completeprofile();
         
+        $this->view->form = $form;
+        if ($this->getRequest()->isPost()){
+            $formData = $this->getRequest()->getPost();
+            if ($form->isValid($formData)){
+                $data = $form->getValues();
+                $this->_user->activateUserAccount($this->_getParam('hash'), $data);
+                $this->_forward('index');
+            }
+        else{
+            $form->populate($formData);
+        }
     }
-
+    }
     /**
 * This function adds a first time facebook user to the database
 * and logs them into the application also.
 * @param $me type JSON object.
 */
     private function firstTimeFacebookUser($me){
-           $firstName = $me['first_name'];
-            $lastName = $me['last_name'];
-            $profile_pic = "https://graph.facebook.com/ " . $me['id'] . "/picture";
-            $password = $me['id'];
-            $sex = $me['gender'];
-            $email = $me['email'];
-            $email_hash = md5($email);
-            $password_hash = md5($password);
-            $profession = "other";
+        
+        $data = array(
+            'first_name' => $me['first_name'],
+            'last_name'  => $me['last_name'],
+            'user_profile_pic' => "https://graph.facebook.com/ " . $me['id'] . "/picture",
+            'password_hash' => md5($me['id']),
+            'sex' => $me['gender'],
+            'email' => $me['email'],
+            'email_hash' => md5($email),
+            'profession' => "other",
+            'flogin' => 'true'
+            );
             
             //Add to the database
             $u = new Account_Model_UserService();
-            $u->addConfirmedUser($email, $profession, $sex, $firstName, $lastName, $profile_pic, $email_hash, $password_hash, "true");
+            $u->addConfirmedUser($data);
            
     }
 
+    
+     public function validateformAction()
+    {
+        $this->_helper->formvalidate($this->registration_form, $this->_helper, $this->_getAllParams());
+    }
     /**
      * This function writes the logged in Facebook account to Authstorage
      * 
@@ -261,7 +287,7 @@ class Account_UserController extends Zend_Controller_Action
             $redirect = Zend_Registry::isRegistered('return') ? Zend_Registry::get('return') : 'account/user/index';
             if ($result->isValid()){
                 $this->writeAuthStorage($authAdapter, Zend_Auth::getInstance());
-                $this->_redirect($redirect);
+                return $this->_redirect($redirect);
             }
     }
 }

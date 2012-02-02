@@ -157,22 +157,29 @@ class Zend_View_Helper_FormRadio extends Zend_View_Helper_FormElement
             $optId = $id . '-' . $filter->filter($opt_value);
 
             // Wrap the radios in labels
-            $radio = '<label'
-                    . $this->_htmlAttribs($label_attribs) . ' for="' . $optId . '">'
-                    . (('prepend' == $labelPlacement) ? $opt_label : '')
-                    . '<input type="' . $this->_inputType . '"'
-                    . ' name="' . $name . '"'
-                    . ' id="' . $optId . '"'
-                    . ' value="' . $this->view->escape($opt_value) . '"'
-                    . $checked
-                    . $disabled
-                    . $this->_htmlAttribs($attribs)
-                    . $endTag
-                    . (('append' == $labelPlacement) ? $opt_label : '')
-                    . '</label>';
+             $label = '<label'
+                . $this->_htmlAttribs($label_attribs) . ' for="' . $optId . '">'
+                . $opt_label
+                . '</label>';
 
-            // add to the array of radio buttons
-            $list[] = $radio;
+        // Create the radio button
+        $radio = '<input type="' . $this->_inputType . '"'
+                . ' name="' . $name . '"'
+                . ' id="' . $optId . '"'
+                . ' value="' . $this->view->escape($opt_value) . '"'
+                . $checked
+                . $disabled
+                . $this->_htmlAttribs($attribs)
+                . $endTag;
+
+        // Combine the label and the radio button
+        if ('prepend' == $labelPlacement) {
+            $radio = $label . $radio;
+        } else {
+            $radio = $radio . $label;
+        }
+        // add to the array of radio buttons
+        $list[] = $radio;
         }
 
         // done!

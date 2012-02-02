@@ -40,28 +40,7 @@ class Application_Model_Service
                    ->send();
      }  
     
-     /**
-      * emailLink: This creates a link for an email to a user.
-      * @param type $module
-      * @param type $controller
-      * @param type $action
-      * @param array $param
-      * @return string link
-      */
-     public function emailLink($module, $controller, $action, array $param){
-         $key = array_keys($param);
-         $value = array_values($param);
-         
-         $helper = new Zend_View_Helper_Url() ;
-         $baseurl = new Zend_View_Helper_ServerUrl();
-         $link = $helper->url(array("module"=>"account", "controller"=>"user",
-                                            "action"=>"activate", $key[0] => $value[0]));
-              
-          $link = "http://" .$baseurl->getHost().$link;
-        
-           return $link;
 
-     }
      
    
       /**

@@ -5,7 +5,7 @@ class Zend_Controller_Action_Helper_Formvalidate extends
 {
     
     /**
-     *
+     * Helps perform Ajax validation on form fields
      * @param type $form
      * @param type $helper Action helper
      * @param type $params Params from the form

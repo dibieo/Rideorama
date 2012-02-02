@@ -97,5 +97,41 @@ class Application_Form_Base extends Zend_Form
         );
     }
     
+    
+    protected function submitDecorator($class = 'btn_row'){
+        
+         return array(
+            'ViewHelper',
+
+                   'Description',
+
+                   'Errors',
+
+                   array(array('data'=>'HtmlTag'), array('tag' => 'td')),
+
+                   array(array('row'=>'HtmlTag'),array('tag'=>'div', 'class' => $class)
+        )
+            );   
+    }
+
+    protected function generateDecorators($class = 'form_row'){
+        
+        return array(
+                   'ViewHelper',
+
+                   'Description',
+
+                   'Errors',
+                  
+                   'Label',
+
+                   array(array('data'=>'HtmlTag'), array('tag'=>'div', 'class' => $class)),
+
+
+                 // array(array('row'=>'HtmlTag'),array('tag'=>'div', 'class' => $class)
+        //)
+            );
+    }
+    
   }
 

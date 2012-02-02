@@ -8,20 +8,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
          Zend_Controller_Action_HelperBroker::addPath(
         APPLICATION_PATH .'/controllers/helpers');
+         
+
     }
     protected function _initViewHelpers(){
 
         $this->bootstrap('layout');
+        $this->bootstrap('view');
         $layout = $this->getResource('layout');
         $view = $layout->getView();
-        
-        $view->addHelperPath('ZendX/JQuery/View/Helper', 
-                            'ZendX_JQuery_View_Helper');
-
+       $view->addHelperPath('ZendX/JQuery/View/Helper', 'ZendX_JQuery_View_Helper');
         $currency = new Zend_Currency('en_US');
         Zend_Registry::set('Zend_Currency', $currency);
     }
     
+
+
     /**
      * Used for email configuration
      */
@@ -50,6 +52,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         $fc = Zend_Controller_Front::getInstance();
         $fc->registerPlugin(new Application_Plugin_AccessCheck($acl));
+        Zend_Registry::set('acl', $acl);
     }
 }
 

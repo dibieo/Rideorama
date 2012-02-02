@@ -66,6 +66,14 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      */
    protected $airport;
    
+   /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Ridesfromairportbookmanifest",mappedBy="rides_from_airport", cascade={"persist","remove"})
+     */
+   protected $rides_from_airport_booking_manifest;
+   
      /**
      * @Column(type="string", length = 60, nullable=true)
      * @var string

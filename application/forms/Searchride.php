@@ -35,6 +35,7 @@ class Application_Form_Searchride extends Application_Form_Base
 		'dateFormat' => 'yy-mm-dd',
 		'minDate'	 => '0')));
        
+       
        $trip_time = new Zend_Form_Element_Select('trip_time', array(
            'required' => true, 
            'label' => 'Time'

@@ -20,7 +20,7 @@ class Rating extends \Rideorama\Entity\rideoramaEntity
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    protected $id;
 
     
     /**
@@ -29,42 +29,42 @@ class Rating extends \Rideorama\Entity\rideoramaEntity
      * @Column(name="rating", type="integer",nullable=false)
      * @rating
      */
-    private $rating;
+    protected $rating;
     
     /**
      * @Column(type="text",nullable=true)
      * @var text
      * 
      */
-    private $comment_text;
+    protected $comment_text;
     
      /**
-     *
+     * The user doing the rating
      * @var User
      * @ManyToOne(targetEntity="User")
      * @JoinColumns({
      *  @JoinColumn(name="commenter_id", referencedColumnName="id")
      * })
      */
-    private $commenter;
+    protected $commenter;
    
     
       /**
-     *
+     * The user who is being rated
      * @var User
      * @ManyToOne(targetEntity="User")
      * @JoinColumns({
      *  @JoinColumn(name="commentee_id", referencedColumnName="id")
      * })
      */
-    private $commentee;
+    protected $commentee;
     
     /**
      * @Column(type="datetime",nullable=false)
      * @var datetime
      * This stores the user's email
      */
-    private $date;
+    protected $date;
 
     
 }

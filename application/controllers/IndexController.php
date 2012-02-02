@@ -7,9 +7,13 @@ class IndexController extends Zend_Controller_Action
     protected $form = null;
 
     protected $driverform = null;
+    
+    
 
     public function init()
     {
+        
+    
         
         $this->form = new Application_Form_Searchride();
         $this->driverform = new Application_Form_Searchrequest();     
@@ -17,6 +21,7 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        
         $this->view->form = $this->form;
         $this->view->driverform = $this->driverform;
         $this->view->airportList = $this->getAirportList();

@@ -3,7 +3,8 @@
 class Rides_IndexController extends Zend_Controller_Action
 {
 
-    protected $ride_form;
+    protected $ride_form = null;
+
     public function init()
     {
         /* Initialize action controller here */
@@ -31,8 +32,9 @@ class Rides_IndexController extends Zend_Controller_Action
        
             $this->getRideFormPage($where, $departure, $destination, $trip_date);
            
-            
-        }
+         }
+        
+    
     }
 
     public function validateformAction()
@@ -41,7 +43,6 @@ class Rides_IndexController extends Zend_Controller_Action
         $this->_helper->formvalidate($this->ride_form, $this->_helper, $this->_getAllParams());
     }
 
-    
     /**
      * Displays the appropriate form for posting a ride and submits the user's post
      * to the Ride_Model_Service
@@ -49,8 +50,11 @@ class Rides_IndexController extends Zend_Controller_Action
      * @param string $departure
      * @param string $destination
      * @param string $trip_date 
+     *
+     *
      */
-    private function getRideFormPage($where, $departure, $destination, $trip_date ){
+    private function getRideFormPage($where, $departure, $destination, $trip_date)
+    {
        $this->view->where = $where;
        $this->ride_form->departure->setValue($departure);
        $this->ride_form->destination->setValue($destination);
@@ -71,16 +75,39 @@ class Rides_IndexController extends Zend_Controller_Action
             $this->ride_form->populate($formData);
         }
            
+         }
+    
     }
-    }
+
     public function successAction()
     {
         $this->view->params = $this->_getAllParams();
         $this->view->msg = "Ride posted";
     }
 
+    public function bookAction()
+    {
+       $this->_helper->viewRenderer->setNoRender();
+       $this->_helper->getHelper('layout')->disableLayout();
+        // action body
+        $params = $this->_getAllParams();
+        $ride = new Rides_Model_RidesService($params['where']);
+        $ride->requestPersmissionToBuySeat($params['trip_id'], $params['publisher_id'], $params['where'],
+                                           $params['driverEmail'], $params['driverName']);
+        echo "A request has been sent to this driver for approval";
+    }
+
+    public function detailsAction()
+    {
+        // action body
+    }
+
 
 }
+
+
+
+
 
 
 

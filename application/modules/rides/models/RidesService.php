@@ -9,8 +9,10 @@ class Rides_Model_RidesService extends Application_Model_Service
 {
     
     protected $ridesToAirport; 
+    protected $ridesToAirportBookingManifest; //Stores info of rides booked to the airport
     protected $ridesFromAirport;
-    
+    protected $ridesFromAirportBookingManifest; //Stores info of rides booked from the airport
+    protected $loggedInUser = null;
     protected $airport;
     protected $user;
     protected $OnlyAlnumFilter;
@@ -23,15 +25,20 @@ class Rides_Model_RidesService extends Application_Model_Service
        
       if ($where == "toAirport") {
         $this->ridesToAirport = new \Rideorama\Entity\Ridestoairport();
+        $this->ridesToAirportBookingManifest = new \Rideorama\Entity\Ridestoairportbookmanifest();
       }
      else  if ($where == "fromAirport"){
         $this->ridesFromAirport = new \Rideorama\Entity\Ridesfromairport();
+        $this->ridesFromAirportBookingManifest = new \Rideorama\Entity\Ridesfromairportbookmanifest();
     }
     
     $this->airport = new Admin_Model_AirportService();
     $this->user = new Account_Model_UserService();
     $this->OnlyAlnumFilter = new Zend_Filter_Alnum(true);
-
+    
+        if (Zend_Auth::getInstance()->hasIdentity()){
+            $this->loggedInUser = Zend_Auth::getInstance()->getIdentity();
+        }
     }
     
     public function addRide(array $trip_data, $where){
@@ -189,23 +196,37 @@ class Rides_Model_RidesService extends Application_Model_Service
      * @param type $date
      * @return type Ridestoairport Entity collection
      */
-    private function findAnytimeRidesToAirport($airport, $date){
+    protected function findAnytimeRidesToAirport($airport, $date){
      
+       return $this->findAnytimeRides($airport, $date, "u.pick_up_address", "Rideorama\Entity\Ridestoairport");
     
-     $airport = $this->airport->getAirportByName($airport);
+    
+    }
+    
+   
+     /**
+     *
+     * @param string $airport The full airport name
+     * @param string $date The date of the trip
+     * @param string $variableAddress Is this a pick up or drop_off address
+     * @param string $targetEntity The Full Entity pathname
+     * 
+     * @return array of rides 
+     */
+    private function findAnytimeRides($airport, $date, $variableAddress, $targetEntity){
+        
+         $airport = $this->airport->getAirportByName($airport);
      
-     $q = $this->em->createQuery("select u.id, u.pick_up_address, u.number_of_seats, u.num_luggages,
-             u.trip_msg, u.departure_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
-              p.last_name
-              from Rideorama\Entity\Ridestoairport u JOIN u.publisher 
-              p where u.airport = $airport->id and u.departure_date = 
-             '$date'");
-
+       $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
+             u.trip_msg, u.departure_time, u.arrival_time, u.cost, u.luggage_size, p.email, p.first_name, p.id as user_id,
+              p.last_name from $targetEntity u JOIN u.publisher 
+              p where u.airport = $airport->id and u.departure_date = :date")
+                    ->setParameter('date', $date);
+                
       $rides = $q->getResult();
 
        return $rides;
     }
-    
 
     
     /**
@@ -280,20 +301,8 @@ class Rides_Model_RidesService extends Application_Model_Service
     
     protected function findAnytimeRidesFromAirport($airport, $date){
         
-        
-     $airport = $this->airport->getAirportByName($airport);
-     
-     $q = $this->em->createQuery("select u.id, u.drop_off_address, u.number_of_seats, u.num_luggages,
-             u.trip_msg, u.departure_time, u.arrival_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
-              p.last_name
-              from Rideorama\Entity\Ridesfromairport u JOIN u.publisher 
-              p where u.airport = $airport->id and u.departure_date = 
-             '$date'");
-
-      $rides = $q->getResult();
-
-       return $rides;
-        
+     return $this->findAnytimeRides($airport, $date, "u.drop_off_address", "Rideorama\Entity\Ridesfromairport");
+    
     }
     
     protected function findMorningRidesFromAirport($date, $airport, $time1, $time2){
@@ -328,7 +337,7 @@ class Rides_Model_RidesService extends Application_Model_Service
      * @param type $time1
      * @param type $time2
      * @param type $targetEntity
-     * @return type 
+     * @return array An array of rides that match the passed in arguments 
      */
     private function getAirportRides($date, $airport, $time1, $time2, $targetEntity, $variableAddress){
         
@@ -336,9 +345,14 @@ class Rides_Model_RidesService extends Application_Model_Service
         
         $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
              u.trip_msg, u.departure_time, u.arrival_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
-              p.last_name from '$targetEntity' 
+              p.email, p.last_name from '$targetEntity' 
              u JOIN u.publisher p where u.airport = $airport->id and u.departure_date = 
-             '$date' and u.departure_time > '$time1' and u.departure_time < '$time2'");
+             ':date' and u.departure_time > ':time1' and u.departure_time < ':time2'")
+                       ->setParameters(array(
+                           'time1'=> $time1,
+                           'time2' => $time2,
+                           'date' => $date
+                       ));
         
         $rides = $q->getResult();
         
@@ -448,6 +462,201 @@ class Rides_Model_RidesService extends Application_Model_Service
     
     private function updateRideFromAirport(){
         
+    }
+    
+   /**
+    * requestPermissionToBuySeat. This method processes the action of successfully buying a seat.
+    * @param string $id
+    * @param string $whereTo
+    * @param string $driverEmail
+    * @param string $passengerEmail 
+    */
+    public function requestPersmissionToBuySeat($id, $driver_id, $whereTo, $driverEmail, $driverName){
+     
+     try{
+     $this->decreaseNumberOfSeats($id, $whereTo);
+     $messageBody = $this->returnLoggedInUserName() . " wants a seat on your trip.Do you accept this request. <a href=\"#\">Yes I would like to  </a> <br></br><a href=\"#\">No</a>";
+     $emailMessageToDriver = $this->createEmailMessage($this->loggedInUser->email, $driverName, $driverEmail, $messageBody);
+     $this->sendEmail($emailMessageToDriver); //Email notification to driver
+     if ($whereTo == "toAirport"){
+         $this->addBookingToManifest($id, $driver_id, $this->loggedInUser->id, 
+                                     '\Rideorama\Entity\Ridesfromairport',
+                                       $this->ridesToAirportBookingManifest);
+     }elseif ($whereTo == "fromAirport"){
+         $this->addBookingToManifest($id, $driver_id, $this->loggedInUser->id, 
+                                     '\Rideorama\Entity\Ridestoairport',
+                                        $this->ridesFromAirportBookingManifest);
+     }
+     
+     }catch(Exception $ex){
+         $ex->getMessage();
+     }
+    }
+    
+    /**
+     * Adds a booking request to the booking manifest of the trip 
+     * This allows us know if a passenger has booked this seat in the past
+     * @param string $trip_id
+     * @param string $publisher_id
+     * @param string $passenger_id
+     */
+    private function addBookingToManifest($trip_id, $publisher_id, $passenger_id, $entity, $where){
+        $where->trip = $this->em->find($entity, $trip_id);
+        $where->passenger = $this->user->getUser($passenger_id);
+        $where->publisher = $this->user->getUser($publisher_id);
+        $this->em->persist($where);
+        //var_dump($this->ridesToAirportBookingManifest);
+        $this->em->flush();
+    }
+    
+    private function returnLoggedInUserName(){
+        
+        $userName = $this->loggedInUser->first_name . " " . $this->loggedInUser->last_name;
+        return $userName;      
+    }
+    
+    
+    protected function sendBuyNotificationForApproval($data){
+        
+        $this->sendEmail($data);
+    }
+    
+    private function createEmailMessage($senderEmail, $recieverName, $recieverEmail, $messageBody){
+        $data = array (
+            'recipient_email' => $recieverEmail,
+            'recipient_name' => $recieverName,
+            'body' => $messageBody,
+            'subject' => 'Someone wants a seat on your ride'
+        );
+        return $data;
+    }
+    /**
+     * Decrease the number of seats by 1 
+     * @param string $id  Id of the record either toAirport or fromAirport
+     * @param string $whereTo toAirport or from airport
+       @throws Exception string, trip not found.
+     */
+    protected function decreaseNumberOfSeats($id, $whereTo){
+        
+        if ($whereTo == "toAirport"){
+            $this->checkSeatNumberAndThenDecrease("Rideorama\Entity\Ridestoairport", $id);
+         
+        } else if ($whereTo == "fromAirport"){
+            $this->checkSeatNumberAndThenDecrease("Rideorama\Entity\Ridesfromairport", $id);
+            
+        }else {
+            
+            throw new Exception("You must indicate whether this trip is to or from an airport");
+        }
+    }
+    
+    /**
+     * Checks the number of seats on the ride
+     * If number of seats is greater than 0 then decrement the number of seats
+     * else throw an Exception
+     * @param type $entity
+     * @param type $id 
+     */
+    private function checkSeatNumberAndThenDecrease($entity, $id){
+        
+          $seats = $this->getNumberOfSeats($entity, $id);
+            if ($seats > 0){
+            $this->subtractASeat($entity, $id);
+            }else {
+                throw new Exception("There are no more seats avaliable on this ride");
+            }
+    }
+    
+    /**
+     * This function determines if the user has booked this trip earlier.
+     * @param string $trip_id
+     * @param string $passenger_id
+     * @param string $entity 'To or from airport'
+     * @return array 
+     */
+    private function getUserBooking($trip_id, $passenger_id, $entity){
+        
+      $q = $this->em->createQuery("select u.id from $entity u where 
+                                   u.passenger = :passenger_id and
+                                   u.trip = :trip_id")
+                     ->setParameters(array(
+                         'passenger_id' => $passenger_id,
+                         'trip_id' => $trip_id
+                     ));
+      
+      $result = $q->getResult();
+      return $result;
+        
+    }
+    
+    /**
+     *
+     * @param type $entity
+     * @param type $id
+     * @return integer number of seats available on the ride
+     */
+    private function getNumberOfSeats($entity, $id){
+        
+      $q = $this->em->createQuery("select u.number_of_seats from '$entity' 
+                                    u where u.id = :id")
+                       ->setParameters(array(
+                           'id'=> $id
+                             ));
+        
+        $seats = $q->getResult();
+        
+        $seat_count = $seats[0]['number_of_seats'];
+        
+        return $seat_count;
+    }
+    /**
+     * Increases the number of seats by 1
+     * @param string $id
+     * @param string $whereTo toAirport or fromAirport
+     * throws Exception string trip not found
+     */
+    protected function increaseNumberOfSeats($id, $whereTo){
+        
+        if ($whereTo == "toAirport"){
+            
+            $this->addASeat("\Rideorama\Entity\Ridestoairport", $id);
+        }
+        else if ($whereTo == "fromAirport"){
+            
+            $this->addASeat("Rideorama\Entity\Ridesfromairport", $id);
+        }
+        
+        else{
+           throw new Exception("You must indicate whether this trip is to or from airport");
+        }
+    }
+   
+    /**
+     *
+     * @param type $entity
+     * @param type $id
+     * @return type 
+     */
+    private function subtractASeat($entity, $id){
+    
+      $q = $this->em->createQuery("UPDATE $entity u SET
+                                   u.number_of_seats =  u.number_of_seats - 1
+                                   where u.id = :id")
+                      ->setParameter('id', $id);
+         $q->execute();
+    }
+    
+    /**
+     *
+     * @param type $entity
+     * @param type $id
+     * @return type 
+     */
+    private function addASeat($entity, $id){
+        $q = $this->em->createQuery("UPDATE $entity u SET u.number_of_seats = u.number_of_seat + 1
+                                    where u.id = :id")
+                       ->setParameter('id', $id);
+        return $q->execute();
     }
 }
 
