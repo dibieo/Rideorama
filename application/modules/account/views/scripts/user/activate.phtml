@@ -1,10 +1,16 @@
 <br /><br />
-<div id="view-content">
     
 	<p>Thanks for joining Rideorama. You are one step away from activating your account.
            Please complete your profile and add information about your car if you 
            have one</p>
         
-        <?php echo $this->form; ?>
-        </p>
-</div>
+        <section id="body_container"> 
+    <!--complete profile starts-->
+    <div class="complete_profile"> <img src="<?php echo $this->baseUrl();?>/img/complete_profile_top.png" alt="" class="curve" />
+      <div class="inner_details">
+          <?php echo $this->form; ?>
+
+      </div>
+      <img src="<?php echo $this->baseUrl(); ?>/img/complete_profile_bottom.png" alt="" class="curve" /> </div>
+    <!--complete profile ends--> 
+  </section>

@@ -15,21 +15,20 @@ class ShowController extends Zend_Controller_Action
 
     public function indexAction()
     {
-     $this->_helper->getHelper('layout')->disableLayout();
-     echo "proof";
+        print( date("g:i a", strtotime("14:10:30")) );
+
+     //$this->_helper->getHelper('layout')->disableLayout();
     }
     
 
     public function calcAction(){
         
-       $this->_helper->viewRenderer->setNoRender();
-       $this->_helper->getHelper('layout')->disableLayout();
        
         try {
             
         $client = new Zend_Http_Client('http://maps.googleapis.com/maps/api/distancematrix/json');
  
-        $departure = urlencode('2985 aurora avenue boulder co');
+        $departure = urlencode('1777 Exposition drive Boulder CO');
         $destination = urlencode('Mc Donalds 28th Street Boulder CO');
  
         $client->setParameterGet('sensor', 'false'); // Do we have a GPS sensor? Probably not on most servers.
@@ -43,14 +42,14 @@ class ShowController extends Zend_Controller_Action
         $val = Zend_Http_Response::extractBody($response);
         
         $val = json_decode($val);
-        
+        print_r($val);
+        echo "We just printed the value \n";
        // print_r($val);
         
         
        
-        echo $val->rows[0]->elements[0]->distance->text;
 //        echo "<br>";
-//        echo $val->rows[0]->elements[0]->duration->text;
+ //     echo $val->rows[0]->elements[0]->duration->text;
         
         
           }catch(Exception $ex){

@@ -22,21 +22,30 @@ class Rides_IndexController extends Zend_Controller_Action
         $destination = $this->_getParam('to');
         $where = $this->_getParam('where');
         $trip_date = $this->_getParam('trip_date');
+        $return_trip = "true";
+        if ($this->_hasParam('return_trip')){
+            $return_trip = $this->_getParam('return_trip');
+        }
+        
         
         if ($where == "toAirport"){
         // action body
-            
-       $this->getRideFormPage($where, $departure, $destination, $trip_date);
-    
+           $this->getRideFormPage($where, $departure, $destination, $trip_date, $return_trip);
+         
          }else if ($where == "fromAirport"){
        
-            $this->getRideFormPage($where, $departure, $destination, $trip_date);
            
-         }
+            $this->getRideFormPage($where, $departure, $destination, $trip_date, $return_trip);
+           }else{
+               
+               throw new Exception("Invalid argument. You need to be either going to or from an airport");
+           }
         
-    
     }
 
+    /**
+     * Performs ajax validation on the form inputs
+     */
     public function validateformAction()
     {
         
@@ -50,26 +59,41 @@ class Rides_IndexController extends Zend_Controller_Action
      * @param string $departure
      * @param string $destination
      * @param string $trip_date 
-     *
+     *@param string $return_trip //Should the user be able to post a return trip from this location
      *
      */
-    private function getRideFormPage($where, $departure, $destination, $trip_date)
+    private function getRideFormPage($where, $departure, $destination, $trip_date, $return_trip)
     {
        $this->view->where = $where;
-       $this->ride_form->departure->setValue($departure);
-       $this->ride_form->destination->setValue($destination);
+       if ($where == "toAirport"){
+       $this->ride_form->departure->setValue($departure)
+                                  ->setAttrib('placeholder', 'Enter your departure');
+       $this->ride_form->destination->setValue($destination)
+                                    ->setAttrib('placeholder', 'Enter airport name')
+                                    ->setJQueryParams(array('source' =>$this->ride_form->getAirports()));
        $this->ride_form->trip_date->setValue($trip_date);
+       $this->ride_form->return->setValue($return_trip);
+       
+       }else if ($where == "fromAirport"){
+           
+       $this->ride_form->departure->setValue($departure)
+                                  ->setAttrib('placeholder', 'Enter airport name')
+                                  ->setJQueryParams(array('source' =>$this->ride_form->getAirports()));
+       $this->ride_form->destination->setValue($destination)
+                                   ->setAttrib('placeholder', 'Enter your destination');;
+       $this->ride_form->trip_date->setValue($trip_date);
+       $this->ride_form->return->setValue($return_trip);
+           
+       }
+       
        $this->view->form = $this->ride_form;
        
          if ($this->getRequest()->isPost()){
             $formData = $this->getRequest()->getPost();
             if ($this->ride_form->isValid($formData)){
-           
-           
-             $ride = new Rides_Model_RidesService($where);
-             $ride->addRide($formData, $where);
+      
+                $this->processRequest($formData, $where);
              
-             $this->_forward('success', 'index', 'rides', $formData);
         }else{
             
             $this->ride_form->populate($formData);
@@ -102,6 +126,29 @@ class Rides_IndexController extends Zend_Controller_Action
         // action body
     }
 
+     /**
+     * Adds the form data to the model and redirects to a success page
+     * @param Array $formData Contains an array of post data
+     * @param string $where toAirport or fromAirport
+     */
+    private function processRequest($formData, $where)
+    {
+    
+    try{
+      $ride = new Rides_Model_RidesService($where);
+      $ride->addRide($formData, $where);
+      //Share on facebook
+     if ($formData['facebook'] == "true"){
+        $ride->postMessageOnFacebook("I am giving a ride..Check Rideorama to see it ");
+        }
+      $this->_forward('success', 'index', 'rides', $formData);
+
+    } catch (Exception $ex){
+       echo $ex->getMessage();
+    }
+    
+    }
+    
 
 }
 

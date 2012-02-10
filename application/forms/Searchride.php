@@ -42,7 +42,8 @@ class Application_Form_Searchride extends Application_Form_Base
        ));
        $trip_time->addMultiOptions($this->getTripTimes());
        
-       $submit = new Zend_Form_Element_Submit('submit');
+       $submit = new Zend_Form_Element_Button('findrides');
+       $submit->setAttrib('onClick', "findRides()");
        $submit->setLabel('Find a ride');
        
        $requestRide = new Zend_Form_Element_Button('request');

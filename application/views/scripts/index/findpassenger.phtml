@@ -6,35 +6,89 @@
         <p>Ride requests for <?php echo $this->date; ?> !</p>
 
 <?php if (count($this->requests) > 0): ?>
+       <section class="passenger_results">
+      <div class="head_section">
+      
+        <?php if($this->where == "toAirport"): ?>
+        <h3>Passengers needing rides to <?php echo $this->searchtitle; ?> on <?php echo $this->date; ?> </h3>
+        <?php endif; ?>
+        <?php if ($this->where == "fromAirport") :?>
+         <h3>Passengers needing rides from <?php echo $this->searchtitle; ?> on <?php echo $this->date; ?> </h3>
+        <?php endif; ?>
+        <ul>
+          <li class="none">Filter by: </li>
+          <li class="none"><a href="#">Distance </a></li>
+          <li><a href="#">Price</a></li>
+          <li><a href="#">Rating</a></li>
+          <li class="active"><a href="#">Time</a></li>
+        </ul>
+      </div>
+      <div class="passenger_content">
+        <div class="col_head"><span class="col01">NAME</span> <span class="col02">DEPART FROM</span> <span class="col03">Depart time</span> <span class="col03">Duration</span> 
+            <span class="col01">
+             <?php if ($this->where == "fromAirport"):?>
+                Distance from your destination
+            <?php else: ?>
+                Distance from your departure
+            <?php endif;?>
+            </span> </div>
 <?php foreach($this->requests as $request): ?>
     
         <?php $requestKey = $request['key'];
+               //print_r($requestKey);
               $requestValue = $request['value'];
+              $firstName = $requestKey['first_name'];
+              $lastName = $requestKey['last_name'];
+              $cost = $this->escape($requestKey['cost']);
+              //$seat_num =  $this->escape($requestKey['number_of_seats']);
+              $departure_time = $this->escape($requestKey['departure_time']);
+              $duration = $this->escape($requestKey['duration']);
         ?>
         
+       
+   
+        <div class="row">
+          <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/passenger_top.png" alt=""></div>
+          <div class="text_area">
+            <div class="col1"><img width="100px" height="100px" src="<?php echo $this->escape($requestKey['profile_pic']); ?>?type=large" alt=""></div>
+            <div class="col2">
+              <p><?php echo $this->escape($firstName) . " " . $this->escape($lastName[0])."" ?></p>
+              <small><img src="<?php echo $this->baseUrl(); ?>/img/rate.png" alt=""></small> </div>
+            <div class="col3">
+              <p class="head"><span>Boulder</span> <span><?php print( date("g:i a", strtotime($departure_time)) ); ?></span> 
+                  <span><?php echo $duration; ?></span>
+                  <span>
+              
+              <?php echo $this->escape($requestValue); ?>
+                  
+                  </span> </p>
+              <p>
+              <?php if ($this->where == "fromAirport"):?>
+               I need to be  dropped  off at <?php echo $this->escape($requestKey['drop_off_address']); ?> </br>
+             <?php else: ?>
+              I need to be picked up from </b><?php echo $this->escape($requestKey['pick_up_address']); ?> </br>
+            <?php endif; ?>
+            </div>
+            <div class="col4">
+              <p><a href="#">Details</a></p>
+            </div>
+            <div class="col5"> <small>offering</small> <strong>$<?php echo $cost; ?></strong> <small></small> <span><a href="#">Offer ride</a></span> </div>
+          </div>
+          <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/passenger_btm.png" alt=""></div>
+        </div>
+      
         
-       <br> <b>Published by : </b> <?php echo ($requestKey['first_name']) . " " . $this->escape($requestKey['last_name']); ?> </br>
-       <?php if ($this->where == "fromAirport"):?>
-       <br><b> Destination : </b><?php echo $this->escape($request['key']['drop_off_address']); ?> </br>
-       <?php else: ?>
-       <br><b> Departure : </b><?php echo $this->escape($request['key']['pick_up_address']); ?> </br>
-       <?php endif; ?>
-       <br><b> Departure time :</b> <?php echo $this->escape($request['key']['departure_time']); ?> </br>
-       <br><b> Estimate trip duration :</b> <?php echo $this->escape($request['key']['duration']); ?> </br>
-       <br><b> Distance from you: </b><?php echo $this->escape($requestValue); ?> </br>
-        <br><b>Cost per seat: </b><?php echo $this->currency($this->escape($requestKey['cost'])); ?></br>
-        <br><b>Message about request:</b> <?php echo $this->escape($requestKey['request_msg']); ?></br>
-        <br><b>Number of luggage(s): </b><?php echo $this->escape($requestKey['num_luggages']); ?></br>
-        <br><b>Luggage sizes: </b><?php echo $this->escape($requestKey['luggage_size']); ?></br>
-        <br><a href="<?php echo $this->url(array('controller'=>'#', 
-            'action'=>'#'));?>">Offer ride</a></br>
-
-
-        <p></p>
+       
     
  <?php endforeach; ?>
-  
+  </div>
+      </div>
+    </section>
   <?php else : ?>
-        <div id="norides">Sorry there are no rides for the date selected</div>
+      <div class="head_section">
+        <h3>No rides found for <?php echo $this->date; ?></h3>
+        <p></p>
+        <a href="#">Click here to post a ride request</a>
+      </div>
    <?php endif; ?>
 </div>

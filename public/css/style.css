@@ -1,6 +1,6 @@
 /******************************common css starts******************************/
 body,div,ul,li,h1,h2,h3,h4,h5,h6,form,fieldset,p,header,section,footer,aside,nav,article,figure,video,details{padding:0; margin:0; font-weight:normal;}
-body{font:12px/16px Myriad Pro, Arial, Helvetica, sans-serif; color:#595959; height:100%; background:url(../img/body_bg.jpg) repeat-x center 0;}
+body{font: 18px Myriad Pro, Arial, Helvetica, sans-serif; color:#595959; height:100%; background:url(../img/body_bg.jpg) repeat-x center 0;}
 img,fieldset{border:none; margin:0; padding:0; outline:none;}
 .left{float:left;}
 .right{float:right; width:auto;}
@@ -9,6 +9,11 @@ img,fieldset{border:none; margin:0; padding:0; outline:none;}
 .curve img{float:left}
 .clear{clear:both;}
 :focus{outline:none;}
+
+/******temp values for forms ***********/
+ #tabs-1 #departure, #tabs-1 #destination, 
+ #tabs-1 #trip_date, #tabs-2 #driverdate, #tabs-2 #driverdeparture,#tabs-2 #driverdestination {width: 45%}
+/**************************************/
 /****************wrapper starts***************/
 #wrapper{width:1001px; margin:0 auto;}
 
@@ -84,7 +89,7 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 .complete_profile .inner_details{float:left; width:919px; padding:0 41px; background:url(../img/complete_profile_bg.png) repeat-y 0 0;}
 .complete_profile h2{ float:left; width:100%; font-size:40px; line-height:42px; color:#fff; padding-bottom:25px;}
 .complete_profile .left_details{float:left; width:455px;}
-.complete_profile .right_details{float:right; width:428px;}
+.complete_profile .right_details{float:right; width:460px;}
 .complete_profile .inner_details form{float:left; width:100%;}
 .complete_profile .inner_details .facebook_btn{float:left; width:95%; text-align:center; padding-bottom:56px;}
 .complete_profile .inner_details .row{float:left; width:100%; padding-bottom:22px;}
@@ -93,8 +98,8 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 .complete_profile .inner_details .text{float:left; width:100%; font-size:12px; line-height:14px; color:#f9fbf1;}
 .complete_profile .upload_btn{float:right; width:200px; margin-top:26px; height:55px;cursor:pointer;background:url(../img/upload_profile_btn.gif) no-repeat 0 0;border:none; margin-right:23px; margin-bottom:18px;}
 .complete_profile .right_details .upload_btn{margin-right:0 !important; margin-top:0;}
-.complete_profile .sign_up_btn{float:left; width:190px; padding:9px 0 8px; margin:10px 0 -62px 358px; display:inline;text-align:center; cursor:pointer;background:none; border:none;font:bold 24px/26px Arial, Helvetica, sans-serif; color:#fff; z-index:999; position:relative;}
-.complete_profile .sign_up_btn_hover{float:left; width:190px; padding:9px 0 8px; margin:10px 0 -62px 358px; display:inline;text-align:center; cursor:pointer;background:none; border:none;font:bold 24px/26px Arial, Helvetica, sans-serif; color:#4c721d; z-index:999; position:relative;}
+.complete_profile .sign_up_btn{float:left; width:190px; padding:110px 0 8px; margin:10px 0 -62px 358px; display:inline;text-align:center; cursor:pointer;background:none; border:none;font:bold 24px/26px Arial, Helvetica, sans-serif; color:#fff; z-index:999; position:relative;}
+.complete_profile .sign_up_btn_hover{float:left; width:190px; padding:110px 0 8px; margin:10px 0 -62px 358px; display:inline;text-align:center; cursor:pointer;background:none; border:none;font:bold 24px/26px Arial, Helvetica, sans-serif; color:#4c721d; z-index:999; position:relative;}
 
 /**************** profile page ends ***************/
 
@@ -271,12 +276,12 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 .request_post_details h3{float:left; width:100%; font-size:40px; line-height:44px; color:#fff; font-weight:bold;}
 .request_post_details .form_row{float:left; width:100%; margin-top:20px}
 .request_post_details .form_row label{float:left; width:287px;font-size:24px; line-height:28px; color:#e2ebc1; font-weight:bold; padding-top:3px}
-.request_post_details .form_row .input{float:left; width:412px; background:#fff; border:none; font-size:12px; line-height:14px; color:#7f7f7f; padding:14px 13px}
-.request_post_details .form_row .textarea{float:left; width:412px; background:#fff; border:none; font-size:12px; line-height:14px; color:#7f7f7f; padding:14px 13px; resize:none; overflow:auto; height:51px; font-family:Arial, Helvetica, sans-serif}
+.request_post_details .form_row .input{float:left; width:412px; background:#fff; border:none; font-size:16px; line-height:14px; color:#7f7f7f; padding:14px 13px}
+.request_post_details .form_row .textarea{float:left; width:412px; background:#fff; border:none; font-size:16px; line-height:14px; color:#7f7f7f; padding:14px 13px; resize:none; overflow:auto; height:51px; font-family:Arial, Helvetica, sans-serif}
 .request_post_details .form_row .select_box{float:right; margin-right:2px;}
 .request_post_details .form_row .textarea.textarea1{height:197px; font-size:12px; line-height:14px;}
-.request_post_details .form_row .select{float:left; width:176px;font-size:11px; line-height:14px; padding:12px 13px; border:none; color:#7f7f7f}
-.request_post_details .form_row .select1{float:left; width:438px;font-size:11px; line-height:14px; padding:12px 13px; border:none; color:#7f7f7f; text-transform:uppercase}
+.request_post_details .form_row .select{float:left; width:176px;font-size:16px; line-height:14px; padding:12px 13px; border:none; color:#7f7f7f}
+.request_post_details .form_row .select1{float:left; width:438px;font-size:16px; line-height:14px; padding:12px 13px; border:none; color:#7f7f7f; text-transform:uppercase}
 .request_post_details .form_row .select.right{float:right;}
 .request_post_details .form_row .ride{float:left;}
 .request_post_details .form_row1{float:left; width:100%; padding-top:12px}
@@ -296,7 +301,7 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 #request_post_container .details_box{margin:0 auto; width:520px}
 #request_post_container .details_box .content_details{float:left; width:100%; padding-top:80px}
 #request_post_container .details_box .content_details.space2{padding-top:50px}
-#request_post_container .details_box .content_details ul{float:left; width:405px; padding:0px 0 0 115px; list-style:none}
+#request_post_container .details_box .content_details ul{float:left; width:750px; padding:0px 0 0 115px; list-style:none}
 #request_post_container .details_box .content_details ul li{float:left; width:100%;font-size:18px; color:#000000; line-height:25px}
 #request_post_container .details_box .content_details ul li span{width:210px; display:inline-block; float:left}
 #request_post_container .details_box .content_details ul li starong{float:left;}

@@ -26,6 +26,7 @@ class Account_Model_CarService extends Application_Model_Service
         $this->car->make = $data['make'];
         $this->car->model = $data['model'];
         $this->car->year = $data['year'];
+        $this->car->car_profile_pic = $data['car_profile_pic'];
         $this->car->picture1 = $data['car_pic1'];
         $this->car->picture2 = $data['car_pic2'];
         $this->car->user = $user;

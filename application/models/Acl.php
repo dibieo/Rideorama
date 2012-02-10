@@ -59,7 +59,7 @@ class Application_Model_Acl extends Zend_Acl
 		$this->allow('guest', 'default:index', array('validateform', 'validatesecondform', 'findpassenger', 'index', 'search'))
 			 ->allow('guest', 'default:error', 'error')
                          ->allow('guest', 'default:show', array('index', 'calc'))
-			 ->allow('guest', 'account:user', array('login', 'register', 'recover', 'thanks','validateform', 'activate', 'regfinished'));
+			 ->allow('guest', 'account:user', array('login', 'register', 'recover', 'thanks','validateform', 'activate', 'regcomplete'));
 	
 			 
 			 
@@ -82,7 +82,6 @@ class Application_Model_Acl extends Zend_Acl
                 $this->allow('admin', 'admin:city', array('index', 'add-city', 'edit-city', 'delete-city'));
                 $this->allow('admin', 'admin:landmarkcategory', array('index', 'add'));
                 $this->allow('admin', 'admin:state', array('index', 'delete-state', 'edit-state', 'add-state'));
-                		//->allow('admin', 'admin:courses', array('index', 'viewschools', 'getdepts', 'getactions', 'getcourses', 'edit', 'delete'));
 
 		
               

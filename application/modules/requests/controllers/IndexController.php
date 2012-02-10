@@ -4,6 +4,7 @@ class Requests_IndexController extends Zend_Controller_Action
 {
 
     protected $form = null;
+    protected $formData;
 
     public function init()
     {
@@ -24,6 +25,10 @@ class Requests_IndexController extends Zend_Controller_Action
         $from = $this->_getParam('from');
         $to = $this->_getParam('to');
         $trip_date = $this->_getParam('trip_date');
+        $return_trip = "true";
+        if ($this->_hasParam('return_trip')){
+            $return_trip = $this->_getParam('return_trip');
+        }
         
         if ($where == "toAirport"){
           //Set placeholders on text fields
@@ -35,14 +40,18 @@ class Requests_IndexController extends Zend_Controller_Action
                                    ->setJQueryParams(array('source' =>$this->form->getAirports()))
                                   ->setValue($to);
           $this->form->trip_msg->setAttrib('placeholder', 'Enter additional information regarding this request such as what terminal you would like to be dropped off at');
+          $this->form->return->setValue($return_trip);
           $this->view->form = $this->form;
           $this->view->where = $where;
           
          if ($this->getRequest()->isPost()){
             $this->formData = $this->getRequest()->getPost();
             if ($this->form->isValid($this->formData)){
-           
             $this->processRequest($this->formData, $where);
+             //Share on facebook checkbox was clicked
+           
+        }else{
+            $this->form->populate($this->formData);
         }
          }
             
@@ -55,6 +64,7 @@ class Requests_IndexController extends Zend_Controller_Action
           $this->form->destination->setAttrib('placeholder', 'Enter the address you would like to be picked up from')
                             ->setValue($to);
           $this->form->trip_msg->setAttrib('placeholder', 'Enter additional information regarding this request such as what terminal you would like to be picked up from');
+          $this->form->return->setValue($return_trip);
           $this->view->form = $this->form; 
           $this->view->where = $where;
             if ($this->getRequest()->isPost()){
@@ -62,6 +72,9 @@ class Requests_IndexController extends Zend_Controller_Action
             if ($this->form->isValid($this->formData)){
            
             $this->processRequest($this->formData, $where);
+                     
+        }else {
+            $this->form->populate($this->formData);
         }
          }
           
@@ -94,8 +107,12 @@ class Requests_IndexController extends Zend_Controller_Action
     
       $ride = new Requests_Model_RequestService($where);
       $ride->addRequest($this->formData, $where);
+      //Share on facebook
+     if ($this->formData['facebook'] == "true"){
+        $ride->postMessageOnFacebook("I need a ride! Check Rideorama to view my request!=> $where");
+        }
       $this->_forward('success', 'index', 'requests', $this->formData);
-        
+              
     }
 
 

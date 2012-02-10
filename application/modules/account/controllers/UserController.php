@@ -55,9 +55,11 @@ class Account_UserController extends Zend_Controller_Action
         $session = $this->_fb->getUser(); //Stores the facebook user session
         $this->fbsession = $session;
         $me = null;
-        echo "Outside session: " . $session;
+       // echo "Outside session: " . $session;
     //If User is logged into facebook get profile info we need
     if ($session) {
+         // Set facebook_status of the fb
+         
         echo "Session : " . $session;
         try {
         
@@ -198,7 +200,7 @@ class Account_UserController extends Zend_Controller_Action
                 $data['password'] = md5($data['password']);
                 //print_r($data);
                 $this->_user->registerUser($data);
-                $this->_forward('regfinished');
+                $this->_forward('regcomplete');
                         
             }else{
                 
@@ -238,12 +240,21 @@ class Account_UserController extends Zend_Controller_Action
             if ($form->isValid($formData)){
                 $data = $form->getValues();
                 $this->_user->activateUserAccount($this->_getParam('hash'), $data);
-                $this->_forward('index');
+                $this->_forward('thanks');
             }
         else{
             $form->populate($formData);
         }
+
     }
+    
+     //$this->flashMessenger->addMessage("Your account has been activated");
+    
+    }
+    
+    
+    public function thanksAction(){
+        
     }
     /**
 * This function adds a first time facebook user to the database
@@ -261,12 +272,12 @@ class Account_UserController extends Zend_Controller_Action
             'email' => $me['email'],
             'email_hash' => md5($email),
             'profession' => "other",
-            'flogin' => 'true'
+            'facebook_login' => 'true'
             );
             
             //Add to the database
             $u = new Account_Model_UserService();
-            $u->addConfirmedUser($data);
+            $u->addConfirmedUser($data, "true");
            
     }
 
@@ -282,6 +293,8 @@ class Account_UserController extends Zend_Controller_Action
      * @param type $id 
      */
     private function processFacebookLoginAndRedirect($email, $id){
+          
+        
            $authAdapter = $this->getAuthAdapter();
             $result = $this->checkAuthCred($authAdapter, $email, $id);
             $redirect = Zend_Registry::isRegistered('return') ? Zend_Registry::get('return') : 'account/user/index';

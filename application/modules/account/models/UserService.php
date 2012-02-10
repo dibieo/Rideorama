@@ -93,7 +93,7 @@ class Account_Model_UserService extends Application_Model_Service
       
       $user = $this->addConfirmedUser($user_data);
        
-       $this->addCarProfile($data, $user);
+      $this->addCarProfile($data, $user);
     }
     
     /**
@@ -119,7 +119,7 @@ class Account_Model_UserService extends Application_Model_Service
      * @param type $password_hash 
      * return the user object
      */
-    public function addConfirmedUser(array $data)
+    public function addConfirmedUser(array $data, $facebook = null)
      {
         $this->user->email = $data['email'];
         $this->user->first_name = $data['first_name'];
@@ -133,7 +133,7 @@ class Account_Model_UserService extends Application_Model_Service
         $this->user->last_login = new \DateTime(date("Y-m-d H:i:s"));
         $this->user->profession = $data['profession'];
         $this->user->password_hash = $data['password_hash'];
-        $this->user->facebook_login = $data['flogin'];
+        $this->user->facebook_login = is_null($facebook) ? "false" : "true";
         $this->user->role = "user";
         $this->em->persist($this->user);
         $this->em->flush(); 

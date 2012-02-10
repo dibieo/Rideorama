@@ -1,4 +1,3 @@
-//JavaScript Document Developed by Seo-semantic-xhtml
 
 function mainmenu(){
 $(" #nav ul ").css({display: "none"}); // Opera Fix

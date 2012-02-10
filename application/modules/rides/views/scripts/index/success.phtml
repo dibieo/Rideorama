@@ -1,15 +1,42 @@
-<?php echo $this->msg; ?>
-<br></br>
-<button id="returnTrip">Post a return trip</button>
+<?php
+$where = $this->where;
+if ($where == "toAirport"){
+    $where = "fromAirport";
+}else if ($where == "fromAirport"){
+    $where = "toAirport";
+}
+$return_ride_url = $this->url(array(
+    'module' => 'rides',
+    'controller' => 'index',
+    'action' => 'post',
+    'where' =>  $where,
+    'trip_date' => $this->params['trip_date'],
+    'trip_time' => $this->params['trip_time'],
+    'from' => $this->params['destination'],
+    'to' => $this->params['departure'],
+    'return_trip' => "false"
+));
+?>
+  <section id="request_post_container" class="spacer5">
+      <p>Your request has been successfully posted</p>
+      <div class="details_box">
+        <div class="content_details">
+          <ul class="req">
+            <li><span>Departure:</span><strong><?php echo $this->params['departure']; ?></strong></li>
+            <li><span>Destination:</span><strong><?php echo $this->params['destination']; ?></strong></li>
+            <li><span>Number of seats:</span><strong><?php echo $this->params['num_seats']; ?></strong></li>
+            <li><span>Cost per seat :</span><strong><?php echo $this->currency($this->params['trip_cost']); ?></strong></li>
+            <li><span>Number of bags per passenger: </span><strong><?php echo $this->params['luggage']; ?></strong></li>
+            <li><span>Size of each bag: </span><strong><?php echo $this->params['luggage_size']; ?></strong></li>
+            <li><span>Trip message:</span><strong><?php echo $this->params['trip_msg']; ?></strong></li>
+            <li><span>Date: </span><strong><?php echo $this->params['trip_date']; ?></strong></li>
+          </ul>
+          <span class="btn3"><a href="#">Edit</a></span> </div>
+          <?php if ($this->params['return'] == "true") : ?>
+          <h6><a href="<?php echo $return_ride_url; ?>">Click here to post a ride back</a></h6>
+          <?php endif; ?>
+      </div>
+      
+      <!--request_post container ends--></section>
+    <span class="page_link"><a href="<?php echo $this->BaseUrl(); ?>">Back to homepage</a></span> </section>
 
-<p>This is your trip!</p>
-<br>Departure: <?php echo $this->params['departure']; ?></br>
-<br>Destination: <?php echo $this->params['destination']; ?></br>
-<br>Trip date: <?php echo $this->params['trip_date']; ?> </br>
-<br>Trip time: <?php echo $this->params['trip_time']; ?></br>
-<br>Number of seats: <?php echo $this->params['num_seats']; ?></br>
-<br>Cost per seat: <?php echo $this->params['trip_cost']; ?></br>
-<br>Number of luggage: <?php echo $this->params['luggage']; ?></br>
-<br>size of luggage: <?php echo $this->params['luggage_size']; ?></br>
-<br></br>
-<button id="edit-Trip">Edit this trip</button>

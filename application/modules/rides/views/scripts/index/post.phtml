@@ -1,9 +1,15 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Index</b> and script/action name <b>post</b></p>
-        <?php echo $this->msg; ?>
-</div>
-<?php echo $this->form; ?>
+<section id="body_container"> 
+    <!--request_post container starts-->
+    <section id="request_post_container">
+      <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/request_post_t_curv.png" alt=""/></div>
+      <!-- request_post_details starts -->
+      <section class="request_post_details">
+      <?php echo $this->msg; ?>
+       <?php echo $this->form; ?>
+        <!-- request_post_details ends --></section>
+      <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/request_post_b_curv.png" alt=""/></div>
+      <!--request_post container ends--></section>
+  </section>
 
 <?php if ($this->where == "toAirport"): ?>
 <script>

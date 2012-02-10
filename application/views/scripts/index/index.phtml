@@ -1,4 +1,5 @@
  <?php echo $this->headScript()->appendFile( $this->baseUrl() . '/js/homepage.js'); ?>
+ <?php echo $this->headScript()->appendFile( $this->baseUrl() . '/js/jquery.slideto.js'); ?>
 
 <script>
   $(function(){
@@ -28,8 +29,11 @@ echo $this->form;?>
     <script>
      $(function() {
          $("#where-toAirport").click(function(){
-            $("#departure").attr('placeholder', "Enter your address");
+       
+            setAirportNameTripsToAirport("#departure", "#destination");
+           $("#departure").attr('placeholder', "Enter your address");
            $("#destination").attr('placeholder', "Enter airport name");
+           $("#destination").val("Denver International airport");
            $("#departure").autocomplete({"source": []});
            $("#destination").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
            
@@ -38,6 +42,7 @@ echo $this->form;?>
         
       $(function() {
          $("#where-fromAirport").click(function(){
+            setAirportNameTripsFromAirport("#departure", "#destination");
             $("#departure").attr('placeholder', "Enter airport name");
            // $("#departure").autocomplete({"source":[{"key":2,"value":"Denver International airport"},{"key":3,"value":"Phoenix International Airport"}]});
            $("#destination").attr('placeholder', "Enter your address");
@@ -50,6 +55,7 @@ echo $this->form;?>
      
        $(function() {
          $("#driverwhere-toAirport").click(function(){
+           setAirportNameTripsToAirport("#driverdeparture", "#driverdestination");
             $("#driverdeparture").attr('placeholder', "Enter your address");
            $("#driverdestination").attr('placeholder', "Enter airport name");
            $("#driverdeparture").autocomplete({"source": []});
@@ -60,6 +66,7 @@ echo $this->form;?>
         
       $(function() {
          $("#driverwhere-fromAirport").click(function(){
+            setAirportNameTripsFromAirport("#driverdeparture", "#driverdestination");
             $("#driverdeparture").attr('placeholder', "Enter airport name");
            // $("#departure").autocomplete({"source":[{"key":2,"value":"Denver International airport"},{"key":3,"value":"Phoenix International Airport"}]});
            $("#driverdestination").attr('placeholder', "Enter your address");
@@ -68,5 +75,15 @@ echo $this->form;?>
             
          });
      }) ;
+     
+     function setAirportNameTripsToAirport (departure, destination){
+        $(departure).val('');
+        $(destination).val("Denver International airport");
+     }
+     
+     function setAirportNameTripsFromAirport(departure, destination){
+         $(departure).val("Denver International airport");
+         $(destination).val('');
+     }
  </script>
  <?php echo $this->headScript()->appendFile($this->baseUrl() . "/js/validateform.js"); ?>

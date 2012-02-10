@@ -41,6 +41,11 @@ class Rides_Model_RidesService extends Application_Model_Service
         }
     }
     
+    /**
+     * Adds rides to or from airport to the database
+     * @param array $trip_data
+     * @param type $where 
+     */
     public function addRide(array $trip_data, $where){
         
         if ($where == "toAirport"){
@@ -50,6 +55,8 @@ class Rides_Model_RidesService extends Application_Model_Service
         }else if ($where == "fromAirport"){
             
             $this->addRideFromAirport($trip_data);
+        }else {
+            throw new Exception("$where is an invalid parameter");
         }
         
     }
@@ -218,7 +225,8 @@ class Rides_Model_RidesService extends Application_Model_Service
          $airport = $this->airport->getAirportByName($airport);
      
        $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
-             u.trip_msg, u.departure_time, u.arrival_time, u.cost, u.luggage_size, p.email, p.first_name, p.id as user_id,
+             u.trip_msg, u.departure_time, u.arrival_time, u.cost, u.luggage_size, p.email, p.profile_pic,
+              p.first_name, p.id as user_id,
               p.last_name from $targetEntity u JOIN u.publisher 
               p where u.airport = $airport->id and u.departure_date = :date")
                     ->setParameter('date', $date);

@@ -935,3 +935,71 @@ Reason: <strong>Error reading from remote server</strong></p></p>
 </soap:Envelope>
 
 22:52:38 01/30/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-01-30T21:52:38.641-08:00</timestamp><ack>Success</ack><correlationId>454b78cc06f54</correlationId><build>2486531</build></responseEnvelope><payKey>AP-5AN272197X314011D</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>
+11:31:45 02/08/12 caller [info] #####SOAP#####
+11:31:45 02/08/12 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost/rideorama/public/payment/index/cancel</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <feesPayer>PRIMARYRECEIVER</feesPayer>
+    <memo>Payment from rideorama platform for a ride</memo>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+            <email>test_1326109945_biz@gmail.com</email>
+            <primary>1</primary>
+        </receiver>
+        <receiver>
+            <amount>8</amount>
+            <email>user9_1326263178_per@gmail.com</email>
+            <primary>0</primary>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost/rideorama/public/payment/index/success</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+11:31:47 02/08/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-02-08T10:31:47.259-08:00</timestamp><ack>Success</ack><correlationId>b6aec84a89922</correlationId><build>2486531</build></responseEnvelope><payKey>AP-9W808152L36572044</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>
+11:34:26 02/08/12 caller [info] #####SOAP#####
+11:34:26 02/08/12 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost/rideorama/public/payment/index/cancel</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <feesPayer>PRIMARYRECEIVER</feesPayer>
+    <memo>Payment from rideorama platform for a ride</memo>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+            <email>test_1326109945_biz@gmail.com</email>
+            <primary>1</primary>
+        </receiver>
+        <receiver>
+            <amount>8</amount>
+            <email>user9_1326263178_per@gmail.com</email>
+            <primary>0</primary>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost/rideorama/public/payment/index/success</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+11:34:28 02/08/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-02-08T10:34:28.407-08:00</timestamp><ack>Success</ack><correlationId>bed041aca02dd</correlationId><build>2486531</build></responseEnvelope><payKey>AP-1RW347116R604871F</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>

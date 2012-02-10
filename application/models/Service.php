@@ -1,4 +1,5 @@
 <?php
+require_once 'facebook.php'; //Load Facebook Api
 
 class Application_Model_Service
 {
@@ -21,6 +22,29 @@ class Application_Model_Service
     {
         $this->$property = $value;
     } 
+    
+    public function postMessageOnFacebook($msg){
+        $facebook = new Facebook(array(
+            'appId' => '239308316101537',
+            'secret' => 'ce008ac5b02c0c21641a38b6acbd9b2b',
+            'cookie' => true,
+         ));
+        
+        try {
+        $facebook->api("/me/feed", 'post', array(
+              
+                    'message' => $msg, 
+                    'link'    => 'http://www.rideorama.com',
+                    'picture' => '',
+                    'name'    => '',
+                    'description'=> ''
+                    )
+                );
+                //as $_GET['publish'] is set so remove it by redirecting user to the base url 
+            } catch (FacebookApiException $e) {
+                echo $e->getMessage();
+            }
+    }
     
     public function getAll($entity){
         
@@ -62,12 +86,19 @@ class Application_Model_Service
         $client->setParameterGet('units', 'imperial');
  
         $response = $client->request('GET'); // We must send our parameters in GET mode, not POST
- 
+       
         $val = Zend_Http_Response::extractBody($response);
-        
+//        if (is_null($val)){
+//            echo "An error occured with the webservice call";
+//        }else{
+//           echo "Good process the data"; 
+//        }
+//        
         $val = json_decode($val);
         
        // var_dump($val);
+    
+        
         
         $duration = $val->rows[0]->elements[0]->duration->text;
         $distance = $val->rows[0]->elements[0]->distance->text;

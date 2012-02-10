@@ -53,14 +53,17 @@ class IndexController extends Zend_Controller_Action
 
     public function searchAction()
     {
+       $this->_helper->getHelper('layout')->disableLayout();
+
         $formData= $this->_getAllParams();
         $ride = new Rides_Model_RidesService($formData['where']);
         $ride_data = $ride->search($formData, $formData['where']);
         $this->view->date = $formData['trip_date'];
         $this->view->rides = $ride_data;
         $this->view->where = $formData['where'];
+        $this->setSearchTitle($formData['where']);
     }
-
+ 
     private function getAirportList()
     {
         
@@ -98,17 +101,33 @@ class IndexController extends Zend_Controller_Action
 
     public function findpassengerAction()
     {
+        $this->_helper->getHelper('layout')->disableLayout();
+
         // action body
         $formData= $this->_getAllParams();
+        #print_r($formData);
         $request = new Requests_Model_RequestService($formData['driverwhere']);
         $request_data = $request->search($formData, $formData['driverwhere']);
        // print_r($request_data);
         $this->view->date = $formData['driverdate'];
         $this->view->requests = $request_data;
         $this->view->where = $formData['driverwhere'];
+        $this->setSearchTitle($this->view->where);
     }
 
 
+       /**
+     * Set search title for the sear
+     * @param type $where 
+     */
+    private function setSearchTitle($where){
+        
+        if ($where == "toAirport"){
+          $this->view->searchtitle= $this->_getParam('driverdestination');
+        }else if ($where == "fromAirport"){
+          $this->view->searchtitle = $this->_getParam('driverdeparture');
+        }
+    }
 }
 
 

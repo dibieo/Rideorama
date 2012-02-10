@@ -133,5 +133,68 @@ class Application_Form_Base extends Zend_Form
             );
     }
     
+    protected function generateDecoratorsForSelects($class = 'form_row'){
+        
+        return array(
+                   
+                    'ViewHelper', array(array('elementDiv' => 'HtmlTag'), array('tag' => 'div', 'class' => "ride")),
+
+
+                   'Description',
+
+                   'Errors',
+                  
+                   'Label',
+
+                   array(array('data'=>'HtmlTag'), array('tag'=>'div', 'class' => $class)),
+
+
+                 // array(array('row'=>'HtmlTag'),array('tag'=>'div', 'class' => $class)
+        //)
+            );
+    }
+    
+    
+    protected function generateDecoratorsJQuery($class = 'form_row'){
+  
+           return array(
+               
+                   'UiWidgetElement',
+                   
+               
+                   'Description',
+
+                   'Errors',
+                  
+                   'Label',
+
+                   array(array('data'=>'HtmlTag'), array('tag'=>'div', 'class' => $class)),
+   
+
+            );
+           
+    }
+    
+    protected function generateJQueryElementTextDecorator($class = 'form_row'){
+           return array(
+               
+                   'UiWidgetElement',
+                   
+               
+                   'Description',
+
+                   'Errors',
+                  
+                   'Label',
+
+                   array(array('data'=>'HtmlTag'), array('tag'=>'div', 'class' => $class)),
+               
+                   array(array('txt'=>'HtmlTag'), array('tag'=>'h3', 'content' => 'Post a ride', 'placement' => 'PREPEND'))
+
+
+            );
+    
+    }
+    
   }
 

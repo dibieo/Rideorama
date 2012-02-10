@@ -1,3 +1,6 @@
+<div id="content">
+
+</div>
 <script>
 
 function testing(){
@@ -6,13 +9,8 @@ function testing(){
 </script>
 <?php
 
-echo $this->number;
-echo "<p></p>";
-echo $this->twice;
 echo $this->ajaxLink("Distance from my house to McDonalds",
                     "show/calc",
                     array('update' => '#content',
-                        'beforeSend' => 'slideup',
-                        'complete' =>  'testing()'
-                        
+                        'beforeSend' => 'slideup'
                         ));

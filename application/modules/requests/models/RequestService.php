@@ -130,7 +130,7 @@ class Requests_Model_RequestService extends Application_Model_Service
 
     }else if ($time == "morning"){
       
-      $requests =  $this->findMorningrequestsToAirport($date, $airport, '100:00:00', "12:00:00");
+      $requests =  $this->findMorningrequestsToAirport($date, $airport, '00:00:00', "12:00:00");
       $results = $this->sortTripsByDistanceToMyLocation($requests, $departure);
       $this->setSortTripMemberVariables($results);
 
@@ -209,7 +209,8 @@ class Requests_Model_RequestService extends Application_Model_Service
             $airport = $this->airport->getAirportByName($airport);
      
      $q = $this->em->createQuery("select u.id, $dest, u.num_luggages,
-             u.request_msg, u.departure_time, u.cost, u.duration, u.luggage_size, p.first_name, p.id as user_id,
+             u.request_msg, u.departure_time, u.cost, u.duration, u.luggage_size, p.first_name, 
+              p.profile_pic, p.id as user_id,
               p.last_name from $targetEntity u JOIN u.publisher 
               p where u.airport = $airport->id and u.departure_date = 
              '$date'");
@@ -228,7 +229,7 @@ class Requests_Model_RequestService extends Application_Model_Service
      * @param type $time2 Before what time
      * @return type array
      */
-    private function findMorningrequestsToAirport($search_data){
+    private function findMorningrequestsToAirport($date, $airport, $time1, $time2){
         
         return $this->ReturnrequestsToAirport($date, $airport, $time1, $time2);
 
@@ -350,7 +351,7 @@ class Requests_Model_RequestService extends Application_Model_Service
         $airport = $this->airport->getAirportByName($airport);
         
         $q = $this->em->createQuery("select u.id, $specialField, u.num_luggages,
-             u.request_msg, u.departure_time, u.duration, u.cost, u.luggage_size, p.first_name, p.id as user_id,
+             u.request_msg, u.departure_time, u.duration, u.cost, u.luggage_size, p.profile_pic, p.first_name, p.id as user_id,
               p.last_name from '$targetEntity' 
              u JOIN u.publisher p where u.airport = $airport->id and u.departure_date = 
              '$date' and u.departure_time > '$time1' and u.departure_time < '$time2'");
@@ -374,7 +375,7 @@ class Requests_Model_RequestService extends Application_Model_Service
         
        
         $this->requestsToAirport->pick_up_address = $trip_data['departure'];
-        $this->requestsToAirport->trip_msg = $trip_data['trip_msg'];
+        $this->requestsToAirport->request_msg = $trip_data['trip_msg'];
         $this->requestsToAirport->publisher = $this->user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
         $this->requestsToAirport->airport  = $this->airport->getAirportByName($trip_data['destination']);
         $this->requestsToAirport->departure_date = new \DateTime(date($trip_data['trip_date']));
@@ -404,7 +405,7 @@ class Requests_Model_RequestService extends Application_Model_Service
      */
     private function addRequestFromAirport($trip_data){
         
-        $this->requestsFromAirport->destination_address = $trip_data['destination'];
+        $this->requestsFromAirport->drop_off_address = $trip_data['destination'];
         $this->requestsFromAirport->request_msg = $trip_data['trip_msg'];
         $this->requestsFromAirport->publisher = $this->user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
         $this->requestsFromAirport->airport  = $this->airport->getAirportByName($trip_data['departure']);

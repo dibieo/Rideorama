@@ -41,11 +41,12 @@ class Application_Form_Searchrequest extends Application_Form_Base
        ));
        $trip_time->addMultiOptions($this->getTripTimes());
          
-       $submit = new Zend_Form_Element_Submit('submit');
+       $submit = new Zend_Form_Element_Button('findpassengers');
+       $submit->setAttrib('onClick', "getPassengers()");
        $submit->setLabel('Find passengers');
        
        $requestRide = new Zend_Form_Element_Button('request');
-       $requestRide->setAttrib('onClick', 'gotoPostRidePage()');
+       $requestRide->setAttrib('onClick', "gotoPostRidePage()");
        $requestRide->setLabel('Post a ride');
        
        $this->setMethod('GET');

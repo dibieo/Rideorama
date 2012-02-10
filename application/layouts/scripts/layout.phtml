@@ -9,9 +9,9 @@
 
  <?php
         
-//       echo $this->jQuery()
-//                    ->setVersion('1.6.2')
-//                     ->setUIVersion('1.8.14');
+       echo $this->jQuery()
+                    ->setVersion('1.6.2')
+                     ->setUIVersion('1.8.14');
         echo $this->headTitle("Rideorama");
         echo $this->headLink()->appendStylesheet($this->baseUrl(). '/css/smoothness/jquery.css');
       
@@ -29,12 +29,13 @@
       </ul>
     </nav>
   </header>
-       
-    <div id="content">
-        
-<?php echo $this->layout()->content; ?>
-    </div>
-    
+
+     <div id="content">
+        <?php echo $this->layout()->content; ?>
+     </div>
+     <div id="results">
+         
+     </div>
     <footer>
           <ul>
       <li><a href="#">About us</a></li>

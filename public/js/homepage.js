@@ -1,4 +1,4 @@
-    
+ 
     /**
      * The following functions sets the 'I am a passenger tab'
      * search area of the homepage
@@ -126,16 +126,65 @@
        }
        
    }
+    
+   function getPassengers(){
+    
+       var departure = $("#driverdeparture").val();
+       var destination = $("#driverdestination").val();
+       var tripdate = $("#driverdate").val();
+       var triptime = $('#drivertrip_time').val();
+       var where = $("#tabs-2 input[type='radio']:checked").val();
+       //alert($("#findpassengers").val());
+       disableSubmitbutton("#findpassengers", "Please wait...");
+       
+       $.get("index/findpassenger?driverwhere=" + where + "&driverdate=" + tripdate 
+            + "& driverdeparture=" + departure  + "&driverdestination=" + destination
+            + "&drivertrip_time=" + triptime,
+            {},
+     function(data, textStatus) { 
+         $('#results').html(data); 
+         enableSubmitbutton("#findpassengers", 'Find passengers');
+         $("#results").slideto();
+    }, 'html'
+
+    );
+    
+   }
    
-//   /*
-//    * setFieldAutoComplete
-//    * This function sets the field(passed by id)  autocomplete with google
-//    * @param id of the field
-//    */
-//   function setFieldAutoComplete(){
-//       
-//        var input = $("#departure");
-//        new google.maps.places.Autocomplete(input);
-//   }
-//  
-//  google.maps.event.addDomListener($("#departure"), 'click', setFieldAutoComplete);
+     /**
+      * getRides 
+      * Performs an ajax call to the search action and returns rides
+      */
+     function findRides(){
+    
+       var departure = $("#departure").val();
+       var destination = $("#destination").val();
+       var tripdate = $("#trip_date").val();
+       var triptime = $('#trip_time').val();
+       var where = $("#tabs-1 input[type='radio']:checked").val();
+       //alert($("#findpassengers").val());
+       disableSubmitbutton("#findrides", "Please wait...");
+       
+       $.get("index/search?where=" + where + "&trip_date=" + tripdate 
+            + "&departure=" + departure  + "&destination=" + destination
+            + "&trip_time=" + triptime,
+            {},
+     function(data, textStatus) { 
+         $('#results').html(data); 
+         enableSubmitbutton("#findrides", 'Find a ride');
+         $("#results").slideto();
+    }, 'html'
+
+    );
+    
+   }
+   
+   function disableSubmitbutton(div_id, text){
+       $(div_id).html(text);
+       $(div_id).attr('disabled', 'disabled');
+   }
+   
+   function enableSubmitbutton(div_id, text){
+       $(div_id).html(text);
+       $(div_id).removeAttr('disabled');
+   }

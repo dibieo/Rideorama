@@ -17,34 +17,90 @@ function reduceSeatByOne(){
 $this->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
 echo $this->errors; 
 ?>
-<br /><br />
-<div id="view-content">
- 
-        <p>Trip listings for <?php echo $this->date; ?> !</p>
+
+    <!-- results ends -->
+
 
 <?php if (count($this->rides) > 0): ?>
+       <section class="passenger_results">
+      <div class="head_section">
+        <?php $arrivalordestination = null; ?>
+        <?php if($this->where == "toAirport"): ?>
+          <?php $arrivalordestination = "DEPART FROM"; ?>
+        <h3>Rides to <?php echo $this->searchtitle; ?> found for <?php echo $this->date; ?> </h3>
+        <?php endif; ?>
+        <?php if ($this->where == "fromAirport") :?>
+         <?php $arrivalordestination = "ARRIVE AT"; ?>
+         <h3>Rides from <?php echo $this->searchtitle; ?> found for <?php echo $this->date; ?> </h3>
+        <?php endif; ?>
+        <ul>
+          <li class="none">Filter by: </li>
+          <li class="none"><a href="#">Distance</a></li>
+          <li><a href="#">Price</a></li>
+          <li><a href="#">Rating</a></li>
+          <li class="active"><a href="#">Time</a></li>
+        </ul>
+      </div>
+      <div class="passenger_content">
+        <div class="col_head"><span class="col01">NAME</span> <span class="col02"><?php echo $arrivalordestination; ?></span>
+
+        <span class="col03">Depart time</span> 
+        <span class="col03">EST ARRIVAL</span> 
+            <span class="col01">
+             <?php if ($this->where == "fromAirport"):?>
+                Distance from your destination
+            <?php else: ?>
+                Distance from your departure
+            <?php endif;?>
+            </span> </div>
 <?php foreach($this->rides as $ride): ?>
     
+       <?php #print_r($ride); ?>
         <?php $rideKey = $ride['key'];
               $rideValue = $ride['value'];
+              
+              $firstName = $rideKey['first_name'];
+              $lastName = $rideKey['last_name'];
+              $cost = $this->escape($rideKey['cost']);
+              $seat_num =  $this->escape($rideKey['number_of_seats']);
+              $departure_time = $this->escape($rideKey['departure_time']);
+              $arrival_time = $this->escape($rideKey['arrival_time']);
+
         ?>
         
-       <br> <b>Published by : </b> <?php echo ($rideKey['first_name']) . " " . $this->escape($rideKey['last_name']); ?> </br>
-       <?php if ($this->where == "fromAirport"):?>
-       <br><b> Destination : </b><?php echo $this->escape($ride['key']['drop_off_address']); ?> </br>
-       <?php else: ?>
-       <br><b> Departure : </b><?php echo $this->escape($ride['key']['pick_up_address']); ?> </br>
-       <?php endif; ?>
-       <br><b> Departure time :</b> <?php echo $this->escape($ride['key']['departure_time']); ?> </br>
-       <br><b> Estimate arrival time :</b> <?php echo $this->escape($ride['key']['arrival_time']); ?> </br>
-       <br><b> Distance from you: </b><?php echo $this->escape($rideValue); ?> </br>
-        <br><b>Number of seats available:</b><div id="numseats"> <?php echo $this->escape($rideKey['number_of_seats']); ?></div></br>
-        <br><b>Cost per seat: </b><?php echo $this->currency($this->escape($rideKey['cost'])); ?></br>
-        <br><b>Message about the trip:</b> <?php echo $this->escape($rideKey['trip_msg']); ?></br>
-        <br><b>Number of luggage(s): </b><?php echo $this->escape($rideKey['num_luggages']); ?></br>
-        <br><b>Luggage sizes: </b><?php echo $this->escape($rideKey['luggage_size']); ?></br>
-        <br>
-        <div id ="buyseat">   <?php 
+   
+        <div class="row">
+          <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/passenger_top.png" alt=""></div>
+          <div class="text_area">
+            <div class="col1"><img width="100px" height="100px" src="<?php echo $this->escape($rideKey['profile_pic']); ?>?type=large" alt=""></div>
+            <div class="col2">
+              <p><?php echo $this->escape($firstName) . " " . $this->escape($lastName[0])."" ?></p>
+              <small><img src="<?php echo $this->baseUrl(); ?>/img/rate.png" alt=""></small> </div>
+            <div class="col3">
+              <p class="head"><span>Boulder</span> <span><?php print( date("g:i a", strtotime($departure_time)) ); ?></span> 
+                  <span><?php print( date("g:i a", strtotime($arrival_time)) ); ?></span>
+                  <span>
+              
+              <?php echo $this->escape($rideValue); ?>
+                  
+                  </span> </p>
+              <p>
+              <?php if ($this->where == "fromAirport"):?>
+               I'll be dropping off at <?php echo $this->escape($rideKey['drop_off_address']); ?> </br>
+             <?php else: ?>
+              I'll be leaving from </b><?php echo $this->escape($rideKey['pick_up_address']); ?> </br>
+            <?php endif; ?>
+            </div>
+            <div class="col4">
+              <p><a href="#">Details</a></p>
+            </div>
+            <div class="col5"> <small><?php echo $seat_num; ?> seats</small> <strong>$<?php echo $cost; ?></strong> <small>each</small> <span><a href="#">Buy Now</a></span> </div>
+          </div>
+          <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/passenger_btm.png" alt=""></div>
+        </div>
+      
+   
+<!--        <div id ="buyseat">   <?php 
         $driverName = $this->escape($rideKey['first_name']) . " " . $this->escape($rideKey['last_name']);
         $url =  $this->url(array(
              'module' => 'rides',
@@ -64,12 +120,18 @@ echo $this->errors;
                            'complete' => 'reduceSeatByOne()'
                         )); 
         ?>
-        </div>
+        </div>-->
         <p></p>
     
  <?php endforeach; ?>
-  
+    </div>
+      </div>
+    </section>
   <?php else : ?>
-        <div id="norides">Sorry there are no rides for the date selected</div>
+      <div class="head_section">
+        <h3>No rides found for <?php echo $this->date; ?></h3>
+        <p></p>
+        <a href="#">Click here to post a ride request</a>
+      </div>
    <?php endif; ?>
 </div>
