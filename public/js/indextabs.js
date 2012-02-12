@@ -13,8 +13,8 @@ $(function() {
 			speed: 1000,
 			scroll: -1
 		});
-		$('select').jqTransSelect({imgPath:'common/jqtransformplugin/img/'});
-		$('input:radio').jqTransRadio({imgPath:'common/jqtransformplugin/img/'});
+		$('select').jqTransSelect({imgPath:'public/jqtransformplugin/img/'});
+		$('input:radio').jqTransRadio({imgPath:'public/jqtransformplugin/img/'});
 	Cufon.replace('#home_container .tab ul li a', { fontFamily: 'Helvetica', fontWeight: 700 , hover:true});	
 	Cufon.replace('#home_container .content_detaiils .left_sec label', { fontFamily: 'Helvetica', fontWeight: 700});
 	Cufon.replace('#home_container .top_row span', { fontFamily: 'Helvetica', fontWeight: 700});

@@ -13,7 +13,7 @@ namespace Rideorama\Entity;
  * @Entity(repositoryClass="Rideorama\Entity\Repository\RidestoairportRepository")
  * @author ovo
  */
-class Ridestoairport extends \Rideorama\Entity\rideoramaEntity {
+class Ridestoairport extends \Rideorama\Entity\ridesEntity {
     
      /**
      *
@@ -129,7 +129,7 @@ class Ridestoairport extends \Rideorama\Entity\rideoramaEntity {
     
     
     /**
-      @Column(type="string", nullable=false)
+      @Column(type="string", nullable=true)
      * @var float
      * This stores the duration of trip.
      */

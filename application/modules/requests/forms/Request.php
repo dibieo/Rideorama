@@ -27,22 +27,20 @@ class Requests_Form_Request extends Application_Form_Base
        //Hidden field to determine whether to allow posting of return trips
         $return = new Zend_Form_Element_Hidden('return');
         $return->setValue("true");
+        
        $trip_date = new ZendX_JQuery_Form_Element_DatePicker('trip_date', array(
                  'label' => 'Date',
                   'required' => true,
-                  'validators' => array('Date'),
+                  'validators' => array($this->getDateValidator()),
                   'jQueryParams'=> array(
-		'dateFormat' => 'yy-mm-dd',
+		'dateFormat' => 'mm-dd-yy',
 		'minDate'	 => '0')));
         
        $trip_time = new Zend_Form_Element_Select('trip_time');
         $trip_time->setLabel('Departure time')
                    ->setRequired(true)
                     ->setAttrib('class', 'select1')
-                   ->addMultiOptions(array(
-                       "10:00:00" => "10:00 am",
-                       "10:30:00" => "10:30 am"
-                   ));
+                   ->addMultiOptions($this->getTimes());
         
         
         $trip_cost = new Zend_Form_Element_Text('trip_cost');
@@ -136,8 +134,8 @@ class Requests_Form_Request extends Application_Form_Base
     $facebook_checkbox->setAttrib('class', 'radio')->setDecorators($this->generateDecorators('form_row1 last'));
     $trip_date->setAttrib('class', 'input')->setDecorators($this->generateDecoratorsJQuery());
     $submit->setDecorators($this->submitDecorator());
-    $luggage->setDecorators($this->generateDecorators('small_box'));
-    $luggage_size->setDecorators($this->generateDecorators('select_box'));
+    $luggage->setDecorators($this->generateLuggageDecorators('small_box'));
+    $luggage_size->setDecorators($this->generateLuggageDecorators('select_box'));
     
    
     $this->setDecorators(array(

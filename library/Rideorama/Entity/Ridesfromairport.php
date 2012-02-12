@@ -13,7 +13,7 @@ namespace Rideorama\Entity;
  * @Entity(repositoryClass="Rideorama\Entity\Repository\RidesfromairportRepository")
  * @author ovo
  */
-class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
+class Ridesfromairport extends \Rideorama\Entity\ridesEntity{
     
      /**
      *
@@ -129,6 +129,7 @@ class Ridesfromairport extends \Rideorama\Entity\rideoramaEntity {
      */
     protected $drop_off_address;
     
+ 
      /**
      * @Column(type="time",nullable=true)
      * @var time

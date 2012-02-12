@@ -124,6 +124,13 @@ class Rides_IndexController extends Zend_Controller_Action
     public function detailsAction()
     {
         // action body
+        $params = $this->_getAllParams();
+        $this->view->where = $params['where'];
+        $this->view->trip_date = $params['trip_date'];
+        $this->view->airport = $params['airport'];
+        $trip = new Rides_Model_RidesService($params['where']);
+        $params = $trip->tripdetails($params);
+        $this->view->data = $params[0];
     }
 
      /**
@@ -135,6 +142,8 @@ class Rides_IndexController extends Zend_Controller_Action
     {
     
     try{
+     $formData['trip_date'] =  date('Y-m-d', strtotime($formData['trip_date']));
+
       $ride = new Rides_Model_RidesService($where);
       $ride->addRide($formData, $where);
       //Share on facebook

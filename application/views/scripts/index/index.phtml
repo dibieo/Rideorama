@@ -1,89 +1,23 @@
- <?php echo $this->headScript()->appendFile( $this->baseUrl() . '/js/homepage.js'); ?>
  <?php echo $this->headScript()->appendFile( $this->baseUrl() . '/js/jquery.slideto.js'); ?>
 
-<script>
-  $(function(){
-      $("#tabs").tabs();
-  });
-</script>
-
-<div id="tabs">
-<ul>
-<li><a href="#tabs-1">I am a passenger</a></li>
-<li><a href="#tabs-2">I am a driver</a></li>
-</ul>
-<?php
-echo $this->escape($this->title);
-?>
-    <div id ="tabs-1">
-<?php
-echo $this->form;?>
-    </div>
-    
-    <div id ="tabs-2">
-    <?php 
-    echo $this->driverform;
-     ?>
-    </div>
-
-    <script>
-     $(function() {
-         $("#where-toAirport").click(function(){
-       
-            setAirportNameTripsToAirport("#departure", "#destination");
-           $("#departure").attr('placeholder', "Enter your address");
-           $("#destination").attr('placeholder', "Enter airport name");
-           $("#destination").val("Denver International airport");
-           $("#departure").autocomplete({"source": []});
-           $("#destination").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
-           
-         });
-     }) ;
-        
-      $(function() {
-         $("#where-fromAirport").click(function(){
-            setAirportNameTripsFromAirport("#departure", "#destination");
-            $("#departure").attr('placeholder', "Enter airport name");
-           // $("#departure").autocomplete({"source":[{"key":2,"value":"Denver International airport"},{"key":3,"value":"Phoenix International Airport"}]});
-           $("#destination").attr('placeholder', "Enter your address");
-           $("#departure").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
-           $("#destination").autocomplete({"source" : []}); //Clears the other field
-            
-         });
-     }) ;
-     
-     
-       $(function() {
-         $("#driverwhere-toAirport").click(function(){
-           setAirportNameTripsToAirport("#driverdeparture", "#driverdestination");
-            $("#driverdeparture").attr('placeholder', "Enter your address");
-           $("#driverdestination").attr('placeholder', "Enter airport name");
-           $("#driverdeparture").autocomplete({"source": []});
-           $("#driverdestination").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
-           
-         });
-     }) ;
-        
-      $(function() {
-         $("#driverwhere-fromAirport").click(function(){
-            setAirportNameTripsFromAirport("#driverdeparture", "#driverdestination");
-            $("#driverdeparture").attr('placeholder', "Enter airport name");
-           // $("#departure").autocomplete({"source":[{"key":2,"value":"Denver International airport"},{"key":3,"value":"Phoenix International Airport"}]});
-           $("#driverdestination").attr('placeholder', "Enter your address");
-           $("#driverdeparture").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
-           $("#driverdestination").autocomplete({"source" : []}); //Clears the other field
-            
-         });
-     }) ;
-     
-     function setAirportNameTripsToAirport (departure, destination){
-        $(departure).val('');
-        $(destination).val("Denver International airport");
-     }
-     
-     function setAirportNameTripsFromAirport(departure, destination){
-         $(departure).val("Denver International airport");
-         $(destination).val('');
-     }
- </script>
- <?php echo $this->headScript()->appendFile($this->baseUrl() . "/js/validateform.js"); ?>
+  <!--body container starts-->
+  <section id="body_container"> 
+    <!--home container starts-->
+    <section id="home_container"> 
+      <!--top head starts-->
+      <div class="top_head">
+        <h1>Connect. Share. Ride.</h1>
+        <div class="tab">
+          <ul>
+            <li class="first"><a href="<?php echo $this->baseUrl();?>/index/passengersearch">I'm a passenger</a></li>
+            <li class="second active"><a href="<?php echo $this->baseUrl();?>/index/driversearch">I'm a driver</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="tab_con">
+      </div>
+      <!--top head ends--> 
+    </section>
+    <!--home container ends--> 
+  </section>
+  <!--body container ends--> 

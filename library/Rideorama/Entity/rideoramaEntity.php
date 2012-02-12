@@ -7,7 +7,7 @@ namespace Rideorama\Entity;
  * and open the template in the editor.
  */
 
- abstract class rideoramaEntity {
+abstract class rideoramaEntity {
      
     public function __get($property)
     {

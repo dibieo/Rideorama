@@ -1,4 +1,188 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Index</b> and script/action name <b>details</b></p>
-</div>
+ <!--body container starts-->
+ <?php $data = $this->data; 
+  $name_abbv = $data['first_name'] . " ". $data['last_name'][0];
+ ?>
+  <section id="body_container"> 
+    <!-- details starts -->
+    <div class="details_section">
+      <div class="top_head">
+        <h1>Connect. Share. Ride.</h1>
+      </div>
+      <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/home_top_bg.png" alt=""></div>
+    <div class="detail_content">
+        <h2>Details</h2>
+        <!-- tab 1 -->
+        <div class="tab_content1 tabing" style="display:none;">
+          <div class="common_box">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
+            <div class="common_text"> <img width="264px" height="264px" src="<?php echo urldecode($data['profile_pic']); ?>?type=large" alt=""> </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
+          </div>
+          <div class="common_box">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
+            <div class="common_text">
+              <h3><?php echo $this->escape($name_abbv); ?></h3>
+              <p><span>City: </span>Boulder</p>
+              <p><span>State: </span>Colorado</p>
+              <p><span>Profession: </span><?php echo $this->escape($data['profession']); ?></p>
+              <p><span>Age: </span><?php echo $this->escape($data['age']); ?></p>
+            </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
+          </div>
+          <div class="common_box none">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
+            <div class="common_text"> &nbsp; </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
+          </div>
+        </div>
+        <!-- tab 1 ends --> 
+        
+        <!-- tab 2 -->
+        <div class="tab_content2 tabing" style="display:none;">
+          <div class="common_box">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
+            <div class="common_text">
+             <?php $car_profile_pic = $this->baseUrl() . "/img/cars/" . $data['car_profile_pic']; ?>
+            <?php $car_pic1 = $this->baseUrl() . "/img/cars/" . $data['picture1']; ?>
+            <?php $car_pic2 = $this->baseUrl() . "/img/cars/" . $data['picture2']; ?>
+            <img class="large" width="264px" height ="263px" src="<?php echo $car_profile_pic; ?>" alt="">
+              <ul class="car">
+                <li><a href="<?php echo $car_profile_pic; ?>"></a></li>
+                <li><a href="<?php echo $car_pic1; ?>"></a></li>
+                <li><a href="<?php echo $car_pic2; ?>"></a></li>
+              </ul>
+            </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
+          </div>
+          <div class="common_box">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
+            <div class="common_text">
+              <h3>CAR</h3>
+              <p><span>Make: </span><?php echo $this->escape($data['make']); ?></p>
+              <p><span>Model: </span><?php echo $this->escape($data['model']); ?></p>
+              <p><span>Year: </span><?php echo $this->escape($data['year']); ?></p>
+              <p><span>Seats: </span><?php echo $this->escape($data['number_of_seats']); ?></p>
+            </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
+          </div>
+        </div>
+        <!-- tab 2 ends --> 
+        <!-- tab 3 -->
+        <div class="tab_content3 tabing" style="display:block;">
+          <div class="common_box">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
+            <div class="common_text">
+              <h3>TRIP INFO</h3>
+              <p><span>City: </span><em>Boulder</em></p>
+              <p><span>Depart from: </span><em>
+                 <?php if ($this->where == "toAirport"): ?>
+                    <?php echo $this->escape($data['pick_up_address']); ?>
+                   <?php elseif ($this->where == "fromAirport"): ?>
+                    <?php echo $this->escape($this->airport); ?>
+                    <?php endif; ?>   
+                      </em></p>
+              <p><span>Destination: </span>
+                   <?php if ($this->where == "toAirport"): ?>
+                    <em><?php echo $this->escape($this->airport); ?></em>
+                   <?php elseif ($this->where == "fromAirport"): ?>
+                    <em><?php echo $this->escape($data['drop_off_address']); ?></em>
+                    <?php endif; ?>
+                  </p>
+                   
+              <p><span>Date: </span><em><?php echo $this->escape(urldecode($this->trip_date)); ?></em></p>
+              <p><span>Departure Time: </span><em><?php echo $this->escape($data['departure_time']); ?></em></p>
+              <p><span>Est Arrival Time: </span><em><?php echo $this->escape($data['arrival_time']); ?></em></p>
+            </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
+          </div>
+          <div class="common_box">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
+            <div class="common_text">
+              <h3>&nbsp;</h3>
+              <p><span>Seats available: </span><em><?php echo $this->escape($data['number_of_seats']); ?></em></p>
+              <p><span>Cost per seat: </span><em>$<?php echo $this->escape($data['cost']); ?></em></p>
+              <p><span>Luggage: </span><em>Yes<br>
+                <?php echo $this->escape($data['num_luggages']); ?>per person</em></p>
+              <p><span>Emissions saved: </span><em>49 kg of CO2</em></p>
+            </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
+          </div>
+          <div class="common_box none">
+            <div class="common_text none"> <a href="#" class="buy_btn">buy now</a> </div>
+          </div>
+        </div>
+        <!-- tab 3 ends --> 
+        <!-- tab 4 -->
+        <div class="tab_content4 tabing" style="display:none;">
+          <div class="common_box review">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/review_top.gif" alt=""></div>
+            <div class="common_text">
+              <h3>REVIEW</h3>
+              <ul class="rev">
+                <li>
+                  <div class="col1"><img src="<?php echo $this->baseUrl(); ?>/img/photo1.png" alt=""></div>
+                  <div class="col2">Charlie</div>
+                  <div class="col3">
+                    <p>This is a gripping journey into the life of an amazing individual. Despite its girth of nearly 600 pages, the book zips along at a torrid pace.</p>
+                    <img src="<?php echo $this->baseUrl(); ?>/img/rate.png" alt=""> </div>
+                </li>
+                <li>
+                  <div class="col1"><img src="<?php echo $this->baseUrl(); ?>/img/photo1.png" alt=""></div>
+                  <div class="col2">Melanie</div>
+                  <div class="col3">
+                    <p>The interviews with Jobs are fascinating and revealing. We get a real sense for what it must have been like to be Steve, or to work with him. That earns the book five stars despite its flaws, in that it's definitely a must-read if you have any interest at all in the subject.</p>
+                    <img src="<?php echo $this->baseUrl(); ?>/img/rate.png" alt=""> </div>
+                </li>
+                <li>
+                  <div class="col1"><img src="<?php echo $this->baseUrl(); ?>/img/photo1.png" alt=""></div>
+                  <div class="col2">Charlie</div>
+                  <div class="col3">
+                    <p>This is a gripping journey into the life of an amazing individual. Despite its girth of nearly 600 pages, the book zips along at a torrid pace.</p>
+                    <img src="<?php echo $this->baseUrl(); ?>/img/rate.png" alt=""> </div>
+                </li>
+              </ul>
+            </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/review_btm.gif" alt=""></div>
+          </div>
+        </div>
+        <!-- tab 4 ends --> 
+        <!-- tab 5 -->
+        <div class="tab_content5 tabing" style="display:none;">
+          <div class="common_box contact_area">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/contact_top.gif" alt=""></div>
+            <div class="common_text">
+              <p>John T: Are you flexible with the price?</p>
+              <p class="green">&gt; Peter M: Yes</p>
+              <p>John T: Which DIA terminal are you going to?</p>
+              <p class="green">&gt; Peter M: East terminal</p>
+              <p>John T: Awesome!</p>
+            </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/contact_btm.gif" alt=""></div>
+          </div>
+          <div class="common_box msg_area">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/review_top.gif" alt=""></div>
+            <div class="common_text">
+              <form action="#">
+                <textarea rows="10" cols="10">Type your message here</textarea>
+                <input type="submit" name="" value="send" class="send">
+              </form>
+            </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/review_btm.gif" alt=""></div>
+          </div>
+        </div>
+        <!-- tab 5 ends --> 
+        
+      </div>
+      <div class="bottom_tab_area"> <a href="#" class="back">Back to Rides Found</a>
+        <ul class="tab">
+          <li class="first"><a href=".tab_content1"><?php echo $name_abbv; ?></a></li>
+          <li><a href=".tab_content2">Car</a></li>
+          <li class="active"><a href=".tab_content3">Trip Info</a></li>
+          <li><a href=".tab_content4">Review</a></li>
+          <li><a href=".tab_content5 ">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- details ends --> 
+  </section>
+  <!--body container ends-->

@@ -13,7 +13,7 @@ namespace Rideorama\Entity;
  * @Entity(repositoryClass="Rideorama\Entity\Repository\RequestsfromairportRepository")
  * @author ovo
  */
-class Requestsfromairport extends \Rideorama\Entity\rideoramaEntity {
+class Requestsfromairport extends \Rideorama\Entity\ridesEntity {
     
      /**
      *

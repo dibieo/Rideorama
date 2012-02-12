@@ -167,7 +167,68 @@ class Application_Model_Service
      return $data;       
     }
     
+    /**
+     * Compute the longitude, latitude, city and state of input address
+     * @param string $address The input address
+     * @return array This array contains the longitude, latitude, city and state of the address
+     */
+    public function calcLongLat($address){
+        $data = null;
+        try {
+            
+        $client = new Zend_Http_Client('http://maps.googleapis.com/maps/api/geocode/json');
+ 
+        $address = urlencode($address);
+ 
+        $client->setParameterGet('sensor', 'false'); 
+        $client->setParameterGet('address', $address);
+ 
+        $response = $client->request('GET'); // We must send our parameters in GET mode, not POST
+        
+        
+        $val = Zend_Http_Response::extractBody($response);
+        
+        $val = json_decode($val);
+  
+          $lat = $val->results[0]->geometry->location->lat;
+          $lng = $val->results[0]->geometry->location->lng;
+          $city = $val->results[0]->address_components[1]->short_name;
+          $state =$val->results[0]->address_components[3]->long_name;
+
+        $data = array(
+            'lattitude' => $lat,
+            'longitude' => $lng,
+            'city' => $city,
+            'state' => $state
+            
+        );
+        
+        
+          }catch(Exception $ex){
+            
+            echo "COuldn't contact server";
+        }
+       return $data;
+
+         
     
+    }
+    
+     /**
+     * DRY function that adds long, lat, city, and state
+     * @param Rideorama Entity $entity
+     * @param strings $address 
+     */
+    public function addAddressDetails($entity, $address){
+      
+        $address_details = $this->calcLongLat($address);
+        //Store city, long and latitude
+        $entity->city = $address_details['city'];
+        $entity->lattitude = $address_details['lattitude'];
+        $entity->longitude = $address_details['longitude'];
+        $entity->state = $address_details['state'];
+        
+    }
    
     
     

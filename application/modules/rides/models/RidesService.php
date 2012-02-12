@@ -84,6 +84,52 @@ class Rides_Model_RidesService extends Application_Model_Service
     }
     
     /**
+     * tripdetails This function returns details regarding a particular trip.
+     * @param array $params containing trip id and fromAirport || toAirport locator
+     * @return array containing the driver, driver's car and additional info on the trip
+     */
+    public function tripdetails(array $params){
+        $data = null;
+        $where = $params['where'];
+        if ($where == "toAirport"){
+            
+            $data = $this->getTripDetails($params['trip_id'], "Rideorama\Entity\Ridestoairport",
+                                           'u.pick_up_address');
+        }
+        else if ($where == "fromAirport"){
+           
+            $data = $this->getTripDetails($params['trip_id'], "Rideorama\Entity\Ridesfromairport",
+                                           'u.drop_off_address');
+        }else{
+            throw new Exception("$where is not a valid argument");
+        }
+       
+       return $data;
+    }
+    
+    /**
+     * getTripDetails
+     * @param integer $id
+     * @param string $targetEntity Pass in the RidestoAirport or RidesfromAirport Doctrine entity
+     * @param string $variableAddress This is either the pick_up or drop_off_address
+     * @return array of trip details that match the input params 
+     */
+    private function getTripDetails($id, $targetEntity, $variableAddress){
+        
+       $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
+               u.trip_msg, u.departure_time, u.arrival_time, u.cost,  u.luggage_size,
+               p.email, p.profile_pic, p.first_name, p.profession, p.age, p.id as user_id,
+               p.last_name, c.make, c.model, c.year, c.car_profile_pic, c.picture1,c.picture2 
+               from Rideorama\Entity\Car c, $targetEntity u JOIN u.publisher 
+               p where u.id = :id and c.user = u.publisher")
+                    ->setParameters(array('id' => $id));
+                
+      $trip_details = $q->getResult();
+
+       return $trip_details;
+        
+    }
+    /**
      *
      * @param type $search_data
      * @return type array of rides sorted by those closest to your destination location
@@ -112,7 +158,7 @@ class Rides_Model_RidesService extends Application_Model_Service
       
     } else if ($search_data['trip_time'] == "afternoon"){
         
-      $rides =  $this->findAfternoonRidesFromAirport($date, $airport, '12:00:00', "18:00:00");
+      $rides =  $this->findAfternoonRidesFromAirport($date, $airport, '11:59:00', "18:00:00");
       $ride_data = $this->sortTripsByDistanceToMyLocation($rides, $destination, "fromAirport");
       $this->setSortTripMemberVariables($ride_data);
       
@@ -152,7 +198,7 @@ class Rides_Model_RidesService extends Application_Model_Service
 
     }else if ($search_data['trip_time'] == "morning"){
       
-      $rides =  $this->findAfternoonRidesToAirport($date, $airport, '00:00:00', "12:00:00");
+      $rides =  $this->findMorningRidesToAirport($date, $airport, '00:00:00', "12:00:00");
       $ride_data = $this->sortTripsByDistanceToMyLocation($rides, $departure);
       $this->setSortTripMemberVariables($ride_data);
       
@@ -225,7 +271,8 @@ class Rides_Model_RidesService extends Application_Model_Service
          $airport = $this->airport->getAirportByName($airport);
      
        $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
-             u.trip_msg, u.departure_time, u.arrival_time, u.cost, u.luggage_size, p.email, p.profile_pic,
+             u.trip_msg, u.departure_time,u.city, u.state, u.lattitude, u.longitude,
+              u.arrival_time, u.cost, u.luggage_size, p.email, p.profile_pic,
               p.first_name, p.id as user_id,
               p.last_name from $targetEntity u JOIN u.publisher 
               p where u.airport = $airport->id and u.departure_date = :date")
@@ -245,9 +292,9 @@ class Rides_Model_RidesService extends Application_Model_Service
      * @param type $time2 Before what time
      * @return type array
      */
-    private function findMorningRidesToAirport($search_data){
+    private function findMorningRidesToAirport($date, $airport, $time1, $time2){
         
-        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2, "u.pick_up_address");
+        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
 
      }
     
@@ -261,7 +308,7 @@ class Rides_Model_RidesService extends Application_Model_Service
      */
     private function findAfternoonRidesToAirport($date, $airport, $time1, $time2){
         
-        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2, "u.pick_up_address");
+        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
         
     }
     
@@ -275,20 +322,20 @@ class Rides_Model_RidesService extends Application_Model_Service
      */
     private function findEveningRidesToAirport($date, $airport, $time1, $time2){
         
-        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2, "u.pick_up_address");
+        return $this->ReturnRidesToAirport($date, $airport, $time1, $time2);
     }
     
     /**
      * Returns all rides to the airport according to the airport
      * @param type $date
      * @param type $airport
-     * @param type $time1
-     * @param type $time2
+     * @param string $time1
+     * @param string $time2
      * @return array of all rides to airport 
      */
-    private function ReturnRidesToAirport($date, $airport, $time1, $time2, $variableAddress){
+    private function ReturnRidesToAirport($date, $airport, $time1, $time2){
        
-       return $this->getAirportRides($date, $airport, $time1, $time2, 'Rideorama\Entity\Ridestoairport', $variableAddress);
+       return $this->getAirportRides($date, $airport, $time1, $time2, 'Rideorama\Entity\Ridestoairport',  "u.pick_up_address");
     }
     
     
@@ -303,7 +350,7 @@ class Rides_Model_RidesService extends Application_Model_Service
      * @return Array Collection of rides
      */
     private function ReturnRidesFromAirport($date, $airport,$time1, $time2, $variableAddress){
-        return $this->getAirportRides($date, $airport, $time1, $time2, 'Rideorama\Entity\Ridesfromairport', $variableAddress);
+        return $this->getAirportRides($date, $airport, $time1, $time2, 'Rideorama\Entity\Ridesfromairport', "u.drop_off_address");
     }
     
     
@@ -323,7 +370,7 @@ class Rides_Model_RidesService extends Application_Model_Service
         return $this->ReturnRidesFromAirport($date, $airport, $time1, $time2, "u.drop_off_address");
     }
     
-    protected function findEveningRidesFromAirport(){
+    protected function findEveningRidesFromAirport($date, $airport, $time1, $time2){
         
         return $this->ReturnRidesFromAirport($date, $airport, $time1, $time2, "u.drop_off_address");
     }
@@ -352,10 +399,12 @@ class Rides_Model_RidesService extends Application_Model_Service
         $airport = $this->airport->getAirportByName($airport);
         
         $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
-             u.trip_msg, u.departure_time, u.arrival_time, u.cost, u.luggage_size, p.first_name, p.id as user_id,
-              p.email, p.last_name from '$targetEntity' 
+             u.trip_msg, u.departure_time, u.arrival_time,
+              u.city, u.state, u.longitude, u.lattitude,
+              u.cost, u.luggage_size, p.first_name, p.id as user_id,
+              p.email, p.profile_pic, p.last_name from $targetEntity
              u JOIN u.publisher p where u.airport = $airport->id and u.departure_date = 
-             ':date' and u.departure_time > ':time1' and u.departure_time < ':time2'")
+             :date and u.departure_time >= :time1 and u.departure_time < :time2")
                        ->setParameters(array(
                            'time1'=> $time1,
                            'time2' => $time2,
@@ -379,6 +428,7 @@ class Rides_Model_RidesService extends Application_Model_Service
      */
     private function addRideToAirport($trip_data){
         
+        //Get the city, lat and long of the address
        
         $this->ridesToAirport->pick_up_address = $trip_data['departure'];
         $this->ridesToAirport->number_of_seats = $trip_data['num_seats'];
@@ -391,6 +441,7 @@ class Rides_Model_RidesService extends Application_Model_Service
         $this->ridesToAirport->luggage_size = $trip_data['luggage_size'];
         $this->ridesToAirport->cost = $trip_data['trip_cost'];
         
+        
         //Get the Distance and duration of this trip
         $departure = $this->OnlyAlnumFilter->filter($trip_data['departure']);
         $destination = $this->OnlyAlnumFilter->filter($trip_data['destination']);
@@ -399,12 +450,14 @@ class Rides_Model_RidesService extends Application_Model_Service
         $this->ridesToAirport->distance = $distanceAndDuration['distance'];
         $this->ridesToAirport->duration = $distanceAndDuration['duration'];
         $this->ridesToAirport->arrival_time = new DateTime($this->getArrivalTime($trip_data['trip_date'], $trip_data['trip_time'],$distanceAndDuration['durValue']));
-
+        
+        $this->addAddressDetails($this->ridesToAirport, $trip_data['departure']);
         Zend_Registry::get('doctrine')->getEntityManager()->persist($this->ridesToAirport);
         Zend_Registry::get('doctrine')->getEntityManager()->flush();
                 
     }
     
+   
     /**
      * Function addRideFromAirport
      * This function adds a ride from airport to any address
@@ -433,6 +486,9 @@ class Rides_Model_RidesService extends Application_Model_Service
         $this->ridesFromAirport->distance = $distanceAndDuration['distance'];
         $this->ridesFromAirport->duration = $distanceAndDuration['duration'];
         $this->ridesFromAirport->arrival_time = new DateTime($this->getArrivalTime($trip_data['trip_date'], $trip_data['trip_time'],$distanceAndDuration['durValue']));
+        
+        //Get longitude, lattitude, city and state information
+        $this->addAddressDetails($this->ridesFromAirport, $trip_data['destination']);
         
         Zend_Registry::get('doctrine')->getEntityManager()->persist($this->ridesFromAirport);
         Zend_Registry::get('doctrine')->getEntityManager()->flush();

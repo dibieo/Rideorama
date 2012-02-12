@@ -27,14 +27,14 @@ echo $this->errors;
         <?php $arrivalordestination = null; ?>
         <?php if($this->where == "toAirport"): ?>
           <?php $arrivalordestination = "DEPART FROM"; ?>
-        <h3>Rides to <?php echo $this->searchtitle; ?> found for <?php echo $this->date; ?> </h3>
+        <h3>Rides to <?php echo $this->searchtitle; ?> on <?php echo $this->date; ?> </h3>
         <?php endif; ?>
         <?php if ($this->where == "fromAirport") :?>
          <?php $arrivalordestination = "ARRIVE AT"; ?>
-         <h3>Rides from <?php echo $this->searchtitle; ?> found for <?php echo $this->date; ?> </h3>
+         <h3>Rides from <?php echo $this->searchtitle; ?> on <?php echo $this->date; ?> </h3>
         <?php endif; ?>
         <ul>
-          <li class="none">Filter by: </li>
+          <li class="none">Sort by: </li>
           <li class="none"><a href="#">Distance</a></li>
           <li><a href="#">Price</a></li>
           <li><a href="#">Rating</a></li>
@@ -68,6 +68,24 @@ echo $this->errors;
 
         ?>
         
+        <?php
+        $details_url = $this->url(array(
+            
+            'module' => 'rides',
+            'controller' => 'index',
+            'action' => 'details',
+            'where' => $this->where,
+            'trip_id' => $rideKey['id'],
+            'trip_date' => urlencode($this->date),
+            'airport' => $this->searchtitle
+            )
+                 
+      );
+        $city = $rideKey['city'];
+        if ($city == ""){
+            $city = "unavailable";
+        }
+        ?>
    
         <div class="row">
           <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/passenger_top.png" alt=""></div>
@@ -77,7 +95,7 @@ echo $this->errors;
               <p><?php echo $this->escape($firstName) . " " . $this->escape($lastName[0])."" ?></p>
               <small><img src="<?php echo $this->baseUrl(); ?>/img/rate.png" alt=""></small> </div>
             <div class="col3">
-              <p class="head"><span>Boulder</span> <span><?php print( date("g:i a", strtotime($departure_time)) ); ?></span> 
+              <p class="head"><span><?php echo $this->escape($city); ?></span> <span><?php print( date("g:i a", strtotime($departure_time)) ); ?></span> 
                   <span><?php print( date("g:i a", strtotime($arrival_time)) ); ?></span>
                   <span>
               
@@ -92,7 +110,7 @@ echo $this->errors;
             <?php endif; ?>
             </div>
             <div class="col4">
-              <p><a href="#">Details</a></p>
+              <p><a target="_blank" href="<?php echo $details_url; ?>">Details</a></p>
             </div>
             <div class="col5"> <small><?php echo $seat_num; ?> seats</small> <strong>$<?php echo $cost; ?></strong> <small>each</small> <span><a href="#">Buy Now</a></span> </div>
           </div>
@@ -131,7 +149,7 @@ echo $this->errors;
       <div class="head_section">
         <h3>No rides found for <?php echo $this->date; ?></h3>
         <p></p>
-        <a href="#">Click here to post a ride request</a>
+        <a href="#" onclick="gotoRequestRidePage()">Click here to post a ride request so other drivers can contact you</a>
       </div>
    <?php endif; ?>
 </div>

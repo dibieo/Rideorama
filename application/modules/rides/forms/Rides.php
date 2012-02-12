@@ -60,9 +60,9 @@ class Rides_Form_Rides extends Application_Form_Base
         $trip_date = new ZendX_JQuery_Form_Element_DatePicker('trip_date', array(
                  'label' => 'Trip date',
                   'required' => true,
-                  'validators' => array('Date'),
+                  'validators' => array($this->getDateValidator()),
                   'jQueryParams'=> array(
-		'dateFormat' => 'yy-mm-dd',
+		'dateFormat' =>'mm/dd/yy',
 		'minDate'	 => '0')));
         
         $trip_cost = new Zend_Form_Element_Text('trip_cost');
@@ -75,10 +75,7 @@ class Rides_Form_Rides extends Application_Form_Base
         $trip_time->setLabel('Departure time')
                    ->setRequired(true)
                     ->setAttrib('class', 'select1')
-                   ->addMultiOptions(array(
-                       "10:00:00" => "10:00 am",
-                       "10:30:00" => "10:30 am"
-                   ));
+                   ->addMultiOptions($this->getTimes());
         
         $trip_msg = new Zend_Form_Element_Textarea('trip_msg');
         $trip_msg->setLabel('Trip message')
@@ -148,8 +145,8 @@ class Rides_Form_Rides extends Application_Form_Base
     $facebook_checkbox->setAttrib('class', 'radio')->setDecorators($this->generateDecorators('form_row1 last'));
     $trip_date->setAttrib('class', 'input')->setDecorators($this->generateDecoratorsJQuery());
     $submit->setDecorators($this->submitDecorator());
-    $luggage->setDecorators($this->generateDecorators('small_box'));
-    $luggage_size->setDecorators($this->generateDecorators('select_box'));
+    $luggage->setDecorators($this->generateLuggageDecorators('small_box'));
+    $luggage_size->setDecorators($this->generateLuggageDecorators('select_box'));
     $trip_time->setDecorators($this->generateDecoratorsForSelects('form_row'));
     
    

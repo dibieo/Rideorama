@@ -1,0 +1,88 @@
+ <?php echo $this->headScript()->appendFile( $this->baseUrl() . '/js/jquery.slideto.js'); ?>
+<script src="<?php echo $this->baseUrl();?>/js/homepage.js"></script>
+
+       <div  class="content_detaiils" >
+        <div class="top"> 
+          <!--left sec starts-->
+          <div class="left_sec">
+            <div class="top_row"> 
+            <div class="radio_area"><span>Going to Airport</span>
+              <input name="driverwhere" type="radio"  id ="driverwhere-toAirport"value="toAirport" class="radio">
+              </div> 
+            <div class="radio_area right"><span>Leaving Airport</span>
+              <input name="driverwhere" type="radio" id ="driverwhere-fromAirport" value="fromAirport" class="radio">
+              </div> 
+            </div>
+             <?php echo $this->form->driverdeparture; ?> 
+             <?php echo $this->form->driverdestination; ?>
+             <?php echo $this->form->driverdate;?> 
+             <?php echo $this->form->drivertrip_time; ?> 
+            </div>
+          <!--left sec ends-->
+        <div class="latest_rides">
+            <h3>Latest Rides</h3>
+            <div class="jCarousel">
+            <ul>
+           <li><div class="row"> <span class="date"> 1<br>
+              Dec </span> <span class="photo"><img src="<?php echo $this->baseUrl();?>/img/latest_rides_photo1.gif" alt="" />
+              </span> <span class="text"> <strong>Boulder <img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /> DIA</strong> 
+               <small>10:00am / 3 seats</small> </span> <span class="price">$30</span> 
+               </div></li>
+          <li><div class="row"> <span class="date"> 1<br>
+              Dec </span> <span class="photo"><img src="<?php echo $this->baseUrl();?>/img/latest_rides_photo1.gif" alt="" /></span> <span class="text"> <strong>Boulder <img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /> DIA</strong> <small>10:00am / 3 seats</small> </span> <span class="price">$30</span> </div></li>
+          <li><div class="row"> <span class="date"> 1<br>
+              Dec </span> <span class="photo"><img src="<?php echo $this->baseUrl();?>/img/latest_rides_photo1.gif" alt="" /></span> <span class="text"> <strong>Boulder <img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /> DIA</strong> <small>10:00am / 3 seats</small> </span> <span class="price">$30</span> </div></li>
+         <li><div class="row"> <span class="date"> 1<br>
+              Dec </span> <span class="photo"><img src="<?php echo $this->baseUrl();?>/img/latest_rides_photo1.gif" alt="" /></span> <span class="text"> <strong>Boulder <img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /> DIA</strong> <small>10:00am / 3 seats</small> </span> <span class="price">$30</span> </div></li>
+             </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom">
+        <div class="bottom_tab">
+          <ul>
+            <li><input name="" type="button" id="findpassengers" onclick="getPassengers()" value="Find Passengers" /></li>
+<!--            <li><input name="" type="button" onclick ="gotoPostRidePage()" id ="postride"value="Post Ride" /></li>-->
+          </ul>
+        </div>
+      </div>
+      <div id="results">
+         
+     </div>
+  
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#driverdate").datepicker({"dateFormat":"mm/dd/yy","minDate":"0"});
+});
+
+
+</script>
+  
+<script>
+  $(function() {
+         $("#driverwhere-toAirport").click(function(){
+           initializedriverdepartureAutocomplete();
+           setAirportNameTripsToAirport("#driverdeparture", "#driverdestination");
+            $("#driverdeparture").attr('placeholder', "Enter your address");
+           $("#driverdestination").attr('placeholder', "Enter airport name");
+           $("#driverdeparture").autocomplete({"source": []});
+           $("#driverdestination").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
+           
+         });
+     }) ;
+        
+      $(function() {
+         $("#driverwhere-fromAirport").click(function(){
+           initializedriverdestinationAutocomplete();
+            setAirportNameTripsFromAirport("#driverdeparture", "#driverdestination");
+            $("#driverdeparture").attr('placeholder', "Enter airport name");
+           // $("#departure").autocomplete({"source":[{"key":2,"value":"Denver International airport"},{"key":3,"value":"Phoenix International Airport"}]});
+           $("#driverdestination").attr('placeholder', "Enter your address");
+           $("#driverdeparture").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
+           $("#driverdestination").autocomplete({"source" : []}); //Clears the other field
+            
+         });
+     }) ;
+</script>

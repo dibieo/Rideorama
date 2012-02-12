@@ -2,6 +2,8 @@
 
 class Application_Form_Base extends Zend_Form
 {
+    
+
 
     public function init()
     {
@@ -114,7 +116,7 @@ class Application_Form_Base extends Zend_Form
             );   
     }
 
-    protected function generateDecorators($class = 'form_row'){
+    protected function generateDecorators($tag = 'div', $class = 'form_row'){
         
         return array(
                    'ViewHelper',
@@ -125,7 +127,7 @@ class Application_Form_Base extends Zend_Form
                   
                    'Label',
 
-                   array(array('data'=>'HtmlTag'), array('tag'=>'div', 'class' => $class)),
+                   array(array('data'=>'HtmlTag'), array('tag'=>$tag, 'class' => $class)),
 
 
                  // array(array('row'=>'HtmlTag'),array('tag'=>'div', 'class' => $class)
@@ -154,8 +156,26 @@ class Application_Form_Base extends Zend_Form
             );
     }
     
+     protected function generateLuggageDecorators($class = 'form_row'){
+        
+        return array(
+                   'ViewHelper',
+
+                   'Description',
+
+                   'Errors',
+                  
+                   'Label',
+
+                   array(array('data'=>'HtmlTag'), array('tag'=>'div', 'class' => $class)),
+
+
+                 // array(array('row'=>'HtmlTag'),array('tag'=>'div', 'class' => $class)
+        //)
+            );
+    }
     
-    protected function generateDecoratorsJQuery($class = 'form_row'){
+    protected function generateDecoratorsJQuery($tag ='div', $class = 'form_row'){
   
            return array(
                
@@ -168,7 +188,7 @@ class Application_Form_Base extends Zend_Form
                   
                    'Label',
 
-                   array(array('data'=>'HtmlTag'), array('tag'=>'div', 'class' => $class)),
+                   array(array('data'=>'HtmlTag'), array('tag'=>$tag, 'class' => $class)),
    
 
             );
@@ -196,5 +216,105 @@ class Application_Form_Base extends Zend_Form
     
     }
     
-  }
+       protected function generateDecoratorsForHomepageSelects($class = 'radio_area'){
+        
+        return array(
+            
+                    'Label',
 
+             
+                    'ViewHelper',
+     
+
+                   'Description',
+
+                   'Errors'
+
+
+                 // array(array('row'=>'HtmlTag'),array('tag'=>'div', 'class' => $class)
+        //)
+            );
+    }
+    
+    protected function homepagebuttonsdecorators() {
+       $button_decors = array(
+           'FormElements',
+
+            'ViewHelper',
+           array ('HtmlTag', array ('tag' => 'li'))
+       );
+       
+       return $button_decors;
+    }
+    
+    //Gets the date validator for us timezone
+     public function getDateValidator(){
+         
+         $date_validator = new Zend_Validate_Date(array('locale' => 'en_us'));
+         
+         return $date_validator;
+     
+  }
+  
+  
+  /**
+   * An associate array of time slots in 30 mins intervals
+   * @return array 
+   */
+  public function getTimes(){
+     return array(
+                       "00:00:00" => "12:00 am",
+                       "00:30:00" => "12:30 am",
+                       "01:00:00" => "01:00 am",
+                       "01:30:00" => "01:30 am",
+                       "02:00:00" => "02:00 am",
+                       "02:30:00" => "02:30 am",
+                       "03:00:00" => "03:00 am",
+                       "03:30:00" => "03:30 am",
+                       "04:00:00" => "04:00 am",
+                       "04:30:00" => "04:30 am",
+                       "05:00:00" => "05:00 am",
+                       "05:30:00" => "05:30 am",
+                       "06:00:00" => "06:00 am",
+                       "06:30:00" => "06:30 am",
+                       "07:00:00" => "07:00 am",
+                       "07:30:00" => "07:30 am",
+                       "08:00:00" => "08:00 am",
+                       "08:30:00" => "08:30 am",
+                       "09:00:00" => "09:00 am",
+                       "09:30:00" => "09:30 am",
+                       "10:00:00" => "10:00 am",
+                       "10:30:00" => "10:30 am",
+                       "11:00:00" => "11:00 am",
+                       "11:30:00" => "11:30 am",
+                       "12:00:00" => "12:00 pm",
+                       "12:30:00" => "12:30 pm",
+                       "13:00:00" => "01:00 pm",
+                       "13:30:00" => "01:30 pm",
+                       "14:00:00" => "02:00 pm",
+                       "14:30:00" => "02:30 pm",
+                       "15:00:00" => "03:00 pm",
+                       "15:30:00" => "03:30 pm",
+                       "16:00:00" => "04:00 pm",
+                       "16:30:00" => "04:30 pm",
+                       "17:00:00" => "05:00 pm",
+                       "17:30:00" => "05:30 pm",
+                       "18:00:00" => "06:00 pm",
+                       "18:30:00" => "06:30 am",
+                       "19:00:00" => "07:00 pm",
+                       "19:30:00" => "07:30 pm",
+                       "20:00:00" => "08:00 pm",
+                       "20:30:00" => "08:30 pm",
+                       "21:00:00" => "09:00 pm",
+                       "21:30:00" => "09:30 pm",
+                       "22:00:00" => "10:00 pm",
+                       "22:30:00" => "10:30 pm",
+                       "23:00:00" => "11:00 pm",
+                       "23:30:00" => "11:30 pm"
+
+          
+                   );
+      
+          
+  }
+}

@@ -262,7 +262,12 @@ class Account_UserController extends Zend_Controller_Action
 * @param $me type JSON object.
 */
     private function firstTimeFacebookUser($me){
-        
+           //get user's age
+            $date1 = new DateTime(date("Y-m-d"));
+            $date2 = new DateTime($me['birthday']);
+            $interval = $date1->diff($date2);
+            $age =  $interval->y;
+            
         $data = array(
             'first_name' => $me['first_name'],
             'last_name'  => $me['last_name'],
@@ -272,6 +277,7 @@ class Account_UserController extends Zend_Controller_Action
             'email' => $me['email'],
             'email_hash' => md5($email),
             'profession' => "other",
+            'age' => $age,
             'facebook_login' => 'true'
             );
             

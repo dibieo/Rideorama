@@ -104,7 +104,8 @@ class Requests_IndexController extends Zend_Controller_Action
      */
     private function processRequest($formData, $where)
     {
-    
+      $formData['trip_date'] =  date('Y-m-d', strtotime($formData['trip_date']));
+
       $ride = new Requests_Model_RequestService($where);
       $ride->addRequest($this->formData, $where);
       //Share on facebook

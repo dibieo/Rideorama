@@ -90,7 +90,7 @@ class Requests_Model_RequestService extends Application_Model_Service
       
     } else if ($time == "afternoon"){
         
-      $requests =  $this->findAfternoonrequestsFromAirport($date, $airport, '12:00:00', "18:00:00");
+      $requests =  $this->findAfternoonrequestsFromAirport($date, $airport, '11:59:00', "18:00:00");
       $results = $this->sortTripsByDistanceToMyLocation($requests, $destination, "fromAirport");
       $this->setSortTripMemberVariables($results);
 
@@ -373,12 +373,12 @@ class Requests_Model_RequestService extends Application_Model_Service
      */
     private function addRequestToAirport($trip_data){
         
-       
+
         $this->requestsToAirport->pick_up_address = $trip_data['departure'];
         $this->requestsToAirport->request_msg = $trip_data['trip_msg'];
         $this->requestsToAirport->publisher = $this->user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
         $this->requestsToAirport->airport  = $this->airport->getAirportByName($trip_data['destination']);
-        $this->requestsToAirport->departure_date = new \DateTime(date($trip_data['trip_date']));
+        $this->requestsToAirport->departure_date = new DateTime(date($trip_data['trip_date']));
         $this->requestsToAirport->departure_time = new DateTime(($trip_data['trip_time']));
         $this->requestsToAirport->num_luggages = $trip_data['luggage'];
         $this->requestsToAirport->luggage_size = $trip_data['luggage_size'];
@@ -392,6 +392,8 @@ class Requests_Model_RequestService extends Application_Model_Service
         $this->requestsToAirport->distance = $distanceAndDuration['distance'];
         $this->requestsToAirport->duration = $distanceAndDuration['duration'];
         
+        $this->addAddressDetails($this->requestToAirport, $trip_data['departure']);
+
         Zend_Registry::get('doctrine')->getEntityManager()->persist($this->requestsToAirport);
         Zend_Registry::get('doctrine')->getEntityManager()->flush();
                 
@@ -423,6 +425,8 @@ class Requests_Model_RequestService extends Application_Model_Service
         $this->requestsFromAirport->distance = $distanceAndDuration['distance'];
         $this->requestsFromAirport->duration = $distanceAndDuration['duration'];
         
+        $this->addAddressDetails($this->requestFromAirport, $trip_data['destination']);
+
         Zend_Registry::get('doctrine')->getEntityManager()->persist($this->requestsFromAirport);
         Zend_Registry::get('doctrine')->getEntityManager()->flush();
                 

@@ -6,14 +6,21 @@
         <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
-
+        <link href="<?php echo $this->baseUrl(); ?>/jqtransformplugin/jqtransform.css" rel="stylesheet" type="text/css"  />
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/cufon-yui.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/Helvetica_700.font.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/cufon.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/indextabs.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/jqtransformplugin/jquery.jqtransform.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/jcarousellite_1.0.1.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl();?>/js/tabs2.js"></script>
  <?php
         
        echo $this->jQuery()
                     ->setVersion('1.6.2')
                      ->setUIVersion('1.8.14');
         echo $this->headTitle("Rideorama");
-        echo $this->headLink()->appendStylesheet($this->baseUrl(). '/css/smoothness/jquery.css');
+        echo $this->headLink()->appendStylesheet($this->baseUrl(). '/css/smoothness/jquery-ui.css');
       
 
        echo $this->headLink()->prependStylesheet($this->baseUrl() . '/css/style.css');
@@ -33,9 +40,7 @@
      <div id="content">
         <?php echo $this->layout()->content; ?>
      </div>
-     <div id="results">
-         
-     </div>
+     
     <footer>
           <ul>
       <li><a href="#">About us</a></li>
@@ -43,7 +48,7 @@
       <li><a href="#">Terms and Conditions</a></li>
     
       <li><a href="#">FAQS</a></li>
-      <li> <span class="icons"> <a href="#"><img src="<?php echo $this->baseUrl();?>/img/social_icon1.gif" alt="" /></a> 
+      <li> <span class="icons"> <a href="#"><img src="<?php echo $this->baseUrl();?>/img/social_icon1.gif" alt="" /></a>
               <a href="#"><img src="<?php echo $this->baseUrl();?>/img/social_icon2.gif" alt="" /></a>
               <a href="#"><img src="<?php echo $this->baseUrl();?>/img/social_icon3.gif" alt="" /></a> </span> </li>
               <p><?php echo $this->footer(); ?></p>

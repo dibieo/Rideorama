@@ -10,9 +10,6 @@ img,fieldset{border:none; margin:0; padding:0; outline:none;}
 .clear{clear:both;}
 :focus{outline:none;}
 
-/******temp values for forms ***********/
- #tabs-1 #departure, #tabs-1 #destination, 
- #tabs-1 #trip_date, #tabs-2 #driverdate, #tabs-2 #driverdeparture,#tabs-2 #driverdestination {width: 45%}
 /**************************************/
 /****************wrapper starts***************/
 #wrapper{width:1001px; margin:0 auto;}
@@ -34,7 +31,7 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 #body_container{float:left; width:100%;}
 
 /****************home container starts***************/
-#home_container{float:left; width:100%;}
+#home_container{float:left;width:100%;}
 .top_head{float:left; width:1001px; height:119px; background:url(../img/top_head_bg.gif) no-repeat 0 0;}
 .top_head h1{float:right; width:auto; padding:39px 45px 0 0; font-size:41px; line-height:43px; color:#c5d782;}
 #home_container .tab{float:left; width:500px; padding-top:58px;}
@@ -59,7 +56,7 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 #home_container .content_detaiils .left_sec .top_row span .radio{width:14px; height:14px;vertical-align:middle; margin:0 0 0 16px; padding:0; float:right !important}
 #home_container .content_detaiils .left_sec .row{float:left; width:100%; padding-bottom:13px;}
 #home_container .content_detaiils .left_sec label{float:left; width:73px; font-size:18px; line-height:20px; color:#fff;}
-#home_container .content_detaiils .left_sec input.field{float:left; width:327px; padding:4px 13px 4px; background:#bebebe; border:none; font:12px/14px Arial, Helvetica, sans-serif; color:#4f4f4f !important;}
+#home_container .content_detaiils .left_sec input.field{float:left; width:327px; padding:4px 13px 4px; background:#bebebe; border:none; font:17px Arial, Helvetica, sans-serif; color:#4f4f4f !important;}
 #home_container .latest_rides{float:left; width:428px;}
 #home_container .latest_rides h3{float:left; width:100%; font-size:18px; line-height:20px; color:#4c4c4c; padding-bottom:13px;}
 #home_container .latest_rides h3 cufon{float:left !important;}

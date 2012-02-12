@@ -8,15 +8,17 @@
 <?php if (count($this->requests) > 0): ?>
        <section class="passenger_results">
       <div class="head_section">
-      
+        <?php $final_dest = null ; ?>
         <?php if($this->where == "toAirport"): ?>
+        <?php $final_dest = "DEPART FROM"; ?>
         <h3>Passengers needing rides to <?php echo $this->searchtitle; ?> on <?php echo $this->date; ?> </h3>
         <?php endif; ?>
         <?php if ($this->where == "fromAirport") :?>
+         <?php $final_dest = "ARRIVE AT"; ?>
          <h3>Passengers needing rides from <?php echo $this->searchtitle; ?> on <?php echo $this->date; ?> </h3>
         <?php endif; ?>
         <ul>
-          <li class="none">Filter by: </li>
+          <li class="none">Sort by: </li>
           <li class="none"><a href="#">Distance </a></li>
           <li><a href="#">Price</a></li>
           <li><a href="#">Rating</a></li>
@@ -24,7 +26,7 @@
         </ul>
       </div>
       <div class="passenger_content">
-        <div class="col_head"><span class="col01">NAME</span> <span class="col02">DEPART FROM</span> <span class="col03">Depart time</span> <span class="col03">Duration</span> 
+        <div class="col_head"><span class="col01">NAME</span> <span class="col02"><?php echo $final_dest; ?></span> <span class="col03">Depart time</span> <span class="col03">Duration</span> 
             <span class="col01">
              <?php if ($this->where == "fromAirport"):?>
                 Distance from your destination
@@ -86,9 +88,9 @@
     </section>
   <?php else : ?>
       <div class="head_section">
-        <h3>No rides found for <?php echo $this->date; ?></h3>
+        <h3>No passengers found for <?php echo $this->date; ?></h3>
         <p></p>
-        <a href="#">Click here to post a ride request</a>
+        <a href="#" onclick="gotoPostRidePage()">Click here to post your ride so other passengers can contact you</a>
       </div>
    <?php endif; ?>
 </div>

@@ -21,6 +21,8 @@
           <actionMethod actionName="post"/>
           <actionMethod actionName="validateform"/>
           <actionMethod actionName="findpassenger"/>
+          <actionMethod actionName="driversearch"/>
+          <actionMethod actionName="passengersearch"/>
         </controllerFile>
         <controllerFile controllerName="Error"/>
         <controllerFile controllerName="Test">
@@ -385,6 +387,12 @@
           <viewControllerScriptsDirectory forControllerName="Profile">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="driversearch"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="passengersearch"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -432,6 +440,8 @@
             <testApplicationActionMethod forActionName="post"/>
             <testApplicationActionMethod forActionName="validateform"/>
             <testApplicationActionMethod forActionName="findpassenger"/>
+            <testApplicationActionMethod forActionName="driversearch"/>
+            <testApplicationActionMethod forActionName="passengersearch"/>
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Test">
             <testApplicationActionMethod forActionName="index"/>
