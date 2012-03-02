@@ -85,14 +85,14 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 .complete_profile{float:left; width:1001px; padding:63px 0 0px 0;}
 .complete_profile .inner_details{float:left; width:919px; padding:0 41px; background:url(../img/complete_profile_bg.png) repeat-y 0 0;}
 .complete_profile h2{ float:left; width:100%; font-size:40px; line-height:42px; color:#fff; padding-bottom:25px;}
-.complete_profile .left_details{float:left; width:455px;}
+.complete_profile .left_details{float:left; width:455px; font:18px}
 .complete_profile .right_details{float:right; width:460px;}
 .complete_profile .inner_details form{float:left; width:100%;}
 .complete_profile .inner_details .facebook_btn{float:left; width:95%; text-align:center; padding-bottom:56px;}
 .complete_profile .inner_details .row{float:left; width:100%; padding-bottom:22px;}
 .complete_profile .inner_details label{float:left; width:165px; font-size:24px; line-height:26px; color:#e2ebc1; padding-top:3px;}
-.complete_profile .inner_details input.field{float:left; width:236px; padding:13px 13px 12px; background:#fff; border:none; font:12px/14px Arial, Helvetica, sans-serif; color:#7f7f7f;}
-.complete_profile .inner_details .text{float:left; width:100%; font-size:12px; line-height:14px; color:#f9fbf1;}
+.complete_profile .inner_details input.field{float:left; width:236px; padding:13px 13px 12px; background:#fff; border:none; font-size:18px Arial, Helvetica, sans-serif; color:#7f7f7f;}
+.complete_profile .inner_details .text{float:left; width:100%; font-size:18px; line-height:14px; color:#f9fbf1;}
 .complete_profile .upload_btn{float:right; width:200px; margin-top:26px; height:55px;cursor:pointer;background:url(../img/upload_profile_btn.gif) no-repeat 0 0;border:none; margin-right:23px; margin-bottom:18px;}
 .complete_profile .right_details .upload_btn{margin-right:0 !important; margin-top:0;}
 .complete_profile .sign_up_btn{float:left; width:190px; padding:110px 0 8px; margin:10px 0 -62px 358px; display:inline;text-align:center; cursor:pointer;background:none; border:none;font:bold 24px/26px Arial, Helvetica, sans-serif; color:#fff; z-index:999; position:relative;}

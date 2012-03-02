@@ -43,8 +43,15 @@ class Requestsfromairport extends \Rideorama\Entity\ridesEntity {
      */
     protected $publisher;
    
-    
-      /**
+    /**
+     * @Column(type="string", length = 60, nullable=true)
+     * @var string
+     * This notifies us if the request is still open
+     */
+    protected $request_open;
+
+
+    /**
      *
      * @var Airport
      * @ManyToOne(targetEntity="Airport")
@@ -122,6 +129,14 @@ class Requestsfromairport extends \Rideorama\Entity\ridesEntity {
      * This stores the duration of trip.
      */
     protected $duration;
+    
+    /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Requestsfromairportbookmanifest",mappedBy="requests_from_airport", cascade={"persist","remove"})
+     */
+    protected $requests_from_airport_bookmanifest;
     
     public function __construct(){
      

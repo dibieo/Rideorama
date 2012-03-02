@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : navigation.xml
+    Created on : February 21, 2012, 1:30 AM
+    Author     : ovo
+    Description:
+        Purpose of the document follows.
+-->
+
+<config>
+<nav>
+<signout>
+<label>Sign out</label>
+<module>account</module>
+<controller>user</controller>
+<action>logout</action>
+<resource>account:user</resource>
+<privilege>logout</privilege>
+</signout>    
+<signin>
+<label>Sign in</label>
+<module>account</module>
+<controller>user</controller>
+<action>login</action>
+<resource>account:user</resource>
+<privilege>login</privilege>
+</signin>
+<signup>
+<label>Sign up </label>
+<module>account</module>
+<controller>user</controller>
+<action>register</action>
+<resource>account:user</resource>
+<privilege>register</privilege>
+</signup>
+</nav>
+</config>

@@ -23,6 +23,7 @@
           <actionMethod actionName="findpassenger"/>
           <actionMethod actionName="driversearch"/>
           <actionMethod actionName="passengersearch"/>
+          <actionMethod actionName="details"/>
         </controllerFile>
         <controllerFile controllerName="Error"/>
         <controllerFile controllerName="Test">
@@ -56,6 +57,16 @@
           <actionMethod actionName="index"/>
         </controllerFile>
         <controllerFile controllerName="Profile"/>
+        <controllerFile controllerName="Aboutus">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="odibie"/>
+          <actionMethod actionName="ksabi"/>
+          <actionMethod actionName="cgeorge"/>
+          <actionMethod actionName="agobitaka"/>
+        </controllerFile>
+        <controllerFile controllerName="Howitworks">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false">
         <formFile formName="Searchride"/>
@@ -69,6 +80,7 @@
         <modelFile modelName="Acl"/>
         <modelFile modelName="Doctrine2Adapter"/>
         <modelFile modelName="EmailService"/>
+        <modelFile modelName="FacebookService"/>
       </modelsDirectory>
       <modulesDirectory enabled="false">
         <moduleDirectory moduleName="account">
@@ -200,6 +212,8 @@
               <actionMethod actionName="success"/>
               <actionMethod actionName="book"/>
               <actionMethod actionName="details"/>
+              <actionMethod actionName="bookingaccepted"/>
+              <actionMethod actionName="bookingrejected"/>
             </controllerFile>
             <controllerFile controllerName="Request">
               <actionMethod actionName="index"/>
@@ -234,6 +248,12 @@
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="details"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="bookingaccepted"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="bookingrejected"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -262,6 +282,7 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="post"/>
               <actionMethod actionName="success"/>
+              <actionMethod actionName="details"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -281,6 +302,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="success"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="details"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -393,6 +417,27 @@
           <viewControllerScriptsDirectory forControllerName="Index">
             <viewScriptFile forActionName="passengersearch"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="details"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Aboutus">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Aboutus">
+            <viewScriptFile forActionName="odibie"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Aboutus">
+            <viewScriptFile forActionName="ksabi"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Aboutus">
+            <viewScriptFile forActionName="cgeorge"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Aboutus">
+            <viewScriptFile forActionName="agobitaka"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Howitworks">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -442,6 +487,7 @@
             <testApplicationActionMethod forActionName="findpassenger"/>
             <testApplicationActionMethod forActionName="driversearch"/>
             <testApplicationActionMethod forActionName="passengersearch"/>
+            <testApplicationActionMethod forActionName="details"/>
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Test">
             <testApplicationActionMethod forActionName="index"/>
@@ -464,6 +510,16 @@
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Profile">
             <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="index"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Aboutus">
+            <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="odibie"/>
+            <testApplicationActionMethod forActionName="ksabi"/>
+            <testApplicationActionMethod forActionName="cgeorge"/>
+            <testApplicationActionMethod forActionName="agobitaka"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Howitworks">
             <testApplicationActionMethod forActionName="index"/>
           </testApplicationControllerFile>
         </testApplicationControllerDirectory>
@@ -508,6 +564,8 @@
                 <testApplicationActionMethod forActionName="success"/>
                 <testApplicationActionMethod forActionName="book"/>
                 <testApplicationActionMethod forActionName="details"/>
+                <testApplicationActionMethod forActionName="bookingaccepted"/>
+                <testApplicationActionMethod forActionName="bookingrejected"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>
@@ -517,6 +575,7 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="post"/>
                 <testApplicationActionMethod forActionName="success"/>
+                <testApplicationActionMethod forActionName="details"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

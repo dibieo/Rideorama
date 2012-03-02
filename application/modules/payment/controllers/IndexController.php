@@ -10,6 +10,8 @@ class Payment_IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
+       //$this->_helper->getHelper('layout')->disableLayout();
+       //$this->_helper->viewRenderer->setNoRender();
         $url = new Zend_View_Helper_Url();
         
         
@@ -24,7 +26,7 @@ class Payment_IndexController extends Zend_Controller_Action
             'action' => 'success'
         ));
         
-        echo $returnUrl;
+       // echo $returnUrl;
         
        //get the payment parameters
 //       
@@ -32,13 +34,15 @@ class Payment_IndexController extends Zend_Controller_Action
 //        $amount = $this->_getParam('amount');
         
         // action body
+        $baseurl = new Zend_View_Helper_ServerUrl();
+        $link = "http://" .$baseurl->getHost();
         $payDetails = array(
-            'cancelUrl' => "http://localhost$cancelUrl",
-            'returnUrl' => "http://localhost$returnUrl",
+            'cancelUrl' => "$link"."$cancelUrl",
+            'returnUrl' => "$link". "$returnUrl",
             'rideoramaEmail' => 'test_1326109945_biz@gmail.com',
-            'receiverEmail' => 'user9_1326263178_per@gmail.com',
+            'receiverEmail' =>   $this->_getParam('paypalEmail'),
             'memo' => 'Payment from rideorama platform for a ride',
-            'amount' => 10
+            'amount' => $this->_getParam('tripcost')
         );
         
         $pay = new Payment_Model_PaypalService();
@@ -52,6 +56,7 @@ class Payment_IndexController extends Zend_Controller_Action
      */
     public function successAction()
     {
+    
         // action body
     }
 

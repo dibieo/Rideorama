@@ -1,5 +1,4 @@
- <?php echo $this->headScript()->appendFile( $this->baseUrl() . '/js/jquery.slideto.js'); ?>
-<script src="<?php echo $this->baseUrl();?>/js/homepage.js"></script>
+
 
        <div  class="content_detaiils" >
         <div class="top"> 
@@ -13,10 +12,28 @@
               <input name="driverwhere" type="radio" id ="driverwhere-fromAirport" value="fromAirport" class="radio">
               </div> 
             </div>
-             <?php echo $this->form->driverdeparture; ?> 
-             <?php echo $this->form->driverdestination; ?>
-             <?php echo $this->form->driverdate;?> 
-             <?php echo $this->form->drivertrip_time; ?> 
+             <span class="row">
+            <label>From</label>
+            <input name="" id ="driverdeparture" type="text" class="field" placeholder="Set Location" >
+            </span> <span class="row">
+            <label>To</label>
+            <input name="" type="text" id = "driverdestination" class="field" placeholder="Set Location" >
+            </span> 
+            <span class="row">
+            <label>Date</label>
+            <input name="" type="text" id = "driverdate" class="field" placeholder="Date">
+            </span> 
+            <span class="row">
+            <label>Time</label>
+            <select id ="drivertrip_time" class="">
+            <option>anytime</option>
+            <option>morning</option>
+            <option>afternoon</option>
+            <option>evening</option>
+            </select>
+            </span>   
+            
+              
             </div>
           <!--left sec ends-->
         <div class="latest_rides">
@@ -43,7 +60,7 @@
         <div class="bottom_tab">
           <ul>
             <li><input name="" type="button" id="findpassengers" onclick="getPassengers()" value="Find Passengers" /></li>
-<!--            <li><input name="" type="button" onclick ="gotoPostRidePage()" id ="postride"value="Post Ride" /></li>-->
+            <li><input name="" type="button" onclick ="gotoPostRidePage()" id ="postride"value="Post Ride Offer" /></li>
           </ul>
         </div>
       </div>

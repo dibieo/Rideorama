@@ -4,47 +4,16 @@
 class IndexController extends Zend_Controller_Action
 {
 
-    protected $form = null;
-
-    protected $driverform = null;
 
     public function init()
     {
         
     
-        
-        $this->form = new Application_Form_Searchride();
-        $this->driverform = new Application_Form_Searchrequest();     
+          
     }
 
     public function indexAction()
     {
-        
-        $this->view->form = $this->form;
-        $this->view->driverform = $this->driverform;
-        $this->view->airportList = $this->getAirportList();
-        
-        if ($this->getRequest()->getParam('trip_time')){
-
-                 //$formData = $this->getRequest()->getParams();
-                 $formData= $this->_getAllParams();
-             
-            if ($this->form->isValid($formData)){
-                
-                $this->_forward('search', 'index', 'default', $formData);
-            }
-
-       }
-       
-       if ($this->getRequest()->getParam('drivertrip_time')){
-           
-                $formData = $this->_getAllParams();
-                
-                if ($this->driverform->isValid($formData)){
-                    $this->_forward('findpassenger', 'index', 'default', $formData);
-                }
-       }
-            
     }
 
     public function searchAction()
@@ -63,7 +32,7 @@ class IndexController extends Zend_Controller_Action
         $this->view->where = $formData['where'];
         $this->setSearchTitle($this->view->where, "destination", "departure");
 
-        }
+    }
 
     private function getAirportList()
     {
@@ -85,6 +54,7 @@ class IndexController extends Zend_Controller_Action
      * Ajax validation for form under I am a passenger tab
      *
      *
+     *
      */
     public function validateformAction()
     {
@@ -95,6 +65,7 @@ class IndexController extends Zend_Controller_Action
 
     /**
      * Ajax validation for form under I am a driver tab
+     *
      *
      *
      */
@@ -126,8 +97,9 @@ class IndexController extends Zend_Controller_Action
      * @param type $where 
      *
      *
+     *
      */
-    private function setSearchTitle($where, $dest = "driverdestination", $depart = "driverdeparture")
+    private function setSearchTitle($where, $dest = 'driverdestination', $depart = 'driverdeparture')
     {
         
         if ($where == "toAirport"){
@@ -139,26 +111,22 @@ class IndexController extends Zend_Controller_Action
 
     public function driversearchAction()
     {
-      $this->view->airportList = $this->getAirportList();
-
         $this->_helper->getHelper('layout')->disableLayout();
 
-        // action body
-        $this->view->form = $this->driverform;
     }
 
     public function passengersearchAction()
     {
-      $this->view->airportList = $this->getAirportList();
-
+      
       $this->_helper->getHelper('layout')->disableLayout();
 
-        // action body
-        $this->view->form = $this->form;
     }
 
+ 
 
 }
+
+
 
 
 

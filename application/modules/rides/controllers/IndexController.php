@@ -9,6 +9,8 @@ class Rides_IndexController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $this->ride_form = new Rides_Form_Rides();
+//        $contextSwitcher = $this->_helper->getHelper('contextSwitch');
+//        $contextSwitcher->addActionContext('book', 'html')->initContext();
     }
 
     public function indexAction()
@@ -22,6 +24,7 @@ class Rides_IndexController extends Zend_Controller_Action
         $destination = $this->_getParam('to');
         $where = $this->_getParam('where');
         $trip_date = $this->_getParam('trip_date');
+        
         $return_trip = "true";
         if ($this->_hasParam('return_trip')){
             $return_trip = $this->_getParam('return_trip');
@@ -45,6 +48,8 @@ class Rides_IndexController extends Zend_Controller_Action
 
     /**
      * Performs ajax validation on the form inputs
+     *
+     *
      */
     public function validateformAction()
     {
@@ -59,7 +64,10 @@ class Rides_IndexController extends Zend_Controller_Action
      * @param string $departure
      * @param string $destination
      * @param string $trip_date 
-     *@param string $return_trip //Should the user be able to post a return trip from this location
+     * @param string $return_trip //Should the user be able to post a return trip from
+     * this location
+     *
+     *
      *
      */
     private function getRideFormPage($where, $departure, $destination, $trip_date, $return_trip)
@@ -116,8 +124,8 @@ class Rides_IndexController extends Zend_Controller_Action
         // action body
         $params = $this->_getAllParams();
         $ride = new Rides_Model_RidesService($params['where']);
-        $ride->requestPersmissionToBuySeat($params['trip_id'], $params['publisher_id'], $params['where'],
-                                           $params['driverEmail'], $params['driverName']);
+        $ride->requestPersmissionToBuySeat($params);
+        
         echo "A request has been sent to this driver for approval";
     }
 
@@ -133,10 +141,12 @@ class Rides_IndexController extends Zend_Controller_Action
         $this->view->data = $params[0];
     }
 
-     /**
+    /**
      * Adds the form data to the model and redirects to a success page
      * @param Array $formData Contains an array of post data
      * @param string $where toAirport or fromAirport
+     *
+     *
      */
     private function processRequest($formData, $where)
     {
@@ -145,11 +155,20 @@ class Rides_IndexController extends Zend_Controller_Action
      $formData['trip_date'] =  date('Y-m-d', strtotime($formData['trip_date']));
 
       $ride = new Rides_Model_RidesService($where);
-      $ride->addRide($formData, $where);
+      $last_trip_id = $ride->addRide($formData, $where);
+      $formData['trip_id'] = $last_trip_id;
       //Share on facebook
+      
+      if (isset($formData['facebook'])) {
      if ($formData['facebook'] == "true"){
         $ride->postMessageOnFacebook("I am giving a ride..Check Rideorama to see it ");
         }
+      }
+      
+      if (isset ($formData['paypal_email'])){
+        $user = new Account_Model_UserService();
+        $user->updateUserPaypalEmail(Zend_Auth::getInstance()->getIdentity()->id, $formData['paypal_email']);
+      }
       $this->_forward('success', 'index', 'rides', $formData);
 
     } catch (Exception $ex){
@@ -157,9 +176,36 @@ class Rides_IndexController extends Zend_Controller_Action
     }
     
     }
-    
+
+    /**
+     * Processing acceptance of a booking
+     */
+    public function bookingacceptedAction()
+    {
+        // action body
+        $params = $this->_getAllParams();
+        $email_service = new Application_Model_EmailService();
+        $email_service->bookingRequestAccepted($params);
+        $this->view->passenger = $params['passengerName'];
+    }
+
+    /**
+     * Processes the rejection of a booking
+     */
+    public function bookingrejectedAction()
+    {
+        // action body
+        $params = $this->_getAllParams();
+        $ride = new Rides_Model_RidesService($params['where']);
+        $ride->rejectRequestToBookSeat($params);
+    }
+
 
 }
+
+
+
+
 
 
 

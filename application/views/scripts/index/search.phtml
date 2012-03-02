@@ -14,7 +14,7 @@ function reduceSeatByOne(){
 }
 </script>
 <?php 
-$this->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
+//$this->addHelperPath('ZendX/JQuery/View/Helper/', 'ZendX_JQuery_View_Helper');
 echo $this->errors; 
 ?>
 
@@ -35,10 +35,10 @@ echo $this->errors;
         <?php endif; ?>
         <ul>
           <li class="none">Sort by: </li>
-          <li class="none"><a href="#">Distance</a></li>
-          <li><a href="#">Price</a></li>
-          <li><a href="#">Rating</a></li>
-          <li class="active"><a href="#">Time</a></li>
+          <li id="distance"class="active"><a href="#">Distance</a></li>
+          <li id="price"><a href="#">Price</a></li>
+          <li id ="rating"><a href="#">Rating</a></li>
+          <li id ="time"class=""><a href="#">Time</a></li>
         </ul>
       </div>
       <div class="passenger_content">
@@ -55,8 +55,9 @@ echo $this->errors;
             </span> </div>
 <?php foreach($this->rides as $ride): ?>
     
-       <?php #print_r($ride); ?>
-        <?php $rideKey = $ride['key'];
+       <?php //print_r($ride); ?>
+        <?php 
+             $rideKey = $ride['key'];
               $rideValue = $ride['value'];
               
               $firstName = $rideKey['first_name'];
@@ -65,6 +66,25 @@ echo $this->errors;
               $seat_num =  $this->escape($rideKey['number_of_seats']);
               $departure_time = $this->escape($rideKey['departure_time']);
               $arrival_time = $this->escape($rideKey['arrival_time']);
+              
+             $buy_now = array(
+               
+             'trip_id' => $rideKey['id'],
+             'publisher_id' => $rideKey['user_id'],
+             'module' => 'rides',
+             'controller' => 'index',
+             'action' => 'book',
+             'airport' => $this->searchtitle,
+             'num_seats' => $seat_num,
+             'tripcost' => $cost,
+             'where' => $this->where,
+             'driverEmail' => $rideKey['email'],
+             'paypalEmail' => $rideKey['paypal_email'],
+             'user_id' => $rideKey['user_id'],
+             "trip_date" => urlencode($this->date),
+             'driverName' => $firstName .  " " . $lastName
+                 
+              );
 
         ?>
         
@@ -90,7 +110,7 @@ echo $this->errors;
         <div class="row">
           <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/passenger_top.png" alt=""></div>
           <div class="text_area">
-            <div class="col1"><img width="100px" height="100px" src="<?php echo $this->escape($rideKey['profile_pic']); ?>?type=large" alt=""></div>
+            <div class="col1"><img width="100px" height="100px" src="<?php echo $this->showpic($this->escape($rideKey['profile_pic'])); ?>" alt=""></div>
             <div class="col2">
               <p><?php echo $this->escape($firstName) . " " . $this->escape($lastName[0])."" ?></p>
               <small><img src="<?php echo $this->baseUrl(); ?>/img/rate.png" alt=""></small> </div>
@@ -112,7 +132,7 @@ echo $this->errors;
             <div class="col4">
               <p><a target="_blank" href="<?php echo $details_url; ?>">Details</a></p>
             </div>
-            <div class="col5"> <small><?php echo $seat_num; ?> seats</small> <strong>$<?php echo $cost; ?></strong> <small>each</small> <span><a href="#">Buy Now</a></span> </div>
+            <div class="col5"> <small id="seat_num"><?php echo $seat_num; ?> seats</small> <strong>$<?php echo $cost; ?></strong> <small>each</small> <span><?php echo $this->processuserbooking($buy_now); ?></span> </div>
           </div>
           <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/passenger_btm.png" alt=""></div>
         </div>
@@ -153,3 +173,5 @@ echo $this->errors;
       </div>
    <?php endif; ?>
 </div>
+
+<script src="<?php echo $this->baseUrl(); ?>/js/booking.js"></script>

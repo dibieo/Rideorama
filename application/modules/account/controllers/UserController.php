@@ -2,6 +2,9 @@
 
 require_once 'facebook.php'; //Load Facebook Api
 
+/**
+ * 
+ */
 class Account_UserController extends Zend_Controller_Action
 {
 
@@ -12,33 +15,31 @@ class Account_UserController extends Zend_Controller_Action
     protected $fbsession = null;
     
     protected $registration_form = null;
+    
+    protected $account_completion_form = null;
 
     public function init()
     {
         /* Initialize action controller here */
         $this->_user = new Account_Model_UserService();
-        
-       // echo Zend_Registry::get('role');
-        $this->_fb = new Facebook(array(
-            'appId' => '239308316101537',
-            'secret' => 'ce008ac5b02c0c21641a38b6acbd9b2b',
-            'cookie' => true,
+        $fboptions = Zend_Registry::get('config')->facebook;
+
+        $this->_fb =  new Facebook(array(
+            'appId' => $fboptions->applicationID,
+            'secret' => $fboptions->appSecret,
+            'cookie' => true
          ));
         
         $this->registration_form = new Account_Form_User();
-        
+        $this->account_completion_form = new Account_Form_Completeprofile();
     }
 
     public function indexAction()
     {
-         if (Zend_Auth::getInstance()->hasIdentity()){
-           
-           echo "Session still valid!";
-       }else{
-           
-           echo "Session invalid";
-       
-    }
+        
+        $user = new Account_Model_UserService();
+        $current_user = $user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
+        $this->view->user = $current_user;
     }
 
     public function loginAction()
@@ -55,12 +56,11 @@ class Account_UserController extends Zend_Controller_Action
         $session = $this->_fb->getUser(); //Stores the facebook user session
         $this->fbsession = $session;
         $me = null;
-       // echo "Outside session: " . $session;
-    //If User is logged into facebook get profile info we need
+
+       //If User is logged into facebook get profile info we need
     if ($session) {
          // Set facebook_status of the fb
          
-        echo "Session : " . $session;
         try {
         
         $me = $fb->api('/me');
@@ -76,7 +76,6 @@ class Account_UserController extends Zend_Controller_Action
       
             $this->firstTimeFacebookUser($me);
             $this->processFacebookLoginAndRedirect($email, $me['id']);
-          //  $this->_redirect(Zend_Registry::get('return')); // Send the user to where he's coming from
 
             
         }else {
@@ -162,8 +161,6 @@ class Account_UserController extends Zend_Controller_Action
          $identity = $authAdapter->getResultRowObject();
           $authStorage = $auth->getStorage();
           $authStorage->write($identity);
-          
-        //echo "we got here";
       
         if ($this->fbsession == null){
         
@@ -233,7 +230,7 @@ class Account_UserController extends Zend_Controller_Action
     public function activateAction()
     {
         $form = new Account_Form_Completeprofile();
-        
+      
         $this->view->form = $form;
         if ($this->getRequest()->isPost()){
             $formData = $this->getRequest()->getPost();
@@ -243,6 +240,8 @@ class Account_UserController extends Zend_Controller_Action
                 $this->_forward('thanks');
             }
         else{
+            echo "got here";
+            print_r($formData);
             $form->populate($formData);
         }
 
@@ -288,9 +287,22 @@ class Account_UserController extends Zend_Controller_Action
     }
 
     
+    /**
+     * Does AJAX validation on form inputs
+     */
      public function validateformAction()
     {
         $this->_helper->formvalidate($this->registration_form, $this->_helper, $this->_getAllParams());
+
+    }
+    
+    /**
+     * Perform Ajax validation on form inputs
+     */
+    public function validateactivationformAction(){
+        
+      $this->_helper->formvalidate($this->account_completion_form, $this->_helper, $this->_getAllParams());
+
     }
     /**
      * This function writes the logged in Facebook account to Authstorage

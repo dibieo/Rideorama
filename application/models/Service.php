@@ -24,6 +24,9 @@ class Application_Model_Service
     } 
     
     public function postMessageOnFacebook($msg){
+        
+      
+       
         $facebook = new Facebook(array(
             'appId' => '239308316101537',
             'secret' => 'ce008ac5b02c0c21641a38b6acbd9b2b',
@@ -229,8 +232,17 @@ class Application_Model_Service
         $entity->state = $address_details['state'];
         
     }
-   
     
+    
+    /**
+     * Returns the name of the logged in user
+     * @return string 
+     */
+     public function returnLoggedInUserName(){
+        
+        $userName = $this->loggedInUser->first_name . " " . $this->loggedInUser->last_name;
+        return $userName;      
+    }
     
     
     

@@ -57,9 +57,10 @@ class Payment_Model_PaypalService
 			catch(Exception $ex) {
                                 echo $ex->getFile();
 				echo $ex->getMessage();
-				
+				echo "an error occured";
 			}	
 
+                        echo "got here";
     }
     
     private function createPayRequest(array $payDetails) {

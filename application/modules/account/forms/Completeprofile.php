@@ -6,17 +6,26 @@ class Account_Form_Completeprofile extends Application_Form_Base
     public function init()
     {
        $row_decorators = array(
-           
-           'viewHelper', 
-            'Label',
+            'ViewHelper',
+
+                   'Description',
+
+                   'Errors',
+                  
+                   'Label',
+          
             array('htmlTag', array ('tag' => 'span', 'class' => 'row'))
            
        );
        
          $row_msg_decorators = array(
-           
-           'viewHelper', 
-            'Label',
+           'ViewHelper',
+
+                   'Description',
+
+                   'Errors',
+                  
+                   'Label',
             array('htmlTag', array ('tag' => 'span', 'class' => 'row'))
              
        );
@@ -29,6 +38,7 @@ class Account_Form_Completeprofile extends Application_Form_Base
             'validators' => array($alpha),
             'Label' => 'Occupation',
             'class' => 'field',
+            'validators' => array('NotEmpty'),
             'Filters' => array('StripTags', 'StringTrim')
         ));
         
@@ -49,6 +59,8 @@ class Account_Form_Completeprofile extends Application_Form_Base
             'class' => 'field',
               'Filters' => array('StripTags', 'StringTrim')
         ));
+        
+    
         
         $make = new Zend_Form_Element_Text('make', array(
            
@@ -84,7 +96,7 @@ class Account_Form_Completeprofile extends Application_Form_Base
                             ->setDestination($profilepicfileDest)
                             ->setRequired(true);
          
-         $user_profile_pic->addValidator('IsImage', false)
+         $user_profile_pic->addValidator('Extension', false, 'jpg,png,gif') 
                 ->addValidator('Size', false, 40000);
  
          
@@ -100,8 +112,8 @@ class Account_Form_Completeprofile extends Application_Form_Base
                  ->setDestination($fileDest)
                  ->setRequired(true);
          
-         $car_profile_pic->addValidator('IsImage', false)
-                ->addValidator('Size', false, 40000);
+         $car_profile_pic->addValidator('Extension', false, 'jpg,png,gif') 
+                ->addValidator('Size', false, '1MB');
  
          
          $car_profile_pic->addFilter('Rename', array(
@@ -114,8 +126,8 @@ class Account_Form_Completeprofile extends Application_Form_Base
                  ->setDestination($fileDest)
                  ->setRequired(true);
          
-         $car_pic1->addValidator('IsImage', false)
-                ->addValidator('Size', false, 40000);
+         $car_pic1->addValidator('Extension', false, 'jpg,png,gif') 
+                ->addValidator('Size', false, '1MB');
  
          
          $car_pic1->addFilter('Rename', array(
@@ -128,8 +140,8 @@ class Account_Form_Completeprofile extends Application_Form_Base
                  ->setDestination($fileDest)
                  ->setRequired(true);
          
-         $car_pic2->addValidator('IsImage', false)
-                ->addValidator('Size', false, 40000);
+         $car_pic2->addValidator('Extension', false, 'jpg,png,gif') 
+                ->addValidator('Size', false, '1MB');
  
          
          $car_pic2->addFilter('Rename', array(
@@ -178,12 +190,13 @@ class Account_Form_Completeprofile extends Application_Form_Base
         
         $submit->setDecorators(array('ViewHelper'));
 
-        $this->setDecorators(array(
-             'FormElements' ,
-             array('HtmlTag', array('tag' => 'fieldset', 'placement' =>'REPLACE')),
-             'Form'
-        ));
-         
+//        $this->setDecorators(array(
+//            
+//             'FormElements',
+//             array('HtmlTag', array('tag' => 'fieldset', 'placement' =>'REPLACE')),
+//             'Form'
+//        ));
+//         
         $occupation->setDecorators($row_decorators);
         $age->setDecorators($row_decorators);
         $phone_number->setDecorators($row_msg_decorators);
@@ -194,6 +207,7 @@ class Account_Form_Completeprofile extends Application_Form_Base
         $fileDecorators = array(
             'File',
             'Label',
+            'Errors',
            array('htmlTag', array ('tag' => 'span', 'class' => 'row'))
 
         );
@@ -203,6 +217,7 @@ class Account_Form_Completeprofile extends Application_Form_Base
         $car_profile_pic->setDecorators($fileDecorators);
         $car_pic1->setDecorators($fileDecorators);
         $car_pic2->setDecorators($fileDecorators);
+        
     }
 
 

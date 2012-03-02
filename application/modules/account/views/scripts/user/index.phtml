@@ -1,4 +1,155 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>User</b> and script/action name <b>index</b></p>
-</div>
+  <!--body container starts-->
+  <section id="body_container"> 
+  <script src="<?php echo $this->baseUrl();?>/js/tabs.js"></script>
+      <!-- my account starts -->
+    <section class="my_account">
+      <h2>My account</h2>
+      <section class="tab_section">
+        <ul>
+          <li class="first active"><a href=".profile_section">Profile</a></li>
+          <li><a href=".car_section">Car</a></li>
+          <li><a href=".rides_section">Rides</a></li>
+          <li><a href=".review_section">Reviews</a></li>
+        </ul>
+      </section>
+      <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/my_account_top.png" alt=""></div>
+      <div class="tab_content"> 
+        <!-- profile -->
+        <div class="profile_section tabing" style="display:block;">
+          <div class="pic_area"><img width="264px" height="264px" src="<?php echo $this->showpic($this->user->profile_pic); ?>" alt=""></div>
+          <div class="text_area">
+            <h3><?php echo $this->escape($this->user->first_name) . " " . $this->escape($this->user->last_name) ; ?></h3>
+            
+            <p><span>Occupation: </span><?php echo $this->escape($this->user->profession); ?></p>
+            <p><span>Age: </span><?php echo $this->user->age; ?></p>
+            <p><span>Email:</span><?php echo $this->user->email; ?></p>
+            <p><span>Paypal email: </span><?php echo $this->user->paypal_email; ?></p>
+            <p><span>Phone number: </span><?php echo $this->escape($this->user->telephone); ?></p>
+            <p><span>Member since: </span><?php
+             echo date_format($this->user->date_registered, "F Y");?>
+            </p>
+            <p><span>Avg rating </span>show stars (100 reviews)</p>
+          </div>
+          <div class="edit_btn_area"> <a href="#" class="edit">edit profile</a> </div>
+        </div>
+        <!-- profile ends --> 
+        <!-- car -->
+        <div class="car_section tabing" style="display:none;">
+          <div class="pic_area">
+           <img class="large" width="264px" height="263px" src="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->car_profile_pic; ?>" alt="">
+            <ul class="thumb">
+              <li><a href="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->car_profile_pic; ?>"></a></li>
+              <li><a href="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->picture1; ?>"></a></li>
+              <li><a href="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->picture2; ?>"></a></li>
+            </ul>
+          </div>
+          <div class="text_area">
+            <h3>CAR</h3>
+            <p><span>Make: </span><?php echo $this->escape($this->user->car->make); ?></p>
+            <p><span>Model: </span><?php echo $this->escape($this->user->car->model); ?></p>
+            <p><span>Year: </span><?php echo $this->escape($this->user->car->year); ?></p>
+          </div>
+          <div class="edit_btn_area"> <a href="#" class="edit">edit car profile</a> </div>
+        </div>
+        <!-- car ends --> 
+        <!-- rides -->
+        <div class="rides_section tabing" style="display:none">
+          <table border="0" cellspacing="0" cellpadding="5">
+            <thead>
+              <tr>
+                <td class="width">DATE</td>
+                <td class="width">FROM</td>
+                <td class="width">TO</td>
+                <td class="width">STATUS</td>
+                <td class="width">COST</td>
+                <td class="width">WHO WITH</td>
+                <td class="width">XXXXX </td>
+                <td class="width">XXXXX </td>
+                <td class="width">XXXXX </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Jan 15, 2012 </td>
+                <td>Airport </td>
+                <td>Boulder</td>
+                <td>Driver</td>
+                <td>$15</td>
+                <td>Carl T. <br>
+                  Tom Z.</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>Jan 15, 2012</td>
+                <td>Airport </td>
+                <td>Boulder</td>
+                <td>Passenger</td>
+                <td>$15</td>
+                <td>Carl T.</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>Jan 15, 2012</td>
+                <td>Airport </td>
+                <td>Boulder</td>
+                <td>Driver</td>
+                <td>$15</td>
+                <td>Carl T.</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>Jan 15, 2012</td>
+                <td>Airport </td>
+                <td>Boulder</td>
+                <td>Driver</td>
+                <td>$15</td>
+                <td>Carl T.</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- rides ends --> 
+        <!-- rides -->
+        <div class="review_section tabing" style="display:none">
+          <ul>
+            <li>
+              <div class="col1"><img src="<?php echo $this->baseUrl(); ?>/img/review.jpg" alt=""></div>
+              <div class="col2">Charlie</div>
+              <div class="col3">
+                <p>This is a gripping journey into the life of an amazing individual. Despite its girth of nearly 600 pages, the book zips along at a torrid pace.</p>
+                <img src="<?php echo $this->baseUrl(); ?>/img/rate.jpg" alt=""> </div>
+            </li>
+            <li>
+              <div class="col1"><img src="<?php echo $this->baseUrl(); ?>/img/review.jpg" alt=""></div>
+              <div class="col2">Melanie</div>
+              <div class="col3">
+                <p>The interviews with Jobs are fascinating and revealing. We get a real sense for what it must have been like to be Steve, or to work with him. That earns the book five stars despite its flaws, in that it's definitely a must-read if you have any interest at all in the subject.</p>
+                <img src="<?php echo $this->baseUrl(); ?>/img/rate.jpg" alt=""> </div>
+            </li>
+            <li>
+              <div class="col1"><img src="<?php echo $this->baseUrl(); ?>/img/review.jpg" alt=""></div>
+              <div class="col2">Charlie</div>
+              <div class="col3">
+                <p>This is a gripping journey into the life of an amazing individual. Despite its girth of nearly 600 pages, the book zips along at a torrid pace.</p>
+                <img src="<?php echo $this->baseUrl(); ?>/img/rate.jpg" alt=""> </div>
+            </li>
+          </ul>
+        </div>
+        <!-- rides ends --> 
+        
+      </div>
+      <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/my_account_btm.png" alt=""></div>
+    </section>
+    
+    <!-- my account ends --> 
+  </section>
+  <!--body container ends--> 

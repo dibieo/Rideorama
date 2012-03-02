@@ -15,6 +15,7 @@ class Application_Model_Acl extends Zend_Acl
 		 //Default Module Resources	--All resources inherit from the module default
 		$this->add(new Zend_Acl_Resource('default'))
 			 ->add(new Zend_Acl_Resource('default:index'), 'default')
+                          ->add(new Zend_Acl_Resource('default:aboutus'), 'default')
                          ->add(new Zend_Acl_Resource('default:show'), 'default')
 			->add(new Zend_Acl_Resource('default:error'), 'default')
 			->add(new Zend_Acl_Resource('default:account'), 'default');
@@ -56,11 +57,13 @@ class Application_Model_Acl extends Zend_Acl
 		 *A guest is able to login, register and view the about pages of the system.
 		 *A guest is also able to view all options in the Community module except for rating a course.
 		 */
+                
 		$this->allow('guest', 'default:index', array('validateform', 'validatesecondform', 'findpassenger', 'index', 'search', 'passengersearch', 'driversearch'))
 			 ->allow('guest', 'default:error', 'error')
                          ->allow('guest', 'default:show', array('index', 'calc'))
-			 ->allow('guest', 'account:user', array('login', 'register', 'recover', 'thanks','validateform', 'activate', 'regcomplete'));
-	
+                         ->allow('guest', 'default:aboutus', array('index', 'cgeorge', 'ksabi', 'agobitaka', 'odibie'))
+			 ->allow('guest', 'account:user', array('login', 'register', 'recover', 'thanks','validateform', 'activate', 'regcomplete', 'validateactivationform'))
+                         ->deny('user', 'account:user', array('login', 'register'));
 			 
 			 
 		/**
@@ -68,11 +71,11 @@ class Application_Model_Acl extends Zend_Acl
 		 * a particular course
 		 */
                 
-		$this->allow('user', 'account:user', array('logout', 'edit', 'index','viewprofile'))										 
-		     ->deny('user', 'account:user', array('login', 'register'));
+		$this->allow('user', 'account:user', array('logout', 'edit', 'index','viewprofile'));										 
+		     
 		
-                $this->allow('user', 'rides:index', array('index', 'post', 'book', 'details','validateform', 'success'))
-                      ->allow('user', 'requests:index', array('index', 'post', 'success', 'validateform'))
+                $this->allow('user', 'rides:index', array('index', 'post', 'book', 'details','validateform', 'success', 'bookingaccepted', 'bookingrejected'))
+                      ->allow('user', 'requests:index', array('index', 'post', 'success', 'validateform', 'details'))
                       ->allow('user', 'payment:index', array('index', 'success'));
                 
                 

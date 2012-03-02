@@ -30,12 +30,14 @@ class Rides_Form_Rides extends Application_Form_Base
             ->addFilter($OnlyAlnumFilter)
             ->addValidators(array('NotEmpty'));
         
+        $seat_range = new Zend_Validate_Between(array('min' => 1,
+                                                                 'max' => 5));
+        $seat_range->setMessage("You can only offer between 1-5 seats per trip");
         
         $num_seats = new Zend_Form_Element_Text('num_seats');
         $num_seats->setLabel('Number of seats')
                   ->setRequired(true)
-                  ->addValidator(new Zend_Validate_Between(array('min' => 1,
-                                                                 'max' => 5)));
+                  ->addValidators(array($seat_range));
         
         $luggage = new Zend_Form_Element_Select('luggage');
         $luggage->setLabel('Luggage')
@@ -56,6 +58,13 @@ class Rides_Form_Rides extends Application_Form_Base
          "medium" => "medium",
           "large" => "large"
         ));
+        
+        $paypal_email = new Zend_Form_Element_Text('paypal_email');
+        $paypal_email->setLabel('Paypal Email')
+                     ->setRequired(true)
+                     ->setAttrib('placeholder', 'Enter your paypal email address for payment')
+                     ->addValidators(array('EmailAddress', 'NotEmpty'));
+        
         
         $trip_date = new ZendX_JQuery_Form_Element_DatePicker('trip_date', array(
                  'label' => 'Trip date',
@@ -106,26 +115,50 @@ class Rides_Form_Rides extends Application_Form_Base
         
     //Add Number of luggages and size to a display group
         
-        if (Zend_Auth::getInstance()->getIdentity()->facebook_login == "true"){
-            
+      $fb = new Application_Model_FacebookService();
+      $fbsession = $fb->loggedIn();
+        
+        if ($fbsession){
                $this->addElements(array($id, $from, $to, $trip_date,$trip_time, $num_seats, $trip_cost,
                                     $luggage, $luggage_size,
                                     $trip_msg, $return, $facebook_checkbox, $submit));
-        } else{
+             
+          $this->setLuggageDisplay($luggage, $luggage_size);
+          
+                 if (Zend_Auth::getInstance()->getIdentity()->paypal_email == null){
+                     $this->addElement($paypal_email);
+                     $this->addDisplayGroup(array($trip_msg, $paypal_email, $facebook_checkbox, $submit), 'other_elems');
+                }else{
+                     $this->addDisplayGroup(array($trip_msg, $facebook_checkbox, $submit), 'other_elems');
+
+                    }
+          
+        } else {
                  $this->addElements(array($id, $from, $to,
                                     $trip_date, $trip_time, $num_seats, $trip_cost,
                                     $luggage, $luggage_size,
                                     $trip_msg, $return, $submit));
+         $this->setLuggageDisplay($luggage, $luggage_size);
+         
+         $user_obj = new Account_Model_UserService();
+         $user = $user_obj->getUser(Zend_Auth::getInstance()->getIdentity()->id);
+         
+           if ($user->paypal_email == null){
+                $this->addElement($paypal_email);
+                $this->addDisplayGroup(array($trip_msg, $paypal_email, $submit), 'other_elems');
+    }else{
+         $this->addDisplayGroup(array($trip_msg, $submit), 'other_elems');
     }
+    }
+    
+  
     
     
     //Add Number of luggages and size to a display group
-    $this->addDisplayGroup(array($luggage, $luggage_size), 'luggages_display');
-    
-    $this->addDisplayGroup(array($trip_msg, $facebook_checkbox, $submit), 'other_elems');
     
     
      $luggages_display = $this->getDisplayGroup('luggages_display');
+     
      $luggages_display->setDecorators(array(
                     'FormElements',
                     array('HtmlTag',array('tag'=>'div','class'=>'form_row'))
@@ -140,6 +173,7 @@ class Rides_Form_Rides extends Application_Form_Base
     $from->setAttrib('class', 'input')->setDecorators($this->generateDecoratorsJQuery());
     $to->setAttrib('class', 'input')->setDecorators($this->generateDecoratorsJQuery());
     $trip_cost->setAttrib('class', 'input')->setDecorators($this->generateDecorators());
+    $paypal_email->setAttrib('class', 'input')->setDecorators($this->generateDecorators());
     $num_seats->setAttrib('class', 'input')->setDecorators($this->generateDecorators());
     $trip_msg->setDecorators($this->generateDecorators());
     $facebook_checkbox->setAttrib('class', 'radio')->setDecorators($this->generateDecorators('form_row1 last'));
@@ -159,5 +193,10 @@ class Rides_Form_Rides extends Application_Form_Base
         ));
      $this->setDescription('Post a ride');
 }
+
+ private function setLuggageDisplay($luggage, $luggage_size){
+   $this->addDisplayGroup(array($luggage, $luggage_size), 'luggages_display');
+
+ }
 }
 

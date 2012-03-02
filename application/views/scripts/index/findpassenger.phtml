@@ -46,13 +46,32 @@
               $departure_time = $this->escape($requestKey['departure_time']);
               $duration = $this->escape($requestKey['duration']);
         ?>
+          
+         <?php
+        $details_url = $this->url(array(
+            
+            'module' => 'requests',
+            'controller' => 'index',
+            'action' => 'details',
+            'where' => $this->where,
+            'trip_id' => $requestKey['id'],
+            'trip_date' => urlencode($this->date),
+            'airport' => $this->searchtitle
+            )
+                 
+      );
+        $city = $requestKey['city'];
+        if ($city == ""){
+            $city = "unavailable";
+        }
+        ?>
         
        
    
         <div class="row">
           <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/passenger_top.png" alt=""></div>
           <div class="text_area">
-            <div class="col1"><img width="100px" height="100px" src="<?php echo $this->escape($requestKey['profile_pic']); ?>?type=large" alt=""></div>
+            <div class="col1"><img width="100px" height="100px" src="<?php echo $this->showpic(($requestKey['profile_pic'])); ?>" alt=""></div>
             <div class="col2">
               <p><?php echo $this->escape($firstName) . " " . $this->escape($lastName[0])."" ?></p>
               <small><img src="<?php echo $this->baseUrl(); ?>/img/rate.png" alt=""></small> </div>
@@ -72,7 +91,7 @@
             <?php endif; ?>
             </div>
             <div class="col4">
-              <p><a href="#">Details</a></p>
+              <p><a target="_blank" href="<?php echo $details_url; ?>">Details</a></p>
             </div>
             <div class="col5"> <small>offering</small> <strong>$<?php echo $cost; ?></strong> <small></small> <span><a href="#">Offer ride</a></span> </div>
           </div>

@@ -1,14 +1,10 @@
     $().ready(function(){
 	$.ajaxSetup({
 		error:function(x,e){
-			if(x.status==0){
-			alert('You are offline!!\n Please Check Your Network.');
-			}else if(x.status==404){
+		        if(x.status==404){
 			alert('Requested URL not found.');
 			}else if(x.status==500){
 			alert('Ouch looks like a server error occured.Sorry about that. \n Please refersh your page and try again. \n If the problem persists, contact us using the chat box below.');
-			}else if(e=='timeout'){
-			alert('Request Time out.');
 			}else {
 			alert('Unknow Error.\n'+x.responseText);
 			}
@@ -144,7 +140,14 @@
    }
     
    function getPassengers(){
-    
+       
+       var radioInput =$(".top_row input[type='radio']:checked").val();
+       if (radioInput == undefined){
+            
+            alert("You must select whether you're going to or leaving an airport to continue");
+       } else{
+        var isValid = testRequiredSearchFields("#driverdeparture", "#driverdestination", "#driverdate");
+       if (isValid){
        var departure = $("#driverdeparture").val();
        var destination = $("#driverdestination").val();
        var tripdate = $("#driverdate").val();
@@ -164,15 +167,26 @@
     }, 'html'
 
     );
-    
+       }
    }
-   
+   }
      /**
       * getRides 
       * Performs an ajax call to the search action and returns rides
       */
      function findRides(){
     
+        var radioInput =$(".top_row input[type='radio']:checked").val();
+        
+        
+       if (radioInput == undefined){
+            
+            alert("You must select whether you're going to or leaving an airport to continue");
+       }else {
+          
+       var isValid = testRequiredSearchFields("#departure", "#destination", "#trip_date");
+          
+       if (isValid){
        var departure = $("#departure").val();
        var destination = $("#destination").val();
        var tripdate = $("#trip_date").val();
@@ -192,7 +206,8 @@
     }, 'html'
 
     );
-    
+       }
+       }
    }
    
    function disableSubmitbutton(div_id, text){
@@ -208,9 +223,41 @@
     function setAirportNameTripsToAirport (departure, destination){
         $(departure).val('');
         $(destination).val("Denver International airport");
+        $(destination).attr('readOnly', true);
+        $(departure).attr('readOnly', false);
      }
      
      function setAirportNameTripsFromAirport(departure, destination){
          $(departure).val("Denver International airport");
          $(destination).val('');
+         $(departure).attr('readonly', true);
+         $(destination).attr('readonly',false);
      }
+     
+     function testRequiredSearchFields(departure, destination, trip_date){
+        
+        var depart = checkHomepageInput(departure , 10, "Please enter the full departure address");
+        var dest =  checkHomepageInput(destination, 8, "Please enter the full destination address");
+        var date = checkHomepageInput(trip_date, 8, "Date invalid! Use the date picker to choose a valid date");
+        
+        return (depart && dest && date);
+     }
+
+    /**
+     * Makes sure that the input provided in the homepage is valid
+     * @param div input div
+     * @param minlength: The minimum length of the input
+     * @param msg: Error message to be displayed to user
+     * return boolean Either true or false
+     */
+     function checkHomepageInput(div, minlength, msg){
+         
+         value = $(div).val();
+         if (value.length < minlength){
+             alert(msg)
+             return false;
+         }else{
+             return true;
+         }
+     }
+   

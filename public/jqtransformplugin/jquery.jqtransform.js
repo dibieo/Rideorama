@@ -257,7 +257,6 @@
 				.addClass('jqTransformHidden')
 				.wrap('<div class="jqTransformSelectWrapper"></div>')
 				.parent()
-				.css({zIndex: 10-index})
 			;
 			
 			/* Now add the html for the select */

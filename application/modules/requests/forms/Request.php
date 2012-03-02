@@ -42,11 +42,13 @@ class Requests_Form_Request extends Application_Form_Base
                     ->setAttrib('class', 'select1')
                    ->addMultiOptions($this->getTimes());
         
+        $range = new Zend_Validate_GreaterThan(1);
+        $range->setMessage("You must offer greater than $1");
         
         $trip_cost = new Zend_Form_Element_Text('trip_cost');
         $trip_cost->setLabel('Willing to offer')
                   ->setAttrib('placeholder', 'Enter how much you are willing to pay for this ride')
-                  ->addValidators(array('NotEmpty'))
+                  ->addValidators(array('NotEmpty', $range))
                   ->setRequired(true);
         
         $luggage = new Zend_Form_Element_Select('luggage');
@@ -96,23 +98,32 @@ class Requests_Form_Request extends Application_Form_Base
                           ->setUncheckedValue('false')
                           ->setChecked(true);
        
-        if (Zend_Auth::getInstance()->getIdentity()->facebook_login == "true"){
+        $fb = new Application_Model_FacebookService();
+        $fbsession = $fb->loggedIn();
+        if ($fbsession) {
             
          $this->addElements(array($from, $to, $trip_date, $trip_time,
                                 $trip_cost,$luggage, $luggage_size,$trip_msg,
                                 $facebook_checkbox, $return, $submit));
+           //Decorators
+    //Add Number of luggages and size to a display group
+         $this->addDisplayGroup(array($luggage, $luggage_size), 'luggages_display');
+    
+         $this->addDisplayGroup(array($trip_msg, $facebook_checkbox, $submit), 'other_elems');
+
         }else{
             
          $this->addElements(array($from, $to, $trip_date, $trip_time,
-                                $trip_cost,$luggage, $luggage_size,$trip_msg,  $submit));
-         
+                                $trip_cost,$luggage, $return, $luggage_size,$trip_msg,  $submit));
+           //Decorators
+    //Add Number of luggages and size to a display group
+        $this->addDisplayGroup(array($luggage, $luggage_size), 'luggages_display');
+    
+        $this->addDisplayGroup(array($trip_msg, $submit), 'other_elems');
+
         }
        
-   //Decorators
-    //Add Number of luggages and size to a display group
-    $this->addDisplayGroup(array($luggage, $luggage_size), 'luggages_display');
-    
-    $this->addDisplayGroup(array($trip_msg, $facebook_checkbox, $submit), 'other_elems');
+ 
     
     
      $luggages_display = $this->getDisplayGroup('luggages_display');

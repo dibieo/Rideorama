@@ -17,7 +17,41 @@ class Requests_IndexController extends Zend_Controller_Action
     {
         // action body
     }
+    
+   /**
+     * Processing acceptance of an offer
+     */
+    public function offeracceptedAction()
+    {
+        // action body
+        $params = $this->_getAllParams();
+        $request = new Requests_Model_RequestService($params['where']);
+        $request->acceptRequestToOfferRide($params);
+    }
 
+    /**
+     * Processes the rejection of an offer
+     */
+    public function offerrejectedAction()
+    {
+        // action body
+        $params = $this->_getAllParams();
+        $request = new Requests_Model_RequestService($params['where']);
+        $request->rejectRequestToOfferRide($params);
+    }
+
+
+    public function detailsAction(){
+           // action body
+        $params = $this->_getAllParams();
+        $this->view->where = $params['where'];
+        $this->view->trip_date = $params['trip_date'];
+        $this->view->airport = $params['airport'];
+        $trip = new Requests_Model_RequestService($params['where']);
+        $params = $trip->tripdetails($params);
+        $this->view->data = $params[0];
+        
+    }
     public function postAction()
     {
         // action body
@@ -107,11 +141,14 @@ class Requests_IndexController extends Zend_Controller_Action
       $formData['trip_date'] =  date('Y-m-d', strtotime($formData['trip_date']));
 
       $ride = new Requests_Model_RequestService($where);
-      $ride->addRequest($this->formData, $where);
+      $ride->addRequest($formData, $where);
       //Share on facebook
+      
+   if (isset ($formData['facebook'])){
      if ($this->formData['facebook'] == "true"){
         $ride->postMessageOnFacebook("I need a ride! Check Rideorama to view my request!=> $where");
         }
+      }
       $this->_forward('success', 'index', 'requests', $this->formData);
               
     }
@@ -119,7 +156,6 @@ class Requests_IndexController extends Zend_Controller_Action
 
 
 }
-
 
 
 

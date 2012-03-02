@@ -1,5 +1,3 @@
- <?php echo $this->headScript()->appendFile( $this->baseUrl() . '/js/jquery.slideto.js'); ?>
-<script src="<?php echo $this->baseUrl();?>/js/homepage.js"></script>
 
        <div  class="content_detaiils" >
         <div class="top"> 
@@ -13,11 +11,25 @@
               <input name="where" type="radio" id ="where-fromAirport" value="fromAirport" class="radio">
               </div> 
             </div>
-             <?php echo $this->form->departure; ?> 
-             <?php echo $this->form->destination; ?>
-             <?php echo $this->form->date;?> 
-            <?php echo $this->form->trip_date;?>
-             <?php echo $this->form->trip_time; ?> 
+ 
+              <span class="row">
+            <label>From</label>
+            <input name="" id="departure" type="text" class="field" placeholder="Enter departure" >
+            </span> <span class="row">
+            <label>To</label>
+            <input name="" id="destination" type="text" class="field" placeholder="Enter destination" >
+            </span> <span class="row">
+            <label>Date</label>
+            <input name="" id="trip_date" type="text" class="field" placeholder="date">
+            </span> <span class="row">
+            <label>Time</label>
+            <select  id = "trip_time" class="field">
+            <option>anytime</option>
+            <option>morning</option>
+            <option>afternoon</option>
+            <option>evening</option>
+            </select>
+            </span>
             </div>
           <!--left sec ends-->
         <div class="latest_rides">
@@ -40,8 +52,8 @@
       <div class="bottom">
         <div class="bottom_tab">
           <ul>
-            <li><input name="" type="button" id="findrides" onclick="findRides()" value="Find rides" /></li>
-<!--            <li><input name="" type="button" onclick ="gotoRequestRidePage()" id ="postride"value="Request a ride" /></li>-->
+            <li><input name="" type="button" id="findrides" onclick="findRides()" value="Find Drivers" /></li>
+            <li><input name="" type="button" onclick ="gotoRequestRidePage()" id ="postride"value="Post Ride Request" /></li>
           </ul>
         </div>
       </div>

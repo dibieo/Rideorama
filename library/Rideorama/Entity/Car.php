@@ -27,7 +27,7 @@ class Car extends \Rideorama\Entity\rideoramaEntity
     
     /**
      *
-     * @var string $picture1
+     * @var string $make
      * @Column(type="string",nullable=true)
      * @rating
      */
@@ -76,11 +76,8 @@ class Car extends \Rideorama\Entity\rideoramaEntity
     
      /**
      * 
-     * @var User
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumns({
+     * @OneToOne(targetEntity="User", inversedBy = "car")
      *  @JoinColumn(name="user_id", referencedColumnName="id")
-     * })
      */
     protected $user;
     

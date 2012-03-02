@@ -46,6 +46,13 @@ class User extends \Rideorama\Entity\rideoramaEntity
      */
     protected $email;
     
+   /**
+     * @Column(type="string",length=60,nullable=true)
+     * @var string
+     * This stores the user's paypal email. It is necessary for receiving payments
+     */
+    protected $paypal_email;
+    
     /**
      * @Column(type="string",length=60,nullable=true)
      * @var string
@@ -179,22 +186,7 @@ class User extends \Rideorama\Entity\rideoramaEntity
      * @OneToMany(targetEntity="Ridestoairportbookmanifest",mappedBy="user", cascade={"persist","remove"})
      */
     protected $rides_to_airport_bookmanifest;
-    
-//   /**
-//     *
-//     * @param \Doctrine\Common\Collections\Collection $property
-//     *
-//     * @OneToMany(targetEntity="Requestsfromairport_bookmanifest",mappedBy="user", cascade={"persist","remove"})
-//     */
-//    protected $requests_from_airport_bookmanifest;
-//    
-//     /**
-//     *
-//     * @param \Doctrine\Common\Collections\Collection $property
-//     *
-//     * @OneToMany(targetEntity="Requeststoairport_bookmanifest",mappedBy="user", cascade={"persist","remove"})
-//     */
-//    protected $requests_to_airport_bookmanifest;
+
     
     /**
      *
@@ -230,11 +222,27 @@ class User extends \Rideorama\Entity\rideoramaEntity
     
     /**
      *
-     * @param \Doctrine\Common\Collections\Collection $property
-     *
-     * @OneToMany(targetEntity="Car",mappedBy="user", cascade={"persist","remove"})
+      *
+     * @OneToOne(targetEntity="Car",mappedBy="user", cascade={"persist","remove"})
      */
     protected $car;
     
-   
+    
+   /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Requeststoairportbookmanifest",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $requests_to_airportbookmanfiest;
+    
+    
+    /**
+     *
+     * @param \Doctrine\Common\Collections\Collection $property
+     *
+     * @OneToMany(targetEntity="Requestsfromairportbookmanifest",mappedBy="user", cascade={"persist","remove"})
+     */
+    protected $requests_from_airportbookmanfiest;
+    
 }

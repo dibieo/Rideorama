@@ -1,14 +1,19 @@
 <?php
 
 /**
+ * This class stores a manifest of everyone who has booked a particular trip
+ */
+
+
+namespace Rideorama\Entity;
+
+
+/**
  * 
  * @Table(name="rides_to_airport_bookmanifest")
  * @Entity(repositoryClass="Rideorama\Entity\Repository\RidestoairportbookmanifestRepository")
  * @author ovo
  */
-
-namespace Rideorama\Entity;
-
 class Ridestoairportbookmanifest extends \Rideorama\Entity\rideoramaEntity
 {
     /**
@@ -52,4 +57,10 @@ class Ridestoairportbookmanifest extends \Rideorama\Entity\rideoramaEntity
      */
     protected $passenger;
     
+    /**
+     
+     * @Column(type="datetime", nullable=false)
+     */
+    protected $date_booked;
+
 }

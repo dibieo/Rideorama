@@ -27,6 +27,8 @@ class Account_Form_User extends Application_Form_Base
            'filters'=> array('StringTrim', 'StripTags'),
            'validators' => array('Alpha')
        ));
+       $lastName->setAttrib('placeholder', 'Last Name');
+       
        $lastName->setDecorators($this->generateDecorators());
        
        $emailValidator = new Zend_Validate_EmailAddress();

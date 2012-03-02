@@ -56,5 +56,11 @@ class Ridesfromairportbookmanifest extends \Rideorama\Entity\rideoramaEntity
      * })
      */
     protected $passenger;
+    
+    /**
+     
+     * @Column(type="datetime", nullable=false)
+     */
+    protected $date_booked;
 
 }

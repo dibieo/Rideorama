@@ -18,14 +18,14 @@ class Account_Model_UserService extends Application_Model_Service
     
     /**
      * This adds a user to the database and sends them an email.
-     * @param type $first_name
-     * @param type $last_name
-     * @param type $email
-     * @param type $email_hash
-     * @param type $profession
-     * @param type $sex
-     * @param type $profile_pic
-     * @param type $password
+     * @param string $first_name
+     * @param string $last_name
+     * @param string $email
+     * @param string $email_hash
+     * @param string $profession
+     * @param string $sex
+     * @param string $profile_pic
+     * @param string $password
      */
     public function addUser($first_name, $last_name, $email, $email_hash,
                             $profession, $sex, $profile_pic, $password){
@@ -76,7 +76,7 @@ class Account_Model_UserService extends Application_Model_Service
     
     /**
      *
-     * @param type $hash
+     * @param string $hash
      * @param array $data 
      */
     public function activateUserAccount($hash, array $data){
@@ -109,14 +109,14 @@ class Account_Model_UserService extends Application_Model_Service
     
     /**
      * Adds confirmed user to the database
-     * @param type $email
-     * @param type $profession
-     * @param type $sex
-     * @param type $firstname
-     * @param type $lastname
-     * @param type $profile_pic
-     * @param type $email_hash
-     * @param type $password_hash 
+     * @param string $email
+     * @param string $profession
+     * @param string $sex
+     * @param string $firstname
+     * @param string $lastname
+     * @param string $profile_pic
+     * @param string $email_hash
+     * @param string $password_hash 
      * return the user object
      */
     public function addConfirmedUser(array $data, $facebook = null)
@@ -146,12 +146,13 @@ class Account_Model_UserService extends Application_Model_Service
     
     /**
      * Finds an returns and exisiting user 
-     * @param type $email
-     * @return type User Entity
+     * @param string $email
+     * @param entity (User entity passed in by default. Can also pass in the PreUser entity)
+     * @return \Rideorama\Entity\User User Entity
      */
-    public function getUserByEmail($email){
+    public function getUserByEmail($email, $entity = '\Rideorama\Entity\User'){
         
-        $user = $this->em->getRepository('Rideorama\Entity\User')->findOneBy(array('email' => $email));
+        $user = $this->em->getRepository($entity)->findOneBy(array('email' => $email));
         return $user;
     }
     
@@ -161,5 +162,17 @@ class Account_Model_UserService extends Application_Model_Service
     }
    
  
+    /**
+     * Updates the user's paypal email address.
+     * Usually called from the post ride form if the user hasn't submitted a paypal address
+     * @param integer $user_id
+     * @param string $paypal_address 
+     */
+    public function updateUserPaypalEmail($user_id, $paypal_address){
+        $user = $this->getUser($user_id);
+        $user->paypal_email = $paypal_address;
+        $this->em->persist($user);
+        $this->em->flush();
+    }
 }
 

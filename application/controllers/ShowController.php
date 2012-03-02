@@ -22,7 +22,10 @@ class ShowController extends Zend_Controller_Action
     
      //$this->_helper->getHelper('layout')->disableLayout();
         $date = '03/25/2012'; 
-        echo date('Y-m-d');
+        //echo date('Y-m-d');
+        $date = str_replace("/", "-", $date);
+         echo $date;
+        
     }
     
 
@@ -52,7 +55,7 @@ class ShowController extends Zend_Controller_Action
             
         $client = new Zend_Http_Client('http://maps.googleapis.com/maps/api/geocode/json');
  
-        $address = urlencode('Walmart Supercenter West 136th Avenue Westminster CO');
+        $address = urlencode('Walmart Supercenter Main Street, Longmont, Boulder, CO');
  
         $client->setParameterGet('sensor', 'false'); // Do we have a GPS sensor? Probably not on most servers.
         $client->setParameterGet('address', $address); // Should now be '1600+Amphitheatre+Parkway,+Mountain+View,+CA'
@@ -70,11 +73,12 @@ class ShowController extends Zend_Controller_Action
         
        
 //        echo "<br>";
-          print_r($val->results[0]->geometry->location->lat);
-          print_r($val->results[0]->geometry->location->lng);
-//          print_r($val->results[0]);
-          print_r($val->results[0]->address_components[1]->short_name);
-          print_r($val->results[0]->address_components[3]->long_name);
+//          print_r($val->results[0]->geometry->location->lat);
+//          print_r($val->results[0]->geometry->location->lng);
+//          print_r($val->results[0]->address_components[2]->short_name);
+//          print_r($val->results[0]->address_components[4]->long_name);
+
+        print_r($val->results[0]);
 
         
         
