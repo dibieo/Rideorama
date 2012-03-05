@@ -67,6 +67,9 @@ echo $this->errors;
               $departure_time = $this->escape($rideKey['departure_time']);
               $arrival_time = $this->escape($rideKey['arrival_time']);
               
+              $this->date = str_replace("/", "-", $this->date);
+              
+              echo "hi" . $this->date;
              $buy_now = array(
                
              'trip_id' => $rideKey['id'],
@@ -81,7 +84,7 @@ echo $this->errors;
              'driverEmail' => $rideKey['email'],
              'paypalEmail' => $rideKey['paypal_email'],
              'user_id' => $rideKey['user_id'],
-             "trip_date" => urlencode($this->date),
+             "trip_date" => $this->date,
              'driverName' => $firstName .  " " . $lastName
                  
               );

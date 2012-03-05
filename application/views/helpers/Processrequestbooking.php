@@ -23,7 +23,6 @@ class Zend_View_Helper_Processrequestbooking extends Zend_View_Helper_Abstract {
         //User is loggned in
        if (Zend_Auth::getInstance()->hasIdentity()){
          
-         $array['date'] = str_replace("/", "-", $array['date']);
 
          $user = Zend_Auth::getInstance()->getIdentity();
          $logged_in_user = $user->id;

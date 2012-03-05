@@ -34,6 +34,8 @@
                 Distance from your departure
             <?php endif;?>
             </span> </div>
+          
+         <?php  $this->date = str_replace("/", "-", $this->date); ?>
 <?php foreach($this->requests as $request): ?>
     
         <?php $requestKey = $request['key'];
@@ -45,6 +47,7 @@
               $departure_time = $this->escape($requestKey['departure_time']);
               $duration = $this->escape($requestKey['duration']);
         ?>
+         
           
          <?php
         $details_url = $this->url(array(
@@ -54,7 +57,7 @@
             'action' => 'details',
             'where' => $this->where,
             'trip_id' => $requestKey['id'],
-            'trip_date' => urlencode($this->date),
+            'trip_date' => $this->date,
             'airport' => $this->searchtitle
             )
                  
@@ -72,7 +75,7 @@
              'tripcost' => $requestKey['cost'],
              'where' => $this->where,
              'passengerEmail' => $requestKey['email'],
-             "date" => urlencode($this->date),
+             "date" => $this->date,
              'passengerName' => $requestKey['first_name']  .  " " . $requestKey['last_name']
                  
               );
