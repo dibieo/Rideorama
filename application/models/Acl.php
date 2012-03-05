@@ -23,6 +23,7 @@ class Application_Model_Acl extends Zend_Acl
 		//Account module resources -- All resources inherit from the account module
 		$this->add(new Zend_Acl_Resource('account'))
 			 ->add(new Zend_Acl_Resource('account:user'), 'account')
+                         ->add(new Zend_Acl_Resource('account:edit'), 'account')
                          ->add(new Zend_Acl_Resource('account:profile'), 'account');
                 
 		
@@ -71,11 +72,12 @@ class Application_Model_Acl extends Zend_Acl
 		 * a particular course
 		 */
                 
-		$this->allow('user', 'account:user', array('logout', 'edit', 'index','viewprofile'));										 
-		     
+		$this->allow('user', 'account:user', array('logout', 'edit', 'index','viewprofile'))
+                     ->allow('user', 'account:profile', array('index'))
+		     ->allow('user', 'account:edit', array('index', 'car', 'validateform', 'updatecar', 'updatepaypal', 'addcar'));
 		
                 $this->allow('user', 'rides:index', array('index', 'post', 'book', 'details','validateform', 'success', 'bookingaccepted', 'bookingrejected'))
-                      ->allow('user', 'requests:index', array('index', 'post', 'success', 'validateform', 'details'))
+                      ->allow('user', 'requests:index', array('index', 'post', 'success', 'offer', 'validateform', 'details', 'offerrejected'))
                       ->allow('user', 'payment:index', array('index', 'success'));
                 
                 

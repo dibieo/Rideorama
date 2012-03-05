@@ -13,7 +13,10 @@ class Payment_IndexController extends Zend_Controller_Action
        //$this->_helper->getHelper('layout')->disableLayout();
        //$this->_helper->viewRenderer->setNoRender();
         $url = new Zend_View_Helper_Url();
-        
+        $user = new Account_Model_UserService();
+        $driver = $user->getUserByEmail($this->_getParam('driverEmail'));
+        $driverPaypal = $driver->paypal_email;
+        $driverPhone = $driver->telephone;
         
         $cancelUrl = $url->url(array(
                                 'module' => 'payment',
@@ -23,24 +26,25 @@ class Payment_IndexController extends Zend_Controller_Action
         $returnUrl = $url->url(array(
             'module' => 'payment',
             'controller' => 'index', 
-            'action' => 'success'
+            'action' => 'success',
+            "driverEmail" => $this->_getParam('driverEmail'),
+            "driverName" => $this->_getParam("driverName"),
+            "tripcost" => $this->_getParam('tripcost'),
+            "driverPhone" => $driverPhone,
+            "passengerName" => $this->_getParam("passengerName"),
+            "passengerEmail" => $this->_getParam("passengerEmail")
         ));
         
-       // echo $returnUrl;
         
-       //get the payment parameters
-//       
-//        $receiverEmail = $this->_getParam('receiverEmail');
-//        $amount = $this->_getParam('amount');
-        
-        // action body
         $baseurl = new Zend_View_Helper_ServerUrl();
         $link = "http://" .$baseurl->getHost();
+        
+       
         $payDetails = array(
             'cancelUrl' => "$link"."$cancelUrl",
             'returnUrl' => "$link". "$returnUrl",
             'rideoramaEmail' => 'test_1326109945_biz@gmail.com',
-            'receiverEmail' =>   $this->_getParam('paypalEmail'),
+            'receiverEmail' =>   $driverPaypal,
             'memo' => 'Payment from rideorama platform for a ride',
             'amount' => $this->_getParam('tripcost')
         );
@@ -48,6 +52,8 @@ class Payment_IndexController extends Zend_Controller_Action
         $pay = new Payment_Model_PaypalService();
         $pay->pay($payDetails);
     }
+    
+    
 
     /**
      * Payment is successful
@@ -56,7 +62,11 @@ class Payment_IndexController extends Zend_Controller_Action
      */
     public function successAction()
     {
-    
+     $email = new Application_Model_EmailService();
+     $email->paymentSuccessEmailToPassenger($this->_getAllParams());
+
+     $email_driver = new Application_Model_EmailService();
+     $email_driver->paymentSuccessEmailToDriver($this->_getAllParams());
         // action body
     }
 
@@ -64,7 +74,6 @@ class Payment_IndexController extends Zend_Controller_Action
     {
         // action body
     }
-
 
 }
 

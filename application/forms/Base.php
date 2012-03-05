@@ -317,4 +317,21 @@ class Application_Form_Base extends Zend_Form
       
           
   }
+  
+  /**
+   * Returns an array of file decorators
+   * @return array file decorators 
+   */
+  public function getFileDecorators($class = 'row'){
+      
+             $fileDecorators = array(
+            'File',
+            'Label',
+            'Errors',
+           array('htmlTag', array ('tag' => 'span', 'class' => $class))
+
+        );
+             
+             return $fileDecorators;
+  }
 }

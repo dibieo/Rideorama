@@ -49,8 +49,30 @@ class Application_Model_EmailService extends Zend_Mail
                                               'trip_id' => $array['trip_id'],
                                               'tripcost' => $array['tripcost'],
                                              'passengerName' => $array['passengerName'],
-                                             'passengerEmail' => $array['passengerEmail'],
-                                             'paypalEmail' => $array['paypalEmail']));
+                                             'passengerEmail' => $array['passengerEmail']));
+              
+          $link = "http://" .$baseurl->getHost().$link;
+        
+           return $link;
+             
+         }
+         
+      
+      /**
+       * Generates a URL for viewing a user's profile
+       * @param type $module
+       * @param type $controller
+       * @param type $action
+       * @param type $id
+       * @return string 
+       */
+      public function generateUserProfileURL($module, $controller, $action, $id) {
+         
+         $helper = new Zend_View_Helper_Url() ;
+         $baseurl = new Zend_View_Helper_ServerUrl();
+         $link = $helper->url(array("module"=>$module, "controller"=>$controller,
+                                            "action"=>$action,
+                                             "id" => $id));
               
           $link = "http://" .$baseurl->getHost().$link;
         
@@ -119,11 +141,12 @@ class Application_Model_EmailService extends Zend_Mail
       $reject_url = $this->acceptRejectEmailLink('rides', 'index', 'bookingrejected', $array);
       
       $passengerName = $array['passengerName'];
-      
+      $id = Zend_Auth::getInstance()->getIdentity()->id;
+      $user_profile_url = $this->generateUserProfileURL('account', 'profile', 'index', $id);
       
       $body = "<p> Hi " . $array['driverName'] . ",</p><p></p>" .
                 $passengerName . " would like a seat in your car! <p></p>". 
-              "<a href=#>Check out $passengerName profile</a> and decide if you would like him/her on your trip".
+              "<a href=$user_profile_url>Check out $passengerName profile</a> and decide if you would like him/her on your trip".
                 "<p><a href=$accept_url>Click this link to confirm $passengerName seat in your car </a></p>
                 <p><a href=$reject_url> Click here to decline $passengerName request for a seat on your trip</a></p>
                  <p>Make sure to reply promptly so $passengerName can make other plans.
@@ -146,24 +169,28 @@ class Application_Model_EmailService extends Zend_Mail
      * @param array $array of information needed to email the passenger
      */
     public function sendOfferRequest(array $array){
-      $accept_url = $this->acceptRejectEmailLink("requests", "index", 'offeraccepted', $array);
-      $reject_url = $this->acceptRejectEmailLink('requests', 'index', 'offerrejected', $array);
+      //print_r($array);
+      
+      $accept_url = $this->requestAcceptRejectEmailLink("payment", "index", 'index', $array);
+      $reject_url = $this->requestAcceptRejectEmailLink('requests', 'index', 'offerrejected', $array);
       
       $passengerName = $array['passengerName'];
       $driverName = $array['driverName'];
-      
-      $body = "<p> Hi " . $array['passegnerName'] . ",</p>" . 
-              "<p> $driverName has just responded to your seat request. <a href=#>Click here to check out his profile</a> </p>" .
-              "<p><a href=$accept_url>Click this link to accept $driverName offer</a></p>".
+      $id = Zend_Auth::getInstance()->getIdentity()->id;
+      $user_profile_url = $this->generateUserProfileURL('account', 'profile', 'index', $id);
+             
+      $body = "<p> Hi " . $array['passengerName'] . ",</p>" . 
+              "<p> $driverName has just responded to your seat request. <a href=$user_profile_url>Click here to check out his profile</a> </p>" .
+              "<p><a href=$accept_url>Click this link to accept $driverName offer and complete payment</a></p>".
                "<p><a href=$reject_url>Click this link to reject $driverName offer</a></p>".
-              "<p>Make sure to reply promptly so $driverName can make alternative plans.
+              "<p>Make sure to reply promptly so $driverName can plan accordingly.
                 <br>Your Friends,</br>
                 <br>The Rideorama Team</br></p>";
       
       $email_options = array(
-            'recipient_name' => $array['driverName'],
-            'recipient_email' => $array['driverEmail'],
-            'subject' => "$driverName responded to your seat request on " . $array['trip_date'],
+            'recipient_name' => $array['passengerName'],
+            'recipient_email' => $array['passengerEmail'],
+            'subject' => "$driverName responded to your seat request for " . rawurldecode($array['trip_date']),
             'body' => $body
         );
       
@@ -171,6 +198,10 @@ class Application_Model_EmailService extends Zend_Mail
     }
     
     
+    /**
+     *
+     * @param array $array 
+     */
     public function acceptOfferRequest(array $array){
         
         $passengerName = $array['passengerName'];
@@ -187,7 +218,7 @@ class Application_Model_EmailService extends Zend_Mail
                 . "<p> Thanks for using Rideorama! </p> <p> The Rideorama Team </p>";
         
         $email_options = array(
-            'recipent_name' => $driverName,
+            'recipient_name' => $driverName,
             'recipient_email' => $array['driverEmail'],
             'subject' => $passengerName . " has accepted your ride offer"
         );
@@ -195,28 +226,118 @@ class Application_Model_EmailService extends Zend_Mail
     }
     
     
+    /**
+     * Sends the driver an email notifying him that the passenger has rejected his request
+     * @param array $array 
+     */
     public function rejectOfferRequest(array $array){
         
         $passengerName = $array['passengerName'];
         $driverName = $array['driverName'];
-        
-        $url = $this->acceptRejectEmailLink("payment", "index", "index",  array(
-                                             "driverName" => $array['driverName'],    
-                                             'where' => $array['where'],
-                                             'request_id' => $array['request_id'],
-                                             'offer_amount'=> $array['offer_amount'],
-                                            ));
-          
+       
         $body = "<p>Sorry $driverName, </p>
-                <p>$passengerName has rejected your ride offer.</p>  <p> Please search Rideorama to find other passengers or post to Rideorama to let passengers find you </p>";
+                <p>$passengerName has rejected your ride offer.</p>  <p> Please search Rideorama to find other passengers or post to Rideorama to let passengers find you </p>
+                <p>We know riding alone sucks and hope you find someone </p> <br>Rideorama team</br>";
         
         $email_options = array(
-            'recipent_name' => $driverName,
+            'recipient_name' => $driverName,
             'recipient_email' => $array['driverEmail'],
-            'subject' => "Your ride offer has been denied"
+            'subject' => "Your ride offer has been denied",
+            'body' => $body
         );
        $this->sendEmail($email_options);
     }
+    
+        /**
+         * This creates a link needed to accept/reject a ride request 
+         * @param string $module
+         * @param string $controller
+         * @param string $action
+         * @param array $array
+         * @return string The URL to be embedded in the email
+         */
+         public function requestAcceptRejectEmailLink($module, $controller, $action, array $array) {
+         
+         $helper = new Zend_View_Helper_Url() ;
+         $baseurl = new Zend_View_Helper_ServerUrl();
+         $link = $helper->url(array("module"=>$module, "controller"=>$controller,
+                                            "action"=>$action,
+                                             'driverName' => $array['driverName'],
+                                             'driverEmail' => $array['driverEmail'],
+                                             'where' => $array['where'],
+                                             'trip_id' => $array['trip_id'],
+                                             'tripcost' => $array['offering'],
+                                             'module' => $module,
+                                             'passengerName' => $array['passengerName'],
+                                             'passengerEmail' => $array['passengerEmail']));
+              
+          $link = "http://" .$baseurl->getHost().$link;
+        
+           return $link;
+             
+         }
+         
+         
+         /**
+          * Notifies the driver that a passenger has completed payment for his/her seat
+          * @param type $array of options
+          */
+         public function paymentSuccessEmailToDriver($array){
+           
+             $receiverName = $array['driverName'];
+             $receiverEmail = $array['driverEmail'];
+             $senderName = $array['passengerName'];
+             $senderEmail = $array['passengerEmail'];
+             $amount = $array['tripcost'];
+             
+             $body = "<p>Hi $receiverName, </p>
+            <p>$senderName just made a payment of $$amount for your trip together.</p> 
+             <p>We'll transfer this amount less 20% for our processing fee to your Paypal account about a day after your trip </p>
+             <p>Safe travels</p><br>Rideorama team</br>";
+        
+            $email_options = array(
+            'recipient_name' => $receiverName,
+            'recipient_email' => $receiverEmail,
+            'subject' => "$senderName just completed payment for your trip together",
+            'body' => $body
+             );
+            $this->sendEmail($email_options);
+         }
+         
+         
+         /**
+          * Notifies the paying passenger of the driver's contact details
+          * @param type $array 
+          */
+         public function paymentSuccessEmailToPassenger($array){
+             
+             $receiverName = $array['passengerName'];
+             $receiverEmail = $array['passengerEmail'];
+             $driverName = $array['driverName'];
+             $driverEmail = $array['driverEmail'];
+             $driverPhone = $array['driverPhone'];
+       
+             $body = "<p>Hi $receiverName, </p>
+            <p>Thanks for completing payment for your trip with $driverName .</p> 
+             <p>Here are $driverName's phone number and email if you need to further coordinate before your trip</p>
+             <p>Phone number: $driverPhone</p> <p>Email: $driverEmail</p>
+             <p>Enjoy your travels</p>
+             <p>Also, be sure to leave feedback for this trip after it’s completed.<br> Every trip you review helps other passengers make better decisions about whom to rideshare with. </br>Safe Travels!</p>
+             <br>Rideorama team</br>";
+        
+             $email_options = array(
+            'recipient_name' => $receiverName,
+            'recipient_email' => $receiverEmail,
+            'subject' => "Trip confirmed with $driverName",
+             'body' => $body
+             );
+            $this->sendEmail($email_options);
+             
+         }
+         
+         
+         
+
     /**
      * Sends the passenger booking a seat an email
      * notifying him/her that their seat request has been accepted
@@ -229,14 +350,14 @@ class Application_Model_EmailService extends Zend_Mail
                       "driverName" => $array['driverName'],
                        'where' => $array['where'],
                        'trip_id' => $array['trip_id'],
-                      "paypalEmail" => $array['paypalEmail'],
                       "passengerEmail" => $array['passengerEmail'],
                       "tripcost" => $array['tripcost'],
+                       "module" => $array['module'],
                       "passengerName" => $array['passengerName']));
         
         $body = "<p> Hi " . $array['passengerName'] . "</p> <p>Congratulations! " 
                  . $array['driverName'] . " just confirmed your request for a seat.  <a href=$url>Follow this link to pay for your seat and complete the transaction</a>
-                </p><p></p>The Rideorama Team";
+                </p>The Rideorama Team";
  
         $email_options = array(
             'recipient_name' => $array['passengerName'],

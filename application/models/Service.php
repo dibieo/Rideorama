@@ -6,11 +6,13 @@ class Application_Model_Service
     protected $doctrineContainer;
     protected $em;
     protected $mail;
+    protected $loggedInUser;
     
     public function __construct(){
         $this->doctrineContainer = Zend_Registry::get('doctrine');
         $this->em = $this->doctrineContainer->getEntityManager();
         $this->mail = new Zend_Mail();
+        $this->loggedInUser = Zend_Auth::getInstance()->getIdentity();
     }
     
     public function __get($property)
@@ -195,8 +197,8 @@ class Application_Model_Service
   
           $lat = $val->results[0]->geometry->location->lat;
           $lng = $val->results[0]->geometry->location->lng;
-          $city = $val->results[0]->address_components[1]->short_name;
-          $state =$val->results[0]->address_components[3]->long_name;
+          $city = $val->results[0]->address_components[3]->short_name;
+          $state =$val->results[0]->address_components[4]->long_name;
 
         $data = array(
             'lattitude' => $lat,

@@ -1,6 +1,26 @@
  <!--body container starts-->
  <?php $data = $this->data; 
   $name_abbv = $data['first_name'] . " ". $data['last_name'][0];
+  //print_r($data);
+  
+   $buy_now = array(
+               
+             'request_id' => $data['id'],
+             'user_id' => $data['user_id'],
+             'module' => 'rides',
+             'controller' => 'index',
+             'tripcost' => $data['cost'],
+             'request_open' => $data['request_open'],
+             'action' => 'details',
+             'airport' => $this->airport,
+             'where' => $this->where,
+             'passengerEmail' => $data['email'],
+             'passengerName' => $data['first_name'] . " " . $data['last_name'],
+             'publisher_id' => $data['user_id'],
+             "date" => urlencode($this->trip_date),
+             'driverName' => Zend_Auth::getInstance()->getIdentity()->first_name . " " . Zend_Auth::getInstance()->getIdentity()->last_name,
+             'driverEmail' => Zend_Auth::getInstance()->getIdentity()->email                 
+              );
  ?>
   <section id="body_container"> 
     <!-- details starts -->
@@ -79,7 +99,7 @@
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
           </div>
           <div class="common_box none">
-            <div class="common_text none"> <a href="#" class="buy_btn">buy now</a> </div>
+            <div class="common_text none"><?php echo $this->processrequestbooking($buy_now); ?> </div>
           </div>
         </div>
         <!-- tab 3 ends --> 
@@ -156,3 +176,5 @@
     <!-- details ends --> 
   </section>
   <!--body container ends-->
+  
+  <script src="<?php echo $this->baseUrl(); ?>/js/booking.js"></script>

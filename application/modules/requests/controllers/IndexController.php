@@ -18,6 +18,20 @@ class Requests_IndexController extends Zend_Controller_Action
         // action body
     }
     
+    /**
+     * Processes the action of responding to a ride request
+     */
+    public function offerAction(){
+       $this->_helper->viewRenderer->setNoRender();
+       $this->_helper->getHelper('layout')->disableLayout();
+        // action body
+        $params = $this->_getAllParams();
+        $request = new Requests_Model_RequestService($params['where']);
+        $request->requestPersmissionToOfferRide($params);
+        echo "The passenger has been notified of your offer. You'll be notified when a response is made";
+        
+    }
+    
    /**
      * Processing acceptance of an offer
      */

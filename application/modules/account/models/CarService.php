@@ -27,27 +27,40 @@ class Account_Model_CarService extends Application_Model_Service
         $this->car->model = $data['model'];
         $this->car->year = $data['year'];
         $this->car->car_profile_pic = $data['car_profile_pic'];
-        $this->car->picture1 = $data['car_pic1'];
-        $this->car->picture2 = $data['car_pic2'];
+        $this->car->picture1 = $data['picture1'];
+        $this->car->picture2 = $data['picture2'];
         $this->car->user = $user;
         
         $this->em->persist($this->car);
         $this->em->flush();
     }
     
+    
+ 
+    
     /**
      * Updates a user's car profile
+     * @param Doctrine\User\Entity $user
      * @param array $data 
      */
-    public function updateCarProfile(array $data){
+    public function updateCarProfile($user, array $data){
         
-        $car = $this->em->find('\Rideorama\Entity\Car', $data['id']);
-        $car->make = $data['make'];
-        $car->model = $data['model'];
-        $car->picture1 = $data['picture1'];
-        $car->picture2 = $data['picture2'];
-        $car->year = $data['year'];
-        $this->em->persist($car);
+        $user->car->make = $data['make'];
+        $user->car->model = $data['model'];
+
+        // If these values were set, update pictures
+        // else skip
+       if (!is_null($data['car_profile_pic'])){
+       $user->car->car_profile_pic =  $data['car_profile_pic'];
+       }
+       if (!is_null($data['picture1'])){
+        $user->car->picture1 = $data['picture1'];
+       }
+       if (!is_null($data['picture2'])){
+        $user->car->picture2 = $data['picture2'];
+       }
+        $user->car->year = $data['year'];
+        $this->em->persist($user);
         $this->em->flush();
     }
     

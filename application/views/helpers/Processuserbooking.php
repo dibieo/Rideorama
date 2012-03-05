@@ -27,7 +27,8 @@ class Zend_View_Helper_Processuserbooking extends Zend_View_Helper_Abstract {
        }
         //User is loggned in
        if (Zend_Auth::getInstance()->hasIdentity()){
-         
+         $array['trip_date'] = str_replace("/", "-", $array['trip_date']);
+
          $logged_in_user = Zend_Auth::getInstance()->getIdentity()->id;
          
          //If the logged in user is viewing his/her trip
@@ -55,6 +56,7 @@ class Zend_View_Helper_Processuserbooking extends Zend_View_Helper_Abstract {
               'tripcost' => $array['tripcost'],
               'paypalEmail' => $array['paypalEmail'],
               'hostname' => $baseurl->baseUrl(),
+              'module' => $array['module'],
               'passengerEmail' => Zend_Auth::getInstance()->getIdentity()->email,
               'trip_id' => $array['trip_id'],
               'num_seats' => $array['num_seats'],

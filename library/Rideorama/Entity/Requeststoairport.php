@@ -121,7 +121,7 @@ class Requeststoairport extends \Rideorama\Entity\ridesEntity {
     
     
     /**
-      @Column(type="string", nullable=false)
+      @Column(type="string", nullable=true)
      * @var float
      * This stores the duration of trip.
      */

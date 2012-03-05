@@ -20,21 +20,29 @@
           <div class="text_area">
             <h3><?php echo $this->escape($this->user->first_name) . " " . $this->escape($this->user->last_name) ; ?></h3>
             
-            <p><span>Occupation: </span><?php echo $this->escape($this->user->profession); ?></p>
-            <p><span>Age: </span><?php echo $this->user->age; ?></p>
+            <p><span>Occupation: </span><?php echo $this->escape($this->user->profession != null ? $this->user->profession : "Other"); ?></p>
+            <p><span>Age: </span><?php echo $this->escape($this->user->age != null ? $this->user->age : "Not specified"); ?></p>
             <p><span>Email:</span><?php echo $this->user->email; ?></p>
-            <p><span>Paypal email: </span><?php echo $this->user->paypal_email; ?></p>
-            <p><span>Phone number: </span><?php echo $this->escape($this->user->telephone); ?></p>
+            <p><span>Paypal email: </span><?php echo $this->escape($this->user->paypal_email != null ? $this->user->paypal_email : "Not specified"); ?></p>
+            <p><span>Phone number: </span><?php echo $this->escape($this->user->telephone!= null ? $this->user->telephone : "Not specified"); ?></p>
             <p><span>Member since: </span><?php
              echo date_format($this->user->date_registered, "F Y");?>
             </p>
             <p><span>Avg rating </span>show stars (100 reviews)</p>
           </div>
-          <div class="edit_btn_area"> <a href="#" class="edit">edit profile</a> </div>
+          <?php
+           $url = $this->url(array(
+              'module'  => 'account',
+              'controller'=> 'edit',
+              'action'  => 'index'   
+                   ));
+          ?>
+          <div class="edit_btn_area"> <a href="<?php echo $url; ?>" class="edit">edit profile</a> </div>
         </div>
         <!-- profile ends --> 
         <!-- car -->
-        <div class="car_section tabing" style="display:none;">
+          <div class="car_section tabing" style="display:none;">
+          <?php if ($this->user->car): ?>
           <div class="pic_area">
            <img class="large" width="264px" height="263px" src="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->car_profile_pic; ?>" alt="">
             <ul class="thumb">
@@ -49,7 +57,28 @@
             <p><span>Model: </span><?php echo $this->escape($this->user->car->model); ?></p>
             <p><span>Year: </span><?php echo $this->escape($this->user->car->year); ?></p>
           </div>
-          <div class="edit_btn_area"> <a href="#" class="edit">edit car profile</a> </div>
+            <?php
+           $url = $this->url(array(
+              'module'  => 'account',
+              'controller'=> 'edit',
+              'action'  => 'updatecar'   
+                   ));
+          ?>
+          
+          <div class="edit_btn_area"> <a href="<?php echo $url; ?>" class="edit">edit car profile</a> </div>
+        <?php else: ?>
+           <?php
+           $url = $this->url(array(
+              'module'  => 'account',
+              'controller'=> 'edit',
+              'action'  => 'addcar'   
+                   ));
+          ?>
+          <h4>No car profile available</h4>
+          <div class="edit_btn_area"> <a href="<?php echo $url; ?>" class="edit">add car profile</a> </div>
+          
+        <?php endif; ?>
+          
         </div>
         <!-- car ends --> 
         <!-- rides -->

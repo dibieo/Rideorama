@@ -97,11 +97,19 @@
             <controllerFile controllerName="Profile">
               <actionMethod actionName="index"/>
             </controllerFile>
+            <controllerFile controllerName="Edit">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="updatecar"/>
+              <actionMethod actionName="updatepaypal"/>
+            </controllerFile>
           </controllersDirectory>
           <formsDirectory>
             <formFile formName="User"/>
             <formFile formName="Login"/>
             <formFile formName="Completeprofile"/>
+            <formFile formName="Editprofile"/>
+            <formFile formName="Editcar"/>
+            <formFile formName="Paypal"/>
           </formsDirectory>
           <layoutsDirectory enabled="false"/>
           <modelsDirectory>
@@ -133,6 +141,15 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Profile">
                 <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Edit">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Edit">
+                <viewScriptFile forActionName="updatecar"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Edit">
+                <viewScriptFile forActionName="updatepaypal"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -535,6 +552,11 @@
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Profile">
                 <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Edit">
+                <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="updatecar"/>
+                <testApplicationActionMethod forActionName="updatepaypal"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

@@ -42,7 +42,6 @@
               $firstName = $requestKey['first_name'];
               $lastName = $requestKey['last_name'];
               $cost = $this->escape($requestKey['cost']);
-              //$seat_num =  $this->escape($requestKey['number_of_seats']);
               $departure_time = $this->escape($requestKey['departure_time']);
               $duration = $this->escape($requestKey['duration']);
         ?>
@@ -60,6 +59,23 @@
             )
                  
       );
+        
+             $buy_now = array(
+               
+             'request_id' => $requestKey['id'],
+             'publisher_id' => $requestKey['user_id'],
+             'module' => 'requests',
+             'controller' => 'index',
+             'action' => 'offer',
+             'request_open' => $requestKey['request_open'],
+             'airport' => $this->searchtitle,
+             'tripcost' => $requestKey['cost'],
+             'where' => $this->where,
+             'passengerEmail' => $requestKey['email'],
+             "date" => urlencode($this->date),
+             'passengerName' => $requestKey['first_name']  .  " " . $requestKey['last_name']
+                 
+              );
         $city = $requestKey['city'];
         if ($city == ""){
             $city = "unavailable";
@@ -76,7 +92,7 @@
               <p><?php echo $this->escape($firstName) . " " . $this->escape($lastName[0])."" ?></p>
               <small><img src="<?php echo $this->baseUrl(); ?>/img/rate.png" alt=""></small> </div>
             <div class="col3">
-              <p class="head"><span>Boulder</span> <span><?php print( date("g:i a", strtotime($departure_time)) ); ?></span> 
+              <p class="head"><span><?php echo $this->escape($requestKey['city']); ?></span> <span><?php print( date("g:i a", strtotime($departure_time)) ); ?></span> 
                   <span><?php echo $duration; ?></span>
                   <span>
               
@@ -93,7 +109,7 @@
             <div class="col4">
               <p><a target="_blank" href="<?php echo $details_url; ?>">Details</a></p>
             </div>
-            <div class="col5"> <small>offering</small> <strong>$<?php echo $cost; ?></strong> <small></small> <span><a href="#">Offer ride</a></span> </div>
+            <div class="col5"> <small>offering</small> <strong>$<?php echo $cost; ?></strong> <small></small> <span><?php echo $this->processrequestbooking($buy_now); ?></span> </div>
           </div>
           <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/passenger_btm.png" alt=""></div>
         </div>
@@ -113,3 +129,5 @@
       </div>
    <?php endif; ?>
 </div>
+
+<script src="<?php echo $this->baseUrl(); ?>/js/booking.js"></script>

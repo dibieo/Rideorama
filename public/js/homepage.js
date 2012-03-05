@@ -5,8 +5,6 @@
 			alert('Requested URL not found.');
 			}else if(x.status==500){
 			alert('Ouch looks like a server error occured.Sorry about that. \n Please refersh your page and try again. \n If the problem persists, contact us using the chat box below.');
-			}else {
-			alert('Unknow Error.\n'+x.responseText);
 			}
 		}
 	});

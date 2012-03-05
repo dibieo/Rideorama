@@ -51,6 +51,42 @@ class Account_Model_UserService extends Application_Model_Service
     }
     
     /**
+     * Update the user's profile
+     * @param int $id
+     * @param array $data 
+     */
+    public function updateProfile($id, array $data){
+        
+        //print_r($data); 
+        $user = $this->getUser($id);
+        $user->first_name = $data['first_name'];
+        $user->last_name = $data['last_name'];
+        $user->age = $data['age'];
+        $user->profession = $data['occupation'];
+        $user->email = $data['email'];
+        $user->paypal_email = $data['paypal_email'];
+        $user->telephone = $data['phone'];
+        if (isset($data['profile_pic'])){
+          $user->profile_pic = $data['profile_pic'];
+        }
+        $this->em->persist($user);
+        $this->em->flush();
+    }
+    
+    /**
+     * Updates a user's paypal email address
+     * @param \Rideorama\Entity $user entity
+     * @param string $paypal User's paypal email address
+     */
+    public function updatePaypal($user, $paypal){
+        
+        $user->paypal_email = $paypal;
+        $this->em->persist($user);
+        $this->em->flush();
+    }
+    
+    
+    /**
      * This function registers a new user on the system.
      * @param array $data Collection of information for first time registered user
      */

@@ -97,7 +97,7 @@ class Account_Form_Completeprofile extends Application_Form_Base
                             ->setRequired(true);
          
          $user_profile_pic->addValidator('Extension', false, 'jpg,png,gif') 
-                ->addValidator('Size', false, 40000);
+                ->addValidator('Size', false, '1MB');
  
          
          $user_profile_pic->addFilter('Rename', array(
@@ -204,13 +204,7 @@ class Account_Form_Completeprofile extends Application_Form_Base
         $model->setDecorators($row_decorators);
         $year->setDecorators($row_decorators);
        
-        $fileDecorators = array(
-            'File',
-            'Label',
-            'Errors',
-           array('htmlTag', array ('tag' => 'span', 'class' => 'row'))
-
-        );
+        $fileDecorators = $this->getFileDecorators();
         // File decorators
         $user_profile_pic->setDecorators($fileDecorators);
         

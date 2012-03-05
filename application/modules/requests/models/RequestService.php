@@ -11,6 +11,8 @@ class Requests_Model_RequestService extends Application_Model_Service
    
     protected $requestsToAirport; 
     protected $requestsFromAirport;
+    protected $requestsToAirportBookingManifest;
+    protected $requestsFromAirportBookingManifest;
     
     protected $airport;
     protected $user;
@@ -218,8 +220,8 @@ class Requests_Model_RequestService extends Application_Model_Service
      
      $q = $this->em->createQuery("select u.id, $dest, u.num_luggages,
              u.request_msg, u.departure_time, u.city, u.state, u.lattitude, u.longitude,
-             u.cost, u.duration, u.luggage_size, p.first_name, 
-              p.profile_pic, p.id as user_id,
+             u.cost, u.duration, u.request_open, u.luggage_size, p.first_name, 
+              p.profile_pic, p.id as user_id, p.email,
               p.last_name from $targetEntity u JOIN u.publisher 
               p where u.airport = $airport->id and u.departure_date = 
              '$date'");
@@ -369,7 +371,7 @@ class Requests_Model_RequestService extends Application_Model_Service
     private function getTripDetails($id, $targetEntity, $variableAddress){
         
        $q = $this->em->createQuery("select u.id, $variableAddress, u.num_luggages,
-               u.request_msg, u.departure_time, u.duration, u.cost,  u.luggage_size,
+               u.request_msg, u.departure_time, u.duration, u.cost, u.request_open, u.luggage_size,
                p.email, p.profile_pic, p.first_name, p.profession, p.age, p.id as user_id,
                p.last_name from $targetEntity u JOIN u.publisher 
                p where u.id = :id")
@@ -395,8 +397,8 @@ class Requests_Model_RequestService extends Application_Model_Service
         $airport = $this->airport->getAirportByName($airport);
         
         $q = $this->em->createQuery("select u.id, $specialField, u.num_luggages,
-             u.request_msg, u.departure_time, u.duration, u.cost, u.city, u.state, u.lattitude, u.longitude,
-              u.luggage_size, p.profile_pic, p.first_name, p.id as user_id,
+             u.request_msg, u.departure_time, u.request_open, u.duration, u.cost, u.city, u.state, u.lattitude, u.longitude,
+              u.luggage_size, p.profile_pic, p.first_name, p.email, p.id as user_id,
               p.last_name from '$targetEntity' 
              u JOIN u.publisher p where u.airport = $airport->id and u.departure_date = 
              '$date' and u.departure_time > '$time1' and u.departure_time < '$time2'");
@@ -470,7 +472,7 @@ class Requests_Model_RequestService extends Application_Model_Service
         $this->requestsFromAirport->distance = $distanceAndDuration['distance'];
         $this->requestsFromAirport->duration = $distanceAndDuration['duration'];
         
-        $this->addAddressDetails($this->requestFromAirport, $trip_data['destination']);
+        $this->addAddressDetails($this->requestsFromAirport, $trip_data['destination']);
 
         Zend_Registry::get('doctrine')->getEntityManager()->persist($this->requestsFromAirport);
         Zend_Registry::get('doctrine')->getEntityManager()->flush();
@@ -533,14 +535,14 @@ class Requests_Model_RequestService extends Application_Model_Service
      /**
      * Adds a offer request to the booking manifest of the request 
      * This allows us know if a driver has offered this passenger a ride in the past
-     * @param string $trip_id
+     * @param string $request_id
      * @param string $publisher_id
      * @param string $passenger_id
      */
-    private function addBookingToManifest($trip_id, $publisher_id, $driver_id, $entity, $where){
-        $where->trip = $this->em->find($entity, $trip_id);
-        $where->passenger = $this->user->getUser($driver_id);
+    private function addBookingToManifest($request_id, $publisher_id, $driver_id, $entity, $where){
+        $where->trip = $this->em->find($entity, $request_id);
         $where->publisher = $this->user->getUser($publisher_id);
+        $where->driver = $this->user->getUser($driver_id);
         $where->date_booked =  new \DateTime(date("Y-m-d H:i:s"));
         $this->em->persist($where);
         //var_dump($this->ridesToAirportBookingManifest);
@@ -550,28 +552,28 @@ class Requests_Model_RequestService extends Application_Model_Service
     
    /**
     * requestPermissionToOfferRide. This method processes the action of successfully offering a ride.
-    * @param string $id
-    * @param string $whereTo
-    * @param string $driverEmail
-    * @param string $passengerEmail 
+    * @param array requestArray 
     */
     public function requestPersmissionToOfferRide (array $array){
      
      try{
      $whereTo = $array['where'];
-     $array['passengerName'] = $this->returnLoggedInUserName();
+    // $array['driverName'] = $this->returnLoggedInUserName();
      $email = new Application_Model_EmailService();
      $email->sendOfferRequest($array);
     
      if ($whereTo == "toAirport"){
-         $trip_id = $array['trip_id'];
-         $this->addBookingToManifest($trip_id, $array['publisher_id'], $this->loggedInUser->id, 
+        // $trip_id = $array['trip_id'];
+        echo "publisher id: " . $array['publisher_id'];
+         $this->addBookingToManifest($array['trip_id'], $array['publisher_id'], $this->loggedInUser->id, 
                                      '\Rideorama\Entity\Requeststoairport',
-                                       $this->ridesToAirportBookingManifest);
+                                       $this->requestsToAirportBookingManifest);
+         $this->setOfferStatus($array['trip_id'], "toAirport", "closed");
      }elseif ($whereTo == "fromAirport"){
          $this->addBookingToManifest($array['trip_id'], $array['publisher_id'], $this->loggedInUser->id, 
                                      '\Rideorama\Entity\Requestsfromairport',
-                                        $this->ridesFromAirportBookingManifest);
+                                        $this->requestsFromAirportBookingManifest);
+         $this->setOfferStatus($array['trip_id'], "fromAirport", "closed");
      }
      
      }catch(Exception $ex){
@@ -588,7 +590,7 @@ class Requests_Model_RequestService extends Application_Model_Service
         
     try{
           //Free up the seat so others can respond to it.
-            $this->setOfferStatus($array['trip_id'], $array['where'], 'false');
+            $this->setOfferStatus($array['trip_id'], $array['where'], null);
             $emailService = new Application_Model_EmailService();
             $emailService->rejectOfferRequest($array);
   
@@ -604,8 +606,7 @@ class Requests_Model_RequestService extends Application_Model_Service
     public function acceptRequestToOfferRide(array $array){
       
             try{
-          //Free up the seat so others can respond to it.
-            $this->setOfferStatus($array['trip_id'], $array['where'], 'true');
+         
             $emailService = new Application_Model_EmailService();
             $emailService->acceptOfferRequest($array);
   
@@ -644,10 +645,10 @@ class Requests_Model_RequestService extends Application_Model_Service
      */
     private function updateOfferStatus($id, $entity, $status){
      
-      $q = $this->em->createQuery("UPDATE $entity u SET u.request_open = $status
+      $q = $this->em->createQuery("UPDATE $entity u SET u.request_open = '$status'
                                     where u.id = :id")
                       ->setParameter('id', $id);
-      return $q->execute();
+      $q->execute();
         
     }
     

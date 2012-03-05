@@ -20,6 +20,7 @@ class Rides_IndexController extends Zend_Controller_Action
 
     public function postAction()
     {
+       // print_r(Zend_Auth::getInstance()->getIdentity());
         $departure = $this->_getParam('from');
         $destination = $this->_getParam('to');
         $where = $this->_getParam('where');
