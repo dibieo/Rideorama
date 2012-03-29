@@ -1,7 +1,15 @@
- <section id="body_container">
+<section id="body_container">
     <!-- starts common container -->
     <section id="common_container">
+       <?php echo $this->errMsg; ?> 
+
       <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_t_curv.png" alt=""/></div>
+      <?php if (isset ($this->messages)): ?>
+      
+      <?php foreach($this->messages as $msg): ?>
+        <?php echo $msg; ?>
+      <?php endforeach; ?>
+      <?php endif; ?>
       <section class="common_content">
           <fieldset>
           <section class="sign_in_box">

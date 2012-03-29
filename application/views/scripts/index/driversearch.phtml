@@ -1,6 +1,6 @@
 
 
-       <div  class="content_detaiils" >
+       <div  class="content_details" >
         <div class="top"> 
           <!--left sec starts-->
           <div class="left_sec">
@@ -36,23 +36,9 @@
               
             </div>
           <!--left sec ends-->
-        <div class="latest_rides">
-            <h3>Latest Rides</h3>
-            <div class="jCarousel">
-            <ul>
-           <li><div class="row"> <span class="date"> 1<br>
-              Dec </span> <span class="photo"><img src="<?php echo $this->baseUrl();?>/img/latest_rides_photo1.gif" alt="" />
-              </span> <span class="text"> <strong>Boulder <img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /> DIA</strong> 
-               <small>10:00am / 3 seats</small> </span> <span class="price">$30</span> 
-               </div></li>
-          <li><div class="row"> <span class="date"> 1<br>
-              Dec </span> <span class="photo"><img src="<?php echo $this->baseUrl();?>/img/latest_rides_photo1.gif" alt="" /></span> <span class="text"> <strong>Boulder <img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /> DIA</strong> <small>10:00am / 3 seats</small> </span> <span class="price">$30</span> </div></li>
-          <li><div class="row"> <span class="date"> 1<br>
-              Dec </span> <span class="photo"><img src="<?php echo $this->baseUrl();?>/img/latest_rides_photo1.gif" alt="" /></span> <span class="text"> <strong>Boulder <img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /> DIA</strong> <small>10:00am / 3 seats</small> </span> <span class="price">$30</span> </div></li>
-         <li><div class="row"> <span class="date"> 1<br>
-              Dec </span> <span class="photo"><img src="<?php echo $this->baseUrl();?>/img/latest_rides_photo1.gif" alt="" /></span> <span class="text"> <strong>Boulder <img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /> DIA</strong> <small>10:00am / 3 seats</small> </span> <span class="price">$30</span> </div></li>
-             </ul>
-            </div>
+        <div id="latest" class="latest_rides">
+               
+            
           </div>
         </div>
       </div>
@@ -86,7 +72,7 @@ $(document).ready(function() {
            $("#driverdestination").attr('placeholder', "Enter airport name");
            $("#driverdeparture").autocomplete({"source": []});
            $("#driverdestination").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
-           
+      
          });
      }) ;
         

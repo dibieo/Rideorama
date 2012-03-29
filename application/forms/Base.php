@@ -135,6 +135,23 @@ class Application_Form_Base extends Zend_Form
             );
     }
     
+    
+    public function activateformDecorators(){
+        
+        return array(
+           'ViewHelper',
+
+                   'Description',
+
+                   'Errors',
+                  
+                   'Label',
+            array('htmlTag', array ('tag' => 'span', 'class' => 'row'))
+             
+       );
+       
+    }
+    
     protected function generateDecoratorsForSelects($class = 'form_row'){
         
         return array(
@@ -263,22 +280,7 @@ class Application_Form_Base extends Zend_Form
    */
   public function getTimes(){
      return array(
-                       "00:00:00" => "12:00 am",
-                       "00:30:00" => "12:30 am",
-                       "01:00:00" => "01:00 am",
-                       "01:30:00" => "01:30 am",
-                       "02:00:00" => "02:00 am",
-                       "02:30:00" => "02:30 am",
-                       "03:00:00" => "03:00 am",
-                       "03:30:00" => "03:30 am",
-                       "04:00:00" => "04:00 am",
-                       "04:30:00" => "04:30 am",
-                       "05:00:00" => "05:00 am",
-                       "05:30:00" => "05:30 am",
-                       "06:00:00" => "06:00 am",
-                       "06:30:00" => "06:30 am",
-                       "07:00:00" => "07:00 am",
-                       "07:30:00" => "07:30 am",
+                       
                        "08:00:00" => "08:00 am",
                        "08:30:00" => "08:30 am",
                        "09:00:00" => "09:00 am",
@@ -310,7 +312,23 @@ class Application_Form_Base extends Zend_Form
                        "22:00:00" => "10:00 pm",
                        "22:30:00" => "10:30 pm",
                        "23:00:00" => "11:00 pm",
-                       "23:30:00" => "11:30 pm"
+                       "23:30:00" => "11:30 pm",
+                       "00:00:00" => "12:00 am",
+                       "00:30:00" => "12:30 am",
+                       "01:00:00" => "01:00 am",
+                       "01:30:00" => "01:30 am",
+                       "02:00:00" => "02:00 am",
+                       "02:30:00" => "02:30 am",
+                       "03:00:00" => "03:00 am",
+                       "03:30:00" => "03:30 am",
+                       "04:00:00" => "04:00 am",
+                       "04:30:00" => "04:30 am",
+                       "05:00:00" => "05:00 am",
+                       "05:30:00" => "05:30 am",
+                       "06:00:00" => "06:00 am",
+                       "06:30:00" => "06:30 am",
+                       "07:00:00" => "07:00 am",
+                       "07:30:00" => "07:30 am"
 
           
                    );
@@ -334,4 +352,30 @@ class Application_Form_Base extends Zend_Form
              
              return $fileDecorators;
   }
+  
+  
+ public function generateRadioDecorators(){
+          return
+        array(
+        //array('Label', array('row' => 'div', 'id' => 'box1')),
+       'Label',
+        array('Description', array('escape' => false, 'tag' => false)),
+        'ViewHelper',
+        array(array('data'=>'HtmlTag'), array('tag'=>'div', 'class' => 'box1')),
+       array('HtmlTag', array('tag' => 'div', 'class' => 'form_row1')),
+
+        'Errors'
+      );
+    }
+    
+   /**
+    * Returns a validator that ensures the min age is 17
+    * @return Zend_Validate_GreaterThan $ageValidator
+    */
+    public function getAgeValidator(){
+        
+      $ageValidator = new Zend_Validate_GreaterThan(array('min' => 17));
+      $ageValidator->setMessage("You must be at least 18 year old to use Rideorama. See our terms and conditions for more details");
+       return $ageValidator;
+    }
 }

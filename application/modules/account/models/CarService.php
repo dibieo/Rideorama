@@ -17,7 +17,7 @@ class Account_Model_CarService extends Application_Model_Service
     }
     
     /**
-     *
+     * Adds a user's car profile
      * @param array $data
      * @param Rideorama\Entity\User $user
      */
@@ -26,9 +26,15 @@ class Account_Model_CarService extends Application_Model_Service
         $this->car->make = $data['make'];
         $this->car->model = $data['model'];
         $this->car->year = $data['year'];
+        if (!is_null($data['car_profile_pic'])){
         $this->car->car_profile_pic = $data['car_profile_pic'];
-        $this->car->picture1 = $data['picture1'];
+        }
+        if (!is_null($data['picture1'])){
+            $this->car->picture1 = $data['picture1'];
+        }
+        if (!is_null($data['picture2'])){
         $this->car->picture2 = $data['picture2'];
+        }
         $this->car->user = $user;
         
         $this->em->persist($this->car);

@@ -40,7 +40,7 @@ class Rides_Form_Rides extends Application_Form_Base
                   ->addValidators(array($seat_range));
         
         $luggage = new Zend_Form_Element_Select('luggage');
-        $luggage->setLabel('Luggage')
+        $luggage->setLabel('Luggage per passenger')
                 ->setRequired(true)
                 ->setAttrib('class', 'select')
                 ->addMultiOptions(array(
@@ -76,6 +76,7 @@ class Rides_Form_Rides extends Application_Form_Base
         
         $trip_cost = new Zend_Form_Element_Text('trip_cost');
         $trip_cost->setLabel('Cost per seat')
+                  ->setValidators(array('Digits'))
                   ->setRequired(true)
                   ->setValue(10);
         
@@ -88,6 +89,7 @@ class Rides_Form_Rides extends Application_Form_Base
         
         $trip_msg = new Zend_Form_Element_Textarea('trip_msg');
         $trip_msg->setLabel('Trip message')
+                  ->setValue("Please enter any additional information you would like passengers to know")
                   ->setAttrib('cols', '25')
                   ->setAttrib('class', 'textarea')
                    ->setAttrib('rows', '7');

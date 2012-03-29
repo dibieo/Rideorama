@@ -1,5 +1,4 @@
 <?php
-require_once 'facebook.php'; //Load Facebook Api
 
 class Application_Model_Service
 {
@@ -25,51 +24,14 @@ class Application_Model_Service
         $this->$property = $value;
     } 
     
-    public function postMessageOnFacebook($msg){
-        
-      
-       
-        $facebook = new Facebook(array(
-            'appId' => '239308316101537',
-            'secret' => 'ce008ac5b02c0c21641a38b6acbd9b2b',
-            'cookie' => true,
-         ));
-        
-        try {
-        $facebook->api("/me/feed", 'post', array(
-              
-                    'message' => $msg, 
-                    'link'    => 'http://www.rideorama.com',
-                    'picture' => '',
-                    'name'    => '',
-                    'description'=> ''
-                    )
-                );
-                //as $_GET['publish'] is set so remove it by redirecting user to the base url 
-            } catch (FacebookApiException $e) {
-                echo $e->getMessage();
-            }
-    }
+
     
     public function getAll($entity){
         
         return $this->em->getRepository($entity)->findAll();
     }
     
-    /**
-     * Function: sendEmail.
-     * This function is used to send an email
-     * @param array $data {includes recipient_email, recipient_name, subject, and body
-     */
-     public function sendEmail(array $data){
-         
-       $this->mail->addTo($data['recipient_email'], $data['recipient_name'])
-                   ->setSubject($data['subject'])
-                   ->setBodyHtml($data['body'])
-                   ->send();
-     }  
-    
-
+   
      
    
       /**
@@ -123,6 +85,21 @@ class Application_Model_Service
         return  $data;    
     }
     
+    
+    public function sortTripByParam($requests, $param = null){
+        
+        $cost = array();
+        if ($param == "cost"){
+        foreach ($requests as $r){
+           array_push($cost, $r['key']['cost']); 
+        }
+        }
+        array_multisort($cost, SORT_ASC, $requests);
+        
+        return $requests;
+    }
+    
+    
    /**
     *
     * @param array $requests 
@@ -169,7 +146,7 @@ class Application_Model_Service
       $data = array();
       $data['hwfar'] = $hwfar;
       $data['sorted_trips'] = $sorted_trips;
-     return $data;       
+      return $data;       
     }
     
     /**
@@ -246,7 +223,84 @@ class Application_Model_Service
         return $userName;      
     }
     
+    /**
+     * Uses the TinyURL service to return a shortened URL to the user
+     * @param string Input URL
+     * @return string The shortened URL
+     */
+    public function shortenURL($url){
+        
+         $url_shortner = new Zend_Service_ShortUrl_TinyUrlCom();
+         return $url_shortner->shorten($url);
+        
+    }
+   
+    /**
+     * Gets a collection of rides and requests
+     * that are to be displayed on the homepage ticker
+     */
+    public function getHomepageTickerRides(){
+        $all_results = array();
+        $all_results["toAirport"] = $this->getTenAirportRides('\Rideorama\Entity\Ridestoairport');
+        $all_results["fromAirport"] = $this->getTenAirportRides('\Rideorama\Entity\Ridesfromairport');
+        return $all_results;
+    }
     
     
+    /**
+     * Gets the rides
+     * @param type toAirport or FromAirport Entity
+     * @return Array 
+     */
+    private function getTenAirportRides($entity){
+        
+       $curr_date = date("Y-m-d");
+        //print $curr_date;
+        
+        $q = $this->em->createQuery("select u.id, p.profile_pic, p.first_name, 
+                                      u.departure_date,  a.iata as airport_abbv,
+                                      a.name as airport_name,
+                                      u.number_of_seats, u.cost, u.city, u.departure_time from
+                                     '$entity' u JOIN u.publisher p
+                                      JOIN u.airport a
+                                      where u.departure_date > '$curr_date'")
+                                    ->setMaxResults(10);
+       
+        $result = $q->getResult();
+        return $result;
+    }
+    
+    /**
+     * Once, a passenger completes payment via paypal, add the driver and passenger
+     * to the Notification entity model
+     * This allows a cronjob to send out notifications later on
+     * @param array $array Trip params 
+     */
+    public function addTripNotification(array $array){
+        
+        //print_r($array);
+        $date = str_replace("-", "/", $array['trip_date']);
+        
+        $notification = new \Rideorama\Entity\Notifications();
+        $notification->driver_name = $array['driverName'];
+        $notification->driver_email = $array['driverEmail'];
+        $notification->passenger_name = $array['passengerName'];
+        $notification->passenger_email = $array['passengerEmail'];
+        $notification->trip_date = new DateTime($date);
+        
+        $this->em->persist($notification);
+        $this->em->flush();
+    }
+    
+       /**
+     *Adds Emissions information to the trip or request
+     * @param type $entity 
+     */
+    public function addEmissionInfo($entity){
+        
+        $emissions = round((1/20 ) * (intval($entity->distance) * 8.871));
+        $entity->emissions = $emissions;
+      
+    }
 }
 

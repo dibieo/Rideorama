@@ -84,7 +84,7 @@ class User extends \Rideorama\Entity\rideoramaEntity
     
     
      /**
-     * @Column(type="string",length=10,nullable=true)
+     * @Column(type="string",length=60,nullable=true)
      * @var string
      * This store the profession of the user
      */
@@ -100,7 +100,7 @@ class User extends \Rideorama\Entity\rideoramaEntity
     
       
    /**
-     * @Column(type="integer",length=60,nullable=true)
+     * @Column(type="string",length=60,nullable=true)
      * @var integer
      * This store a the user's phone number
      */

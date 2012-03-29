@@ -37,8 +37,7 @@ class Account_UserController extends Zend_Controller_Action
     public function indexAction()
     {
         
-        $user = new Account_Model_UserService();
-        $current_user = $user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
+        $current_user = $this->_user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
         $this->view->user = $current_user;
     }
 
@@ -65,25 +64,35 @@ class Account_UserController extends Zend_Controller_Action
         
         $me = $fb->api('/me');
         $email= $me['email'];
-        $findUser = $this->_user->getUserByEmail($email);
+        $findUser = $this->_user->getUserByPasswordHash(md5($me['id']));
+        
         
         } catch(FacebookApiException $e){
             error_log($e);
             $user = null;  
         }
-        //First time facebook user,then add them to the database
+        //First time facebook user,then add them to the database and log in
+        try{
         if ($findUser == null){
-      
+            
+            $already_registered = $this->isFacebookUserAlreadyRegistered($email);
+            if ($already_registered){
+                throw new Exception("We're sorry but it appears you already registered an account with us
+                 .Please log in with that account. If you need further assistance pls talk to an operator with the chat box below");
+            }else{
             $this->firstTimeFacebookUser($me);
             $this->processFacebookLoginAndRedirect($email, $me['id']);
-
+            }
             
         }else {
           ///This user already exists and we didn't just logout with facebook so we proceed to regular login.
+          $email = $findUser->email;
           $this->processFacebookLoginAndRedirect($email, $me['id']);
 
         }
-
+        }catch(Exception $ex){
+            $this->view->errMsg = $ex->getMessage();
+        }
     
     }
            
@@ -99,7 +108,16 @@ class Account_UserController extends Zend_Controller_Action
 
        $this->view->loginForm = $loginForm;
        
+       if ($this->_helper->FlashMessenger->hasMessages()) { 
+              // echo "messages dey oh!";
+               $this->view->messages = $this->_helper->FlashMessenger->getMessages(); 
+         }
+       
        if ($this->getRequest()->isPost()){
+           
+           //Get flashmessages from previous request if it exist
+           
+
            $formData = $this->getRequest()->getPost();
     
            if ($loginForm->isValid($formData)){
@@ -184,7 +202,6 @@ class Account_UserController extends Zend_Controller_Action
     public function registerAction()
     {
         // action body
-       
         $form = $this->registration_form;
         $this->view->form = $form;
         
@@ -192,12 +209,19 @@ class Account_UserController extends Zend_Controller_Action
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)){
                 $data = $form->getValues();
+                $user = $this->_user->getUserByEmail($data['email'], '\Rideorama\Entity\PreUser');
+                if ($user == null){
                 $data['email_hash'] = md5($data['email']);
                 //$email_hash = md5($data['email']);
                 $data['password'] = md5($data['password']);
                 //print_r($data);
                 $this->_user->registerUser($data);
                 $this->_forward('regcomplete');
+                }else{
+                    
+                    $this->view->msg = "Our records indicate you're already registered. If you signed in facebook then 
+                                        continue using that account. If you're yet to activate your account, check your email to activate it";
+                }
                         
             }else{
                 
@@ -229,6 +253,10 @@ class Account_UserController extends Zend_Controller_Action
 
     public function activateAction()
     {
+         $user = $this->_user->getUserByEmailHash($this->_getParam('hash'));
+         //This user hasn't activated their account
+        if ($user == null){
+    
         $form = new Account_Form_Completeprofile();
       
         $this->view->form = $form;
@@ -236,17 +264,23 @@ class Account_UserController extends Zend_Controller_Action
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)){
                 $data = $form->getValues();
+                 //User has not activated their account.
                 $this->_user->activateUserAccount($this->_getParam('hash'), $data);
                 $this->_forward('thanks');
-            }
+                }
         else{
-            echo "got here";
-            print_r($formData);
+            //echo "got here";
+            //print_r($formData);
             $form->populate($formData);
         }
 
     }
     
+        }   else{
+                    $this->view->msg = "Looks like this account has been activated in the past or you 
+                                        already use Rideorama via Facebook. Pls contact a Rideorama
+                                        representative if none of these apply to you";
+                }
      //$this->flashMessenger->addMessage("Your account has been activated");
     
     }
@@ -320,6 +354,28 @@ class Account_UserController extends Zend_Controller_Action
                 $this->writeAuthStorage($authAdapter, Zend_Auth::getInstance());
                 return $this->_redirect($redirect);
             }
+    }
+    
+    /**
+     * Determines if a user attempting to connect via facebook
+     * has already registered with the system. If so, reject the connection
+     * via facebook, else had the new user to our records
+     * @param string $email
+     * @return boolean true or false 
+     */
+    private function isFacebookUserAlreadyRegistered($email){
+        
+        $user = $this->_user->getUserByEmail($email);
+        if ($user == null){  
+            return false;
+        }else{
+            return true;
+        }
+            
+    }
+    
+    public function myridesAction(){
+        
     }
 }
 

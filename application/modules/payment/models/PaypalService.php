@@ -8,12 +8,18 @@
 require_once 'lib/AdaptivePayments.php'; //Load Paypal Adapative payments Api
 class Payment_Model_PaypalService
 {
-
-    protected $paypal_redirect_url = 'https://www.sandbox.paypal.com/webscr&cmd=';
+   
+    protected $paypal_redirect_url;
     protected $developer_portal = 'https://developer.paypal.com';
-    protected $device_id = 'PayPal_Platform_PHP_SDK';
-    protected $application_id = 'APP-80W284485P519543T';
+    protected $device_id;
+    protected $application_id;
     
+    public function __construct(){
+      
+      $this->device_id = 'PayPal_Platform_PHP_SDK';
+      $this->paypal_redirect_url = Zend_Registry::get('config')->paypal->redirect_url;
+      $this->application_id = Zend_Registry::get('config')->paypal->application_id;
+    }
     
     public function pay(array $payDetails){
       
@@ -66,8 +72,8 @@ class Payment_Model_PaypalService
     private function createPayRequest(array $payDetails) {
         
          $payRequest = new PayRequest();
-        $payRequest->actionType = "PAY";
-        $payRequest->cancelUrl = $payDetails['cancelUrl'];
+        $payRequest->actionType = "PAY_PRIMARY";
+       $payRequest->cancelUrl = $payDetails['cancelUrl'];
         $payRequest->returnUrl = $payDetails['returnUrl'];     
         $payRequest->clientDetails = new ClientDetailsType();
         $payRequest->clientDetails->applicationId = $this->application_id;

@@ -68,15 +68,18 @@ class Account_Form_Editprofile extends Application_Form_Base
            'class' => 'input',
            'label' => 'Phone number',
            'filters'=> array('StringTrim', 'StripTags'),
-           'validators' => array('Int', $strlength)
+           'validators' => array('Digits', $strlength)
        ));
        $phone->setDecorators($this->generateDecorators());
-      $age = new Zend_Form_Element_Text('age', array(
+       
+       $ageValidator = $this->getAgeValidator();
+       
+       $age = new Zend_Form_Element_Text('age', array(
            'required' => true,
            'class' => 'input',
            'label' => 'Age',
            'filters'=> array('StringTrim', 'StripTags'),
-           'validators' => array('Int')
+           'validators' => array('Int', $ageValidator)
        ));
       $age->setDecorators($this->generateDecorators());
        $save = new Zend_Form_Element_Submit('save');

@@ -15,6 +15,8 @@ class Payment_IndexController extends Zend_Controller_Action
         $url = new Zend_View_Helper_Url();
         $user = new Account_Model_UserService();
         $driver = $user->getUserByEmail($this->_getParam('driverEmail'));
+        $passenger = $user->getUserByEmail($this->_getParam('passengerEmail'));
+        $passengerPhone = $passenger->telephone;
         $driverPaypal = $driver->paypal_email;
         $driverPhone = $driver->telephone;
         
@@ -30,7 +32,9 @@ class Payment_IndexController extends Zend_Controller_Action
             "driverEmail" => $this->_getParam('driverEmail'),
             "driverName" => $this->_getParam("driverName"),
             "tripcost" => $this->_getParam('tripcost'),
+            "tripdate" => $this->_getParam('trip_date'),
             "driverPhone" => $driverPhone,
+            "passengerPhone" => $passengerPhone,
             "passengerName" => $this->_getParam("passengerName"),
             "passengerEmail" => $this->_getParam("passengerEmail")
         ));
@@ -43,7 +47,7 @@ class Payment_IndexController extends Zend_Controller_Action
         $payDetails = array(
             'cancelUrl' => "$link"."$cancelUrl",
             'returnUrl' => "$link". "$returnUrl",
-            'rideoramaEmail' => 'test_1326109945_biz@gmail.com',
+            'rideoramaEmail' => Zend_Registry::get('config')->paypal->rideoramaEmail,
             'receiverEmail' =>   $driverPaypal,
             'memo' => 'Payment from rideorama platform for a ride',
             'amount' => $this->_getParam('tripcost')
@@ -67,7 +71,11 @@ class Payment_IndexController extends Zend_Controller_Action
 
      $email_driver = new Application_Model_EmailService();
      $email_driver->paymentSuccessEmailToDriver($this->_getAllParams());
+     
         // action body
+     $params = $this->_getAllParams();
+     $service = new Application_Model_Service();
+     $service->addTripNotification($this->_getAllParams());
     }
 
     public function cancelAction()

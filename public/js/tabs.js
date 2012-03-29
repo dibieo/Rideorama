@@ -7,6 +7,8 @@ $(function() {
 		$('.tabing').hide();
 		 $(curRel).show();
 		Cufon.replace('.my_account .tab_section ul li a', { fontFamily: 'Helvetica', fontWeight: 700 , hover:true});
+     
+     
 		 return false;
 	});
 	 $(".thumb li:first").addClass('active');
@@ -17,5 +19,6 @@ $(function() {
 		 $(this).addClass('active');
 		 return false;
 		 });
+                      
 	 
 });

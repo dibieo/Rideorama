@@ -25,7 +25,15 @@ class Account_Form_Login extends Application_Form_Base {
         $password->setDecorators($this->generateDecorators());
         
        $foo = new Zend_Form_Element_Hidden('name');
-    $foo->setDescription('<span class="forget"><a href="#">Forgot password?</a></span>')
+       
+       $urlService = new Zend_View_Helper_Url();
+       
+       $url = $urlService->url(array(
+        'module' => 'default',
+        'controller'=> 'forgotpassword',
+        'action' => 'index'
+       ));
+    $foo->setDescription("<span class='forget'><a href='$url'>Forgot password?</a></span>")
     ->setDecorators(array(
         'ViewHelper',
         array('Description', array('escape' => false, 'tag' => false))

@@ -111,7 +111,8 @@ class Account_Model_UserService extends Application_Model_Service
     }
     
     /**
-     *
+     * Activates a user account
+     * Begins by removing the user from the PreUser table and adding him/her to the user table
      * @param string $hash
      * @param array $data 
      */
@@ -128,8 +129,12 @@ class Account_Model_UserService extends Application_Model_Service
                     );
       
       $user = $this->addConfirmedUser($user_data);
-       
-      $this->addCarProfile($data, $user);
+      
+      //If the  user says they have a car then skip
+      if ($data['has_no_car'] == "false" ){
+      //  echo "User did not check i dont have a car box, so value is: " . $data['has_no_car'];
+        $this->addCarProfile($data, $user);
+      }
     }
     
     /**
@@ -181,7 +186,7 @@ class Account_Model_UserService extends Application_Model_Service
    
     
     /**
-     * Finds an returns and exisiting user 
+     * Finds and returns and exisiting user by passing in email
      * @param string $email
      * @param entity (User entity passed in by default. Can also pass in the PreUser entity)
      * @return \Rideorama\Entity\User User Entity
@@ -189,6 +194,30 @@ class Account_Model_UserService extends Application_Model_Service
     public function getUserByEmail($email, $entity = '\Rideorama\Entity\User'){
         
         $user = $this->em->getRepository($entity)->findOneBy(array('email' => $email));
+        return $user;
+    }
+    
+    /**
+     * Returns a user object when given the password_hash
+     * @param string $password_hash
+     * @param string $entity
+     * @return \Rideorama\Entity\User User Entity 
+     */
+    public function getUserByPasswordHash($password_hash, $entity = '\Rideorama\Entity\User'){
+        
+        $user = $this->em->getRepository($entity)->findOneBy(array('password_hash' => $password_hash));
+        return $user;
+    }
+    
+    /**
+     * Get's a user when given the user's email hash
+     * @param string $email_hash
+     * @param string $entity
+     * @return \Rideorama\Entity\User The User Entity 
+     */
+    public function getUserByEmailHash($email_hash, $entity='\Rideorama\Entity\User'){
+        
+        $user = $this->em->getRepository($entity)->findOneBy(array('email_hash' => $email_hash));
         return $user;
     }
     
@@ -210,5 +239,32 @@ class Account_Model_UserService extends Application_Model_Service
         $this->em->persist($user);
         $this->em->flush();
     }
+   
+    /**
+     * Updates a user's password
+     * @param string $email_hash
+     * @param string $password 
+     */
+    public function updateUserPassword($email_hash, $password){
+      
+      $user = $this->getUserByEmailHash($email_hash);
+      $user->password_hash = md5($password);
+      $user->email_hash = md5($email_hash);
+      
+      $this->em->persist($user);
+      $this->em->flush();
+     }
+     
+     /**
+      * Gets the total number of registered users
+      * @return int 
+      */
+     public function getTotalNumberofRegisteredUsers(){
+         
+        $q = $this->em->createQuery("SELECT count(u.id) AS t_count from \Rideorama\Entity\User u");
+        $result = $q->execute();
+        $result = $result[0];
+        return $result['t_count'];
+     }
 }
 

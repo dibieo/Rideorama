@@ -4,7 +4,7 @@
 
 /**
  * 
- * This view helper displays the offer ride links, or your request link
+ * This view helper displays the offer ride links
  * 
  * @author ovo
  */

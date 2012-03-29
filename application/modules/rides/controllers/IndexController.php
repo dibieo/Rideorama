@@ -9,8 +9,6 @@ class Rides_IndexController extends Zend_Controller_Action
     {
         /* Initialize action controller here */
         $this->ride_form = new Rides_Form_Rides();
-//        $contextSwitcher = $this->_helper->getHelper('contextSwitch');
-//        $contextSwitcher->addActionContext('book', 'html')->initContext();
     }
 
     public function indexAction()
@@ -20,11 +18,20 @@ class Rides_IndexController extends Zend_Controller_Action
 
     public function postAction()
     {
+        
+        //Does the user have a car 
+        $user_obj = new Account_Model_UserService();
+        $user = $user_obj->getUser(Zend_Auth::getInstance()->getIdentity()->id);
+        if (!$user->car){
+            $url = "http://" .$_SERVER['SERVER_NAME'] . $this->getFrontController()->getRequest()->getRequestUri();
+            Zend_Registry::set("fillcar", $url);
+            $this->_forward('addcar', 'edit', 'account');
+        }
        // print_r(Zend_Auth::getInstance()->getIdentity());
         $departure = $this->_getParam('from');
         $destination = $this->_getParam('to');
         $where = $this->_getParam('where');
-        $trip_date = $this->_getParam('trip_date');
+        $trip_date = $this->_hasParam('trip_date') ?$this->_getParam('trip_date') : "";
         
         $return_trip = "true";
         if ($this->_hasParam('return_trip')){
@@ -51,6 +58,7 @@ class Rides_IndexController extends Zend_Controller_Action
      * Performs ajax validation on the form inputs
      *
      *
+     *
      */
     public function validateformAction()
     {
@@ -70,16 +78,18 @@ class Rides_IndexController extends Zend_Controller_Action
      *
      *
      *
+     *
      */
     private function getRideFormPage($where, $departure, $destination, $trip_date, $return_trip)
     {
        $this->view->where = $where;
        if ($where == "toAirport"){
        $this->ride_form->departure->setValue($departure)
-                                  ->setAttrib('placeholder', 'Enter your departure');
+                                  ->setAttrib('placeholder', 'Enter your full departure address e.g. 1777 exposition Drive Boulder CO');
        $this->ride_form->destination->setValue($destination)
                                     ->setAttrib('placeholder', 'Enter airport name')
-                                    ->setJQueryParams(array('source' =>$this->ride_form->getAirports()));
+                                    ->setJQueryParams(array('source' =>$this->ride_form->getAirports()))
+                                    ->setAttrib('readOnly', true);
        $this->ride_form->trip_date->setValue($trip_date);
        $this->ride_form->return->setValue($return_trip);
        
@@ -87,9 +97,10 @@ class Rides_IndexController extends Zend_Controller_Action
            
        $this->ride_form->departure->setValue($departure)
                                   ->setAttrib('placeholder', 'Enter airport name')
-                                  ->setJQueryParams(array('source' =>$this->ride_form->getAirports()));
+                                  ->setJQueryParams(array('source' =>$this->ride_form->getAirports()))
+                                   ->setAttrib('readOnly', true);
        $this->ride_form->destination->setValue($destination)
-                                   ->setAttrib('placeholder', 'Enter your destination');;
+                                   ->setAttrib('placeholder', 'Enter your full destination e.g. 1777 Exposition Drive Boulder CO');;
        $this->ride_form->trip_date->setValue($trip_date);
        $this->ride_form->return->setValue($return_trip);
            
@@ -146,8 +157,6 @@ class Rides_IndexController extends Zend_Controller_Action
      * Adds the form data to the model and redirects to a success page
      * @param Array $formData Contains an array of post data
      * @param string $where toAirport or fromAirport
-     *
-     *
      */
     private function processRequest($formData, $where)
     {
@@ -162,7 +171,25 @@ class Rides_IndexController extends Zend_Controller_Action
       
       if (isset($formData['facebook'])) {
      if ($formData['facebook'] == "true"){
-        $ride->postMessageOnFacebook("I am giving a ride..Check Rideorama to see it ");
+         
+         $trip_date = $formData['trip_date'];
+        $helper = new Zend_View_Helper_Url() ;
+        $url = $helper->url(array(
+           'module' => "rides",
+           "controller" => "index",
+           "action" => "details",
+           'where' => $where,
+           'trip_id' => $formData['trip_id'],
+           'trip_date' => $trip_date,
+           'airport' => ($where == "toAirport") ? $formData['destination'] : $formData['departure']
+        ));
+        
+        $fb = new Application_Model_FacebookService();
+        $dest = $formData['dstination'];
+        $dept = $formData['departure'];
+        
+        $tripLocationMsg = ($where == "toAirport") ? "to $dest" : "from $dept"; // Msg for FB status update. to Airport name or from Airport name
+        $fb->postMessageOnFacebook("I am giving a ride $tripLocationMsg on $trip_date.Check Rideorama to see it ", $url);
         }
       }
       
@@ -180,29 +207,109 @@ class Rides_IndexController extends Zend_Controller_Action
 
     /**
      * Processing acceptance of a booking
+     *
      */
     public function bookingacceptedAction()
     {
         // action body
+      try{
         $params = $this->_getAllParams();
-        $email_service = new Application_Model_EmailService();
-        $email_service->bookingRequestAccepted($params);
+        $ride = new Rides_Model_RidesService($params['where']);
+        $this->view->val = $ride->acceptRequestToBookSeat($params);
         $this->view->passenger = $params['passengerName'];
+      }catch (Exception $ex){
+        print($ex->getMessage());
+      }
     }
 
     /**
      * Processes the rejection of a booking
+     *
      */
     public function bookingrejectedAction()
     {
         // action body
         $params = $this->_getAllParams();
         $ride = new Rides_Model_RidesService($params['where']);
-        $ride->rejectRequestToBookSeat($params);
+        $val = $ride->rejectRequestToBookSeat($params);
+        $this->view->val = $val;
     }
 
+    public function editAction()
+    {
+        // action body
+        $ride_data = $this->_getAllParams();
+        $form = new Rides_Form_Rides();
+        $form->setDescription("Edit your ride post");
+        // Setoptions
+        $this->setEditFormOptions($form, $ride_data);
+        $this->view->form = $form;
+        $this->view->where = $ride_data['where'];
+        
+       if ($this->getRequest()->isPost()){
+            $formData = $this->getRequest()->getPost();
+            if ($form->isValid($formData)){
+                $formData['where'] = $ride_data['where']; // Enter airport location
+                $formData['trip_date'] =  date('Y-m-d', strtotime($formData['trip_date']));
+                $formData['trip_id'] = $this->_getParam('trip_id');
+                $this->updateRide($formData);
+             
+        }else{
+            
+            $form->populate($formData);
+        }
+           
+         }
+    }
+    
+    /**
+     * DRY method for setting values of a form field
+     * @param Zend_Form $from 
+     * @param Array $ride_data
+     */
+    private function setEditFormOptions($form, $ride_data){
+        
+        
+        $form->departure->setValue($ride_data['from']);
+        $form->destination->setValue($ride_data['to']);
+        
+        if ($ride_data['where'] == "toAirport"){
+           $form->destination->setAttrib('readonly', true); 
+        }else if ($ride_data['where'] == "fromAirport"){
+           $form->departure->setAttrib('readonly', true) ;
+        }
+        
+        $form->trip_date->setValue(date('m/d/Y', strtotime($ride_data['trip_date'])));
+        $form->trip_msg->setValue($ride_data['trip_msg']);
+        $form->trip_cost->setValue($ride_data['trip_cost']);
+        $form->luggage_size->setValue($ride_data['luggage_size']);
+        $form->luggage->setValue($ride_data['luggage']);
+        $form->num_seats->setValue($ride_data['num_seats']);
+        $form->trip_time->setValue($ride_data['trip_time']);
+        $form->return->setValue(($this->_hasParam('return_trip') ? $ride_data['return_trip'] : null));
+        
+    }
+
+    /**
+     * Updates the ride by calling appropriate service models
+     * @param array $ride_data 
+     */
+    private function updateRide (array $ride_data){
+        
+        if ($ride_data['where'] == "toAirport"){
+            $rides = new Rides_Model_RidesService($ride_data['where']);
+            $rides->updateRideToAirport($ride_data);
+        }else if ($ride_data['where'] == "fromAirport"){
+            $rides = new Rides_Model_RidesService($ride_data['where']);
+            $rides->updateRideFromAirport($ride_data);
+        }
+     $this->_forward('success', 'index', 'rides', $ride_data);
+
+    }
 
 }
+
+
 
 
 

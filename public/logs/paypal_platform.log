@@ -4567,3 +4567,309 @@ Reason: <strong>Error reading from remote server</strong></p></p>
 </soap:Envelope>
 
 16:59:28 03/04/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-03-04T15:59:28.591-08:00</timestamp><ack>Success</ack><correlationId>68297adb7de8f</correlationId><build>2486531</build></responseEnvelope><payKey>AP-70R01330XU865974A</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>
+10:12:07 03/20/12 caller [info] #####SOAP#####
+10:12:07 03/20/12 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost/rideorama/public/payment/index/cancel/driverName/gary+buski/driverEmail/garybuski%40yahoo.com/where/toAirport/trip_date/03-30-2012/trip_id/41/tripcost/10/passengerName/Trish+Leftrider/passengerEmail/testuser1877%40gmail.com</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <feesPayer>PRIMARYRECEIVER</feesPayer>
+    <memo>Payment from rideorama platform for a ride</memo>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+            <email>test_1326109945_biz@gmail.com</email>
+            <primary>1</primary>
+        </receiver>
+        <receiver>
+            <amount>8</amount>
+            <email>testing@paypal.com</email>
+            <primary>0</primary>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost/rideorama/public/payment/index/success/driverName/gary+buski/driverEmail/garybuski%40yahoo.com/where/toAirport/trip_date/03-30-2012/trip_id/41/tripcost/10/passengerName/Trish+Leftrider/passengerEmail/testuser1877%40gmail.com/tripdate/03-30-2012/driverPhone/2078939120/passengerPhone/2071728932</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+10:12:09 03/20/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-03-20T09:12:09.782-07:00</timestamp><ack>Success</ack><correlationId>f1faa62b57ab6</correlationId><build>2486531</build></responseEnvelope><payKey>AP-5PL92675JJ2568119</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>
+10:15:12 03/20/12 caller [info] #####SOAP#####
+10:15:12 03/20/12 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost/rideorama/public/payment/index/cancel/driverName/gary+buski/driverEmail/garybuski%40yahoo.com/where/toAirport/trip_date/03-30-2012/trip_id/41/tripcost/10/passengerName/Trish+Leftrider/passengerEmail/testuser1877%40gmail.com</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <feesPayer>PRIMARYRECEIVER</feesPayer>
+    <memo>Payment from rideorama platform for a ride</memo>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+            <email>test_1326109945_biz@gmail.com</email>
+            <primary>1</primary>
+        </receiver>
+        <receiver>
+            <amount>8</amount>
+            <email>tega_1331432167_per@gmail.com</email>
+            <primary>0</primary>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost/rideorama/public/payment/index/success/driverName/gary+buski/driverEmail/garybuski%40yahoo.com/where/toAirport/trip_date/03-30-2012/trip_id/41/tripcost/10/passengerName/Trish+Leftrider/passengerEmail/testuser1877%40gmail.com/tripdate/03-30-2012/driverPhone/2078939120/passengerPhone/2071728932</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+10:15:13 03/20/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-03-20T09:15:13.727-07:00</timestamp><ack>Success</ack><correlationId>7d9f193f0482a</correlationId><build>2486531</build></responseEnvelope><payKey>AP-3X824368VM832544J</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>
+10:32:37 03/20/12 caller [info] #####SOAP#####
+10:32:37 03/20/12 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost/rideorama/public/payment/index/cancel/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/fromAirport/trip_date/03-28-2012/trip_id/27/tripcost/18/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <feesPayer>PRIMARYRECEIVER</feesPayer>
+    <memo>Payment from rideorama platform for a ride</memo>
+    <receiverList>
+        <receiver>
+            <amount>18</amount>
+            <email>test_1326109945_biz@gmail.com</email>
+            <primary>1</primary>
+        </receiver>
+        <receiver>
+            <amount>14.4</amount>
+            <email>trish_1330870151_per@gmail.com</email>
+            <primary>0</primary>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost/rideorama/public/payment/index/success/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/fromAirport/trip_date/03-28-2012/trip_id/27/tripcost/18/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com/tripdate/03-28-2012/driverPhone/2071728932/passengerPhone/2078939120</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+10:32:38 03/20/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-03-20T09:32:38.960-07:00</timestamp><ack>Success</ack><correlationId>3302e1447bded</correlationId><build>2486531</build></responseEnvelope><payKey>AP-6T788429506264417</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>
+10:45:17 03/20/12 caller [info] #####SOAP#####
+10:45:17 03/20/12 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost/rideorama/public/payment/index/cancel/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/fromAirport/trip_date/03-28-2012/trip_id/27/tripcost/18/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <feesPayer>PRIMARYRECEIVER</feesPayer>
+    <memo>Payment from rideorama platform for a ride</memo>
+    <receiverList>
+        <receiver>
+            <amount>18</amount>
+            <email>test_1326109945_biz@gmail.com</email>
+            <primary>1</primary>
+        </receiver>
+        <receiver>
+            <amount>14.4</amount>
+            <email>trish_1330870151_per@gmail.com</email>
+            <primary>0</primary>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost/rideorama/public/payment/index/success/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/fromAirport/trip_date/03-28-2012/trip_id/27/tripcost/18/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com/tripdate/03-28-2012/driverPhone/2071728932/passengerPhone/2078939120</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+10:45:18 03/20/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-03-20T09:45:18.873-07:00</timestamp><ack>Success</ack><correlationId>bd8fe6b5bd6c2</correlationId><build>2486531</build></responseEnvelope><payKey>AP-2X113441B38997538</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>
+11:56:53 03/20/12 caller [info] #####SOAP#####
+11:56:53 03/20/12 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost/rideorama/public/payment/index/cancel/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/toAirport/trip_date/03-28-2012/trip_id/36/tripcost/10/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <feesPayer>PRIMARYRECEIVER</feesPayer>
+    <memo>Payment from rideorama platform for a ride</memo>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+            <email>test_1326109945_biz@gmail.com</email>
+            <primary>1</primary>
+        </receiver>
+        <receiver>
+            <amount>8</amount>
+            <email>trish_1330870151_per@gmail.com</email>
+            <primary>0</primary>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost/rideorama/public/payment/index/success/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/toAirport/trip_date/03-28-2012/trip_id/36/tripcost/10/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com/tripdate/03-28-2012/driverPhone/2071728932/passengerPhone/2078939120</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+11:56:54 03/20/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-03-20T10:56:54.849-07:00</timestamp><ack>Success</ack><correlationId>af07bf92562a7</correlationId><build>2486531</build></responseEnvelope><payKey>AP-2NF50989DB370644L</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>
+12:01:15 03/20/12 caller [info] #####SOAP#####
+12:01:15 03/20/12 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost/rideorama/public/payment/index/cancel/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/toAirport/trip_date/03-28-2012/trip_id/36/tripcost/10/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <feesPayer>PRIMARYRECEIVER</feesPayer>
+    <memo>Payment from rideorama platform for a ride</memo>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+            <email>test_1326109945_biz@gmail.com</email>
+            <primary>1</primary>
+        </receiver>
+        <receiver>
+            <amount>8</amount>
+            <email>trish_1330870151_per@gmail.com</email>
+            <primary>0</primary>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost/rideorama/public/payment/index/success/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/toAirport/trip_date/03-28-2012/trip_id/36/tripcost/10/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com/tripdate/03-28-2012/driverPhone/2071728932/passengerPhone/2078939120</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+12:01:17 03/20/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-03-20T11:01:17.211-07:00</timestamp><ack>Success</ack><correlationId>2448a1521614d</correlationId><build>2486531</build></responseEnvelope><payKey>AP-36050871HX499414A</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>
+12:04:26 03/20/12 caller [info] #####SOAP#####
+12:04:26 03/20/12 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <actionType>PAY</actionType>
+    <cancelUrl>http://localhost/rideorama/public/payment/index/cancel/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/toAirport/trip_date/03-28-2012/trip_id/36/tripcost/10/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <feesPayer>PRIMARYRECEIVER</feesPayer>
+    <memo>Payment from rideorama platform for a ride</memo>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+            <email>test_1326109945_biz@gmail.com</email>
+            <primary>1</primary>
+        </receiver>
+        <receiver>
+            <amount>8</amount>
+            <email>trish_1330870151_per@gmail.com</email>
+            <primary>0</primary>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost/rideorama/public/payment/index/success/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/toAirport/trip_date/03-28-2012/trip_id/36/tripcost/10/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com/tripdate/03-28-2012/driverPhone/2071728932/passengerPhone/2078939120</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+12:04:28 03/20/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-03-20T11:04:28.232-07:00</timestamp><ack>Success</ack><correlationId>7d347456c33d9</correlationId><build>2486531</build></responseEnvelope><payKey>AP-59R99217JR8685134</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>
+12:36:48 03/20/12 caller [info] #####SOAP#####
+12:36:48 03/20/12 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <actionType>PAY_PRIMARY</actionType>
+    <cancelUrl>http://localhost/rideorama/public/payment/index/cancel/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/toAirport/trip_date/03-28-2012/trip_id/36/tripcost/10/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <feesPayer>PRIMARYRECEIVER</feesPayer>
+    <memo>Payment from rideorama platform for a ride</memo>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+            <email>test_1326109945_biz@gmail.com</email>
+            <primary>1</primary>
+        </receiver>
+        <receiver>
+            <amount>8</amount>
+            <email>trish_1330870151_per@gmail.com</email>
+            <primary>0</primary>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost/rideorama/public/payment/index/success/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/toAirport/trip_date/03-28-2012/trip_id/36/tripcost/10/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com/tripdate/03-28-2012/driverPhone/2071728932/passengerPhone/2078939120</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+12:36:50 03/20/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-03-20T11:36:50.212-07:00</timestamp><ack>Success</ack><correlationId>7055ab011ed7c</correlationId><build>2486531</build></responseEnvelope><payKey>AP-6A110878AV604310R</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>
+12:49:34 03/20/12 caller [info] #####SOAP#####
+12:49:34 03/20/12 caller [info] request: 
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+ <soap:Body><PayRequest>
+    <requestEnvelope>
+        <errorLanguage>en_US</errorLanguage>
+    </requestEnvelope>
+    <clientDetails>
+        <ipAddress>127.0.0.1</ipAddress>
+        <deviceId>PayPal_Platform_PHP_SDK</deviceId>
+        <applicationId>APP-80W284485P519543T</applicationId>
+    </clientDetails>
+    <actionType>PAY_PRIMARY</actionType>
+    <cancelUrl>http://localhost/rideorama/public/payment/index/cancel/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/toAirport/trip_date/03-28-2012/trip_id/36/tripcost/10/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com</cancelUrl>
+    <currencyCode>USD</currencyCode>
+    <feesPayer>PRIMARYRECEIVER</feesPayer>
+    <memo>Payment from rideorama platform for a ride</memo>
+    <receiverList>
+        <receiver>
+            <amount>10</amount>
+            <email>test_1326109945_biz@gmail.com</email>
+            <primary>1</primary>
+        </receiver>
+        <receiver>
+            <amount>8</amount>
+            <email>trish_1330870151_per@gmail.com</email>
+            <primary>0</primary>
+        </receiver>
+    </receiverList>
+    <returnUrl>http://localhost/rideorama/public/payment/index/success/driverName/Trish+Leftrider/driverEmail/testuser1877%40gmail.com/where/toAirport/trip_date/03-28-2012/trip_id/36/tripcost/10/passengerName/gary+buski/passengerEmail/garybuski%40yahoo.com/tripdate/03-28-2012/driverPhone/2071728932/passengerPhone/2078939120</returnUrl>
+</PayRequest></soap:Body>
+</soap:Envelope>
+
+12:49:35 03/20/12 caller [info] response: <?xml version='1.0' encoding='utf-8'?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"><soapenv:Header/><soapenv:Body><ns2:PayResponse xmlns:ns2="http://svcs.paypal.com/types/ap"><responseEnvelope><timestamp>2012-03-20T11:49:35.677-07:00</timestamp><ack>Success</ack><correlationId>25bfd4fc518c5</correlationId><build>2486531</build></responseEnvelope><payKey>AP-0DR64411PK9039832</payKey><paymentExecStatus>CREATED</paymentExecStatus></ns2:PayResponse></soapenv:Body></soapenv:Envelope>

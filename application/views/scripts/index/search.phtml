@@ -65,11 +65,11 @@ echo $this->errors;
               $cost = $this->escape($rideKey['cost']);
               $seat_num =  $this->escape($rideKey['number_of_seats']);
               $departure_time = $this->escape($rideKey['departure_time']);
+              $departure_date = $this->escape($rideKey['departure_date']);
               $arrival_time = $this->escape($rideKey['arrival_time']);
               
               $this->date = str_replace("/", "-", $this->date);
               
-              echo "hi" . $this->date;
              $buy_now = array(
                
              'trip_id' => $rideKey['id'],
@@ -80,6 +80,7 @@ echo $this->errors;
              'airport' => $this->searchtitle,
              'num_seats' => $seat_num,
              'tripcost' => $cost,
+             'trip_date' => $departure_date,
              'where' => $this->where,
              'driverEmail' => $rideKey['email'],
              'paypalEmail' => $rideKey['paypal_email'],

@@ -5,33 +5,11 @@ class Account_Form_Completeprofile extends Application_Form_Base
 
     public function init()
     {
-       $row_decorators = array(
-            'ViewHelper',
 
-                   'Description',
-
-                   'Errors',
-                  
-                   'Label',
-          
-            array('htmlTag', array ('tag' => 'span', 'class' => 'row'))
-           
-       );
        
-         $row_msg_decorators = array(
-           'ViewHelper',
-
-                   'Description',
-
-                   'Errors',
-                  
-                   'Label',
-            array('htmlTag', array ('tag' => 'span', 'class' => 'row'))
-             
-       );
+         $this->generateDecorators('span', 'row');
        
-       
-        $alpha = new Zend_Validate_Alpha(array('allowWhiteSpace' => true));
+        $alpha = new Zend_Validate_Alnum(array('allowWhiteSpace' => true));
         $occupation = new Zend_Form_Element_Text('occupation', array(
            
             'required'  => true,
@@ -42,19 +20,28 @@ class Account_Form_Completeprofile extends Application_Form_Base
             'Filters' => array('StripTags', 'StringTrim')
         ));
         
+        //Ensures the user is at least 17 years old
+        $ageValidator = $this->getAgeValidator();
+        
         $age = new Zend_Form_Element_Text('age', array(
            
             'required'  => true,
             'validators' => array('Digits'),
             'Label' => 'Age',
             'class' => 'field',
-           'Filters' => array('StripTags', 'StringTrim')
+            'validators' =>array($ageValidator),
+           'Filters' => array('StripTags', 'StringTrim', 'Digits')
         ));
+        
+        $phone_length_validator = new Zend_Validate_StringLength(array(
+           'min' => 10,
+           'max' => 10
+       ));
         
         $phone_number = new Zend_Form_Element_Text('phone_number', array(
            
             'required'  => true,
-            'validators' => array('Int'),
+            'validators' => array('Digits', $phone_length_validator),
             'Label' => 'Phone #',
             'class' => 'field',
               'Filters' => array('StripTags', 'StringTrim')
@@ -64,7 +51,6 @@ class Account_Form_Completeprofile extends Application_Form_Base
         
         $make = new Zend_Form_Element_Text('make', array(
            
-            'required'  => true,
             'validators' => array($alpha),
             'Label' => 'Make',
             'class' => 'field',
@@ -73,7 +59,6 @@ class Account_Form_Completeprofile extends Application_Form_Base
         
         $model = new Zend_Form_Element_Text('model', array(
            
-            'required'  => true,
             'validators' => array($alpha),
             'Label' => 'Model',
             'class' => 'field',
@@ -82,7 +67,6 @@ class Account_Form_Completeprofile extends Application_Form_Base
         
         $year = new Zend_Form_Element_Text('year', array(
            
-            'required'  => true,
             'validators' => array('Digits'),
             'Label' => 'Year',
             'class' => 'field',
@@ -93,11 +77,10 @@ class Account_Form_Completeprofile extends Application_Form_Base
          $profilepicfileDest = realpath(APPLICATION_PATH . '/../public/img/users/'); //Destination for user car images
         $user_profile_pic = new Zend_Form_Element_File('user_profile_pic');
          $user_profile_pic->setLabel('Profile picture')
-                            ->setDestination($profilepicfileDest)
-                            ->setRequired(true);
+                            ->setDestination($profilepicfileDest);
          
-         $user_profile_pic->addValidator('Extension', false, 'jpg,png,gif') 
-                ->addValidator('Size', false, '1MB');
+         $user_profile_pic->addValidator('Extension', false, 'jpg,jpeg,png,gif') 
+                ->addValidator('Size', false, '300kB');
  
          
          $user_profile_pic->addFilter('Rename', array(
@@ -109,11 +92,10 @@ class Account_Form_Completeprofile extends Application_Form_Base
           $fileDest = realpath(APPLICATION_PATH . '/../public/img/cars/'); //Destination for user car images
          $car_profile_pic = new Zend_Form_Element_File('car_profile_pic');
          $car_profile_pic->setLabel('Car Profile')
-                 ->setDestination($fileDest)
-                 ->setRequired(true);
+                 ->setDestination($fileDest);
          
-         $car_profile_pic->addValidator('Extension', false, 'jpg,png,gif') 
-                ->addValidator('Size', false, '1MB');
+         $car_profile_pic->addValidator('Extension', false, 'jpg,jpeg,png,gif') 
+                ->addValidator('Size', false, '300kB');
  
          
          $car_profile_pic->addFilter('Rename', array(
@@ -121,13 +103,12 @@ class Account_Form_Completeprofile extends Application_Form_Base
              'overwrite' => true
          ));
           
-         $car_pic1 = new Zend_Form_Element_File('car_pic1');
+         $car_pic1 = new Zend_Form_Element_File('picture1');
          $car_pic1->setLabel('Car back')
-                 ->setDestination($fileDest)
-                 ->setRequired(true);
+                 ->setDestination($fileDest);
          
-         $car_pic1->addValidator('Extension', false, 'jpg,png,gif') 
-                ->addValidator('Size', false, '1MB');
+         $car_pic1->addValidator('Extension', false, 'jpg,jpeg,png,gif') 
+                ->addValidator('Size', false, '300kB');
  
          
          $car_pic1->addFilter('Rename', array(
@@ -135,19 +116,31 @@ class Account_Form_Completeprofile extends Application_Form_Base
              'overwrite' => true
          ));
            
-        $car_pic2 = new Zend_Form_Element_File('car_pic2');
+        $car_pic2 = new Zend_Form_Element_File('picture2');
          $car_pic2->setLabel('Car front')
-                 ->setDestination($fileDest)
-                 ->setRequired(true);
+                 ->setDestination($fileDest);
          
-         $car_pic2->addValidator('Extension', false, 'jpg,png,gif') 
-                ->addValidator('Size', false, '1MB');
+         $car_pic2->addValidator('Extension', false, 'jpg,jpeg,png,gif') 
+                ->addValidator('Size', false, '300kB');
  
          
          $car_pic2->addFilter('Rename', array(
              'target' => $fileDest,
              'overwrite' => true
          ));
+         
+        $car_checkbox = new Zend_Form_Element_Checkbox('has_no_car',
+              array(
+                  'Label' => "I don't own a car",
+                  'required' => true
+              )
+         );
+        
+        
+        $car_checkbox->setCheckedValue('true')
+                          ->setUncheckedValue('false')
+                          ->setChecked(false)
+                          ->setDecorators($this->generateRadioDecorators());
          
         $submit = new Zend_Form_Element_Submit('Submit');
         $submit->setLabel('Submit')
@@ -156,14 +149,14 @@ class Account_Form_Completeprofile extends Application_Form_Base
                 ->setAttrib('onmouseover', "this.className=('sign_up_btn_hover')");
  
         $this->addElements(array($occupation, $age, $phone_number, $make, $user_profile_pic,
-                              $model, $year, $car_profile_pic, $car_pic1, $car_pic2, $submit));
+                              $car_checkbox, $model, $year, $car_profile_pic, $car_pic1, $car_pic2, $submit));
         
         
         $submit->clearDecorators();
         /**
          * Form Decorators
          */
-         $this->addDisplayGroup(array($occupation, $age, $phone_number,$user_profile_pic, $submit),
+         $this->addDisplayGroup(array($occupation, $age, $phone_number,$user_profile_pic, $car_checkbox, $submit),
                                 "about_you"
                                 );
          $this->addDisplayGroup(array($model, $make, $year, $car_profile_pic,
@@ -197,12 +190,12 @@ class Account_Form_Completeprofile extends Application_Form_Base
 //             'Form'
 //        ));
 //         
-        $occupation->setDecorators($row_decorators);
-        $age->setDecorators($row_decorators);
-        $phone_number->setDecorators($row_msg_decorators);
-        $make->setDecorators($row_decorators);
-        $model->setDecorators($row_decorators);
-        $year->setDecorators($row_decorators);
+        $occupation->setDecorators($this->activateformDecorators());
+        $age->setDecorators($this->activateformDecorators());
+        $phone_number->setDecorators($this->activateformDecorators());
+        $make->setDecorators($this->activateformDecorators());
+        $model->setDecorators($this->activateformDecorators());
+        $year->setDecorators($this->activateformDecorators());
        
         $fileDecorators = $this->getFileDecorators();
         // File decorators

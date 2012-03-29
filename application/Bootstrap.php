@@ -23,7 +23,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         $emailConfig = $this->getOption('email');
 
-        $mailTransport = new Zend_Mail_Transport_Smtp('smtp.gmail.com', $emailConfig['transportOptionsSmtp']);
+        $mailTransport = new Zend_Mail_Transport_Smtp('mail.rideorama.com', $emailConfig['transportOptionsSmtp']);
 
         Zend_Mail::setDefaultTransport($mailTransport);
     }

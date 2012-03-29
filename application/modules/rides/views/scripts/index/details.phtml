@@ -61,14 +61,11 @@
           <div class="common_box">
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
             <div class="common_text">
-             <?php $car_profile_pic = $this->baseUrl() . "/img/cars/" . $data['car_profile_pic']; ?>
-            <?php $car_pic1 = $this->baseUrl() . "/img/cars/" . $data['picture1']; ?>
-            <?php $car_pic2 = $this->baseUrl() . "/img/cars/" . $data['picture2']; ?>
-            <img class="large" width="264px" height ="263px" src="<?php echo $car_profile_pic; ?>" alt="">
+            <img class="large" width="264px" height ="263px" src="<?php echo $this->showcar($data['car_profile_pic']); ?>" alt="">
               <ul class="car">
-                <li><a href="<?php echo $car_profile_pic; ?>"></a></li>
-                <li><a href="<?php echo $car_pic1; ?>"></a></li>
-                <li><a href="<?php echo $car_pic2; ?>"></a></li>
+                <li><a href="<?php echo $this->showcar($data['car_profile_pic']); ?>"></a></li>
+                <li><a href="<?php echo $this->showcar($data['picture1']); ?>"></a></li>
+                <li><a href="<?php echo $this->showcar($data['picture2']); ?>"></a></li>
               </ul>
             </div>
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
@@ -109,9 +106,10 @@
                   </p>
                    
               <p><span>Date: </span><em><?php echo $this->escape(urldecode($this->trip_date)); ?></em></p>
-              <p><span>Departure Time: </span><em><?php echo $this->escape($data['departure_time']); ?></em></p>
-              <p><span>Est Arrival Time: </span><em><?php echo $this->escape($data['arrival_time']); ?></em></p>
-            </div>
+              <p><span>Departure Time: </span><em><?php print( date("g:i a", strtotime( $this->escape($data['departure_time'])))); ?></em></p>
+              <p><span>Est Arrival Time: </span><em><?php print( date("g:i a", strtotime($this->escape($data['arrival_time'])))); ?></em></p>
+              <p><span>Trip message: </span><em><?php echo $this->escape($data['trip_msg']); ?></em></p>
+             </div>
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
           </div>
           <div class="common_box">
@@ -192,7 +190,7 @@
         <!-- tab 5 ends --> 
         
       </div>
-      <div class="bottom_tab_area"> <a href="#" class="back">Back to Rides Found</a>
+      <div class="bottom_tab_area"> 
         <ul class="tab">
           <li class="first"><a href=".tab_content1"><?php echo $name_abbv; ?></a></li>
           <li><a href=".tab_content2">Car</a></li>

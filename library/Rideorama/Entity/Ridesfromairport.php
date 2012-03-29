@@ -111,6 +111,7 @@ class Ridesfromairport extends \Rideorama\Entity\ridesEntity{
     protected $distance = null;
 
     
+    
     /**
      *
      * @var integer

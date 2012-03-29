@@ -16,6 +16,10 @@ class Application_Model_Acl extends Zend_Acl
 		$this->add(new Zend_Acl_Resource('default'))
 			 ->add(new Zend_Acl_Resource('default:index'), 'default')
                           ->add(new Zend_Acl_Resource('default:aboutus'), 'default')
+                          ->add(new Zend_Acl_Resource('default:privacy'), 'default')
+                          ->add(new Zend_Acl_Resource('default:terms'), 'default')
+                          ->add(new Zend_Acl_Resource('default:updatepassword'), 'default')
+                          ->add(new Zend_Acl_Resource('default:forgotpassword'), 'default')
                          ->add(new Zend_Acl_Resource('default:show'), 'default')
 			->add(new Zend_Acl_Resource('default:error'), 'default')
 			->add(new Zend_Acl_Resource('default:account'), 'default');
@@ -38,8 +42,9 @@ class Application_Model_Acl extends Zend_Acl
 		//Admin Module Resources --All resources inherid from the module admin
 		$this->add(new Zend_Acl_Resource('admin'))
 			 ->add(new Zend_Acl_Resource('admin:index'), 'admin')
-			 ->add(new Zend_Acl_Resource('admin:state'), 'admin')
-			 ->add(new Zend_Acl_Resource('admin:city'), 'admin')
+                         ->add(new Zend_Acl_Resource('admin:users'), 'admin')
+                         ->add(new Zend_Acl_Resource('admin:state'),  'admin')
+            		 ->add(new Zend_Acl_Resource('admin:city'), 'admin')
                          ->add(new Zend_Acl_Resource('admin:landmarkcategory'), 'admin')
                          ->add(new Zend_Acl_Resource('admin:airport'), 'admin');
 			 
@@ -59,9 +64,13 @@ class Application_Model_Acl extends Zend_Acl
 		 *A guest is also able to view all options in the Community module except for rating a course.
 		 */
                 
-		$this->allow('guest', 'default:index', array('validateform', 'validatesecondform', 'findpassenger', 'index', 'search', 'passengersearch', 'driversearch'))
+		$this->allow('guest', 'default:index', array('validateform', 'validatesecondform', 'homepageticker', 'findpassenger', 'index', 'search', 'passengersearch', 'driversearch'))
 			 ->allow('guest', 'default:error', 'error')
                          ->allow('guest', 'default:show', array('index', 'calc'))
+                         ->allow('guest', 'default:privacy', array('index'))
+                         ->allow('guest', 'default:terms', array('index'))
+                         ->allow('guest', 'default:updatepassword', array('index', 'validateform'))
+                         ->allow('guest', 'default:forgotpassword', array('index', 'validateform'))
                          ->allow('guest', 'default:aboutus', array('index', 'cgeorge', 'ksabi', 'agobitaka', 'odibie'))
 			 ->allow('guest', 'account:user', array('login', 'register', 'recover', 'thanks','validateform', 'activate', 'regcomplete', 'validateactivationform'))
                          ->deny('user', 'account:user', array('login', 'register'));
@@ -72,12 +81,12 @@ class Application_Model_Acl extends Zend_Acl
 		 * a particular course
 		 */
                 
-		$this->allow('user', 'account:user', array('logout', 'edit', 'index','viewprofile'))
+		$this->allow('user', 'account:user', array('logout', 'edit', 'index','viewprofile', 'myrides'))
                      ->allow('user', 'account:profile', array('index'))
 		     ->allow('user', 'account:edit', array('index', 'car', 'validateform', 'updatecar', 'updatepaypal', 'addcar'));
 		
-                $this->allow('user', 'rides:index', array('index', 'post', 'book', 'details','validateform', 'success', 'bookingaccepted', 'bookingrejected'))
-                      ->allow('user', 'requests:index', array('index', 'post', 'success', 'offer', 'validateform', 'details', 'offerrejected'))
+                $this->allow('user', 'rides:index', array('index', 'post', 'book', 'edit', 'details','validateform', 'success', 'bookingaccepted', 'bookingrejected'))
+                      ->allow('user', 'requests:index', array('index', 'post', 'edit', 'success', 'offer', 'validateform', 'details', 'offerrejected'))
                       ->allow('user', 'payment:index', array('index', 'success'));
                 
                 
@@ -86,6 +95,7 @@ class Application_Model_Acl extends Zend_Acl
                 $this->allow('admin', 'admin:airport', array('index', 'add', 'edit', 'delete'));
                 $this->allow('admin', 'admin:city', array('index', 'add-city', 'edit-city', 'delete-city'));
                 $this->allow('admin', 'admin:landmarkcategory', array('index', 'add'));
+                $this->allow('admin', 'admin:users', array('index'));
                 $this->allow('admin', 'admin:state', array('index', 'delete-state', 'edit-state', 'add-state'));
 
 		

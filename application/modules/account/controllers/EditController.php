@@ -130,17 +130,35 @@ class Account_EditController extends Zend_Controller_Action
             $data = $form->getValues();
             $car = new Account_Model_CarService();
             $car->setUpCarProfile($data, $user);
-            $this->_forward('index', 'user', 'account');
+            
+            //If we were not trying to post a ride, then forward us to the account page.
+             if (Zend_Registry::isRegistered('fillcar') == false){
+                 $this->_forward('index', 'user', 'account');
+             }else{
+                 $fillcar = Zend_Registry::get('fillcar');
+                 Zend_Registry::set('fillcar', false);
+                 $this->_redirect($fillcar);
+                 
+             }
         }else{
             
             $form->populate($formData);
         }
         
         
+    
     }
     }
 
+    public function updatepasswordAction()
+    {
+      
+    }
+
+
 }
+
+
 
 
 

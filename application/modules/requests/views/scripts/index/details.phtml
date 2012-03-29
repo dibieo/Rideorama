@@ -82,8 +82,9 @@
                   </p>
                    
               <p><span>Date: </span><em><?php echo $this->escape(urldecode($this->trip_date)); ?></em></p>
-              <p><span>Departure Time: </span><em><?php echo $this->escape($data['departure_time']); ?></em></p>
+              <p><span>Departure Time: </span><em><?php  print( date("g:i a", strtotime($this->escape($data['departure_time'])) )); ?></em></p>
               <p><span>Trip Duration: </span><em><?php echo $this->escape($data['duration']); ?></em></p>
+              <p><span>Request message: </span><em><?php echo $this->escape($data['request_msg']); ?></em></p>
             </div>
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
           </div>

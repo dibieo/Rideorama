@@ -16,7 +16,7 @@ img,fieldset{border:none; margin:0; padding:0; outline:none;}
 
 /****************header starts***************/
 header{float:left; width:100%; padding-top:23px;}
-header .logo{float:left;width:auto;}
+header .logo{float:left;width:auto; padding-left:12px}
 header .logo img{float:left;}
 header .top_nav{float:right; width:600px;}
 header .top_nav ul{float:right; width:auto; list-style:none;}
@@ -33,7 +33,7 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 /****************home container starts***************/
 #home_container{float:left;width:100%;}
 .top_head{float:left; width:1001px; height:119px; background:url(../img/top_head_bg.gif) no-repeat 0 0;}
-.top_head h1{float:right; width:auto; padding:39px 45px 0 0; font-size:41px; line-height:43px; color:#c5d782;}
+.top_head h1{float:right; width:auto; padding:39px 45px 0 0; font-size:37px; line-height:43px; color:#c5d782;}
 #home_container .tab{float:left; width:500px; padding-top:58px;}
 #home_container .tab ul{float:left; width:auto;list-style:none;}
 #home_container .tab ul li{float:left; font-size:18px; line-height:20px; color:#a9a9a9;}
@@ -43,20 +43,20 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 #home_container .tab ul li.second a{float:left;width:152px;color:#a9a9a9;padding:18px 0 22px 40px;background:url(../img/home_tab_second_active.gif) no-repeat 0 0;}
 #home_container .tab ul li.second.active a{color:#4c4c4c;background:url(../img/home_tab_bg2.gif) no-repeat 0 0;}
 
-#home_container .content_detaiils{float:left; width:1001px;background:url(../img/home_bg.gif) repeat-y 0 0; margin-top:-1px; position:relative;}
-#home_container .content_detaiils .top{float:left; width:921px; padding:21px 40px 0 41px;background:url(../img/home_top_bg.gif) no-repeat 0 0;}
+#home_container .content_details{float:left; width:1001px;background:url(../img/home_bg.gif) repeat-y 0 0; margin-top:-1px; position:relative;}
+#home_container .content_details .top{float:left; width:921px; padding:21px 40px 0 41px;background:url(../img/home_top_bg.gif) no-repeat 0 0;}
 #home_container .bottom{float:left; width:1001px; height:73px;background:url(../img/home_bottom.gif) no-repeat 0 0;}
-#home_container .content_detaiils form{float:left; width:100%;}
-#home_container .content_detaiils .left_sec{float:left; width:490px;}
-#home_container .content_detaiils .left_sec .top_row{float:left; width:100%;padding-bottom:13px;}
-#home_container .content_detaiils .left_sec .top_row .radio_area{float:left; width:190px; font-size:18px; line-height:20px; color:#fff; }
-#home_container .content_detaiils .left_sec .top_row .radio_area span{float:left;}
-#home_container .content_detaiils .left_sec .top_row span cufon{float:left !important;}
-#home_container .content_detaiils .left_sec .top_row .radio_area.right{padding-left:50px; float:left;}
-#home_container .content_detaiils .left_sec .top_row span .radio{width:14px; height:14px;vertical-align:middle; margin:0 0 0 16px; padding:0; float:right !important}
-#home_container .content_detaiils .left_sec .row{float:left; width:100%; padding-bottom:13px;}
-#home_container .content_detaiils .left_sec label{float:left; width:73px; font-size:18px; line-height:20px; color:#fff;}
-#home_container .content_detaiils .left_sec input.field{float:left; width:327px; padding:4px 13px 4px; background:#bebebe; border:none; font:17px Arial, Helvetica, sans-serif; color:#4f4f4f !important;}
+#home_container .content_details form{float:left; width:100%;}
+#home_container .content_details .left_sec{float:left; width:490px;}
+#home_container .content_details .left_sec .top_row{float:left; width:100%;padding-bottom:13px;}
+#home_container .content_details .left_sec .top_row .radio_area{float:left; width:190px; font-size:18px; line-height:20px; color:#fff; }
+#home_container .content_details .left_sec .top_row .radio_area span{float:left;}
+#home_container .content_details .left_sec .top_row span cufon{float:left !important;}
+#home_container .content_details .left_sec .top_row .radio_area.right{padding-left:50px; float:left;}
+#home_container .content_details .left_sec .top_row span .radio{width:14px; height:14px;vertical-align:middle; margin:0 0 0 16px; padding:0; float:right !important}
+#home_container .content_details .left_sec .row{float:left; width:100%; padding-bottom:13px;}
+#home_container .content_details .left_sec label{float:left; width:73px; font-size:18px; line-height:20px; color:#fff;}
+#home_container .content_details .left_sec input.field{float:left; width:327px; padding:4px 13px 4px; background:#bebebe; border:none; font:17px Arial, Helvetica, sans-serif; color:#4f4f4f !important;}
 #home_container .latest_rides{float:left; width:428px;}
 #home_container .latest_rides h3{float:left; width:100%; font-size:18px; line-height:20px; color:#4c4c4c; padding-bottom:13px;}
 #home_container .latest_rides h3 cufon{float:left !important;}
@@ -91,7 +91,7 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 .complete_profile .inner_details .facebook_btn{float:left; width:95%; text-align:center; padding-bottom:56px;}
 .complete_profile .inner_details .row{float:left; width:100%; padding-bottom:22px;}
 .complete_profile .inner_details label{float:left; width:165px; font-size:24px; line-height:26px; color:#e2ebc1; padding-top:3px;}
-.complete_profile .inner_details input.field{float:left; width:236px; padding:13px 13px 12px; background:#fff; border:none; font-size:18px Arial, Helvetica, sans-serif; color:#7f7f7f;}
+.complete_profile .inner_details input.field{float:left; width:236px; padding:13px 13px 12px; background:#fff; border:none; font-size:18px; color:#7f7f7f;}
 .complete_profile .inner_details .text{float:left; width:100%; font-size:18px; line-height:14px; color:#f9fbf1;}
 .complete_profile .upload_btn{float:right; width:200px; margin-top:26px; height:55px;cursor:pointer;background:url(../img/upload_profile_btn.gif) no-repeat 0 0;border:none; margin-right:23px; margin-bottom:18px;}
 .complete_profile .right_details .upload_btn{margin-right:0 !important; margin-top:0;}
@@ -390,6 +390,7 @@ footer ul li a:hover{color:#9ebd2e;}
 footer ul li img{vertical-align:middle;}
 footer .icons{display:inline-block;width:auto;}
 footer .icons img{margin-right:10px;}
+footer .footer {padding-top: 20px}
 /****************footer ends***************/
 .jCarousel{width:428px; height:133px!important}
 /****************wrapper ends***************/

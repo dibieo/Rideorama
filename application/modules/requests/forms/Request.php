@@ -33,7 +33,7 @@ class Requests_Form_Request extends Application_Form_Base
                   'required' => true,
                   'validators' => array($this->getDateValidator()),
                   'jQueryParams'=> array(
-		'dateFormat' => 'mm-dd-yy',
+		'dateFormat' => 'mm/dd/yy',
 		'minDate'	 => '0')));
         
        $trip_time = new Zend_Form_Element_Select('trip_time');

@@ -1,0 +1,55 @@
+   <h3>Latest rides</h3>
+   
+ <div class="jCarousel">
+ 
+
+       
+<ul>
+    <?php foreach ($this->homepageTickers["toAirport"] as $toRides): ?>
+    <?php 
+ $departure_date = $toRides['departure_date'];
+ $date = new DateTime($toRides['departure_date']);
+$date = date_format($date, 'M-d-y');
+$date_array = explode("-", $date);
+$month = $date_array[0];
+$day = $date_array[1];
+$trip_id = $toRides['id'];
+$airport_name = $toRides['airport_name'];
+$url = "rides/index/details/trip_date/$departure_date/where/toAirport/trip_id/$trip_id/airport/$airport_name";
+?>
+        <a target="_blank"href="<?php echo $url; ?>">
+           <li>
+          <div class="row"> <span class="date"><?php echo $day; ?><br>
+              <?php echo $month; ?></span> <span class="photo"><img height="43px" width="43px" src="<?php echo $this->showpic($toRides['profile_pic']); ?>" alt="" />
+              </span> <span class="text"> <strong><?php echo $toRides['city']; ?><img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /><?php echo $toRides['airport_abbv']; ?></strong> 
+               <small><?php print( date("g:i a", strtotime($toRides['departure_time'])) ); ?> / <?php echo $toRides['number_of_seats']; ?> seats</small> </span> <span class="price">$<?php echo $toRides['cost']; ?></span> 
+           </div>
+           </li>
+        </a>
+           <?php endforeach; ?>
+           
+           
+    <?php foreach ($this->homepageTickers["fromAirport"] as $fromRides): ?>
+    <?php 
+ $departure_date = $fromRides['departure_date'];
+ $date = new DateTime($fromRides['departure_date']);
+$date = date_format($date, 'M-d-y');
+$date_array = explode("-", $date);
+$month = $date_array[0];
+$day = $date_array[1];
+$trip_id = $fromRides['id'];
+$airport_name = $fromRides['airport_name'];
+$url = "rides/index/details/trip_date/$departure_date/where/fromAirport/trip_id/$trip_id/airport/$airport_name";
+?>
+           <a target="_blank" href="<?php echo $url; ?>">
+           <li>
+           <div class="row"> <span class="date"><?php echo $day; ?><br>
+              <?php echo $month; ?></span> <span class="photo"><img height="43px" width="43px" src="<?php echo $this->showpic($fromRides['profile_pic']); ?>" alt="" />
+              </span> <span class="text"> <strong><?php echo $fromRides['airport_abbv']; ?><img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /><?php echo $fromRides['city']; ?></strong> 
+               <small><?php print( date("g:i a", strtotime($fromRides['departure_time'])) ); ?> / <?php echo $fromRides['number_of_seats']; ?> seats</small> </span> <span class="price">$<?php echo $fromRides['cost']; ?></span> 
+           </div>
+           </li>
+           </a>
+           <?php endforeach; ?>
+</ul>
+ </div>

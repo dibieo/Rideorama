@@ -37,25 +37,26 @@ class Account_Form_User extends Application_Form_Base
        $email = new Zend_Form_Element_Text('email', array(
            'required' => true,
            'class' => 'input',
+           'placeholder' => 'Enter your email address',
            'label' => 'Email Address'
        ));
        $email->addFilters(array('StringTrim', 'StripTags'))
              ->addValidator($emailValidator);
        $email->setDecorators($this->generateDecorators());
-//       $profession = new Zend_Form_Element_Text('profession', array(
-//           'label' => 'Profession',
-//           'required' => true,
-//           'filters' => array ('StringTrim', 'StripTags')
-//       ));
-//       $profession->addFilters(array('StringTrim', 'StripTags'))
-//                   ->addValidators(array($alpahValidator));
        
        $sexValidator = new Zend_Validate_InArray(array("Male", "Female"));
       
-       $sex = new Zend_Form_Element_Radio('sex');
+       $sex =  new Zend_Form_Element_Radio('sex', array(
+      'separator' => "</div><div class='box1'>",
+    
+            ));
+       
+       
        $sex->setRequired(true)
            ->setAttrib('class', 'radio')
-           ->setDecorators(array('ViewHelper'))
+           ->setAttrib('name', 'gen')
+           
+           ->setDecorators($this->generateRadioDecorators())
            ->setMultiOptions(array(
                "Male" => "Male",
                "Female" => "Female"
@@ -83,21 +84,7 @@ class Account_Form_User extends Application_Form_Base
         
         $confirm_password->addValidators(array($validate_password));
         $confirm_password->setDecorators($this->generateDecorators('form_row'));
-//        $fileDest = realpath(APPLICATION_PATH . '/../public/img/users/'); //Destination for user images
-//         $image = new Zend_Form_Element_File('profile_pic');
-//         $image->setLabel('Profile picture')
-//                 ->setDestination($fileDest)
-//                 ->setRequired(true);
-//         
-//         $image->addValidator('IsImage', false)
-//                ->addValidator('Size', false, 40000);
-// 
-//         
-//         $image->addFilter('Rename', array(
-//             'target' => $fileDest,
-//             'overwrite' => true
-//         ));
-        
+
         $terms = new Zend_Form_Element_Checkbox('terms', array(
   'uncheckedValue'=> '',
   'checkedValue' => 'I Agree',
@@ -110,15 +97,15 @@ class Account_Form_User extends Application_Form_Base
               ),
          'required'=>true,
             ));
-        
-      $terms->setDescription('<label><a href="#">Terms and Conditions</a></label>')
+      
+      $urlService = new Zend_View_Helper_Url();
+      $url = $urlService->url(array(
+        'module' => 'default',
+        'controller'=> 'terms',
+        'action' => 'index'
+       ));
+      $terms->setDescription("<label><a href='$url' target='_blank'>Terms and Conditions</a></label>")
             ->setDecorators($this->generateInputBeforeDecorators("form_row1 last"));
-//        
-//        $terms = new Zend_Form_Element_Checkbox('terms');
-//        $terms->setRequired(true)
-//               ->setAttrib('class', 'radio')
-//              ->setDescription('<label><a href="#">Terms and Conditions</a></label>')
-//              ->setDecorators($this->generateInputBeforeDecorators("form_row1 last"));
          
        $register = new Zend_Form_Element_Submit('register');
        $register->setLabel('Register')
@@ -153,15 +140,6 @@ class Account_Form_User extends Application_Form_Base
             );
     }
     
-    protected function generateRadioDecorators(){
-          return
-        array(
-        'ViewHelper',
-        array('Label', array('row' => 'div', 'id' => 'box1')),
-        array('Description', array('escape' => false, 'tag' => false)),
-       array('HtmlTag', array('tag' => 'div', 'class' => 'form_row')),
-        'Errors'
-      );
-    }
+
 }
 

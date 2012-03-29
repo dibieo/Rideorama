@@ -46,6 +46,7 @@ class Application_Model_EmailService extends Zend_Mail
                                              'driverName' => $array['driverName'],
                                              'driverEmail' => $array['driverEmail'],
                                               'where' => $array['where'],
+                                              'trip_date' => $array['trip_date'],
                                               'trip_id' => $array['trip_id'],
                                               'tripcost' => $array['tripcost'],
                                              'passengerName' => $array['passengerName'],
@@ -60,11 +61,11 @@ class Application_Model_EmailService extends Zend_Mail
       
       /**
        * Generates a URL for viewing a user's profile
-       * @param type $module
-       * @param type $controller
-       * @param type $action
-       * @param type $id
-       * @return string 
+       * @param string $module
+       * @param string $controller
+       * @param string $action
+       * @param integer $id
+       * @return string  The URL for the user's public profile
        */
       public function generateUserProfileURL($module, $controller, $action, $id) {
          
@@ -87,9 +88,11 @@ class Application_Model_EmailService extends Zend_Mail
      * @param array $data {includes recipient_email, recipient_name, subject, and body
      */
      public function sendEmail(array $data){
-         
+      $replyTo = Zend_Registry::get('config')->email->transportOptionsSmtp->username;
+        
        $this->addTo($data['recipient_email'], $data['recipient_name'])
                    ->setSubject($data['subject'])
+                   ->setReplyTo($replyTo, "Rideorama")
                    ->setBodyHtml($data['body'], "utf-8")
                    ->setFrom("no-reply@rideorama.com", "Rideorama")
                    ->send();
@@ -150,13 +153,13 @@ class Application_Model_EmailService extends Zend_Mail
                 "<p><a href=$accept_url>Click this link to confirm $passengerName seat in your car </a></p>
                 <p><a href=$reject_url> Click here to decline $passengerName request for a seat on your trip</a></p>
                  <p>Make sure to reply promptly so $passengerName can make other plans.
-                <br>Your Friends,</br>
-                <br>The Rideorama Team</br></p>";
+                <p>Keep rocking!</p>
+                <p>The Rideorama Team</br></p>";
       
       $email_options = array(
             'recipient_name' => $array['driverName'],
             'recipient_email' => $array['driverEmail'],
-            'subject' => 'Someone on wants a seat on your ride',
+            'subject' => 'Someone wants a seat on your ride',
             'body' => $body
         );
       
@@ -212,9 +215,10 @@ class Application_Model_EmailService extends Zend_Mail
                                              'where' => $array['where'],
                                              'request_id' => $array['request_id'],
                                              'offer_amount'=> $array['offer_amount'],
+                                             'trip_date' => $array['trip_date']
                                             ));
           
-        $body = "<p> $passengerName has accepeted your ride offer and has booked a seat on your trip!</p><p> You will receive another email once the seat has been paid for. </p>"
+        $body = "<p> $passengerName has accepeted your ride offer!</p><p> You will receive another email once the seat has been paid for. </p>"
                 . "<p> Thanks for using Rideorama! </p> <p> The Rideorama Team </p>";
         
         $email_options = array(
@@ -265,6 +269,7 @@ class Application_Model_EmailService extends Zend_Mail
                                              'driverName' => $array['driverName'],
                                              'driverEmail' => $array['driverEmail'],
                                              'where' => $array['where'],
+                                             'trip_date' => $array['trip_date'],
                                              'trip_id' => $array['trip_id'],
                                              'tripcost' => $array['offering'],
                                              'module' => $module,
@@ -288,12 +293,19 @@ class Application_Model_EmailService extends Zend_Mail
              $receiverEmail = $array['driverEmail'];
              $senderName = $array['passengerName'];
              $senderEmail = $array['passengerEmail'];
+             $senderPhone = $array['passengerPhone'];
+             
              $amount = $array['tripcost'];
              
              $body = "<p>Hi $receiverName, </p>
             <p>$senderName just made a payment of $$amount for your trip together.</p> 
              <p>We'll transfer this amount less 20% for our processing fee to your Paypal account about a day after your trip </p>
-             <p>Safe travels</p><br>Rideorama team</br>";
+             <p> Here are $senderName's contact details if you need to make further arrangements before your trip: </p>
+             <p>
+             <p> Email address:  $senderEmail </p>
+             <p> Telephone number: $senderPhone </p>
+             </p>
+             <p>Safe travels</p><p>Rideorama team</p>";
         
             $email_options = array(
             'recipient_name' => $receiverName,
@@ -319,11 +331,13 @@ class Application_Model_EmailService extends Zend_Mail
        
              $body = "<p>Hi $receiverName, </p>
             <p>Thanks for completing payment for your trip with $driverName .</p> 
-             <p>Here are $driverName's phone number and email if you need to further coordinate before your trip</p>
+             <p>Here are $driverName's phone number and email if you need to make further arrangements before your trip</p>
              <p>Phone number: $driverPhone</p> <p>Email: $driverEmail</p>
              <p>Enjoy your travels</p>
-             <p>Also, be sure to leave feedback for this trip after it’s completed.<br> Every trip you review helps other passengers make better decisions about whom to rideshare with. </br>Safe Travels!</p>
-             <br>Rideorama team</br>";
+             <p>Also, be sure to leave feedback for this trip after it’s completed.<br> Every trip you review helps other passengers make better decisions about whom to rideshare with.
+             </p>
+             <p>You rock!</p>
+             <p>Rideorama team</p>";
         
              $email_options = array(
             'recipient_name' => $receiverName,
@@ -350,14 +364,16 @@ class Application_Model_EmailService extends Zend_Mail
                       "driverName" => $array['driverName'],
                        'where' => $array['where'],
                        'trip_id' => $array['trip_id'],
+                       'trip_date' => $array['trip_date'],
                       "passengerEmail" => $array['passengerEmail'],
                       "tripcost" => $array['tripcost'],
                        "module" => $array['module'],
                       "passengerName" => $array['passengerName']));
         
         $body = "<p> Hi " . $array['passengerName'] . "</p> <p>Congratulations! " 
-                 . $array['driverName'] . " just confirmed your request for a seat.  <a href=$url>Follow this link to pay for your seat and complete the transaction</a>
-                </p>The Rideorama Team";
+                 . $array['driverName'] . " just confirmed your request for a seat. <p> <a href=$url>Follow this link to pay for your seat and complete the transaction</a></p>
+                 <p> You're the best! </p>
+                 <p>The Rideorama Team</p>";
  
         $email_options = array(
             'recipient_name' => $array['passengerName'],
@@ -399,6 +415,34 @@ class Application_Model_EmailService extends Zend_Mail
     }
     
     /**
+     * Resests a user's account
+     * @param type $first_name
+     * @param type $email
+     * @param type $email_hash 
+     */
+    public function resetAccountPassword($first_name, $email, $email_hash){
+        
+       $url = $this->emailLink('default', 'updatepassword', 'index', array(
+                'email_hash'=> $email_hash
+                )); 
+       
+       $subject = "Reset your Rideorama account password";
+       
+       $body = "<p>Hi $first_name, </p>" .
+               "<p>We're sorry you're having troubles logging into your account. </p>".
+               "<p><a href=$url>Click here to reset your password</a></p>" .
+               "<p>Have a great day!</p>".
+               "<p>Rideorama team</p>";
+       
+       $email_options = array(
+           'recipient_name' => $first_name,
+           'recipient_email'=> $email,
+           'subject' => $subject,
+           'body' => $body
+       );
+       $this->sendEmail($email_options);
+    }
+    /**
      * Sends driver an email notification of the passenger booking this trip. 
      * @param array $array 
      */
@@ -408,7 +452,8 @@ class Application_Model_EmailService extends Zend_Mail
         
         $body = "<p> Hi " . $array['driverName'] . " </p> <p> Congratulations, " . $array['passengerName'] .
                 "just paid for their seat on your trip. You'll receive this payment in your paypal account approximately 24 hrs after the trip<p></p>".
-                "Also, be sure to leave feedback for this trip after it’s completed.  Every trip you review helps other passengers make better decisions about whom to rideshare with.  Safe Travels!";
+                "Also, be sure to leave feedback for this trip after it’s completed.  Every trip you review helps other passengers make better decisions about whom to rideshare with. 
+                <p>You rock! </p>";
                 
         $email_options = array(
             'recipient_name' => $array['driverName'],

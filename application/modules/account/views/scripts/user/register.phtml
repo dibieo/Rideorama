@@ -5,6 +5,7 @@
     <section id="common_container">
       <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_t_curv.png" alt=""/></div>
       <section class="common_content">
+        <?php echo $this->msg; ?>
         <?php echo $this->form; ?>
       </section>
      <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_b_curv.png" alt=""/></div>
@@ -13,3 +14,9 @@
 </div>
 
  <?php echo $this->headScript()->appendFile($this->baseUrl() . "/js/validateform.js"); ?>
+<script type="text/javascript">
+$(function(){
+$('input:radio').jqTransRadio({imgPath:'public/jqtransformplugin/img/'});
+$('input:checkbox').jqTransCheckBox({imgPath:'public/jqtransformplugin/img/'});
+});
+</script>

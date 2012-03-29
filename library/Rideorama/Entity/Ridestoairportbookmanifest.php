@@ -57,10 +57,25 @@ class Ridestoairportbookmanifest extends \Rideorama\Entity\rideoramaEntity
      */
     protected $passenger;
     
+    
+      /**
+     * Determines if a driver has responded to a request
+     * @Column(type="string",length=60,nullable=true)
+     * @var string
+     */
+    protected  $response_status;
+    
     /**
-     
      * @Column(type="datetime", nullable=false)
      */
     protected $date_booked;
+    
+    
+     /**
+     * Determines if a passenger has been confirmed on the trip
+     * @Column(type="string",length=60,nullable=true)
+     * @var string
+     */
+    protected  $book_status;
 
 }

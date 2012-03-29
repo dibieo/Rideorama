@@ -7,7 +7,7 @@ class Account_Form_Editcar extends Application_Form_Base
     {
           /* Form Elements & Other Definitions Here ... */
         
-      $alpha = new Zend_Validate_Alpha(array('allowWhiteSpace' => true));
+      $alpha = new Zend_Validate_Alnum(array('allowWhiteSpace' => true));
 
        $id = new Zend_Form_Element_Hidden('id');
        $make = new Zend_Form_Element_Text('make', array(
@@ -78,7 +78,7 @@ class Account_Form_Editcar extends Application_Form_Base
          $element->setLabel($label)
                             ->setDestination($picDest);
          
-         $element->addValidator('Extension', false, 'jpg,png,gif') 
+         $element->addValidator('Extension', false, 'jpg,jpeg,png,gif') 
                 ->addValidator('Size', false, '1MB')
                 ->addFilter('Rename', array(
                  'target' => $picDest,

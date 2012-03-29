@@ -39,7 +39,7 @@ define('PROXY_PORT', '808');
 
 /**
 # API user: The user that is identified as making the call. you can
-# also use your own API username that you created on PayPal’s sandbox
+# also use your own API username that you created on PayPalï¿½s sandbox
 # or the PayPal live site
 */
 

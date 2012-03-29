@@ -199,7 +199,7 @@
             {},
      function(data, textStatus) { 
          $('#results').html(data); 
-         enableSubmitbutton("#findrides", 'Find a ride');
+         enableSubmitbutton("#findrides", 'Find Drivers');
          $("#results .passenger_content").slideto();
     }, 'html'
 
@@ -220,13 +220,13 @@
 
     function setAirportNameTripsToAirport (departure, destination){
         $(departure).val('');
-        $(destination).val("Denver International airport");
+        $(destination).val("Denver International Airport");
         $(destination).attr('readOnly', true);
         $(departure).attr('readOnly', false);
      }
      
      function setAirportNameTripsFromAirport(departure, destination){
-         $(departure).val("Denver International airport");
+         $(departure).val("Denver International Airport");
          $(destination).val('');
          $(departure).attr('readonly', true);
          $(destination).attr('readonly',false);

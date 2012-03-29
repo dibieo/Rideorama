@@ -10,11 +10,16 @@ $return_request_url = $this->url(array(
     'controller' => 'index',
     'action' => 'post',
     'where' =>  $where,
-    'trip_date' => $this->params['trip_date'],
     'from' => $this->params['destination'],
     'to' => $this->params['departure'],
     'return_trip' => "false"
 ));
+
+$url_options = $this->params;
+$url_options['module'] = "requests";
+$url_options['controller'] = 'index';
+$url_options['action'] = 'edit';
+$edit_ride_url = $this->url($url_options);
 ?>
   <section id="request_post_container" class="spacer5">
       <p>Your request has been successfully posted</p>
@@ -29,7 +34,7 @@ $return_request_url = $this->url(array(
             <li><span>Trip message:</span><strong><?php echo $this->params['trip_msg']; ?></strong></li>
             <li><span>Date: </span><strong><?php echo $this->params['trip_date']; ?></strong></li>
           </ul>
-          <span class="btn3"><a href="#">Edit</a></span> </div>
+          <span class="btn3"><a href="<?php echo $edit_ride_url; ?>">Edit</a></span> </div>
           <?php if ($this->params['return'] == "true") : ?>
           <h6><a href="<?php echo $return_request_url; ?>">Click here to request a ride back</a></h6>
           <?php endif; ?>

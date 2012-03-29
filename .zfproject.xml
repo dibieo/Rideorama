@@ -24,6 +24,9 @@
           <actionMethod actionName="driversearch"/>
           <actionMethod actionName="passengersearch"/>
           <actionMethod actionName="details"/>
+          <actionMethod actionName="edit"/>
+          <actionMethod actionName="editrequest"/>
+          <actionMethod actionName="editride"/>
         </controllerFile>
         <controllerFile controllerName="Error"/>
         <controllerFile controllerName="Test">
@@ -67,11 +70,24 @@
         <controllerFile controllerName="Howitworks">
           <actionMethod actionName="index"/>
         </controllerFile>
+        <controllerFile controllerName="Privacy">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Updatepassword">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Forgotpassword">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Terms">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory enabled="false">
         <formFile formName="Searchride"/>
         <formFile formName="Base"/>
         <formFile formName="Searchrequest"/>
+        <formFile formName="Enteremail"/>
       </formsDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
@@ -101,6 +117,7 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="updatecar"/>
               <actionMethod actionName="updatepaypal"/>
+              <actionMethod actionName="updatepassword"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -110,6 +127,7 @@
             <formFile formName="Editprofile"/>
             <formFile formName="Editcar"/>
             <formFile formName="Paypal"/>
+            <formFile formName="Updatepassword"/>
           </formsDirectory>
           <layoutsDirectory enabled="false"/>
           <modelsDirectory>
@@ -151,6 +169,9 @@
               <viewControllerScriptsDirectory forControllerName="Edit">
                 <viewScriptFile forActionName="updatepaypal"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Edit">
+                <viewScriptFile forActionName="updatepassword"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -173,6 +194,9 @@
               <actionMethod actionName="index"/>
               <actionMethod actionName="add"/>
               <actionMethod actionName="edit"/>
+            </controllerFile>
+            <controllerFile controllerName="Users">
+              <actionMethod actionName="index"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false">
@@ -214,6 +238,9 @@
               <viewControllerScriptsDirectory forControllerName="Airport">
                 <viewScriptFile forActionName="edit"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Users">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -231,6 +258,7 @@
               <actionMethod actionName="details"/>
               <actionMethod actionName="bookingaccepted"/>
               <actionMethod actionName="bookingrejected"/>
+              <actionMethod actionName="edit"/>
             </controllerFile>
             <controllerFile controllerName="Request">
               <actionMethod actionName="index"/>
@@ -271,6 +299,9 @@
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="bookingrejected"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="edit"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -300,6 +331,7 @@
               <actionMethod actionName="post"/>
               <actionMethod actionName="success"/>
               <actionMethod actionName="details"/>
+              <actionMethod actionName="edit"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -322,6 +354,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="details"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="edit"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -455,6 +490,27 @@
           <viewControllerScriptsDirectory forControllerName="Howitworks">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="edit"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="editrequest"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Index">
+            <viewScriptFile forActionName="editride"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Privacy">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Updatepassword">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Forgotpassword">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Terms">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -505,6 +561,9 @@
             <testApplicationActionMethod forActionName="driversearch"/>
             <testApplicationActionMethod forActionName="passengersearch"/>
             <testApplicationActionMethod forActionName="details"/>
+            <testApplicationActionMethod forActionName="edit"/>
+            <testApplicationActionMethod forActionName="editrequest"/>
+            <testApplicationActionMethod forActionName="editride"/>
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Test">
             <testApplicationActionMethod forActionName="index"/>
@@ -539,6 +598,18 @@
           <testApplicationControllerFile forControllerName="Howitworks">
             <testApplicationActionMethod forActionName="index"/>
           </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Privacy">
+            <testApplicationActionMethod forActionName="index"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Updatepassword">
+            <testApplicationActionMethod forActionName="index"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Forgotpassword">
+            <testApplicationActionMethod forActionName="index"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Terms">
+            <testApplicationActionMethod forActionName="index"/>
+          </testApplicationControllerFile>
         </testApplicationControllerDirectory>
         <testApplicationModulesDirectory>
           <testApplicationModuleDirectory forModuleName="account">
@@ -557,6 +628,7 @@
                 <testApplicationActionMethod forActionName="index"/>
                 <testApplicationActionMethod forActionName="updatecar"/>
                 <testApplicationActionMethod forActionName="updatepaypal"/>
+                <testApplicationActionMethod forActionName="updatepassword"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>
@@ -576,6 +648,9 @@
                 <testApplicationActionMethod forActionName="add"/>
                 <testApplicationActionMethod forActionName="edit"/>
               </testApplicationControllerFile>
+              <testApplicationControllerFile forControllerName="Users">
+                <testApplicationActionMethod forActionName="index"/>
+              </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>
           <testApplicationModuleDirectory forModuleName="rides">
@@ -588,6 +663,7 @@
                 <testApplicationActionMethod forActionName="details"/>
                 <testApplicationActionMethod forActionName="bookingaccepted"/>
                 <testApplicationActionMethod forActionName="bookingrejected"/>
+                <testApplicationActionMethod forActionName="edit"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>
@@ -598,6 +674,7 @@
                 <testApplicationActionMethod forActionName="post"/>
                 <testApplicationActionMethod forActionName="success"/>
                 <testApplicationActionMethod forActionName="details"/>
+                <testApplicationActionMethod forActionName="edit"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

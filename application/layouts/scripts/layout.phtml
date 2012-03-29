@@ -2,6 +2,12 @@
 <html>
     <head>
         <meta charset="utf-8"></meta>
+        <meta property="og:title" content="Rideorama" />
+        <meta property="og:type" content="company" />
+        <meta property="og:url" content="http://www.rideorama.com" />
+        <meta property="og:image" content="http://rideorama.com/favicon.ico" />
+        <meta property="og:site_name" content="Rideorama" />
+        <meta property="fb:admins" content="193300995" />
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
         <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
@@ -49,17 +55,32 @@
      <div id="content">
         <?php echo $this->layout()->content; ?>
      </div>
-     
+     <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=370456989661142";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
     <footer>
           <ul>
       <li><a href="<?php echo $this->baseUrl();?>/aboutus">About us</a></li>
-      <li><a href="#">Privacy</a></li>
-      <li><a href="#">Terms and Conditions</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/privacy">Privacy</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/terms">Terms and Conditions</a></li>
     
       <li><a href="#">FAQS</a></li>
-      <li> <span class="icons"> <a href="#"><img src="<?php echo $this->baseUrl();?>/img/social_icon1.gif" alt="" /></a>
-              <a href="#"><img src="<?php echo $this->baseUrl();?>/img/social_icon2.gif" alt="" /></a></span> </li>
-              <p><?php echo $this->footer(); ?></p>
+      <li> <span class="icons"> 
+           <a target="_blank"href="http://twitter.com/Rideorama"><img src="<?php echo $this->baseUrl();?>/img/social_icon2.gif" alt="" /></a></span> 
+             <a target="_blank" href="https://www.facebook.com/pages/Rideorama/201052663306856"><img src="<?php echo $this->baseUrl();?>/img/social_icon1.gif" alt="" /></a>
+             </span></li>
+              <li><span class="icons">
+                   <fb:like href="http://www.rideorama.com" send="false" width="400" show_faces="false"></fb:like>
+  
+                  </span>
+               
+               <p class="footer"><?php echo $this->footer(); ?></p>
+
           </ul>
     
     </footer>

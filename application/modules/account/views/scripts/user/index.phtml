@@ -46,9 +46,9 @@
           <div class="pic_area">
            <img class="large" width="264px" height="263px" src="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->car_profile_pic; ?>" alt="">
             <ul class="thumb">
-              <li><a href="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->car_profile_pic; ?>"></a></li>
-              <li><a href="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->picture1; ?>"></a></li>
-              <li><a href="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->picture2; ?>"></a></li>
+              <li><a href="<?php echo $this->showcar($this->user->car->car_profile_pic); ?>"></a></li>
+              <li><a href="<?php echo $this->showcar($this->user->car->picture1); ?>"></a></li>
+              <li><a href="<?php echo $this->showcar($this->user->car->picture2); ?>"></a></li>
             </ul>
           </div>
           <div class="text_area">
@@ -97,6 +97,7 @@
                 <td class="width">XXXXX </td>
               </tr>
             </thead>
+            <div id="ride_records">
             <tbody>
               <tr>
                 <td>Jan 15, 2012 </td>
@@ -144,6 +145,7 @@
                 <td>&nbsp;</td>
               </tr>
             </tbody>
+            </div>
           </table>
         </div>
         <!-- rides ends --> 

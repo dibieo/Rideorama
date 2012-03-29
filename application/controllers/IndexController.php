@@ -4,7 +4,6 @@
 class IndexController extends Zend_Controller_Action
 {
 
-
     public function init()
     {
         
@@ -55,6 +54,9 @@ class IndexController extends Zend_Controller_Action
      *
      *
      *
+     *
+     *
+     *
      */
     public function validateformAction()
     {
@@ -65,6 +67,9 @@ class IndexController extends Zend_Controller_Action
 
     /**
      * Ajax validation for form under I am a driver tab
+     *
+     *
+     *
      *
      *
      *
@@ -93,12 +98,9 @@ class IndexController extends Zend_Controller_Action
     }
 
     /**
-     * Set search title for the sear
+     * Set search title for the search result
      * @param type $where 
-     *
-     *
-     *
-     */
+   */
     private function setSearchTitle($where, $dest = 'driverdestination', $depart = 'driverdeparture')
     {
         
@@ -122,9 +124,23 @@ class IndexController extends Zend_Controller_Action
 
     }
 
+    
+    public function homepagetickerAction(){
+     
+      $this->_helper->getHelper('layout')->disableLayout();
  
-
+      $homepage = new Application_Model_Service();
+      $this->view->homepageTickers = $homepage->getHomepageTickerRides();
+    
+    }
+    
 }
+
+
+
+
+
+
 
 
 

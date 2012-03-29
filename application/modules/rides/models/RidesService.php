@@ -119,8 +119,8 @@ class Rides_Model_RidesService extends Application_Model_Service
      */
     private function getTripDetails($id, $targetEntity, $variableAddress){
         
-       $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
-               u.trip_msg, u.departure_time, u.arrival_time, u.cost,  u.luggage_size,
+          $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
+               u.trip_msg, u.departure_time, u.emissions, u.arrival_time, u.cost,  u.luggage_size,
                p.email, p.profile_pic, p.first_name, p.profession, p.age, p.id as user_id, p.email,
                p.last_name, p.paypal_email, c.make, c.model, c.year, c.car_profile_pic, c.picture1,c.picture2 
                from Rideorama\Entity\Car c, $targetEntity u JOIN u.publisher 
@@ -274,7 +274,7 @@ class Rides_Model_RidesService extends Application_Model_Service
          $airport = $this->airport->getAirportByName($airport);
      
        $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
-             u.trip_msg, u.departure_time,u.city, u.state, u.lattitude, u.longitude,
+             u.trip_msg, u.departure_date, u.departure_time,u.city, u.state, u.lattitude, u.longitude,
               u.arrival_time, u.cost, u.luggage_size, p.email, p.paypal_email, p.profile_pic,
               p.first_name, p.id as user_id,
               p.last_name from $targetEntity u JOIN u.publisher 
@@ -402,7 +402,7 @@ class Rides_Model_RidesService extends Application_Model_Service
         $airport = $this->airport->getAirportByName($airport);
         
         $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
-             u.trip_msg, u.departure_time, u.arrival_time,
+             u.trip_msg, u.departure_date, u.departure_time, u.arrival_time,
               u.city, u.state, u.longitude, u.lattitude,
               u.cost, u.luggage_size, p.paypal_email, p.first_name, p.id as user_id,
               p.email, p.profile_pic, p.last_name from $targetEntity
@@ -454,6 +454,7 @@ class Rides_Model_RidesService extends Application_Model_Service
         $this->ridesToAirport->duration = $distanceAndDuration['duration'];
         $this->ridesToAirport->arrival_time = new DateTime($this->getArrivalTime($trip_data['trip_date'], $trip_data['trip_time'],$distanceAndDuration['durValue']));
         
+        $this->addEmissionInfo($this->ridesToAirport);
         $this->addAddressDetails($this->ridesToAirport, $trip_data['departure']);
         Zend_Registry::get('doctrine')->getEntityManager()->persist($this->ridesToAirport);
         Zend_Registry::get('doctrine')->getEntityManager()->flush();
@@ -493,7 +494,8 @@ class Rides_Model_RidesService extends Application_Model_Service
         
         //Get longitude, lattitude, city and state information
         $this->addAddressDetails($this->ridesFromAirport, $trip_data['destination']);
-        
+        $this->addEmissionInfo($this->ridesFromAirport);
+     
         Zend_Registry::get('doctrine')->getEntityManager()->persist($this->ridesFromAirport);
         Zend_Registry::get('doctrine')->getEntityManager()->flush();
         
@@ -526,12 +528,22 @@ class Rides_Model_RidesService extends Application_Model_Service
         
     }
     
-    private function updateRideToAirport(){
+    /**
+     * Updates ride to airport
+     * @param type $array  trip array
+     */
+    public function updateRideToAirport($array){
         
+      $this->updateRide('\Rideorama\Entity\Ridestoairport', 'u.pick_up_address', $array);
     }
     
-    private function updateRideFromAirport(){
+    /**
+     * Updates Rides from airport
+     * @param type $array Trip Array
+     */
+    public function updateRideFromAirport($array){
         
+        $this->updateRide('\Rideorama\Entity\Ridesfromairport','u.drop_off_address', $array);
     }
     
    /**
@@ -555,7 +567,7 @@ class Rides_Model_RidesService extends Application_Model_Service
          $this->addBookingToManifest($trip_id, $array['publisher_id'], $this->loggedInUser->id, 
                                      '\Rideorama\Entity\Ridestoairport',
                                        $this->ridesToAirportBookingManifest);
-     }elseif ($whereTo == "fromAirport"){
+     }else if ($whereTo == "fromAirport"){
          $this->addBookingToManifest($array['trip_id'], $array['publisher_id'], $this->loggedInUser->id, 
                                      '\Rideorama\Entity\Ridestoairport',
                                         $this->ridesFromAirportBookingManifest);
@@ -567,22 +579,102 @@ class Rides_Model_RidesService extends Application_Model_Service
     }
     
     /**
+     * Processes the driver's acceptance of a passenger's request
+     * Sends email to the passenger with a link to make payments
+     * @param array $array 
+     * @return boolean True or false to determine if the operation was completed
+     */
+    public function acceptRequestToBookSeat(array $array){
+        
+        try{
+            $passenger = new Account_Model_UserService();
+            $passenger_id = $passenger->getUserByEmail($array['passengerEmail'])->id;
+            
+            if (!$this->hasDriverResponded($array['where'], $passenger_id, $array['trip_id'])){
+                $email_service = new Application_Model_EmailService();
+                $email_service->bookingRequestAccepted($array);
+                if ($array['where'] == "toAirport"){
+                $this->updateTripManifest('\Rideorama\Entity\Ridestoairportbookmanifest', $passenger_id, $array['trip_id']);
+                return true;
+                }else{
+                    $this->updateTripManifest('\Rideorama\Entity\Ridesfromairportbookmanifest', $passenger_id, $array['trip_id']);
+                    return true;
+                }
+            }else{
+                
+                throw new Exception("Our records indicate that you have already responded to this request");
+                return false;
+            }
+            
+    }catch (Exception $ex){
+        print($ex->getMessage());
+    }
+    }
+    /**
      * Frees up the seat so others can book it
      * Sends the requesting party (passenger) a notification of this rejection
      * @param array $array 
+     * @return boolean True or False to determine if the action was completed
      */
     public function rejectRequestToBookSeat(array $array){
         
         try{
+             $passenger = new Account_Model_UserService();
+             $passenger_id = $passenger->getUserByEmail($array['passengerEmail'])->id;
+
+             if (!$this->hasDriverResponded($array['where'], $passenger_id, $array['trip_id'])){
+             //If driver has not responded then
             //Free up the seat so others can book it.
             $this->increaseNumberOfSeats($array['trip_id'], $array['where']);
+            if ($array['where'] == "toAirport"){
+                $this->updateTripManifest("\Rideorama\Entity\Ridestoairportbookmanifest", $passenger_id, $array['trip_id'], "true");
+                return true;
+                
+            }else if ($array['where'] == "fromAirport"){
+                
+                $this->updateTripManifest("\Rideorama\Entity\Ridesfromairportbookmanifest", $passenger_id, $array['trip_id'], "true");
+                return true;
+                
+            }else{
+                
+                throw new Exception($array['where'] . " is not a valid parameter");
+            }
             $emailService = new Application_Model_EmailService();
             $emailService->bookingRequestRejected($array);
-    }catch(Exception $ex){
+          }else{
+              throw new Exception("You have already responded to this request in the past and the passenger
+                                   has been notified");
+              return false;
+          }
+       
+        }catch(Exception $ex){
         print($ex->getMessage());
     }
+    
     }
     
+    
+    /**
+     * Updates the trip manifest to indicate that a driver has already responded to this request
+     * @param string $entity Entity to or from airport
+     * @param integer $passenger_id The passenger's id
+     * @param integer $trip_id The id of the trip
+     * @param string $val The status of the booking(optional)
+     */
+    protected function updateTripManifest($entity, $passenger_id, $trip_id, $val = null){
+        
+        $q = $this->em->createQuery("UPDATE $entity u SET u.response_status='true',
+                                     u.book_status = '$val'
+                                    where u.passenger = :passenger_id and
+                                   u.trip = :trip_id")
+                      ->setParameters(array(
+                         'trip_id' => $trip_id,
+                         'passenger_id' => $passenger_id
+                     ));
+        
+        $q->execute();
+  
+    }
     /**
      * Adds a booking request to the booking manifest of the trip 
      * This allows us know if a passenger has booked this seat in the past
@@ -600,6 +692,42 @@ class Rides_Model_RidesService extends Application_Model_Service
         $this->em->flush();
     }
     
+    
+    /**
+     *
+     * @param string $entity
+     * @param string $where
+     * @param integer $passenger_id
+     * @param integer $trip_id
+     * @return boolean True/or false if the driver has responded to this request 
+     */
+    protected function hasDriverResponded($where, $passenger_id, $trip_id){
+     
+     $entity = null;
+     if ($where == "toAirport"){
+      $entity ="\Rideorama\Entity\Ridestoairportbookmanifest";
+     }else if($where == "fromAirport"){
+      $entity = "\Rideorama\Entity\Ridesfromairportbookmanifest";
+     }
+  
+     $q = $this->em->createQuery("select u.response_status from $entity u where 
+                                   u.passenger = :passenger_id and
+                                   u.trip = :trip_id")
+                     ->setParameters(array(
+                         'passenger_id' => $passenger_id,
+                         'trip_id' => $trip_id
+                     ));
+      
+      $result = $q->getResult();
+      $output = $result[0]['response_status'];
+      
+      if ($output == null){
+          return false;
+      }else{
+          return true;
+      }
+      
+    } 
    
     protected function sendBuyNotificationForApproval($data){
         
@@ -634,6 +762,53 @@ class Rides_Model_RidesService extends Application_Model_Service
             throw new Exception("You must indicate whether this trip is to or from an airport");
         }
     }
+   
+    /**
+     * Ch
+     * @param string $id trip id
+     * @param string $whereTo 
+     * @return boolean true or false to determine if the driver has responded
+     */
+    protected function checkDriverResponseStatus($id, $passenger_id, $whereTo){
+        
+       $value = null;  
+        if ($whereTo == "toAirport"){
+         
+        $value = $this->responseStatus('\Rideorama\Entity\Ridestoairportbookmanifest', $id, $passenger_id);
+            
+        }else if ($whereTo == "fromAirport"){
+         
+        $value = $this->responseStatus('\Rideorama\Entity\Ridestoairportbookmanifest', $id, $passenger_id);
+        }else{
+            throw new Exception("$whereTo is an invalid expression");
+        }
+        
+        if ($value == null)
+            return false;
+        else
+            return false;
+    }
+    
+    /**
+     * Gets the response status from the bookmanifest record
+     * @param type $entity
+     * @param type $id
+     * @param type $passenger_id
+     * @return type 
+     */
+     protected function responseStatus($entity, $id, $passenger_id){
+       $q = $this->em->createQuery("select u.response_status from $entity u where 
+                                   u.passenger = :passenger_id AND 
+                                   u.trip = :id")
+                     ->setParameters(array(
+                         'trip' => $id,
+                         'passenger' => $passenger_id
+                     ));
+      
+      $result = $q->getResult();
+      return $result;
+        
+     }
     
     /**
      * Checks the number of seats on the ride
@@ -772,5 +947,65 @@ class Rides_Model_RidesService extends Application_Model_Service
                        ->setParameter('id', $id);
         return $q->execute();
     }
+    
+    /**
+     *
+     * Updates a ride that has been posted 
+     * @param string $entity
+     * @param string $variable_address
+     * @param array $trip_data 
+     */
+    protected function updateRide($entity, $variable_address, array $trip_data){
+     
+     $num_seats = $trip_data['num_seats'];
+     $address = null;
+     if ($trip_data['where'] == "toAirport"){
+     $address = $this->OnlyAlnumFilter->filter($trip_data['departure']);
+     }else if ($trip_data['where'] == "fromAirport"){
+      $address = $this->OnlyAlnumFilter->filter($trip_data['destination']);   
+     }
+     $num_luggages = $trip_data['luggage'];
+     $luggage_size = $trip_data['luggage_size'];
+     $departure_date = $trip_data['trip_date'];
+     $departure_time = $trip_data['trip_time'];
+     $cost = $trip_data['trip_cost'];
+     $id = $trip_data['trip_id'];
+     $airport_name =  ($trip_data['where'] == "toAirport") ? $trip_data['destination'] : $trip_data['departure'];
+
+     
+      $distanceAndDuration = $this->getTripDistance($address, $airport_name);
+      $distance = $distanceAndDuration['distance'];
+      $duration = $distanceAndDuration['duration'];
+      $arrival_time = $this->getArrivalTime($trip_data['trip_date'], $trip_data['trip_time'],$distanceAndDuration['durValue']);
+      
+      $address_details = $this->calcLongLat($address);
+      $city = $address_details['city'];
+      $state = $address_details['state'];
+      $lattitude = $address_details['lattitude'];
+      $longitude = $address_details['longitude'];
+        
+//     $variable_address =  ($trip_data['where'] == "toAirport") ? 'pick_up_address' : 'drop_off_address';
+     // echo $airport_name;
+     $airport_id = $this->airport->getAirportByName($airport_name)->id;
+      $query = $this->em->createQuery("UPDATE  $entity u SET u.number_of_seats = '$num_seats', 
+                              u.airport = $airport_id, $variable_address = '$address', u.trip_msg = :trip_msg,
+                              u.num_luggages = '$num_luggages', u.luggage_size = '$luggage_size',
+                              u.city = '$city', u.state = '$state', u.lattitude = '$lattitude', u.longitude = '$longitude',
+                              u.departure_date = :departure_date, u.departure_time = :departure_time,
+                              u.arrival_time = :arrival_time, u.duration = '$duration', u.distance = '$distance',
+                              u.cost = '$cost'where u.id = :id")
+                              ->setParameters(array(
+                                  'departure_date' => $departure_date,
+                                  'departure_time' => $departure_time,
+                                  'arrival_time' => $arrival_time,
+                                  'trip_msg' => $trip_data['trip_msg'],
+                                  'id' => $id
+                              ));
+      
+      $query->execute();
+        
+      }  
+    
+
 }
 

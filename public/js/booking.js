@@ -13,11 +13,12 @@ $("#bookseat").click(function(){
     var data = $("#bookseat").attr("data");
     var book_data = jQuery.parseJSON(data);
     //alert(book_data.hostname);
+    console.log(book_data);
     var url =  book_data.hostname + "/rides/index/book?where=" + book_data.where + "&trip_id=" + book_data.trip_id
-              + "&publisher_id=" + book_data.publisher_id + "&driverEmail=" + book_data.driverEmail +
-              "&passengerEmail=" + book_data.passengerEmail + "&paypalEmail=" + book_data.paypalEmail +
+              + "&publisher_id=" + book_data.publisher_id + "&driverEmail=" + book_data.driverEmail 
+              + "&passengerEmail=" + book_data.passengerEmail + "&paypalEmail=" + book_data.paypalEmail +
               "&driverName=" + book_data.driverName + "&tripcost=" + book_data.tripcost +
-              "&module=" + book_data.module;
+              "&module=" + book_data.module + "&trip_date=" + book_data.trip_date;
     
     $("#bookseat").html("Booking..");
     //alert(url);
@@ -36,7 +37,7 @@ $("#bookseat").click(function(){
 $("#offerride").click(function(){
     var data = $("#offerride").attr("data");
     var book_data = jQuery.parseJSON(data);
-  //  alert(book_data);
+    console.log(book_data);
     var url = book_data.hostname + "/requests/index/offer?where=" + book_data.where + "&trip_id=" + book_data.trip_id
             + "&publisher_id=" + book_data.publisher_id + "&driverEmail=" + book_data.driverEmail 
             + "&passengerEmail=" + book_data.passengerEmail + "&offering=" + book_data.offering
