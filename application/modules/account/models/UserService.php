@@ -256,6 +256,29 @@ class Account_Model_UserService extends Application_Model_Service
      }
      
      /**
+      * Gets rides/requests from the database that the user published
+      * @param type $user_id
+      * @param type $entity
+      * @return array 
+      */
+     public function getRides($user_id, $entity){
+      
+      $q = $this->em->createQuery("select u.id, a.iata, u.city, u.cost, u.departure_date
+                                   from '$entity' u JOIN u.airport a
+                                    where u.publisher = $user_id");
+      $result = $q->execute();
+      
+      return $result;
+     }
+     
+     
+     public function getPassengerBookedRides($user_id, $entity, $manifest_entity){
+         
+      $q = $this->em->createQuery("select t.id from '$manifest_entity' t where t.passenger = $user_id");
+      $result = $q->execute();
+      return $result;
+     }
+     /**
       * Gets the total number of registered users
       * @return int 
       */

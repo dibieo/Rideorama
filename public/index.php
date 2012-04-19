@@ -18,6 +18,23 @@ set_include_path(implode(PATH_SEPARATOR, array(
 require_once 'Zend/Application.php';
 
 // Create application, bootstrap, and run
+
+
+//$config = apc_fetch('my_config');
+//    if (!is_array($config)) {
+//require_once 'Zend/Config/Ini.php';
+//$section = APPLICATION_ENV;
+//$filename = APPLICATION_PATH . '/configs/application.ini';
+//$config = new Zend_Config_Ini($filename, $section);
+//$config = $config->toArray();
+//apc_store('my_config', $config, 600);
+//}
+//// Create application, bootstrap, and run
+//$application = new Zend_Application(
+//APPLICATION_ENV,
+//$config
+//);
+
 $application = new Zend_Application(
     APPLICATION_ENV,
     APPLICATION_PATH . '/configs/application.ini'

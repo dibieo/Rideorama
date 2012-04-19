@@ -1,4 +1,5 @@
-  <!--body container starts-->
+<?php $this->headTitle($this->user->first_name . " " . $this->user->last_name); ?>  
+<!--body container starts-->
   <section id="body_container"> 
   <script src="<?php echo $this->baseUrl();?>/js/tabs.js"></script>
       <!-- my account starts -->
@@ -32,11 +33,11 @@
           <div class="car_section tabing" style="display:none;">
           <?php if ($this->user->car): ?>
           <div class="pic_area">
-           <img class="large" width="264px" height="263px" src="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->car_profile_pic; ?>" alt="">
+           <img class="large" width="264px" height="263px" src="<?php echo $this->showcar($this->user->car->car_profile_pic); ?>" alt="">
             <ul class="thumb">
-              <li><a href="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->car_profile_pic; ?>"></a></li>
-              <li><a href="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->picture1; ?>"></a></li>
-              <li><a href="<?php echo $this->baseUrl() . "/img/cars/" . $this->user->car->picture2; ?>"></a></li>
+              <li><a href="<?php echo $this->showcar($this->user->car->car_profile_pic); ?>"></a></li>
+              <li><a href="<?php echo $this->showcar($this->user->car->picture1); ?>"></a></li>
+              <li><a href="<?php echo $this->showcar($this->user->car->picture2); ?>"></a></li>
             </ul>
           </div>
           <div class="text_area">

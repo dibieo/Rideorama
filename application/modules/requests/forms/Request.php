@@ -49,6 +49,7 @@ class Requests_Form_Request extends Application_Form_Base
         $trip_cost->setLabel('Willing to offer')
                   ->setAttrib('placeholder', 'Enter how much you are willing to pay for this ride')
                   ->addValidators(array('NotEmpty', $range))
+                  ->setValue(15)
                   ->setRequired(true);
         
         $luggage = new Zend_Form_Element_Select('luggage');

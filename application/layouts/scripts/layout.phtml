@@ -26,12 +26,15 @@
        echo $this->jQuery()
                     ->setVersion('1.6.2')
                      ->setUIVersion('1.8.14');
-        echo $this->headTitle("Rideorama");
+       $this->headTitle()->setSeparator(' | ');
+       echo $this->headTitle("Rideorama");
+       echo $this->headTitle();
         echo $this->headLink()->appendStylesheet($this->baseUrl(). '/css/smoothness/jquery-ui.css');
        echo $this->headLink()->prependStylesheet($this->baseUrl() . '/css/style.css');
    ?>
    
-    </script>
+<meta name="description=" content="Rideorama is a ridesharing marketplace focused on airports.
+ We match drivers and passengers who are going to and from airports">
 
       </head>
       <body>
@@ -88,8 +91,9 @@
      
 
  </body>
- <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/homepage.js"></script>
  <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/jquery.slideto.js"></script>
+ <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/homepage.js"></script>
+
  <script>
      $(document).ready(function(){
     $(this).scrollTop(0);

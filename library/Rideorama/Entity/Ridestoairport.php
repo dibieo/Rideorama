@@ -119,6 +119,13 @@ class Ridestoairport extends \Rideorama\Entity\ridesEntity {
      */
     protected $cost = 0;
     
+   /**
+     * This is the emissions per trip
+     * @var integer
+     * @Column(name="emissions", type="integer",nullable=true)
+     */
+    protected $emissions = 0;
+    
     /**
      * Departure location
      * @var string

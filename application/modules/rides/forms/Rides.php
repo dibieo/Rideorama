@@ -89,7 +89,7 @@ class Rides_Form_Rides extends Application_Form_Base
         
         $trip_msg = new Zend_Form_Element_Textarea('trip_msg');
         $trip_msg->setLabel('Trip message')
-                  ->setValue("Please enter any additional information you would like passengers to know")
+                  ->setAttrib('placeholder', "Please enter any additional information you would like passengers to know")
                   ->setAttrib('cols', '25')
                   ->setAttrib('class', 'textarea')
                    ->setAttrib('rows', '7');

@@ -62,7 +62,7 @@ class Rating extends \Rideorama\Entity\rideoramaEntity
     /**
      * @Column(type="datetime",nullable=false)
      * @var datetime
-     * This stores the user's email
+     * This stores the date the comment was made
      */
     protected $date;
 

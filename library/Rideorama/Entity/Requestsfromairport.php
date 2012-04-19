@@ -130,6 +130,14 @@ class Requestsfromairport extends \Rideorama\Entity\ridesEntity {
      */
     protected $duration;
     
+    
+   /**
+     * This is the cost per trip
+     * @var integer
+     * @Column(name="emissions", type="integer",nullable=true)
+     */
+    protected $emissions = 0;
+    
     /**
      *
      * @param \Doctrine\Common\Collections\Collection $property

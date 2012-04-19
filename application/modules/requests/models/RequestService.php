@@ -375,7 +375,7 @@ class Requests_Model_RequestService extends Application_Model_Service
     private function getTripDetails($id, $targetEntity, $variableAddress){
         
       $q = $this->em->createQuery("select u.id, $variableAddress, u.num_luggages,
-               u.request_msg, u.departure_time, u.duration, u.emissions, u.cost, u.request_open, u.luggage_size,
+               u.request_msg, u.city, u.state, u.departure_time, u.duration, u.emissions, u.cost, u.request_open, u.luggage_size,
                p.email, p.profile_pic, p.first_name, p.profession, p.age, p.id as user_id,
                p.last_name from $targetEntity u JOIN u.publisher 
                p where u.id = :id")

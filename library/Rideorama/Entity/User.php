@@ -11,6 +11,7 @@ namespace Rideorama\Entity;
  * @Table(name="user")
  * @Entity(repositoryClass="Rideorama\Entity\Repository\UserRepository")
  * @author ovo
+ * @HasLifeCycleCallbacks
  */
 class User extends \Rideorama\Entity\rideoramaEntity
 
@@ -114,6 +115,21 @@ class User extends \Rideorama\Entity\rideoramaEntity
      * This store a the user's age
      */
     protected $age;
+    
+     /**
+     * @Column(type="integer",length=60,nullable=true)
+     * @var integer
+     * This stores the number of ratings the user has received
+     */
+    protected $num_ratings = 0;
+    
+    /**
+     * @Column(type="float", nullable=true)
+     * @var decimal
+     * Stores the average user rating 
+     */
+    protected $avg_rating = 0.0;
+    
     
     /**
      * @Column(type="string",length=10,nullable=true)
@@ -244,5 +260,7 @@ class User extends \Rideorama\Entity\rideoramaEntity
      * @OneToMany(targetEntity="Requestsfromairportbookmanifest",mappedBy="user", cascade={"persist","remove"})
      */
     protected $requests_from_airportbookmanfiest;
+    
+   
     
 }

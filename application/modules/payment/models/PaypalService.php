@@ -66,7 +66,7 @@ class Payment_Model_PaypalService
 				echo "an error occured";
 			}	
 
-                        echo "got here";
+       return $response;
     }
     
     private function createPayRequest(array $payDetails) {

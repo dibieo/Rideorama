@@ -1,25 +1,24 @@
  <!--body container starts-->
  <?php $data = $this->data; 
   $name_abbv = $data['first_name'] . " ". $data['last_name'][0];
-  //print_r($data);
   
-   $buy_now = array(
+    $buy_now = array(
                
-             'request_id' => $data['id'],
+             'trip_id' => $data['id'],
              'user_id' => $data['user_id'],
              'module' => 'rides',
              'controller' => 'index',
              'tripcost' => $data['cost'],
-             'request_open' => $data['request_open'],
+             'paypalEmail' => $data['paypal_email'],
              'action' => 'details',
              'airport' => $this->airport,
+             'num_seats' => $data['number_of_seats'],
              'where' => $this->where,
-             'passengerEmail' => $data['email'],
-             'passengerName' => $data['first_name'] . " " . $data['last_name'],
-             'publisher_id' => $data['user_id'],
-             "date" => urlencode($this->trip_date),
-             'driverName' => Zend_Auth::getInstance()->getIdentity()->first_name . " " . Zend_Auth::getInstance()->getIdentity()->last_name,
-             'driverEmail' => Zend_Auth::getInstance()->getIdentity()->email                 
+             'driverEmail' => $data['email'],
+             'user_id' => $data['user_id'],
+             "trip_date" => urlencode($this->trip_date),
+             'driverName' => $data['first_name'] .  " " . $data['last_name']
+                 
               );
  ?>
   <section id="body_container"> 
@@ -42,8 +41,8 @@
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
             <div class="common_text">
               <h3><?php echo $this->escape($name_abbv); ?></h3>
-              <p><span>City: </span><?php echo $this->escape($data['city']); ?></p>
-              <p><span>State: </span><?php echo $this->escape($data['state']); ?></p>
+              <p><span>City: </span>Boulder</p>
+              <p><span>State: </span>Colorado</p>
               <p><span>Profession: </span><?php echo $this->escape($data['profession']); ?></p>
               <p><span>Age: </span><?php echo $this->escape($data['age']); ?></p>
             </div>
@@ -57,7 +56,32 @@
         </div>
         <!-- tab 1 ends --> 
         
-    
+        <!-- tab 2 -->
+        <div class="tab_content2 tabing" style="display:none;">
+          <div class="common_box">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
+            <div class="common_text">
+            <img class="large" width="264px" height ="263px" src="<?php echo $this->showcar($data['car_profile_pic']); ?>" alt="">
+              <ul class="car">
+                <li><a href="<?php echo $this->showcar($data['car_profile_pic']); ?>"></a></li>
+                <li><a href="<?php echo $this->showcar($data['picture1']); ?>"></a></li>
+                <li><a href="<?php echo $this->showcar($data['picture2']); ?>"></a></li>
+              </ul>
+            </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
+          </div>
+          <div class="common_box">
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
+            <div class="common_text">
+              <h3>CAR</h3>
+              <p><span>Make: </span><?php echo $this->escape($data['make']); ?></p>
+              <p><span>Model: </span><?php echo $this->escape($data['model']); ?></p>
+              <p><span>Year: </span><?php echo $this->escape($data['year']); ?></p>
+              <p><span>Seats: </span><?php echo $this->escape($data['number_of_seats']); ?></p>
+            </div>
+            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
+          </div>
+        </div>
         <!-- tab 2 ends --> 
         <!-- tab 3 -->
         <div class="tab_content3 tabing" style="display:block;">
@@ -65,15 +89,15 @@
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
             <div class="common_text">
               <h3>TRIP INFO</h3>
-              <p><span>City: </span><?php echo $this->escape($data['city']); ?></p>
-              <p><span>Needs ride from: </span><em>
+              <p><span>City: </span><em>Boulder</em></p>
+              <p><span>Depart from: </span><em>
                  <?php if ($this->where == "toAirport"): ?>
                     <?php echo $this->escape($data['pick_up_address']); ?>
                    <?php elseif ($this->where == "fromAirport"): ?>
                     <?php echo $this->escape($this->airport); ?>
                     <?php endif; ?>   
                       </em></p>
-              <p><span>Going to: </span>
+              <p><span>Destination: </span>
                    <?php if ($this->where == "toAirport"): ?>
                     <em><?php echo $this->escape($this->airport); ?></em>
                    <?php elseif ($this->where == "fromAirport"): ?>
@@ -82,25 +106,26 @@
                   </p>
                    
               <p><span>Date: </span><em><?php echo $this->escape(urldecode($this->trip_date)); ?></em></p>
-              <p><span>Departure Time: </span><em><?php  print( date("g:i a", strtotime($this->escape($data['departure_time'])) )); ?></em></p>
-              <p><span>Trip Duration: </span><em><?php echo $this->escape($data['duration']); ?></em></p>
-              <p><span>Request message: </span><em><?php echo $this->escape($data['request_msg']); ?></em></p>
-            </div>
+              <p><span>Departure Time: </span><em><?php print( date("g:i a", strtotime( $this->escape($data['departure_time'])))); ?></em></p>
+              <p><span>Est Arrival Time: </span><em><?php print( date("g:i a", strtotime($this->escape($data['arrival_time'])))); ?></em></p>
+              <p><span>Trip message: </span><em><?php echo $this->escape($data['trip_msg']); ?></em></p>
+             </div>
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
           </div>
           <div class="common_box">
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
             <div class="common_text">
               <h3>&nbsp;</h3>
-              <p><span>Offering: </span><em>$<?php echo $this->escape($data['cost']); ?></em></p>
-              <p><span>Luggage: </span><em>I have<br>
-                <?php echo $this->escape($data['num_luggages']); ?> bag(s)</em></p>
-              <p><span>Giving this person a trip saves: </span><em><?php echo $this->escape($data['emissions']); ?> kg of CO2</em></p>
+              <p><span>Seats available: </span><em><div id="seat_num"><?php echo $this->escape($data['number_of_seats']); ?></div></em></p>
+              <p><span>Cost per seat: </span><em>$<?php echo $this->escape($data['cost']); ?></em></p>
+              <p><span>Luggage: </span><em>Yes<br>
+                <?php echo $this->escape($data['num_luggages']); ?>per person</em></p>
+		<p><em><?php echo $this->escape($data['emissions']); ?> kg of CO2</em></p>
             </div>
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
           </div>
           <div class="common_box none">
-            <div class="common_text none"><?php echo $this->processrequestbooking($buy_now); ?> </div>
+            <div class="common_text none"><?php echo $this->processuserbooking($buy_now); ?></div>
           </div>
         </div>
         <!-- tab 3 ends --> 
@@ -168,7 +193,8 @@
       <div class="bottom_tab_area"> 
         <ul class="tab">
           <li class="first"><a href=".tab_content1"><?php echo $name_abbv; ?></a></li>
-          <li class="active"><a href=".tab_content3">Request Info</a></li>
+          <li><a href=".tab_content2">Car</a></li>
+          <li class="active"><a href=".tab_content3">Trip Info</a></li>
           <li><a href=".tab_content4">Review</a></li>
           <li><a href=".tab_content5 ">Contact</a></li>
         </ul>

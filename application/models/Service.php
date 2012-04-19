@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Application_Model_Service
+ * This class contains general methods used shared by models within the app
+ */
+
 class Application_Model_Service
 {
     protected $doctrineContainer;
@@ -174,8 +179,20 @@ class Application_Model_Service
   
           $lat = $val->results[0]->geometry->location->lat;
           $lng = $val->results[0]->geometry->location->lng;
-          $city = $val->results[0]->address_components[3]->short_name;
-          $state =$val->results[0]->address_components[4]->long_name;
+          $city = null;
+          $state = null;
+          
+          foreach($val->results[0]->address_components as $city_array){
+              $data = $city_array->types;
+              if ($data[0] == "locality"){
+                  $city = $city_array->long_name;
+              }
+              if ($data[0] == "administrative_area_level_1"){
+                  $state = $city_array->long_name;
+              }
+          }
+//          $city = $val->results[0]->address_components[3]->short_name;
+//          $state =$val->results[0]->address_components[4]->long_name;
 
         $data = array(
             'lattitude' => $lat,
@@ -243,6 +260,8 @@ class Application_Model_Service
         $all_results = array();
         $all_results["toAirport"] = $this->getTenAirportRides('\Rideorama\Entity\Ridestoairport');
         $all_results["fromAirport"] = $this->getTenAirportRides('\Rideorama\Entity\Ridesfromairport');
+        $all_results["requeststoAirport"] =  $this->getTenAirportRequests('\Rideorama\Entity\Requeststoairport');
+        $all_results["requestsfromAirport"] = $this->getTenAirportRequests('\Rideorama\Entity\Requestsfromairport');
         return $all_results;
     }
     
@@ -263,7 +282,31 @@ class Application_Model_Service
                                       u.number_of_seats, u.cost, u.city, u.departure_time from
                                      '$entity' u JOIN u.publisher p
                                       JOIN u.airport a
-                                      where u.departure_date > '$curr_date'")
+                                      where u.departure_date >= '$curr_date'
+                                      order by u.departure_date")
+                                    ->setMaxResults(10);
+       
+        $result = $q->getResult();
+        return $result;
+    }
+    
+   /**
+     * Gets requests
+     * @param type toAirport or FromAirport request Entity
+     * @return Array 
+     */
+    private function getTenAirportRequests($entity){
+        
+       $curr_date = date("Y-m-d");
+        //print $curr_date;
+        
+        $q = $this->em->createQuery("select u.id, p.profile_pic, p.first_name, 
+                                      u.departure_date,  a.iata as airport_abbv,
+                                      a.name as airport_name,u.cost, u.city, u.departure_time from
+                                     '$entity' u JOIN u.publisher p
+                                      JOIN u.airport a
+                                      where u.departure_date >= '$curr_date'
+                                      ORDER BY u.departure_date")
                                     ->setMaxResults(10);
        
         $result = $q->getResult();

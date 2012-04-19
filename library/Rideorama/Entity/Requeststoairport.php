@@ -119,6 +119,12 @@ class Requeststoairport extends \Rideorama\Entity\ridesEntity {
      */
     protected $pick_up_address;
     
+   /**
+     * This is the cost per trip
+     * @var integer
+     * @Column(name="emissions", type="integer",nullable=true)
+     */
+    protected $emissions = 0;
     
     /**
       @Column(type="string", nullable=true)

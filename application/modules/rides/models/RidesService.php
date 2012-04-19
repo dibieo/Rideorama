@@ -120,7 +120,7 @@ class Rides_Model_RidesService extends Application_Model_Service
     private function getTripDetails($id, $targetEntity, $variableAddress){
         
           $q = $this->em->createQuery("select u.id, $variableAddress, u.number_of_seats, u.num_luggages,
-               u.trip_msg, u.departure_time, u.emissions, u.arrival_time, u.cost,  u.luggage_size,
+               u.trip_msg, u.city, u.state, u.departure_time, u.emissions, u.arrival_time, u.cost,  u.luggage_size,
                p.email, p.profile_pic, p.first_name, p.profession, p.age, p.id as user_id, p.email,
                p.last_name, p.paypal_email, c.make, c.model, c.year, c.car_profile_pic, c.picture1,c.picture2 
                from Rideorama\Entity\Car c, $targetEntity u JOIN u.publisher 

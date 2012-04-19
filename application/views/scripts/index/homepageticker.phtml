@@ -15,7 +15,7 @@ $month = $date_array[0];
 $day = $date_array[1];
 $trip_id = $toRides['id'];
 $airport_name = $toRides['airport_name'];
-$url = "rides/index/details/trip_date/$departure_date/where/toAirport/trip_id/$trip_id/airport/$airport_name";
+$url = "rides/index/details/where/toAirport/trip_date/$departure_date/trip_id/$trip_id/airport/$airport_name";
 ?>
         <a target="_blank"href="<?php echo $url; ?>">
            <li>
@@ -39,7 +39,7 @@ $month = $date_array[0];
 $day = $date_array[1];
 $trip_id = $fromRides['id'];
 $airport_name = $fromRides['airport_name'];
-$url = "rides/index/details/trip_date/$departure_date/where/fromAirport/trip_id/$trip_id/airport/$airport_name";
+$url = "rides/index/details/where/fromAirport/trip_date/$departure_date/trip_id/$trip_id/airport/$airport_name";
 ?>
            <a target="_blank" href="<?php echo $url; ?>">
            <li>
@@ -51,5 +51,53 @@ $url = "rides/index/details/trip_date/$departure_date/where/fromAirport/trip_id/
            </li>
            </a>
            <?php endforeach; ?>
+    
+    
+<?php foreach ($this->homepageTickers["requestsfromAirport"] as $requestsfromRides): ?>
+ <?php 
+ $departure_date = $requestsfromRides['departure_date'];
+ $date = new DateTime($requestsfromRides['departure_date']);
+$date = date_format($date, 'M-d-y');
+$date_array = explode("-", $date);
+$month = $date_array[0];
+$day = $date_array[1];
+$trip_id = $requestsfromRides['id'];
+$airport_name = $requestsfromRides['airport_name'];
+$url = "requests/index/details/where/fromAirport/trip_date/$departure_date/trip_id/$trip_id/airport/$airport_name";
+?>
+           <a target="_blank" href="<?php echo $url; ?>">
+           <li>
+           <div class="row"> <span class="date"><?php echo $day; ?><br>
+              <?php echo $month; ?></span> <span class="photo"><img height="43px" width="43px" src="<?php echo $this->showpic($requestsfromRides['profile_pic']); ?>" alt="" />
+              </span> <span class="text"> <strong><?php echo $requestsfromRides['airport_abbv']; ?><img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /><?php echo $requestsfromRides['city']; ?></strong> 
+               <small>Needs a ride at <?php print( date("g:i a", strtotime($requestsfromRides['departure_time'])) ); ?></small> </span> <span class="price">$<?php echo $requestsfromRides['cost']; ?></span> 
+           </div>
+           </li>
+           </a>
+ <?php endforeach; ?>
+    
+<?php foreach ($this->homepageTickers["requeststoAirport"] as $requeststoRides): ?>
+ <?php 
+$departure_date = $requeststoRides['departure_date'];
+$date = new DateTime($requeststoRides['departure_date']);
+$date = date_format($date, 'M-d-y');
+$date_array = explode("-", $date);
+$month = $date_array[0];
+$day = $date_array[1];
+$trip_id = $requeststoRides['id'];
+$airport_name = $requeststoRides['airport_name'];
+$url = "requests/index/details/where/toAirport/trip_date/$departure_date/trip_id/$trip_id/airport/$airport_name";
+?>
+           <a target="_blank" href="<?php echo $url; ?>">
+           <li>
+           <div class="row"> <span class="date"><?php echo $day; ?><br>
+              <?php echo $month; ?></span> <span class="photo"><img height="43px" width="43px" src="<?php echo $this->showpic($requeststoRides['profile_pic']); ?>" alt="" />
+              </span> <span class="text"> <strong><?php echo $requeststoRides['city']; ?><img src="<?php echo $this->baseUrl();?>/img/latest_rides__arrow1.gif" alt="" /><?php echo $requeststoRides['airport_abbv']; ?></strong> 
+               <small>Needs a ride at <?php print( date("g:i a", strtotime($requeststoRides['departure_time'])) ); ?></small> </span> <span class="price">$<?php echo $requeststoRides['cost']; ?></span> 
+           </div>
+           </li>
+           </a>
+ <?php endforeach; ?>
+  
 </ul>
  </div>

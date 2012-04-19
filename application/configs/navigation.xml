@@ -26,13 +26,13 @@
 <resource>account:user</resource>
 <privilege>login</privilege>
 </signin>
-<signup>
+<!--<signup>
 <label>Sign up </label>
 <module>account</module>
 <controller>user</controller>
 <action>register</action>
 <resource>account:user</resource>
 <privilege>register</privilege>
-</signup>
+</signup>-->
 </nav>
 </config>

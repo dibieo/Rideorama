@@ -36,7 +36,8 @@ class Payment_IndexController extends Zend_Controller_Action
             "driverPhone" => $driverPhone,
             "passengerPhone" => $passengerPhone,
             "passengerName" => $this->_getParam("passengerName"),
-            "passengerEmail" => $this->_getParam("passengerEmail")
+            "passengerEmail" => $this->_getParam("passengerEmail"),
+            "payKey" =>$this->_getParam('paykey')
         ));
         
         
@@ -54,7 +55,10 @@ class Payment_IndexController extends Zend_Controller_Action
         );
         
         $pay = new Payment_Model_PaypalService();
-        $pay->pay($payDetails);
+        $response = $pay->pay($payDetails);
+        echo "I got here";
+        print_r($response);
+        Zend_Registry::set('response', $response);
     }
     
     
@@ -66,6 +70,8 @@ class Payment_IndexController extends Zend_Controller_Action
      */
     public function successAction()
     {
+   //  $rp = Zend_Registry::get('response');
+    // print_r($rp);
      $email = new Application_Model_EmailService();
      $email->paymentSuccessEmailToPassenger($this->_getAllParams());
 
@@ -75,6 +81,7 @@ class Payment_IndexController extends Zend_Controller_Action
         // action body
      $params = $this->_getAllParams();
      $service = new Application_Model_Service();
+     print_r($this->_getAllParams());
      $service->addTripNotification($this->_getAllParams());
     }
 

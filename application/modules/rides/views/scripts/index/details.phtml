@@ -1,4 +1,5 @@
- <!--body container starts-->
+<?php $this->headTitle("Trip Details"); ?>  
+<!--body container starts-->
  <?php $data = $this->data; 
   $name_abbv = $data['first_name'] . " ". $data['last_name'][0];
   
@@ -41,8 +42,8 @@
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
             <div class="common_text">
               <h3><?php echo $this->escape($name_abbv); ?></h3>
-              <p><span>City: </span>Boulder</p>
-              <p><span>State: </span>Colorado</p>
+              <p><span>City: </span><?php echo $this->escape($data['city']); ?></p>
+              <p><span>State: </span><?php echo $this->escape($data['state']); ?></p>
               <p><span>Profession: </span><?php echo $this->escape($data['profession']); ?></p>
               <p><span>Age: </span><?php echo $this->escape($data['age']); ?></p>
             </div>
@@ -89,7 +90,7 @@
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_top.gif" alt=""></div>
             <div class="common_text">
               <h3>TRIP INFO</h3>
-              <p><span>City: </span><em>Boulder</em></p>
+              <p><span>City: </span><?php echo $this->escape($data['city']); ?></p>
               <p><span>Depart from: </span><em>
                  <?php if ($this->where == "toAirport"): ?>
                     <?php echo $this->escape($data['pick_up_address']); ?>
@@ -120,7 +121,7 @@
               <p><span>Cost per seat: </span><em>$<?php echo $this->escape($data['cost']); ?></em></p>
               <p><span>Luggage: </span><em>Yes<br>
                 <?php echo $this->escape($data['num_luggages']); ?>per person</em></p>
-              <p><span>Emissions saved: </span><em>49 kg of CO2</em></p>
+              <p><span>Emissions saved: </span><em><?php echo $this->escape($data['emissions']); ?> kg of CO2</em></p>
             </div>
             <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_btm.gif" alt=""></div>
           </div>

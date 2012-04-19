@@ -185,7 +185,7 @@ class Rides_IndexController extends Zend_Controller_Action
         ));
         
         $fb = new Application_Model_FacebookService();
-        $dest = $formData['destination'];
+        $dest = $formData['dstination'];
         $dept = $formData['departure'];
         
         $tripLocationMsg = ($where == "toAirport") ? "to $dest" : "from $dept"; // Msg for FB status update. to Airport name or from Airport name

@@ -1,5 +1,5 @@
 // JavaScript Document
-$(function() {
+$(document).ready(function() {
  $(".tab ul li").click(function () {
     var curRel= $('a' , $(this)).attr('href');
 	$(".tab ul li").removeClass('active');

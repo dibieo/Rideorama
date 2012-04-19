@@ -98,7 +98,7 @@ class Requests_IndexController extends Zend_Controller_Action
                                    ->setJQueryParams(array('source' =>$this->form->getAirports()))
                                   ->setValue($to)
                                   ->setAttrib('readOnly', true);
-          $this->form->trip_cost->setValue(10);
+          
           $this->form->trip_msg->setAttrib('placeholder', 'Enter additional information regarding this request such as what terminal you would like to be dropped off at');
           $this->form->return->setValue($return_trip);
           $this->view->form = $this->form;
@@ -123,8 +123,7 @@ class Requests_IndexController extends Zend_Controller_Action
                                  ->setValue($from)
                                  ->setAttrib('readOnly', true);
           $this->form->destination->setAttrib('placeholder', 'Enter the address you would like to be picked up from')
-                            ->setValue($to);
-          $this->form->trip_cost->setValue(10);
+                                   ->setValue($to);
           $this->form->trip_msg->setAttrib('placeholder', 'Enter additional information regarding this request such as what terminal you would like to be picked up from');
           $this->form->return->setValue($return_trip);
           $this->view->form = $this->form; 
