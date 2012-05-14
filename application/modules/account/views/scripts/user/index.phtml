@@ -9,7 +9,10 @@
         <ul>
           <li class="first active"><a href=".profile_section">Profile</a></li>
           <li><a href=".car_section">Car</a></li>
-          <li><a href=".rides_section">Rides</a></li>
+          <?php $data = array("hostname" => $this->baseUrl()); 
+          $host = Zend_Json::encode($data);
+          ?>
+          <li><a id="myrides" data=<?php echo $host; ?> href=".rides_section">Rides</a></li>
           <li><a href=".review_section">Reviews</a></li>
         </ul>
       </section>
@@ -84,70 +87,9 @@
         <!-- car ends --> 
         <!-- rides -->
         <div class="rides_section tabing" style="display:none">
-          <table border="0" cellspacing="0" cellpadding="5">
-            <thead>
-              <tr>
-                <td class="width">DATE</td>
-                <td class="width">FROM</td>
-                <td class="width">TO</td>
-                <td class="width">STATUS</td>
-                <td class="width">COST</td>
-                <td class="width">WHO WITH</td>
-                <td class="width">XXXXX </td>
-                <td class="width">XXXXX </td>
-                <td class="width">XXXXX </td>
-              </tr>
-            </thead>
-            <div id="ride_records">
-            <tbody>
-              <tr>
-                <td>Jan 15, 2012 </td>
-                <td>Airport </td>
-                <td>Boulder</td>
-                <td>Driver</td>
-                <td>$15</td>
-                <td>Carl T. <br>
-                  Tom Z.</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-              <tr>
-                <td>Jan 15, 2012</td>
-                <td>Airport </td>
-                <td>Boulder</td>
-                <td>Passenger</td>
-                <td>$15</td>
-                <td>Carl T.</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-              <tr>
-                <td>Jan 15, 2012</td>
-                <td>Airport </td>
-                <td>Boulder</td>
-                <td>Driver</td>
-                <td>$15</td>
-                <td>Carl T.</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-              <tr>
-                <td>Jan 15, 2012</td>
-                <td>Airport </td>
-                <td>Boulder</td>
-                <td>Driver</td>
-                <td>$15</td>
-                <td>Carl T.</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-              </tr>
-            </tbody>
-            </div>
-          </table>
+         
+        Loading...
+            
         </div>
         <!-- rides ends --> 
         <!-- rides -->
@@ -185,3 +127,4 @@
     <!-- my account ends --> 
   </section>
   <!--body container ends--> 
+<script src="<?php echo $this->baseUrl();?>/js/my_account.js"></script>

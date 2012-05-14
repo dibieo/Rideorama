@@ -1,0 +1,156 @@
+<div class="rides_section tabing" style="display:true">
+          <table border="0" cellspacing="0" cellpadding="5">
+            <thead>
+              <tr>
+                <td class="width">DATE</td>
+                <td class="width">FROM</td>
+                <td class="width">TO</td>
+                <td class="width">STATUS</td>
+                <td class="width">COST</td>
+                <td class="width">WHO WITH</td>
+                <td class="width">XXXXX </td>
+                <td class="width">XXXXX </td>
+                <td class="width">XXXXX </td>
+              </tr>
+            </thead>
+            <div id="ride_records">
+            <?php 
+            $fromAirport = $this->myrides[0]['ridesfromairport']; // Rides given as driver from airport
+            $toAirport = $this->myrides[1]['ridestoairport']; // Rides given as driver to airprot
+            $requestFromAirport = $this->myrides[2]['requestsfromairport']; //Requests made as a passenger from the airport
+            $requestToAirport = $this->myrides[3]['requeststoairport']; // Requests made to the airport
+            $ridesBookedToAirport =  $this->ridesBookedToAirport; // Rides I booked a seat as a passenger to airport
+            $ridesBookedFromAirport =  $this->ridesBookedFromAirport; // Rides I booked a seat as a passenger from airport
+            $requestsToAirportResponded = $this->requestsToAirportResponded; // Requests to airport that were fulfilled as a driver
+            $requestsFromAirportResponded = $this->requestsFromAirportResponded; //Requests from airport that were fulfilled as a driver
+            ?>
+            
+             <?php foreach($fromAirport as $r): ?>
+            <tbody>
+              <tr>
+                <td><?php echo $r['departure_date']; ?> </td>
+                <td><?php echo $r['iata']; ?></td>
+                <td><?php echo $r['city']; ?></td>
+                <td>Driver</td>
+                <td>$<?php echo $r['cost']; ?></td>
+                <td><a href="#">Click to View</a></td>
+                <td><?php echo $this->showedit($r, "rides", "fromAirport"); ?></td>
+                <td><?php echo $this->showdelete($r, "rides", "fromAirport"); ?></td>
+              </tr>
+            </tbody>
+            <?php endforeach; ?>
+            
+            <?php foreach($toAirport as $r): ?>
+            <tbody>
+              <tr>
+                <td><?php echo $r['departure_date']; ?> </td>
+                <td><?php echo $r['city']; ?></td>
+                <td><?php echo $r['iata']; ?></td>
+                <td>Driver</td>
+                <td>$<?php echo $r['cost']; ?></td>
+                <td><a href="#">Click to View</a></td>
+                <td><?php echo $this->showedit($r, "rides", "toAirport"); ?></td>
+                <td><?php echo $this->showdelete($r, "rides", "toAirport"); ?></td>
+              </tr>
+            </tbody>
+            <?php endforeach; ?>
+          
+            
+            <?php foreach($requestFromAirport as $r): ?>
+            <tbody>
+              <tr>
+                <td><?php echo $r['departure_date']; ?> </td>
+                <td><?php echo $r['iata']; ?></td>
+                <td><?php echo $r['city']; ?></td>
+                <td>Passenger</td>
+                <td>$<?php echo $r['cost']; ?></td>
+                <td><a href="#">Click to View</a></td>
+                <td><?php echo $this->showedit($r, "requests", "fromAirport"); ?></td>
+                <td><?php echo $this->showdelete($r, "requests", "fromAirport"); ?></td>
+              </tr>
+            </tbody>
+            <?php endforeach; ?>
+            
+             <?php foreach($requestToAirport as $r): ?>
+            <tbody>
+              <tr>
+                <td><?php echo $r['departure_date']; ?> </td>
+                <td><?php echo $r['city']; ?></td>
+                <td><?php echo $r['iata']; ?></td>
+                <td>Passenger</td>
+                <td>$<?php echo $r['cost']; ?></td>
+                <td><a href="#">Click to View</a></td>
+                <td><?php echo $this->showedit($r, "requests", "toAirport"); ?></td>
+                <td><?php echo $this->showdelete($r, "requests", "toAirport"); ?></td>
+               </tr>
+            </tbody>
+            <?php endforeach; ?>
+            
+             <?php foreach($ridesBookedToAirport as $r): ?>
+            <tbody>
+              <tr>
+                <td><?php echo $r['departure_date']; ?> </td>
+                <td><?php echo $r['city']; ?></td>
+                <td><?php echo $r['iata']; ?></td>
+                <td>Passenger</td>
+                <td>$<?php echo $r['cost']; ?></td>
+                <td><a href="#">Click to View</a></td>
+                <td>Only the driver can edit</td>
+                <td>You can't delete a booking made</td>
+               </tr>
+            </tbody>
+            <?php endforeach; ?>
+            
+            
+                
+             <?php foreach($ridesBookedFromAirport as $r): ?>
+            <tbody>
+              <tr>
+                <td><?php echo $r['departure_date']; ?> </td>
+                <td><?php echo $r['iata']; ?></td>
+                <td><?php echo $r['city']; ?></td>
+                <td>Passenger</td>
+                <td>$<?php echo $r['cost']; ?></td>
+                <td><a href="#">Click to View</a></td>
+                <td>Only the driver can edit</td>
+                <td>You can't delete a booking made</td>
+               </tr>
+            </tbody>
+            <?php endforeach; ?>
+            
+            
+                
+             <?php foreach($requestsToAirportResponded as $r): ?>
+             <?php// print_r($r); ?>
+            <tbody>
+              <tr>
+                <td><?php echo $r['departure_date']; ?> </td>
+                <td><?php echo $r['city']; ?></td>
+                <td><?php echo $r['iata']; ?></td>
+                <td>Driver</td>
+                <td>$<?php echo $r['cost']; ?></td>
+                <td><a href="#">Click to View</a></td>
+                <td></td>
+                <td></td>
+               </tr>
+            </tbody>
+            <?php endforeach; ?>
+            
+             <?php foreach($requestsFromAirportResponded as $r): ?>
+             <?php// print_r($r); ?>
+            <tbody>
+              <tr>
+                <td><?php echo $r['departure_date']; ?> </td>
+                <td><?php echo $r['iata']; ?></td>
+                <td><?php echo $r['city']; ?></td>
+                <td>Driver</td>
+                <td>$<?php echo $r['cost']; ?></td>
+                <td><a href="#">Click to View</a></td>
+                <td></td>
+                <td></td>
+               </tr>
+            </tbody>
+            <?php endforeach; ?>
+            </div>
+          </table>
+        </div>

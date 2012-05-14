@@ -601,8 +601,7 @@ class Requests_Model_RequestService extends Application_Model_Service
     try{
            $user = new Account_Model_UserService();
            $driver_id = $user->getUserByEmail($array['driverEmail']);
-           $entity = ($array['where'] ==  "toAirport" ? "\Rideorama\Entity\Requeststoairportbookmainfest" : "\Rideorama\Entity\Requestsfromairportbookmanifest");
-           
+           $entity = ($array['where'] ==  "toAirport" ? '\Rideorama\Entity\Requeststoairportbookmainfest' : '\Rideorama\Entity\Requestsfromairportbookmanifest');
            if (!$this->hasRequestBeenRespondedTo($entity, $array['trip_id'], $driver_id)){
           //Free up the seat so others can respond to it.
             $this->setOfferStatus($array['trip_id'], $array['where'], null);
@@ -734,12 +733,24 @@ class Requests_Model_RequestService extends Application_Model_Service
         
     }
     
-    private function deleteRequestFromAirport(){
+    public function deleteRequestFromAirport($id){
         
+     $this->deleteRequest('\Rideorama\Entity\Requestsfromairport', $id);   
     }
     
-    private function deleteRequestToAirport(){
-        
+    public function deleteRequestToAirport($id){
+      
+    $this->deleteRequest('\Rideorama\Entity\Requeststoairport', $id);
+    }
+    
+    /**
+     * Deletes a request
+     * @param type $entity
+     * @param type $id 
+     */
+    private function deleteRequest($entity, $id){
+     $query = $this->em->createQuery("DELETE from $entity u where u.id = '$id'");
+     $query->execute();
     }
     
     public function updateRequestToAirport(array $trip_data){

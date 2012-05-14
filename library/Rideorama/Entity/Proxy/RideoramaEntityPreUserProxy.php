@@ -27,12 +27,6 @@ class RideoramaEntityPreUserProxy extends \Rideorama\Entity\PreUser implements \
     }
 
     
-    public function addUser($email, $profession, $sex, $first_name, $last_name, $profile_pic, $email_hash, $password)
-    {
-        $this->_load();
-        return parent::addUser($email, $profession, $sex, $first_name, $last_name, $profile_pic, $email_hash, $password);
-    }
-
     public function __get($property)
     {
         $this->_load();
@@ -48,6 +42,6 @@ class RideoramaEntityPreUserProxy extends \Rideorama\Entity\PreUser implements \
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'first_name', 'last_name', 'email', 'password_hash', 'profile_pic', 'role', 'sex', 'profession', 'email_hash', 'facebook_login', 'last_login', 'date_registered');
+        return array('__isInitialized__', 'id', 'first_name', 'last_name', 'email', 'password_hash', 'sex', 'email_hash', 'last_login', 'date_registered');
     }
 }

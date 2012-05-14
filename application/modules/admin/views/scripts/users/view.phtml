@@ -1,0 +1,49 @@
+<br /><br />
+<div id="view-content">
+	<p>All users currently registered</p>
+        
+        <table id="users">
+            <thead>
+            <tr>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Email </th>
+            <th>Paypal email</th>
+            <th>Phone number</th>
+            <th>Age</th>
+            <th>Sex</th>
+            <th>Date registered</th>
+            <th>Facebook user</th>
+            <th>Profile</th>
+            </tr>
+            </thead>
+            
+            <tbody>
+                <?php foreach($this->all_users as $user): ?>
+                <tr>
+                    <td><?php echo $this->escape($user->first_name); ?></td>
+                    <td><?php echo $this->escape($user->last_name); ?></td>
+                    <td><?php echo $this->escape($user->email); ?></td>
+                    <td><?php echo $this->escape($user->paypal_email); ?></td>
+                    <td><?php echo $this->escape($user->telephone); ?></td>
+                    <td><?php echo $this->escape($user->age); ?></td>
+                    <td><?php echo $this->escape($user->sex); ?></td>
+                    <td><?php echo date_format(($user->date_registered),"m-d-y"); ?></td>
+                     <td><?php echo $this->escape($user->facebook_login); ?></td>
+                    <td><a target="_blank" href="<?php echo $this->url(array(
+                        'module' => 'account',
+                        'controller' => 'profile',
+                        'action' => 'index',
+                        'id' => $user->id)); ?>">View profile</a></td>
+x
+
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+</div>
+<script>
+$(document).ready(function(){
+    $("#users").dataTable();
+})
+</script>

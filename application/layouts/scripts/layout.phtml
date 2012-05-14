@@ -2,6 +2,10 @@
 <html>
     <head>
         <meta charset="utf-8"></meta>
+        <meta name ="description" content="Rideorama is a community driven marketplace for ridesharing to and from airports. If you're a 
+        driver going to the airport, you can list extra seats in your car and as a passenger you can request a ride so other drivers can find you" />
+        
+       <meta name ="keywords" content="rides, ridesharing, carpooling, carpool, airport ride, airport, share, travel, rideorama" />
         <meta property="og:title" content="Rideorama" />
         <meta property="og:type" content="company" />
         <meta property="og:url" content="http://www.rideorama.com" />
@@ -71,8 +75,9 @@
       <li><a href="<?php echo $this->baseUrl();?>/aboutus">About us</a></li>
       <li><a href="<?php echo $this->baseUrl();?>/privacy">Privacy</a></li>
       <li><a href="<?php echo $this->baseUrl();?>/terms">Terms and Conditions</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/howitworks">How it works</a></li>
     
-      <li><a href="#">FAQS</a></li>
+      <li><a href="<?php echo $this->baseUrl();?>/faqs">FAQS</a></li>
       <li> <span class="icons"> 
            <a target="_blank"href="http://twitter.com/Rideorama"><img src="<?php echo $this->baseUrl();?>/img/social_icon2.gif" alt="" /></a></span> 
              <a target="_blank" href="https://www.facebook.com/pages/Rideorama/201052663306856"><img src="<?php echo $this->baseUrl();?>/img/social_icon1.gif" alt="" /></a>
@@ -93,7 +98,8 @@
  </body>
  <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/jquery.slideto.js"></script>
  <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/homepage.js"></script>
-
+<script src="<?php echo $this->baseUrl();?>/media/js/jquery.dataTables.min.js"></script>
+<link href="<?php echo $this->baseUrl();?>/media/css/jquery.dataTables.css" media="screen" rel="stylesheet" type="text/css">
  <script>
      $(document).ready(function(){
     $(this).scrollTop(0);

@@ -3,8 +3,8 @@
 namespace Rideorama\Entity;
 
 /**
- * Stores shared properties between rides to airport and rides from airport
- * 
+ * Stores shared properties between
+ * rides and requests entity
  * @author ovo
  */
 class ridesEntity extends \Rideorama\Entity\rideoramaEntity {

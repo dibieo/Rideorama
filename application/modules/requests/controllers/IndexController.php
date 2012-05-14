@@ -22,6 +22,7 @@ class Requests_IndexController extends Zend_Controller_Action
     /**
      * Processes the action of responding to a ride request
      *
+     *
      */
     public function offerAction()
     {
@@ -38,6 +39,7 @@ class Requests_IndexController extends Zend_Controller_Action
     /**
      * Processing acceptance of an offer
      *
+     *
      */
     public function offeracceptedAction()
     {
@@ -50,6 +52,7 @@ class Requests_IndexController extends Zend_Controller_Action
     /**
      * Processes the rejection of an offer
      *
+     *
      */
     public function offerrejectedAction()
     {
@@ -60,9 +63,11 @@ class Requests_IndexController extends Zend_Controller_Action
         $this->view->val = $request->rejectRequestToOfferRide($params);
     }catch (Exception $ex){
         print($ex->getMessage());
+    
+    } 
+    
     }
-    }
-
+    
     public function detailsAction()
     {
            // action body
@@ -142,8 +147,8 @@ class Requests_IndexController extends Zend_Controller_Action
         }else{
             $this->view->errorMsg = "Oops, an error occured. Please go back and try again!";
         
-    
-    }
+        }
+            
     }
 
     public function successAction()
@@ -164,6 +169,7 @@ class Requests_IndexController extends Zend_Controller_Action
      * Adds the form data to the model and redirects to a success page
      * @param Array $formData Contains an array of post data
      * @param string $where toAirport or fromAirport
+     *
      *
      */
     private function processRequest($formData, $where)
@@ -221,6 +227,7 @@ class Requests_IndexController extends Zend_Controller_Action
                 $formData['where'] = $request_data['where']; // Enter airport location
                 $formData['trip_date'] =  date('Y-m-d', strtotime($formData['trip_date']));
                 $formData['trip_id'] = $this->_getParam('trip_id');
+               $formData['successMsg'] = "Your edit was successful";
                 $this->updateRequest($formData);
              
         }else{
@@ -231,14 +238,15 @@ class Requests_IndexController extends Zend_Controller_Action
          }
         
     }
-    
-    
-      /**
-     * DRY method for setting values of a form field
+
+    /**
+     * DRY method for setting fields of a form 
      * @param Zend_Form $from 
      * @param Array $ride_data
+     *
      */
-    private function setEditFormOptions($form, $ride_data){
+    private function setEditFormOptions($form, $ride_data)
+    {
         
         
         $form->departure->setValue($ride_data['from']);
@@ -256,15 +264,17 @@ class Requests_IndexController extends Zend_Controller_Action
         $form->luggage_size->setValue($ride_data['luggage_size']);
         $form->luggage->setValue($ride_data['luggage']);
         $form->trip_time->setValue($ride_data['trip_time']);
-        $form->return->setValue(($this->_hasParam($ride_data['return']) ? $this->_getParam($ride_data['return']) : null));
+        $form->return->setValue(($this->_hasParam('return') ? $this->_getParam('return') : null));
         
     }
 
     /**
      * Updates the ride by calling appropriate service models
      * @param array $ride_data 
+     *
      */
-    private function updateRequest (array $ride_data){
+    private function updateRequest(array $ride_data)
+    {
         
         if ($ride_data['where'] == "toAirport"){
             $requests = new Requests_Model_RequestService($ride_data['where']);
@@ -277,8 +287,27 @@ class Requests_IndexController extends Zend_Controller_Action
 
     }
 
+    public function deleteAction()
+    {
+      $this->_helper->viewRenderer->setNoRender();
+      $this->_helper->getHelper('layout')->disableLayout();
+        //Gets the request id
+      $id = $this->_getParam('trip_id');
+      $where = $this->_getParam('where');
+      $request = new Requests_Model_RequestService($where);
+      if ($where == "toAirport"){
+       $request->deleteRequestToAirport($id);
+      }else if ($where == "fromAirport"){
+       $request->deleteRequestFromAirport($id);
+      }
+      
+      echo "Trip deleted";
+    }
+
 
 }
+
+
 
 
 

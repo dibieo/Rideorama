@@ -25,7 +25,9 @@ class Requeststoairportbookmanifest extends \Rideorama\Entity\rideoramaEntity
      */
     protected $id;
 
-  
+    
+    
+    
     /**
      *
      * @var integer
@@ -46,7 +48,20 @@ class Requeststoairportbookmanifest extends \Rideorama\Entity\rideoramaEntity
      */
     protected $publisher;
     
+   
     
+    /**
+     
+     * @Column(type="datetime", nullable=false)
+     */
+    protected $date_booked;
+    
+   /**
+     * @Column(type="string",length=60,nullable=true)
+     * @var string
+     */
+    protected $response_status;
+ 
      /**
      *
      * @var integer
@@ -57,17 +72,5 @@ class Requeststoairportbookmanifest extends \Rideorama\Entity\rideoramaEntity
      */
     protected $driver;
     
-    /**
-     
-     * @Column(type="datetime", nullable=false)
-     */
-    protected $date_booked;
 
-    
-    /**
-     * @Column(type="string",length=60,nullable=true)
-     * @var string
-     */
-    protected $response_status;
-        
 }

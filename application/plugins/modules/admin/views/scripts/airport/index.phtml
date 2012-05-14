@@ -1,0 +1,32 @@
+<br /><br />
+<div id="view-content">
+	<p>View script for controller <b>Airport</b> and script/action name <b>index</b></p>
+<p><a href="<?php echo $this->url(array('module'=> 'admin', 'controller'=>'airport', 
+        'action'=>'add'));?>">Add a new airport</a></p>
+<table>
+<tr>
+    <th>Name</th>
+    <th>IATA</th>
+    <th>City</th>
+    <th>Picture</th>
+    <th>&nbsp;</th>
+</tr>
+<?php foreach($this->airport as $airport) : ?>
+<tr>
+    <td><?php echo $this->escape($airport->name);?></td>
+    <td><?php echo $this->escape($airport->iata);?></td>
+    <td><?php echo $this->escape($airport->city->name);?></td>
+    <td><img  width ="100px" height ="100px"src="<?php echo Zend_Controller_Front::getInstance()->getBaseUrl() . '/img/airports/' . $this->escape($airport->pic);?>" /></td>
+
+    <td>
+        <a href="<?php echo $this->url(array('module' => 'admin', 'controller'=>'airport', 
+            'action'=>'edit', 'id'=>$airport->id));?>">Edit</a>
+        <a href="<?php echo $this->url(array('module' => 'admin', 'controller'=>'airport', 
+            'action'=>'delete', 'id'=>$airport->id));?>">Delete</a>
+        
+      
+    </td>
+</tr>
+<?php endforeach; ?>
+</table>
+</div>

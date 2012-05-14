@@ -261,9 +261,38 @@ class Account_Model_UserService extends Application_Model_Service
       * @param type $entity
       * @return array 
       */
-     public function getRides($user_id, $entity){
+     public function getRides($user_id, $entity, $msg = 'u.trip_msg'){
       
-      $q = $this->em->createQuery("select u.id, a.iata, u.city, u.cost, u.departure_date
+      $address =  null;
+      $number_of_seats = null;
+      if ($entity == "\Rideorama\Entity\Requeststoairport"){
+         
+         $msg = "u.request_msg";
+         $address = "u.pick_up_address";
+         $number_of_seats = 'u.id';
+      }else if ($entity == "\Rideorama\Entity\Requestsfromairport"){
+          
+         $msg = "u.request_msg";
+         $address = "u.drop_off_address";
+         $number_of_seats = "u.id";
+      }
+      
+      if ($entity == "\Rideorama\Entity\Ridestoairport"){
+         
+         $address = "u.pick_up_address";
+         $number_of_seats = "u.number_of_seats";
+         
+      }else if ($entity == "\Rideorama\Entity\Ridesfromairport"){
+          
+         $address = "u.drop_off_address";
+         $number_of_seats = "u.number_of_seats";
+      }
+      
+      
+      $q = $this->em->createQuery("select u.id, $number_of_seats as seat_num, $address as address, u.departure_date as trip_date,
+                                   $msg as trip_msg, u.departure_time as trip_time,
+                                   a.iata, a.name, u.city, u.num_luggages, u.luggage_size,
+                                   u.cost, u.departure_date
                                    from '$entity' u JOIN u.airport a
                                     where u.publisher = $user_id");
       $result = $q->execute();
@@ -271,12 +300,34 @@ class Account_Model_UserService extends Application_Model_Service
       return $result;
      }
      
-     
-     public function getPassengerBookedRides($user_id, $entity, $manifest_entity){
+     /**
+      * Get Rides I booked a seat on as a passenger
+      * @param type $user_id
+      * @param type $entity
+      * @param type $address
+      * @return type 
+      */
+     public function getPassengerBookedRides($user_id, $entity, $address){
          
-      $q = $this->em->createQuery("select t.id from '$manifest_entity' t where t.passenger = $user_id");
+      $q = $this->em->createQuery("select t.id, t.cost, t.city, t.departure_date, a.iata, $address as address from 
+                                   '$entity' b JOIN b.trip t JOIN t.airport a where b.passenger = $user_id");
       $result = $q->execute();
       return $result;
+     }
+     
+     /**
+      * Gets Requests I fulfilled as a driver
+      * @param type $user_id
+      * @param type $entity
+      * @param type $address
+      * @return arry of the record 
+      */
+     public function getRequestsFulfilled($user_id, $entity, $address){
+         
+       $q = $this->em->createQuery("select t.id, t.cost, t.city, t.departure_date, a.iata, $address as address from 
+                                   '$entity' b JOIN b.trip t JOIN t.airport a where b.driver = $user_id");
+      $result = $q->execute();
+      return $result; 
      }
      /**
       * Gets the total number of registered users
@@ -289,5 +340,48 @@ class Account_Model_UserService extends Application_Model_Service
         $result = $result[0];
         return $result['t_count'];
      }
+     
+     /**
+      * Gets all currently registered users
+      * @return type 
+      */
+     public function getAllUsers(){
+         
+         return $this->getAll('Rideorama\Entity\User');
+     }
+     
+     /**
+      *
+      * @param string $trip_date
+      * @param string $driver email
+      * @param string $passenger email
+      * @return Array the final results 
+      */
+     public function getAllTripMembers($trip_date, $driver= null, $passenger= null){
+         if ($driver != null){
+             return $this->getTripMembers('u.passenger_name', 'u.driver_email', $trip_date, $driver);
+             }else{
+             
+             return $this->getTripMembers('u.driver_name', 'u.passenger_email', $trip_date, $passenger);
+             }
+     }
+     
+     /**
+      *
+      * @param string $select_field What field to select
+      * @param string $where_field What field to check with 
+      * @param string $trip_date Trip date
+      * @param string $compare_with Compare either on driver or passenger
+      * @return type 
+      */
+     private function getTripMembers($select_field, $where_field, $trip_date, $compare_with){
+          $q = $this->em->createQuery("SELECT $select_field from \Rideorama\Entity\Notifications u 
+                                       where u.trip_date='$trip_date' and $where_field='$compare_with'");
+             $result = $q->execute();
+             
+             return $result;
+     }
+     
+     
 }
 

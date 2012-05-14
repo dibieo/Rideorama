@@ -2,7 +2,7 @@
 
 /**
  * Application_Model_Service
- * This class contains general methods used shared by models within the app
+ * This class contains general methods shared by models within the app
  */
 
 class Application_Model_Service
@@ -60,12 +60,7 @@ class Application_Model_Service
         $response = $client->request('GET'); // We must send our parameters in GET mode, not POST
        
         $val = Zend_Http_Response::extractBody($response);
-//        if (is_null($val)){
-//            echo "An error occured with the webservice call";
-//        }else{
-//           echo "Good process the data"; 
-//        }
-//        
+  
         $val = json_decode($val);
         
        // var_dump($val);

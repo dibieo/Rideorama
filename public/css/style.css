@@ -323,10 +323,11 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 #about_container .about_heading{float:left; width:843px; background:url(../img/heading_row_bg.png) no-repeat 0 0; height:63px; padding:5px 115px 0 43px}
 #about_container .about_heading h3{float:left; width:100%; font-size:40px; line-height:44px; color:#9ebd2e; font-weight:bold;}
 #about_container .about_details{float:left; width:917px; padding:0 41px 50px 43px; background:#fff}
-#about_container .about_details p{float:left; width:100%; padding:5px 0 20px; font:normal 15px/20px Arial, Helvetica, sans-serif; color:#000}
+#about_container .about_details p{float:left; width:100%; padding:5px 0 20px; font:normal 17px Arial, Helvetica, sans-serif; color:#000}
 
 #about_container .about_details .team_container{float:left; width:917px; padding-top:10px;}
 #about_container .about_details .team_container h3{float:left; width:100%; font-size:40px; line-height:44px; color:#c2c0c0; font-weight:bold; padding-bottom:18px}
+#about_container .about_details .howitworks_container h3{float:left; width:100%; font-size:25px; line-height:30px; color: #4c721d; font-weight:bold; padding-top: 10px; padding-bottom:10px}
 #about_container .team_container .team_box{float:left; width:211px; margin-right:22px; display:inline}
 #about_container .team_container .team_box.last{margin-right:0px}
 #about_container .team_container .team_box .team_details{float:left; width:173px; background:#ededed; padding:6px 21px 0 17px}

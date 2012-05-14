@@ -1,0 +1,22 @@
+<br /><br />
+<div id="view-content">
+	<p>List of all <b>Landmarks</b></p>
+        
+        <?php foreach($this->landmarks as $landmark) : ?>
+ 
+        landmark name:  <?php echo $this->escape($landmark->name);?><br></br>
+        landmark address:   <?php echo $this->escape($landmark->address);?> <br></br>
+        landmark city: <?php echo $this->escape($landmark->findParentRow('Admin_Model_DbTable_City')->name); ?> <br></br> 
+        landmark category : <?php echo $this->escape($landmark->findParentRow('Admin_Model_DbTable_LandmarkCategory')->name); ?> <br></br>
+        landmark image: <img src="<?php echo Zend_Controller_Front::getInstance()->getBaseUrl() . '/img/landmarks/' . $landmark->pic; ?>"> </img>
+        
+        
+        <a href="<?php echo $this->url(array('controller'=>'landmark', 
+            'action'=>'edit', 'id'=>$landmark->id));?>">Edit</a>
+        <a href="<?php echo $this->url(array('controller'=>'landmark', 
+            'action'=>'delete', 'id'=>$landmark->id));?>">Delete</a>
+        <p></p>
+<?php endforeach; ?>
+
+
+</div>

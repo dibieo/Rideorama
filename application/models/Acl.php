@@ -18,6 +18,8 @@ class Application_Model_Acl extends Zend_Acl
                           ->add(new Zend_Acl_Resource('default:aboutus'), 'default')
                           ->add(new Zend_Acl_Resource('default:privacy'), 'default')
                           ->add(new Zend_Acl_Resource('default:terms'), 'default')
+                          ->add(new Zend_Acl_Resource('default:howitworks'), 'default')
+                        ->add(new Zend_Acl_Resource('default:faqs'), 'default')
                           ->add(new Zend_Acl_Resource('default:updatepassword'), 'default')
                           ->add(new Zend_Acl_Resource('default:forgotpassword'), 'default')
                          ->add(new Zend_Acl_Resource('default:show'), 'default')
@@ -66,6 +68,8 @@ class Application_Model_Acl extends Zend_Acl
                 
 		$this->allow('guest', 'default:index', array('validateform', 'validatesecondform', 'homepageticker', 'findpassenger', 'index', 'search', 'passengersearch', 'driversearch'))
 			 ->allow('guest', 'default:error', 'error')
+                         ->allow('guest', 'default:howitworks', 'index')
+                         ->allow('guest', 'default:faqs', 'index')
                          ->allow('guest', 'default:show', array('index', 'calc'))
                          ->allow('guest', 'default:privacy', array('index'))
                          ->allow('guest', 'default:terms', array('index'))
@@ -81,12 +85,12 @@ class Application_Model_Acl extends Zend_Acl
 		 * a particular course
 		 */
                 
-		$this->allow('user', 'account:user', array('logout', 'edit', 'index','viewprofile', 'myrides'))
+		$this->allow('user', 'account:user', array('logout', 'edit', 'index','viewprofile', 'myrides', 'withwho'))
                      ->allow('user', 'account:profile', array('index'))
 		     ->allow('user', 'account:edit', array('index', 'car', 'validateform', 'updatecar', 'updatepaypal', 'addcar'));
 		
-                $this->allow('user', 'rides:index', array('index', 'post', 'book', 'edit', 'details','validateform', 'success', 'bookingaccepted', 'bookingrejected'))
-                      ->allow('user', 'requests:index', array('index', 'post', 'edit', 'success', 'offer', 'validateform', 'details', 'offerrejected'))
+                $this->allow('user', 'rides:index', array('index', 'post', 'book', 'delete', 'edit', 'details','validateform', 'success', 'bookingaccepted', 'bookingrejected'))
+                      ->allow('user', 'requests:index', array('index', 'post', 'edit', 'delete', 'success', 'offer', 'validateform', 'details', 'offerrejected'))
                       ->allow('user', 'payment:index', array('index', 'success'));
                 
                 
@@ -95,7 +99,7 @@ class Application_Model_Acl extends Zend_Acl
                 $this->allow('admin', 'admin:airport', array('index', 'add', 'edit', 'delete'));
                 $this->allow('admin', 'admin:city', array('index', 'add-city', 'edit-city', 'delete-city'));
                 $this->allow('admin', 'admin:landmarkcategory', array('index', 'add'));
-                $this->allow('admin', 'admin:users', array('index'));
+                $this->allow('admin', 'admin:users', array('index', 'view'));
                 $this->allow('admin', 'admin:state', array('index', 'delete-state', 'edit-state', 'add-state'));
 
 		

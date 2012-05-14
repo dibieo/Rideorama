@@ -16,6 +16,15 @@ class Admin_UsersController extends Zend_Controller_Action
         $this->view->total_users = $total_users;
     }
 
+    public function viewAction()
+    {
+        // action body
+        $users = new Account_Model_UserService();
+        $this->view->all_users = $users->getAllUsers();
+    }
+
 
 }
+
+
 

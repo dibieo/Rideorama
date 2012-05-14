@@ -22,7 +22,11 @@ $url_options['action'] = 'edit';
 $edit_ride_url = $this->url($url_options);
 ?>
   <section id="request_post_container" class="spacer5">
-      <p>Your request has been successfully posted</p>
+        <?php if(!array_key_exists('successMsg', $this->params)): ?>
+          <p> Your request has been successfully posted</p>
+        <?php else: ?>
+          <p> <?php echo $this->params['successMsg']; ?> </p>
+        <?php endif; ?>
       <div class="details_box">
         <div class="content_details">
           <ul class="req">

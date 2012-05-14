@@ -220,6 +220,7 @@
 
     function setAirportNameTripsToAirport (departure, destination){
         $(departure).val('');
+        $(departure).attr('placeholder', 'Enter your pickup address');
         $(destination).val("Denver International Airport");
         $(destination).attr('readOnly', true);
         $(departure).attr('readOnly', false);
@@ -228,6 +229,7 @@
      function setAirportNameTripsFromAirport(departure, destination){
          $(departure).val("Denver International Airport");
          $(destination).val('');
+         $(destination).attr('placeholder', 'Enter your drop off address');
          $(departure).attr('readonly', true);
          $(destination).attr('readonly',false);
      }

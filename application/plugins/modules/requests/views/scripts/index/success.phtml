@@ -1,0 +1,48 @@
+<?php
+$where = $this->where;
+if ($where == "toAirport"){
+    $where = "fromAirport";
+}else if ($where == "fromAirport"){
+    $where = "toAirport";
+}
+$return_request_url = $this->url(array(
+    'module' => 'requests',
+    'controller' => 'index',
+    'action' => 'post',
+    'where' =>  $where,
+    'from' => $this->params['destination'],
+    'to' => $this->params['departure'],
+    'return_trip' => "false"
+));
+
+$url_options = $this->params;
+$url_options['module'] = "requests";
+$url_options['controller'] = 'index';
+$url_options['action'] = 'edit';
+$edit_ride_url = $this->url($url_options);
+?>
+  <section id="request_post_container" class="spacer5">
+        <?php if($this->params['successMsg'] == ''): ?>
+          <p> Your request has been successfully posted</p>
+        <?php else: ?>
+          <p> <?php echo $this->params['successMsg']; ?> </p>
+        <?php endif; ?>
+      <div class="details_box">
+        <div class="content_details">
+          <ul class="req">
+            <li><span>Departure:</span><strong><?php echo $this->params['departure']; ?></strong></li>
+            <li><span>Destination:</span><strong><?php echo $this->params['destination']; ?></strong></li>
+            <li><span>Willing to pay :</span><strong><?php echo $this->currency($this->params['trip_cost']); ?></strong></li>
+            <li><span>Number of bags: </span><strong><?php echo $this->params['luggage']; ?></strong></li>
+            <li><span>Size of each bag: </span><strong><?php echo $this->params['luggage_size']; ?></strong></li>
+            <li><span>Trip message:</span><strong><?php echo $this->params['trip_msg']; ?></strong></li>
+            <li><span>Date: </span><strong><?php echo $this->params['trip_date']; ?></strong></li>
+          </ul>
+          <span class="btn3"><a href="<?php echo $edit_ride_url; ?>">Edit</a></span> </div>
+          <?php if ($this->params['return'] == "true") : ?>
+          <h6><a href="<?php echo $return_request_url; ?>">Click here to request a ride back</a></h6>
+          <?php endif; ?>
+      </div>
+      
+      <!--request_post container ends--></section>
+    <span class="page_link"><a href="<?php echo $this->BaseUrl(); ?>">Back to homepage</a></span> </section>

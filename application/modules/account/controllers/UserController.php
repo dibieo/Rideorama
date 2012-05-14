@@ -199,10 +199,14 @@ class Account_UserController extends Zend_Controller_Action
         $this->_helper->redirector('index');
     }
 
+    /**
+     * Registers a new user account
+     */
     public function registerAction()
     {
         // action body
         $form = $this->registration_form;
+        $form->setDescription('Register an account');
         $this->view->form = $form;
         
         if ($this->getRequest()->isPost()){
@@ -375,6 +379,8 @@ class Account_UserController extends Zend_Controller_Action
     }
     
     public function myridesAction(){
+     $this->_helper->getHelper('layout')->disableLayout();
+     $id = Zend_Auth::getInstance()->getIdentity()->id;
      $ride = new Account_Model_UserService();
      $rides_array = array();
      $rides_from_airport = array("ridesfromairport" => $ride->getRides(Zend_Auth::getInstance()->getIdentity()->id, '\Rideorama\Entity\Ridesfromairport'));
@@ -386,6 +392,33 @@ class Account_UserController extends Zend_Controller_Action
      array_push($rides_array, $request_from_airport);
      array_push($rides_array, $request_to_airport);
      $this->view->myrides = $rides_array;
+    // $this->view->ride_bookingFromAiprort = $ride->getRidesForSeatsBookeds($id, '\Rideorama\Entity\Ridesfromairportbookmanifest');
+     $this->view->ridesBookedToAirport =$ride->getPassengerBookedRides($id, '\Rideorama\Entity\Ridestoairportbookmanifest', 't.pick_up_address');
+     $this->view->ridesBookedFromAirport =$ride->getPassengerBookedRides($id, '\Rideorama\Entity\Ridesfromairportbookmanifest', 't.drop_off_address');
+     $this->view->requestsToAirportResponded = $ride->getRequestsFulfilled($id, '\Rideorama\Entity\Requeststoairportbookmanifest', 't.pick_up_address');
+     $this->view->requestsFromAirportResponded = $ride->getRequestsFulfilled($id, '\Rideorama\Entity\Requestsfromairportbookmanifest', 't.drop_off_address');
+    
+    }
+    
+    /**
+     * This method returns everyone i had
+     * a ride with
+     */
+    public function withwhoAction(){
+        $this->_helper->getHelper('layout')->disableLayout();
+       $trip_date = $this->_getParam('trip_date');
+       $notifications = new Account_Model_UserService();
+       
+       if ($this->_getParam("status") == "driver"){
+        $driverEmail = Zend_Auth::getInstance()->getIdentity()->email;
+        $this->view->notifications = $notifications->getAllTripMembers($trip_date, $driverEmail);
+        $this->view->status="driver";
+       }else{
+        $passengerEmail = Zend_Auth::getInstance()->getIdentity()->email;
+        $this->view->notifications= $notifications->getAllTripMembers($trip_date, null, $passengerEmail);
+        $this->view->status="passenger";
+       }
+       
     }
 }
 

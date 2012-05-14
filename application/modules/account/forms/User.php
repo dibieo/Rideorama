@@ -10,7 +10,7 @@ class Account_Form_User extends Application_Form_Base
     public function init()
     {
         /* Form Elements & Other Definitions Here ... */
-        
+       
        $id = new Zend_Form_Element_Hidden('id');
        $firstName = new Zend_Form_Element_Text('first_name', array(
            'required' => true,

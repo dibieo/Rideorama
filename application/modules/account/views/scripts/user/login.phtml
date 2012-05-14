@@ -15,7 +15,7 @@
           <fieldset>
           <section class="sign_in_box">
             <div class="social_link"> <span class="icon1">
-                    <a href="<?php echo $this->fblogin;?>"><img src="http://static.ak.fbcdn.net/rsrc.php/zB6N8/hash/4li2k73z.gif" /></a>
+                    <a href="<?php echo $this->fblogin;?>"><img src="<?php echo $this->baseUrl(); ?>/img/fb-connect.gif" /></a>
                 </span> <small>or</small> </div>
              <?php echo $this->errorMessage; ?>
             <?php echo $this->loginForm; ?>

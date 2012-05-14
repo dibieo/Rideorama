@@ -1,0 +1,29 @@
+<?php $this->headTitle("Activate your account"); ?> 
+
+<br /><br />
+    
+       <?php if(!isset ($this->msg)): ?>
+	<p>Thanks for joining Rideorama. You are one step away from activating your account.
+           Please complete your profile and add information about your car if you 
+           have one</p>
+        
+        <?php endif; ?>
+        <section id="body_container"> 
+    <!--complete profile starts-->
+    <div class="complete_profile"> <img src="<?php echo $this->baseUrl();?>/img/complete_profile_top.png" alt="" class="curve" />
+      <div class="inner_details">
+          <?php echo $this->msg; ?>
+          <?php echo $this->form; ?>
+
+      </div>
+      <img src="<?php echo $this->baseUrl(); ?>/img/complete_profile_bottom.png" alt="" class="curve" /> </div>
+    <!--complete profile ends--> 
+  </section>
+        
+ <script src="<?php echo $this->baseUrl(); ?>/js/activate.js"></script>
+ <script type="text/javascript">
+$(function(){
+$('input:radio').jqTransRadio({imgPath:'public/jqtransformplugin/img/'});
+$('input:checkbox').jqTransCheckBox({imgPath:'public/jqtransformplugin/img/'});
+});
+</script>

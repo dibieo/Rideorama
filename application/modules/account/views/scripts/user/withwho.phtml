@@ -1,0 +1,18 @@
+<?php if (empty ($this->notifications)): ?>
+No one is on this trip
+
+<?php else: ?>
+    <?php if($this->status="driver"): ?>
+Passengers are:
+<ul>
+    <?php foreach($this->notifications as $rec): ?>
+    <li><?php echo $rec['passenger_name']; ?></li>
+    <?php endforeach; ?>
+    <?php elseif ($this->status=="passenger"):?>
+Driver is :
+    <?php foreach($this->notifications as $rec): ?>
+        <?php echo $rec['driver_name']; ?>
+    <?php endforeach; ?>
+    <?php endif; ?>
+
+<?php endif; ?>

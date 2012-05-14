@@ -29,12 +29,14 @@ class Requestsfromairportbookmanifest extends \Rideorama\Entity\rideoramaEntity
     /**
      *
      * @var integer
-     * @ManyToOne(targetEntity="Ridestoairport")
+     * @ManyToOne(targetEntity="Requestsfromairport")
      * @JoinColumns({
      *  @JoinColumn(name="trip_id", referencedColumnName="id")
      * })
      */
     protected $trip;
+    
+  
 
    /**
      *

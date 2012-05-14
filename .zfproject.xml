@@ -69,6 +69,7 @@
         </controllerFile>
         <controllerFile controllerName="Howitworks">
           <actionMethod actionName="index"/>
+          <actionMethod actionName="index"/>
         </controllerFile>
         <controllerFile controllerName="Privacy">
           <actionMethod actionName="index"/>
@@ -80,6 +81,10 @@
           <actionMethod actionName="index"/>
         </controllerFile>
         <controllerFile controllerName="Terms">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="Howitworks"/>
+        <controllerFile controllerName="Faqs">
           <actionMethod actionName="index"/>
         </controllerFile>
       </controllersDirectory>
@@ -197,6 +202,7 @@
             </controllerFile>
             <controllerFile controllerName="Users">
               <actionMethod actionName="index"/>
+              <actionMethod actionName="view"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory enabled="false">
@@ -241,6 +247,9 @@
               <viewControllerScriptsDirectory forControllerName="Users">
                 <viewScriptFile forActionName="index"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Users">
+                <viewScriptFile forActionName="view"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -259,6 +268,7 @@
               <actionMethod actionName="bookingaccepted"/>
               <actionMethod actionName="bookingrejected"/>
               <actionMethod actionName="edit"/>
+              <actionMethod actionName="delete"/>
             </controllerFile>
             <controllerFile controllerName="Request">
               <actionMethod actionName="index"/>
@@ -302,6 +312,9 @@
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="edit"/>
               </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="delete"/>
+              </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
             <viewFiltersDirectory/>
@@ -332,6 +345,7 @@
               <actionMethod actionName="success"/>
               <actionMethod actionName="details"/>
               <actionMethod actionName="edit"/>
+              <actionMethod actionName="delete"/>
             </controllerFile>
           </controllersDirectory>
           <formsDirectory>
@@ -357,6 +371,9 @@
               </viewControllerScriptsDirectory>
               <viewControllerScriptsDirectory forControllerName="Index">
                 <viewScriptFile forActionName="edit"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="Index">
+                <viewScriptFile forActionName="delete"/>
               </viewControllerScriptsDirectory>
             </viewScriptsDirectory>
             <viewHelpersDirectory/>
@@ -511,6 +528,12 @@
           <viewControllerScriptsDirectory forControllerName="Terms">
             <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Howitworks">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Faqs">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
         <viewFiltersDirectory enabled="false"/>
@@ -597,6 +620,7 @@
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Howitworks">
             <testApplicationActionMethod forActionName="index"/>
+            <testApplicationActionMethod forActionName="index"/>
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Privacy">
             <testApplicationActionMethod forActionName="index"/>
@@ -608,6 +632,9 @@
             <testApplicationActionMethod forActionName="index"/>
           </testApplicationControllerFile>
           <testApplicationControllerFile forControllerName="Terms">
+            <testApplicationActionMethod forActionName="index"/>
+          </testApplicationControllerFile>
+          <testApplicationControllerFile forControllerName="Faqs">
             <testApplicationActionMethod forActionName="index"/>
           </testApplicationControllerFile>
         </testApplicationControllerDirectory>
@@ -650,6 +677,7 @@
               </testApplicationControllerFile>
               <testApplicationControllerFile forControllerName="Users">
                 <testApplicationActionMethod forActionName="index"/>
+                <testApplicationActionMethod forActionName="view"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>
@@ -664,6 +692,7 @@
                 <testApplicationActionMethod forActionName="bookingaccepted"/>
                 <testApplicationActionMethod forActionName="bookingrejected"/>
                 <testApplicationActionMethod forActionName="edit"/>
+                <testApplicationActionMethod forActionName="delete"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>
@@ -675,6 +704,7 @@
                 <testApplicationActionMethod forActionName="success"/>
                 <testApplicationActionMethod forActionName="details"/>
                 <testApplicationActionMethod forActionName="edit"/>
+                <testApplicationActionMethod forActionName="delete"/>
               </testApplicationControllerFile>
             </testApplicationControllerDirectory>
           </testApplicationModuleDirectory>

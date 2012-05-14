@@ -31,20 +31,18 @@ class ShowController extends Zend_Controller_Action
 //
 //        print_r($arr);
 //        echo "sorted vals \n<p></p>";
-//        $ride = new Application_Model_Service();
-//        print_r($ride->sortTripByParam($arr));
      
-//     $user_id = Zend_Auth::getInstance()->getIdentity()->id;
+     $user_id = Zend_Auth::getInstance()->getIdentity()->id;
      $ride = new Account_Model_UserService();
      $rides_array = array();
      $rides_from_airport = array("ridesfromairport" => $ride->getPassengerBookedRides(Zend_Auth::getInstance()->getIdentity()->id, '\Rideorama\Entity\Ridesfromairport', '\Rideorama\Entity\Ridesfromairportbookmanifest'));
-//     $rides_to_airport = array("ridestoairport" => $ride->getRides($user_id, '\Rideorama\Entity\Ridestoairport'));
-//     $request_from_airport = array("requestsfromairport" => $ride->getRides($user_id, '\Rideorama\Entity\Requestsfromairport'));
-//     $request_to_airport = array($ride->getRides($user_id, '\Rideorama\Entity\Requeststoairport'));
-//     array_push($rides_array, $rides_from_airport);
-//     array_push($rides_array, $rides_to_airport);
-//     array_push($rides_array, $request_from_airport);
-//     array_push($rides_array, $request_to_airport);
+     $rides_to_airport = array("ridestoairport" => $ride->getRides($user_id, '\Rideorama\Entity\Ridestoairport'));
+     $request_from_airport = array("requestsfromairport" => $ride->getRides($user_id, '\Rideorama\Entity\Requestsfromairport'));
+     $request_to_airport = array($ride->getRides($user_id, '\Rideorama\Entity\Requeststoairport'));
+     array_push($rides_array, $rides_from_airport);
+     array_push($rides_array, $rides_to_airport);
+     array_push($rides_array, $request_from_airport);
+     array_push($rides_array, $request_to_airport);
      print_r($rides_array);
      
     // echo md5("777557904");

@@ -27,12 +27,6 @@ class RideoramaEntityUserProxy extends \Rideorama\Entity\User implements \Doctri
     }
 
     
-    public function addUser($email, $profession, $sex, $first_name, $last_name, $profile_pic, $email_hash, $password, $flogin = false)
-    {
-        $this->_load();
-        return parent::addUser($email, $profession, $sex, $first_name, $last_name, $profile_pic, $email_hash, $password, $flogin);
-    }
-
     public function __get($property)
     {
         $this->_load();
@@ -48,6 +42,6 @@ class RideoramaEntityUserProxy extends \Rideorama\Entity\User implements \Doctri
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'first_name', 'last_name', 'email', 'password_hash', 'profile_pic', 'role', 'sex', 'profession', 'email_hash', 'facebook_login', 'last_login', 'date_registered', 'rides_to_airport');
+        return array('__isInitialized__', 'id', 'first_name', 'last_name', 'email', 'paypal_email', 'password_hash', 'profile_pic', 'role', 'sex', 'profession', 'email_hash', 'telephone', 'age', 'num_ratings', 'avg_rating', 'facebook_login', 'last_login', 'date_registered', 'rides_to_airport', 'rides_to_landmark', 'rides_from_landmark', 'rides_from_airport', 'rides_from_airport_bookmanifest', 'rides_to_airport_bookmanifest', 'requests_to_landmark', 'requests_from_landmark', 'requests_from_airport', 'requests_to_airport', 'car', 'requests_to_airportbookmanfiest', 'requests_from_airportbookmanfiest');
     }
 }

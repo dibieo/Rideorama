@@ -42,6 +42,6 @@ class RideoramaEntityAirportProxy extends \Rideorama\Entity\Airport implements \
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'name', 'iata', 'pic', 'city', 'rides_to_airport');
+        return array('__isInitialized__', 'id', 'name', 'iata', 'pic', 'city', 'rides_to_airport', 'rides_from_airport', 'requests_to_airport', 'requests_from_airport');
     }
 }

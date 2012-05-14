@@ -183,13 +183,6 @@ class Account_Form_Completeprofile extends Application_Form_Base
         
         $submit->setDecorators(array('ViewHelper'));
 
-//        $this->setDecorators(array(
-//            
-//             'FormElements',
-//             array('HtmlTag', array('tag' => 'fieldset', 'placement' =>'REPLACE')),
-//             'Form'
-//        ));
-//         
         $occupation->setDecorators($this->activateformDecorators());
         $age->setDecorators($this->activateformDecorators());
         $phone_number->setDecorators($this->activateformDecorators());

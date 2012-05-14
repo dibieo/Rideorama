@@ -59,7 +59,7 @@ function setCarousel(){
 			vertical: true,
 			visible: 2,
 			auto: 1500,
-			speed: 1000,
+			speed: 4000,
 			scroll: -1
 		});
 }

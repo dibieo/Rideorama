@@ -59,7 +59,7 @@ $(document).ready(function() {
          $("#where-toAirport").click(function(){
            initializeDepartureAutocomplete();
             setAirportNameTripsToAirport("#departure", "#destination");
-           $("#departure").attr('placeholder', "Enter your address");
+           $("#departure").attr('placeholder', "Enter your pickup address");
            $("#destination").attr('placeholder', "Enter airport name");
            $("#destination").val("Denver International Airport");
            $("#departure").autocomplete({"source": []});
@@ -74,7 +74,7 @@ $(document).ready(function() {
             setAirportNameTripsFromAirport("#departure", "#destination");
             $("#departure").attr('placeholder', "Enter airport name");
            // $("#departure").autocomplete({"source":[{"key":2,"value":"Denver International airport"},{"key":3,"value":"Phoenix International Airport"}]});
-           $("#destination").attr('placeholder', "Enter your address");
+           $("#destination").attr('placeholder', "Enter your drop-off address");
            $("#departure").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
            $("#destination").autocomplete({"source" : []}); //Clears the other field
             

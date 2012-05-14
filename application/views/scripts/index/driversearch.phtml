@@ -66,7 +66,7 @@ $(document).ready(function() {
          $("#driverwhere-toAirport").click(function(){
            initializedriverdepartureAutocomplete();
            setAirportNameTripsToAirport("#driverdeparture", "#driverdestination");
-            $("#driverdeparture").attr('placeholder', "Enter your address");
+            $("#driverdeparture").attr('placeholder', "Enter your departure address");
            $("#driverdestination").attr('placeholder', "Enter airport name");
            $("#driverdeparture").autocomplete({"source": []});
            $("#driverdestination").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
@@ -80,7 +80,7 @@ $(document).ready(function() {
             setAirportNameTripsFromAirport("#driverdeparture", "#driverdestination");
             $("#driverdeparture").attr('placeholder', "Enter airport name");
            // $("#departure").autocomplete({"source":[{"key":2,"value":"Denver International airport"},{"key":3,"value":"Phoenix International Airport"}]});
-           $("#driverdestination").attr('placeholder', "Enter your address");
+           $("#driverdestination").attr('placeholder', "Enter your destination address");
            $("#driverdeparture").autocomplete({"source" : [<?php echo $this->airportList; ?>]});
            $("#driverdestination").autocomplete({"source" : []}); //Clears the other field
             
