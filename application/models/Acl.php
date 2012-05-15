@@ -19,7 +19,8 @@ class Application_Model_Acl extends Zend_Acl
                           ->add(new Zend_Acl_Resource('default:privacy'), 'default')
                           ->add(new Zend_Acl_Resource('default:terms'), 'default')
                           ->add(new Zend_Acl_Resource('default:howitworks'), 'default')
-                        ->add(new Zend_Acl_Resource('default:faqs'), 'default')
+                          ->add(new Zend_Acl_Resource('default:splash'), 'default')
+                          ->add(new Zend_Acl_Resource('default:faqs'), 'default')
                           ->add(new Zend_Acl_Resource('default:updatepassword'), 'default')
                           ->add(new Zend_Acl_Resource('default:forgotpassword'), 'default')
                          ->add(new Zend_Acl_Resource('default:show'), 'default')
@@ -37,11 +38,13 @@ class Application_Model_Acl extends Zend_Acl
 		$this->add(new Zend_Acl_Resource('rides'))
 			 ->add(new Zend_Acl_Resource('rides:index'), 'rides');
                 
-                
+               
+                //Requests module resources
                 $this->add(new Zend_Acl_Resource('requests'))
                       ->add(new Zend_Acl_Resource('requests:index'), 'requests');
-			 
-		//Admin Module Resources --All resources inherid from the module admin
+		
+		
+                //Admin Module Resources --All resources inherid from the module admin
 		$this->add(new Zend_Acl_Resource('admin'))
 			 ->add(new Zend_Acl_Resource('admin:index'), 'admin')
                          ->add(new Zend_Acl_Resource('admin:users'), 'admin')
@@ -70,6 +73,7 @@ class Application_Model_Acl extends Zend_Acl
 			 ->allow('guest', 'default:error', 'error')
                          ->allow('guest', 'default:howitworks', 'index')
                          ->allow('guest', 'default:faqs', 'index')
+                         ->allow('guest', 'default:splash', array('index'))
                          ->allow('guest', 'default:show', array('index', 'calc'))
                          ->allow('guest', 'default:privacy', array('index'))
                          ->allow('guest', 'default:terms', array('index'))

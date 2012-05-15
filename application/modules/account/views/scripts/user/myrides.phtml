@@ -65,7 +65,7 @@ You have currently have no rides
                 <td><?php echo $r['city']; ?></td>
                 <td>Passenger</td>
                 <td>$<?php echo $r['cost']; ?></td>
-                <td><a id="withwho" href="javascript:void(0)" onclick="getUsers(<?php echo $this->showmembers("passenger",$r['departure_date']); ?>);">Click to View</a></td>
+                <td><a id="withwho" href="javascript:void(0)" onclick="getUsers('<?php echo $this->showmembers("passenger",$r['departure_date']); ?>');">Click to View</a></td>
                 <td><?php echo $this->showedit($r, "requests", "fromAirport"); ?></td>
                 <td><?php echo $this->showdelete($r, "requests", "fromAirport"); ?></td>
               </tr>
@@ -92,8 +92,8 @@ You have currently have no rides
                 <td>Passenger</td>
                 <td>$<?php echo $r['cost']; ?></td>
                 <td><a href="javascript:void(0)" onclick="getUsers('<?php echo $this->showmembers("passenger", $r['departure_date']); ?>');">Click to View</a></td>
-                <td>Only the driver can edit</td>
-                <td>You can't delete a booking made</td>
+                <td></td>
+                <td></td>
                </tr>
             <?php endforeach; ?>
             
@@ -107,8 +107,8 @@ You have currently have no rides
                 <td>Passenger</td>
                 <td>$<?php echo $r['cost']; ?></td>
                 <td><a onclick="getUsers('<?php echo $this->showmembers("passenger", $r['departure_date']); ?>');" href="javascript:void(0)">Click to View</a></td>
-                <td>Only the driver can edit</td>
-                <td>You can't delete a booking made</td>
+                <td></td>
+                <td></td>
                </tr>
             <?php endforeach; ?>
             
@@ -148,6 +148,8 @@ You have currently have no rides
 </div>
 <script>
 $(document).ready(function(){
-    $("#rides").dataTable();
+    $("#rides").dataTable( {
+        "aaSorting": [[ 0, "desc" ]]
+    } );
 })
 </script>

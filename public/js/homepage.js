@@ -137,6 +137,10 @@
        
    }
     
+   /**
+    * This function performs an Ajax call that
+    * returns all passenger requests for rides
+    */
    function getPassengers(){
        
        var radioInput =$(".top_row input[type='radio']:checked").val();
@@ -149,14 +153,13 @@
        var departure = $("#driverdeparture").val();
        var destination = $("#driverdestination").val();
        var tripdate = $("#driverdate").val();
-       var triptime = $('#drivertrip_time').val();
        var where = $(".top_row input[type='radio']:checked").val();
        //alert($("#findpassengers").val());
        disableSubmitbutton("#findpassengers", "Please wait...");
        
        $.get("index/findpassenger?driverwhere=" + where + "&driverdate=" + tripdate 
             + "& driverdeparture=" + departure  + "&driverdestination=" + destination
-            + "&drivertrip_time=" + triptime,
+            + "&drivertrip_time=anytime",
             {},
      function(data, textStatus) { 
          $('#results').html(data); 
@@ -171,6 +174,7 @@
      /**
       * getRides 
       * Performs an ajax call to the search action and returns rides
+      * that have been posted by drivers
       */
      function findRides(){
     
@@ -188,14 +192,13 @@
        var departure = $("#departure").val();
        var destination = $("#destination").val();
        var tripdate = $("#trip_date").val();
-       var triptime = $('#trip_time').val();
        var where = $(".top_row input[type='radio']:checked").val();
        //alert($("#findpassengers").val());
        disableSubmitbutton("#findrides", "Please wait...");
        
        $.get("index/search?where=" + where + "&trip_date=" + tripdate 
             + "&departure=" + departure  + "&destination=" + destination
-            + "&trip_time=" + triptime,
+            + "&trip_time=anytime",
             {},
      function(data, textStatus) { 
          $('#results').html(data); 
