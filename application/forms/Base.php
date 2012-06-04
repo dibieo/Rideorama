@@ -274,6 +274,7 @@ class Application_Form_Base extends Zend_Form
   }
   
   
+  
   /**
    * An associate array of time slots in 30 mins intervals
    * @return array 
@@ -377,5 +378,19 @@ class Application_Form_Base extends Zend_Form
       $ageValidator = new Zend_Validate_GreaterThan(array('min' => 17));
       $ageValidator->setMessage("You must be at least 18 year old to use Rideorama. See our terms and conditions for more details");
        return $ageValidator;
+    }
+    
+    /**
+     * Form description decorators use for setting the form title
+     * @return Array 
+     */
+    public function getFormDescriptionDecorators(){
+        return array(
+             array('Description', array('tag' => 'h3', 'class' => '')),
+             'FormElements' ,
+             array(array('elementDiv' => 'HtmlTag'), array('tag' => 'section', 'class' => "post_box")),
+              array(array('td' => 'HtmlTag'), array('tag' => 'fieldset', 'placement' => 'REPLACE')),
+             'Form'
+        );
     }
 }

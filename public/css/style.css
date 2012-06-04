@@ -221,6 +221,7 @@ header .top_nav ul li.name a{color:#000 !important; background:url(../img/down_a
 #common_container .complate_btn img{float:none;}
 #common_container .common_content{float:left; width:648px; background:url(../img/common_box_bg.jpg) repeat-y 0 0; padding:30px 33px 0 46px}
 #common_container .common_content form{float:left; width:100%;}
+#common_container .common_content h3{float:left; width:100%; font-size:40px; line-height:44px; color:#fff; font-weight:bold;}
 #common_container .common_content .sign_in_box{float:left; width:648px;}
 #common_container .common_content .sign_in_box h2{font-size:40px; color:#fff; line-height:40px; padding-bottom:25px; padding-top:10px;}
 #common_container .common_content .sign_in_box .social_link{float:left; width:100%; padding-bottom:21px}

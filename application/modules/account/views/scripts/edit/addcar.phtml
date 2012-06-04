@@ -1,14 +1,12 @@
-<div id="view-content">
-  <section id="body_container"> 
-    <!--home container starts--> 
-    <!-- starts common container -->
-    <section id="common_container">
-      <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_t_curv.png" alt=""/></div>
-      <section class="common_content">
-        Please provide information regarding your car before proceeding
-        <?php echo $this->form; ?>
-      </section>
-     <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/common_b_curv.png" alt=""/></div>
-    </section>
+<?php $this->headTitle("Add car profile"); ?>
+<section id="body_container"> 
+    <!--request_post container starts-->
+    <section id="request_post_container">
+      <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/request_post_t_curv.png" alt=""/></div>
+      <!-- request_post_details starts -->
+      <section class="request_post_details">
+       <?php echo $this->form; ?>
+        <!-- request_post_details ends --></section>
+      <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/request_post_b_curv.png" alt=""/></div>
+      <!--request_post container ends--></section>
   </section>
-</div>

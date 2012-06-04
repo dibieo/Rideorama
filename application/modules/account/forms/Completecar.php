@@ -163,6 +163,8 @@ class Account_Form_Completecar extends Application_Form_Base{
         $car_pic1->setDecorators($fileDecorators);
         $car_pic2->setDecorators($fileDecorators);
         
+       $this->setDecorators($this->getFormDescriptionDecorators());
+       $this->setDescription("Add car profile");
     }
 
 

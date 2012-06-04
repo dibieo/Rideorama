@@ -10,11 +10,12 @@ You have currently have no rides
             <thead>
               <tr>
                 <th>DATE</th>
+                <th>DEPARTURE TIME</th>
                 <th>FROM</th>
                 <th>TO</th>
                 <th>STATUS</th>
                 <th>COST</th>
-                <th>WHO WITH</th>
+                <th>WITH WHOM</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -34,6 +35,7 @@ You have currently have no rides
              <?php foreach($fromAirport as $r): ?>
               <tr id="<?php echo $r['id']; ?>">
                 <td><?php echo $this->showdate($r['departure_date']); ?> </td>
+                <td><?php print( date("g:i a", strtotime($r['trip_time'])) ); ?> </td>
                 <td><?php echo $r['iata']; ?></td>
                 <td><?php echo $r['city']; ?></td>
                 <td>Driver</td>
@@ -47,6 +49,7 @@ You have currently have no rides
             <?php foreach($toAirport as $r): ?>
               <tr id="<?php echo $r['id']; ?>">
                 <td><?php echo $this->showdate($r['departure_date']); ?> </td>
+               <td><?php print( date("g:i a", strtotime($r['trip_time']))); ?> </td>
                 <td><?php echo $r['city']; ?></td>
                 <td><?php echo $r['iata']; ?></td>
                 <td>Driver</td>
@@ -61,6 +64,7 @@ You have currently have no rides
             <?php foreach($requestFromAirport as $r): ?>
               <tr id="<?php echo $r['id']; ?>">
                 <td><?php echo $this->showdate($r['departure_date']); ?> </td>
+                <td><?php print( date("g:i a", strtotime($r['trip_time'])) ); ?> </td>
                 <td><?php echo $r['iata']; ?></td>
                 <td><?php echo $r['city']; ?></td>
                 <td>Passenger</td>
@@ -74,6 +78,7 @@ You have currently have no rides
              <?php foreach($requestToAirport as $r): ?>
               <tr id="<?php echo $r['id']; ?>">
                 <td><?php echo $this->showdate($r['departure_date']); ?> </td>
+                <td><?php print( date("g:i a", strtotime($r['trip_time'])) ); ?> </td>
                 <td><?php echo $r['city']; ?></td>
                 <td><?php echo $r['iata']; ?></td>
                 <td>Passenger</td>
@@ -87,6 +92,7 @@ You have currently have no rides
              <?php foreach($ridesBookedToAirport as $r): ?>
               <tr id="<?php echo $r['id']; ?>">
                 <td><?php echo $this->showdate($r['departure_date']); ?> </td>
+                <td><?php print( date("g:i a", strtotime($r['trip_time'])) ); ?> </td>
                 <td><?php echo $r['city']; ?></td>
                 <td><?php echo $r['iata']; ?></td>
                 <td>Passenger</td>
@@ -102,6 +108,7 @@ You have currently have no rides
              <?php foreach($ridesBookedFromAirport as $r): ?>
               <tr id="<?php echo $r['id']; ?>">
                 <td><?php echo $this->showdate($r['departure_date']); ?> </td>
+               <td><?php print( date("g:i a", strtotime($r['trip_time'])) ); ?> </td>
                 <td><?php echo $r['iata']; ?></td>
                 <td><?php echo $r['city']; ?></td>
                 <td>Passenger</td>
@@ -117,11 +124,12 @@ You have currently have no rides
              <?php foreach($requestsToAirportResponded as $r): ?>
               <tr id="<?php echo $r['id']; ?>">
                 <td><?php echo $this->showdate($r['departure_date']); ?> </td>
+               <td><?php print( date("g:i a", strtotime($r['trip_time'])) ); ?> </td>
                 <td><?php echo $r['city']; ?></td>
                 <td><?php echo $r['iata']; ?></td>
                 <td>Driver</td>
                 <td>$<?php echo $r['cost']; ?></td>
-                <td><a onclick="getUsers('<?php echo $this->showmembers("driver", $r['departure_date']); ?>');" href="javascript(0)">Click to View</a></td>
+                <td><a onclick="getUsers('<?php echo $this->showmembers("driver", $r['departure_date']); ?>');" href="javascript:void(0)">Click to View</a></td>
                 <td></td>
                 <td></td>
                </tr>
@@ -130,6 +138,7 @@ You have currently have no rides
              <?php foreach($requestsFromAirportResponded as $r): ?>
               <tr id="<?php echo $r['id']; ?>">
                 <td><?php echo $this->showdate($r['departure_date']); ?> </td>
+                <td><?php print( date("g:i a", strtotime($r['trip_time'])) ); ?> </td>
                 <td><?php echo $r['iata']; ?></td>
                 <td><?php echo $r['city']; ?></td>
                 <td>Driver</td>

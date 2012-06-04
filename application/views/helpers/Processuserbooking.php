@@ -52,6 +52,7 @@ class Zend_View_Helper_Processuserbooking extends Zend_View_Helper_Abstract {
               'driverName' => $array['driverName'],
               'trip_date' => $array['trip_date'],
               'where' => $array['where'],
+              'airport' => $array['airport'],
               'tripcost' => $array['tripcost'],
               'paypalEmail' => $array['paypalEmail'],
               'hostname' => $baseurl->baseUrl(),

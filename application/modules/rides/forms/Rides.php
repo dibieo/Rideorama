@@ -65,6 +65,13 @@ class Rides_Form_Rides extends Application_Form_Base
                      ->setAttrib('placeholder', 'Enter your paypal email address for payment')
                      ->addValidators(array('EmailAddress', 'NotEmpty'));
         
+        //Phone validator
+        $phone_num = new Zend_Form_Element_Text('phone_num');
+        $phone_num->setLabel('Cell number')
+                  ->setRequired(true)
+                  ->setAttrib('placeholder', 'Enter your cellphone number')
+                  ->addValidator(new Application_Model_PhoneValidator());
+        
         
         $trip_date = new ZendX_JQuery_Form_Element_DatePicker('trip_date', array(
                  'label' => 'Trip date',
@@ -78,14 +85,21 @@ class Rides_Form_Rides extends Application_Form_Base
         $trip_cost->setLabel('Cost per seat')
                   ->setValidators(array('Digits'))
                   ->setRequired(true)
-                  ->setValue(10);
+                  ->setValue(20);
         
         
-        $trip_time = new Zend_Form_Element_Select('trip_time');
-        $trip_time->setLabel('Departure time')
-                   ->setRequired(true)
-                    ->setAttrib('class', 'select1')
-                   ->addMultiOptions($this->getTimes());
+       $trip_time = new Zend_Form_Element_Text('trip_time');
+       $trip_time->setLabel('Departure time')
+                  ->setRequired(true)
+                  ->setAttrib('class', 'input')
+                  ->setAttrib('id', 'trip_time');
+                  
+//        
+//        $trip_time = new Zend_Form_Element_Select('trip_time');
+//        $trip_time->setLabel('Departure time')
+//                   ->setRequired(true)
+//                    ->setAttrib('class', 'select1')
+//                   ->addMultiOptions($this->getTimes());
         
         $trip_msg = new Zend_Form_Element_Textarea('trip_msg');
         $trip_msg->setLabel('Trip message')
@@ -116,44 +130,44 @@ class Rides_Form_Rides extends Application_Form_Base
         $return->setValue("true");
         
     //Add Number of luggages and size to a display group
-        
+      $other_elems_display_group = array(); // The elements in the other elements display group.
       $fb = new Application_Model_FacebookService();
       $fbsession = $fb->loggedIn();
-        
-        if ($fbsession){
-               $this->addElements(array($id, $from, $to, $trip_date,$trip_time, $num_seats, $trip_cost,
-                                    $luggage, $luggage_size,
-                                    $trip_msg, $return, $facebook_checkbox, $submit));
-             
-          $this->setLuggageDisplay($luggage, $luggage_size);
-          
-                 if (Zend_Auth::getInstance()->getIdentity()->paypal_email == null){
-                     $this->addElement($paypal_email);
-                     $this->addDisplayGroup(array($trip_msg, $paypal_email, $facebook_checkbox, $submit), 'other_elems');
-                }else{
-                     $this->addDisplayGroup(array($trip_msg, $facebook_checkbox, $submit), 'other_elems');
-
-                    }
-          
-        } else {
-                 $this->addElements(array($id, $from, $to,
-                                    $trip_date, $trip_time, $num_seats, $trip_cost,
+      //Add elements to the form
+      
+       $this->addElements(array($id, $from, $to, $trip_date,$trip_time, $num_seats, $trip_cost,
                                     $luggage, $luggage_size,
                                     $trip_msg, $return, $submit));
-         $this->setLuggageDisplay($luggage, $luggage_size);
-         
-         $user_obj = new Account_Model_UserService();
-         $user = $user_obj->getUser(Zend_Auth::getInstance()->getIdentity()->id);
-         
-           if ($user->paypal_email == null){
-                $this->addElement($paypal_email);
-                $this->addDisplayGroup(array($trip_msg, $paypal_email, $submit), 'other_elems');
-    }else{
-         $this->addDisplayGroup(array($trip_msg, $submit), 'other_elems');
-    }
-    }
+             
     
-  
+      $this->setLuggageDisplay($luggage, $luggage_size);
+      
+      $user_obj = new Account_Model_UserService();
+      $user = $user_obj->getUser(Zend_Auth::getInstance()->getIdentity()->id);
+      //If user does not have a paypal  account
+      if ($user->paypal_email == null){
+                     $this->addElement($paypal_email);
+                     array_push($other_elems_display_group, $paypal_email);
+      }
+      
+     //If user does not have a telephone
+     if ($user->telephone == null){
+                   $this->addElement($phone_num);
+                   array_push($other_elems_display_group, $phone_num);   
+               }
+        
+    //add submit button to the display group array
+    array_push($other_elems_display_group, $trip_msg);
+    
+    if ($fbsession){
+               array_push($other_elems_display_group, $facebook_checkbox);
+               //Ok We are connected to facebook, add facebook checkbox
+               $this->addElement($facebook_checkbox);
+      }
+    array_push($other_elems_display_group, $submit);
+    
+    //add elements to display group finally
+    $this->addDisplayGroup($other_elems_display_group, 'other_elems');
     
     
     //Add Number of luggages and size to a display group
@@ -176,6 +190,7 @@ class Rides_Form_Rides extends Application_Form_Base
     $to->setAttrib('class', 'input')->setDecorators($this->generateDecoratorsJQuery());
     $trip_cost->setAttrib('class', 'input')->setDecorators($this->generateDecorators());
     $paypal_email->setAttrib('class', 'input')->setDecorators($this->generateDecorators());
+    $phone_num->setAttrib('class', 'input')->setDecorators($this->generateDecorators());
     $num_seats->setAttrib('class', 'input')->setDecorators($this->generateDecorators());
     $trip_msg->setDecorators($this->generateDecorators());
     $facebook_checkbox->setAttrib('class', 'radio')->setDecorators($this->generateDecorators('form_row1 last'));
@@ -186,13 +201,7 @@ class Rides_Form_Rides extends Application_Form_Base
     $trip_time->setDecorators($this->generateDecoratorsForSelects('form_row'));
     
    
-    $this->setDecorators(array(
-             array('Description', array('tag' => 'h3', 'class' => '')),
-             'FormElements' ,
-             array(array('elementDiv' => 'HtmlTag'), array('tag' => 'section', 'class' => "post_box")),
-              array(array('td' => 'HtmlTag'), array('tag' => 'fieldset', 'placement' => 'REPLACE')),
-             'Form'
-        ));
+    $this->setDecorators($this->getFormDescriptionDecorators());
      $this->setDescription('Post a ride');
 }
 

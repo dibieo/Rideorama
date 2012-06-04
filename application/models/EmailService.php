@@ -145,11 +145,20 @@ class Application_Model_EmailService extends Zend_Mail
       
       $passengerName = $array['passengerName'];
       $id = Zend_Auth::getInstance()->getIdentity()->id;
+      $email = Zend_Auth::getInstance()->getIdentity()->email;
+      $telephone = Zend_Auth::getInstance()->getIdentity()->telephone;
+      $location = null;
+      if ($array['where'] == "toAirport"){
+          $location = "to " . $array['airport'] . rawurldecode($array['trip_date']);
+      }else if ($array['where'] == "fromAirport"){
+          $location = "from " . $array['airport'] . rawurldecode($array['trip_date']);
+      }
       $user_profile_url = $this->generateUserProfileURL('account', 'profile', 'index', $id);
       
       $body = "<p> Hi " . $array['driverName'] . ",</p><p></p>" .
-                $passengerName . " would like a seat in your car! <p></p>". 
+                $passengerName . " would like a seat on your trip $location <p></p>". 
               "<a href=$user_profile_url>Check out $passengerName profile</a> and decide if you would like him/her on your trip".
+                "<p>You can reach $passengerName via email at $email or on the phone at $telephone </p>" .
                 "<p><a href=$accept_url>Click this link to confirm $passengerName seat in your car </a></p>
                 <p><a href=$reject_url> Click here to decline $passengerName request for a seat on your trip</a></p>
                  <p>Make sure to reply promptly so $passengerName can make other plans.
@@ -180,10 +189,14 @@ class Application_Model_EmailService extends Zend_Mail
       $passengerName = $array['passengerName'];
       $driverName = $array['driverName'];
       $id = Zend_Auth::getInstance()->getIdentity()->id;
+      $email = Zend_Auth::getInstance()->getIdentity()->email;
+      $telephone = Zend_Auth::getInstance()->getIdentity()->telephone;
+      
       $user_profile_url = $this->generateUserProfileURL('account', 'profile', 'index', $id);
              
       $body = "<p> Hi " . $array['passengerName'] . ",</p>" . 
               "<p> $driverName has just responded to your seat request. <a href=$user_profile_url>Click here to check out his profile</a> </p>" .
+              "<p>You can also contact $driverName via email at $email or on the phone at $telephone</p>" .
               "<p><a href=$accept_url>Click this link to accept $driverName offer and complete payment</a></p>".
                "<p><a href=$reject_url>Click this link to reject $driverName offer</a></p>".
               "<p>Make sure to reply promptly so $driverName can plan accordingly.
@@ -241,7 +254,7 @@ class Application_Model_EmailService extends Zend_Mail
        
         $body = "<p>Sorry $driverName, </p>
                 <p>$passengerName has rejected your ride offer.</p>  <p> Please search Rideorama to find other passengers or post to Rideorama to let passengers find you </p>
-                <p>We know riding alone sucks and hope you find someone </p> <br>Rideorama team</br>";
+                <p>We know riding alone sucks and hope you find someone </p> <p>Rideorama team</p>";
         
         $email_options = array(
             'recipient_name' => $driverName,

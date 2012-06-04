@@ -206,7 +206,6 @@ class Account_UserController extends Zend_Controller_Action
     {
         // action body
         $form = $this->registration_form;
-        $form->setDescription('Register an account');
         $this->view->form = $form;
         
         if ($this->getRequest()->isPost()){

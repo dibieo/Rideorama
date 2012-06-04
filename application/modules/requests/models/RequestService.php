@@ -430,7 +430,7 @@ class Requests_Model_RequestService extends Application_Model_Service
         $this->requestsToAirport->publisher = $this->user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
         $this->requestsToAirport->airport  = $this->airport->getAirportByName($trip_data['destination']);
         $this->requestsToAirport->departure_date = new DateTime(date($trip_data['trip_date']));
-        $this->requestsToAirport->departure_time = new DateTime(($trip_data['trip_time']));
+        $this->requestsToAirport->departure_time = new DateTime(date("H:i:s", strtotime($trip_data['trip_time'])));
         $this->requestsToAirport->num_luggages = $trip_data['luggage'];
         $this->requestsToAirport->luggage_size = $trip_data['luggage_size'];
         $this->requestsToAirport->cost = $trip_data['trip_cost'];
@@ -466,7 +466,7 @@ class Requests_Model_RequestService extends Application_Model_Service
         $this->requestsFromAirport->publisher = $this->user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
         $this->requestsFromAirport->airport  = $this->airport->getAirportByName($trip_data['departure']);
         $this->requestsFromAirport->departure_date = new DateTime(date($trip_data['trip_date']));
-        $this->requestsFromAirport->departure_time = new DateTime(($trip_data['trip_time']));
+        $this->requestsFromAirport->departure_time = new DateTime(date("H:i:s", strtotime($trip_data['trip_time'])));
         $this->requestsFromAirport->num_luggages = $trip_data['luggage'];
         $this->requestsFromAirport->luggage_size = $trip_data['luggage_size'];
         $this->requestsFromAirport->cost = $trip_data['trip_cost'];
@@ -574,7 +574,7 @@ class Requests_Model_RequestService extends Application_Model_Service
     
      if ($whereTo == "toAirport"){
         // $trip_id = $array['trip_id'];
-        echo "publisher id: " . $array['publisher_id'];
+       // echo "publisher id: " . $array['publisher_id'];
          $this->addBookingToManifest($array['trip_id'], $array['publisher_id'], $this->loggedInUser->id, 
                                      '\Rideorama\Entity\Requeststoairport',
                                        $this->requestsToAirportBookingManifest);
@@ -594,7 +594,7 @@ class Requests_Model_RequestService extends Application_Model_Service
      /**
      * Frees up a request offer so other drivers can respond
      * Sends the requesting party (driver) a notification of this rejection
-     * @param array $array params needed to complete this operation
+     * @param array  params needed to complete this operation
      */
     public function rejectRequestToOfferRide(array $array){
         
@@ -782,7 +782,7 @@ class Requests_Model_RequestService extends Application_Model_Service
      $num_luggages = $trip_data['luggage'];
      $luggage_size = $trip_data['luggage_size'];
      $departure_date = $trip_data['trip_date'];
-     $departure_time = $trip_data['trip_time'];
+     $departure_time = date("H:i:s", strtotime($trip_data['trip_time']));
      $cost = $trip_data['trip_cost'];
      $id = $trip_data['trip_id'];
      $airport_name =  ($trip_data['where'] == "toAirport") ? $trip_data['destination'] : $trip_data['departure'];

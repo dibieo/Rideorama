@@ -35,12 +35,21 @@ class Requests_Form_Request extends Application_Form_Base
                   'jQueryParams'=> array(
 		'dateFormat' => 'mm/dd/yy',
 		'minDate'	 => '0')));
+       
+       
+        //Phone validator
+        $phone_num = new Zend_Form_Element_Text('phone_num');
+        $phone_num->setLabel('Cell number')
+                  ->setRequired(true)
+                  ->setAttrib('placeholder', 'Enter your cellphone number')
+                  ->addValidator(new Application_Model_PhoneValidator());
         
-       $trip_time = new Zend_Form_Element_Select('trip_time');
-        $trip_time->setLabel('Pick up time')
-                   ->setRequired(true)
-                    ->setAttrib('class', 'select1')
-                   ->addMultiOptions($this->getTimes());
+     
+       $trip_time = new Zend_Form_Element_Text('trip_time');
+       $trip_time->setLabel('Pickup time')
+                  ->setRequired(true)
+                  ->setAttrib('class', 'input')
+                  ->setAttrib('id', 'trip_time');
         
         $range = new Zend_Validate_GreaterThan(1);
         $range->setMessage("You must offer greater than $1");
@@ -49,7 +58,7 @@ class Requests_Form_Request extends Application_Form_Base
         $trip_cost->setLabel('Willing to offer')
                   ->setAttrib('placeholder', 'Enter how much you are willing to pay for this ride')
                   ->addValidators(array('NotEmpty', $range))
-                  ->setValue(15)
+                  ->setValue(20)
                   ->setRequired(true);
         
         $luggage = new Zend_Form_Element_Select('luggage');
@@ -99,35 +108,45 @@ class Requests_Form_Request extends Application_Form_Base
                           ->setUncheckedValue('false')
                           ->setChecked(true);
        
+        $other_elems_display_group = array(); // The elements in the other elements display group.
+        $this->addElements(array($from, $to, $trip_date, $trip_time,
+                                $trip_cost,$luggage, $luggage_size,$trip_msg, $return, $submit));
+        
+        $this->addDisplayGroup(array($luggage, $luggage_size), 'luggages_display');
         $fb = new Application_Model_FacebookService();
         $fbsession = $fb->loggedIn();
-        if ($fbsession) {
-            
-         $this->addElements(array($from, $to, $trip_date, $trip_time,
-                                $trip_cost,$luggage, $luggage_size,$trip_msg,
-                                $facebook_checkbox, $return, $submit));
-           //Decorators
-    //Add Number of luggages and size to a display group
-         $this->addDisplayGroup(array($luggage, $luggage_size), 'luggages_display');
+     
+        
+        
+       $user_obj = new Account_Model_UserService();
+      $user = $user_obj->getUser(Zend_Auth::getInstance()->getIdentity()->id);
+  
+     //If user does not have a telephone
+     if ($user->telephone == null){
+                   $this->addElement($phone_num);
+                   array_push($other_elems_display_group, $phone_num);   
+               }
+        
+    array_push($other_elems_display_group, $trip_msg);
     
-         $this->addDisplayGroup(array($trip_msg, $facebook_checkbox, $submit), 'other_elems');
-
-        }else{
-            
-         $this->addElements(array($from, $to, $trip_date, $trip_time,
-                                $trip_cost,$luggage, $return, $luggage_size,$trip_msg,  $submit));
-           //Decorators
-    //Add Number of luggages and size to a display group
-        $this->addDisplayGroup(array($luggage, $luggage_size), 'luggages_display');
+    if ($fbsession){
+               array_push($other_elems_display_group, $facebook_checkbox);
+               //Ok We are connected to facebook, add facebook checkbox
+               $this->addElement($facebook_checkbox);
+      }
+      
+     //add submit button to the display group array
+    array_push($other_elems_display_group, $submit);
     
-        $this->addDisplayGroup(array($trip_msg, $submit), 'other_elems');
-
-        }
-       
- 
+    //add elements to display group finally
+    $this->addDisplayGroup($other_elems_display_group, 'other_elems');
+    
+    
+    //Add Number of luggages and size to a display group
     
     
      $luggages_display = $this->getDisplayGroup('luggages_display');
+     
      $luggages_display->setDecorators(array(
                     'FormElements',
                     array('HtmlTag',array('tag'=>'div','class'=>'form_row'))
@@ -136,12 +155,13 @@ class Requests_Form_Request extends Application_Form_Base
      $other_elems_display = $this->getDisplayGroup('other_elems');
      $other_elems_display->setDecorators(array(
             'FormElements'
-     ));    
+     ));
     
     $from->setAttrib('class', 'input')->setDecorators($this->generateDecoratorsJQuery());
     $to->setAttrib('class', 'input')->setDecorators($this->generateDecoratorsJQuery());
     $trip_cost->setAttrib('class', 'input')->setDecorators($this->generateDecorators());
     $trip_time->setDecorators($this->generateDecoratorsForSelects('form_row'));
+    $phone_num->setAttrib('class', 'input')->setDecorators($this->generateDecorators());
     $trip_msg->setDecorators($this->generateDecorators());
     $facebook_checkbox->setAttrib('class', 'radio')->setDecorators($this->generateDecorators('form_row1 last'));
     $trip_date->setAttrib('class', 'input')->setDecorators($this->generateDecoratorsJQuery());
@@ -150,13 +170,7 @@ class Requests_Form_Request extends Application_Form_Base
     $luggage_size->setDecorators($this->generateLuggageDecorators('select_box'));
     
    
-    $this->setDecorators(array(
-             array('Description', array('tag' => 'h3', 'class' => '')),
-             'FormElements' ,
-             array(array('elementDiv' => 'HtmlTag'), array('tag' => 'section', 'class' => "post_box")),
-              array(array('td' => 'HtmlTag'), array('tag' => 'fieldset', 'placement' => 'REPLACE')),
-             'Form'
-        ));
+    $this->setDecorators($this->getFormDescriptionDecorators());
      $this->setDescription('Request a ride');
        
     }

@@ -423,7 +423,6 @@ class Rides_Model_RidesService extends Application_Model_Service
 
     /**
      * Posts a trip to the airport
-     *@todo : work on calculating trip duration;
      * work on trip_distance
      * work on trip emissions
      * work on trip_time
@@ -439,7 +438,7 @@ class Rides_Model_RidesService extends Application_Model_Service
         $this->ridesToAirport->publisher = $this->user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
         $this->ridesToAirport->airport  = $this->airport->getAirportByName($trip_data['destination']);
         $this->ridesToAirport->departure_date = new \DateTime(date($trip_data['trip_date']));
-        $this->ridesToAirport->departure_time = new DateTime(($trip_data['trip_time']));
+        $this->ridesToAirport->departure_time = new DateTime(date("H:i:s", strtotime($trip_data['trip_time'])));
         $this->ridesToAirport->num_luggages = $trip_data['luggage'];
         $this->ridesToAirport->luggage_size = $trip_data['luggage_size'];
         $this->ridesToAirport->cost = $trip_data['trip_cost'];
@@ -478,7 +477,7 @@ class Rides_Model_RidesService extends Application_Model_Service
         $this->ridesFromAirport->publisher = $this->user->getUser(Zend_Auth::getInstance()->getIdentity()->id);
         $this->ridesFromAirport->airport  = $this->airport->getAirportByName($trip_data['departure']);
         $this->ridesFromAirport->departure_date = new \DateTime(date($trip_data['trip_date']));
-        $this->ridesFromAirport->departure_time = new DateTime(($trip_data['trip_time']));
+        $this->ridesFromAirport->departure_time = new DateTime(date("H:i:s", strtotime($trip_data['trip_time'])));
         $this->ridesFromAirport->num_luggages = $trip_data['luggage'];
         $this->ridesFromAirport->luggage_size = $trip_data['luggage_size'];
         $this->ridesFromAirport->cost = $trip_data['trip_cost'];
@@ -515,7 +514,8 @@ class Rides_Model_RidesService extends Application_Model_Service
         
         $time = new Zend_Date();
         $time->setDate($trip_date, "YYYY-MM-DD");
-        $time->setTime($departure_time, "HH:mm:ss");
+        $time->setTime(date("H:i:s", strtotime($departure_time)));
+       // echo $time->toString();
         $time->addSecond($add_time);
         return $time->get("H:m:s");
     }
@@ -996,7 +996,7 @@ class Rides_Model_RidesService extends Application_Model_Service
      $num_luggages = $trip_data['luggage'];
      $luggage_size = $trip_data['luggage_size'];
      $departure_date = $trip_data['trip_date'];
-     $departure_time = $trip_data['trip_time'];
+     $departure_time = date("H:i:s", strtotime($trip_data['trip_time']));
      $cost = $trip_data['trip_cost'];
      $id = $trip_data['trip_id'];
      $airport_name =  ($trip_data['where'] == "toAirport") ? $trip_data['destination'] : $trip_data['departure'];

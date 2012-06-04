@@ -22,6 +22,7 @@ class Rides_IndexController extends Zend_Controller_Action
         //Does the user have a car 
         $user_obj = new Account_Model_UserService();
         $user = $user_obj->getUser(Zend_Auth::getInstance()->getIdentity()->id);
+        //If the user does not have a car profile, redirect them to a form to fill one out.
         if (!$user->car){
             $url = "http://" .$_SERVER['SERVER_NAME'] . $this->getFrontController()->getRequest()->getRequestUri();
             Zend_Registry::set("fillcar", $url);
@@ -141,11 +142,13 @@ class Rides_IndexController extends Zend_Controller_Action
         $ride->requestPersmissionToBuySeat($params);
         
         echo "A request has been sent to this driver for approval";
+        print_r($params);
     }
 
     public function detailsAction()
     {
         // action body
+        
         $params = $this->_getAllParams();
         $this->view->where = $params['where'];
         $this->view->trip_date = $params['trip_date'];
@@ -153,10 +156,17 @@ class Rides_IndexController extends Zend_Controller_Action
         $trip = new Rides_Model_RidesService($params['where']);
         $params = $trip->tripdetails($params);
         $this->view->data = $params[0];
-    }
+        $this->_view->show_contact = "false"; //Used to make the contact tab open first
+        $fb = new Application_Model_FacebookService();
+        $contact_url =  explode("?", $fb->getFullUrl($this->getRequest()->getRequestUri()));
+        $this->view->contact_url = $contact_url[0];
+        if (count($contact_url) > 1) {
+         $this->view->show_contact = "true";
+        }
+        }
 
     /**
-     * Adds the form data to the model and redirects to a success page
+     * Adds the form data to the database and redirects to a success page
      * @param Array $formData Contains an array of post data
      * @param string $where toAirport or fromAirport
      *
@@ -199,6 +209,11 @@ class Rides_IndexController extends Zend_Controller_Action
       if (isset ($formData['paypal_email'])){
         $user = new Account_Model_UserService();
         $user->updateUserPaypalEmail(Zend_Auth::getInstance()->getIdentity()->id, $formData['paypal_email']);
+      }
+      
+      if (isset ($formData['phone_num'])){
+          $user = new Account_Model_UserService();
+          $user->updateUserPhoneNumber(Zend_Auth::getInstance()->getIdentity()->id, $formData['phone_num']);
       }
       $this->_forward('success', 'index', 'rides', $formData);
 
@@ -294,7 +309,7 @@ class Rides_IndexController extends Zend_Controller_Action
         $form->luggage_size->setValue($ride_data['luggage_size']);
         $form->luggage->setValue($ride_data['luggage']);
         $form->num_seats->setValue($ride_data['num_seats']);
-        $form->trip_time->setValue($ride_data['trip_time']);
+        $form->trip_time->setValue(date("h:i a", strtotime($ride_data['trip_time'])));
         $form->return->setValue(($this->_hasParam('return_trip') ? $ride_data['return_trip'] : null));
         
     }

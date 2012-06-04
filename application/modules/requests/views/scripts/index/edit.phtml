@@ -31,4 +31,14 @@
  </script>
 <?php endif; ?>
  <?php echo $this->headScript()->appendFile($this->baseUrl() . "/js/validateform.js"); ?>
-
+<?php echo $this->headScript()->appendFile($this->baseUrl() . "/js/jquery-ui-timepicker-addon.js"); ?>
+<script>
+      $('#trip_time').timepicker({
+	ampm: true,
+	hourMin: 0,
+        stepMinute: 15,
+	hourMax: 24
+        
+});
+          
+ </script>

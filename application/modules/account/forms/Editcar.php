@@ -17,7 +17,7 @@ class Account_Form_Editcar extends Application_Form_Base
           'filters'=> array('StringTrim', 'StripTags'),
            'validators' => array($alpha)
        ));
-       $make->setAttrib('placeholder', 'Make');
+       $make->setAttrib('placeholder', 'Enter car make e.g. Toyota');
        $make->setDecorators($this->generateDecorators());
        
        $model = new Zend_Form_Element_Text('model', array(
@@ -27,7 +27,7 @@ class Account_Form_Editcar extends Application_Form_Base
            'filters'=> array('StringTrim', 'StripTags'),
            'validators' => array($alpha)
        ));
-       $model->setAttrib('placeholder', 'Model');
+       $model->setAttrib('placeholder', 'Enter car model e.g. Sienna');
        
        $model->setDecorators($this->generateDecorators());
        
@@ -37,7 +37,9 @@ class Account_Form_Editcar extends Application_Form_Base
            'class' => 'input',
            'label' => 'Year',
            'filters'=> array('StringTrim', 'StripTags'),
+           'placeholder' => "Enter year e.g. 2007",
            'validators' => array('Int')
+           
        ));
        
        $year->setDecorators($this->generateDecorators());
@@ -65,7 +67,8 @@ class Account_Form_Editcar extends Application_Form_Base
    
        $this->addELements(array($id, $make, $model, $year, $car_profile_pic, $car_pic1, $car_pic2, $save));
 
-       
+       $this->setDecorators($this->getFormDescriptionDecorators());
+       $this->setDescription("Edit car profile");
      }
      
      /**
@@ -79,13 +82,14 @@ class Account_Form_Editcar extends Application_Form_Base
                             ->setDestination($picDest);
          
          $element->addValidator('Extension', false, 'jpg,jpeg,png,gif') 
-                ->addValidator('Size', false, '1MB')
+                ->addValidator('Size', false, '4096kB')
                 ->addFilter('Rename', array(
                  'target' => $picDest,
                 'overwrite' => true
          ));
         
        $element->setDecorators($this->getFileDecorators("form_row"));
+       
 
      }
 

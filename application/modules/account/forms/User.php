@@ -115,6 +115,8 @@ class Account_Form_User extends Application_Form_Base
                                     'onmouseover' => 'this.className=("btn_hover")'));
        
        $register->setDecorators($this->submitDecorator('btn_row'));
+       $this->setDecorators($this->getFormDescriptionDecorators());
+       $this->setDescription("Create an account");
        $this->addELements(array($id, $firstName, $lastName, $email, $password,$confirm_password, $sex, $terms, $register));
     }
 

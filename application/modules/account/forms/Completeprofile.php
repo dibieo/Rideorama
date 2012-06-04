@@ -41,10 +41,10 @@ class Account_Form_Completeprofile extends Application_Form_Base
         $phone_number = new Zend_Form_Element_Text('phone_number', array(
            
             'required'  => true,
-            'validators' => array('Digits', $phone_length_validator),
+            'validators' => array(new Application_Model_PhoneValidator()),
             'Label' => 'Phone #',
             'class' => 'field',
-              'Filters' => array('StripTags', 'StringTrim')
+            'Filters' => array('StripTags', 'StringTrim')
         ));
         
     
@@ -91,11 +91,11 @@ class Account_Form_Completeprofile extends Application_Form_Base
         //Enter upload buttons For car pictures
           $fileDest = realpath(APPLICATION_PATH . '/../public/img/cars/'); //Destination for user car images
          $car_profile_pic = new Zend_Form_Element_File('car_profile_pic');
-         $car_profile_pic->setLabel('Car Profile')
+         $car_profile_pic->setLabel('Car photo(Front)')
                  ->setDestination($fileDest);
          
          $car_profile_pic->addValidator('Extension', false, 'jpg,jpeg,png,gif') 
-                ->addValidator('Size', false, '300kB');
+                ->addValidator('Size', false, '4096kB');
  
          
          $car_profile_pic->addFilter('Rename', array(
@@ -104,11 +104,11 @@ class Account_Form_Completeprofile extends Application_Form_Base
          ));
           
          $car_pic1 = new Zend_Form_Element_File('picture1');
-         $car_pic1->setLabel('Car back')
+         $car_pic1->setLabel('Car photo(inside)')
                  ->setDestination($fileDest);
          
          $car_pic1->addValidator('Extension', false, 'jpg,jpeg,png,gif') 
-                ->addValidator('Size', false, '300kB');
+                ->addValidator('Size', false, '4096kB');
  
          
          $car_pic1->addFilter('Rename', array(
@@ -117,11 +117,11 @@ class Account_Form_Completeprofile extends Application_Form_Base
          ));
            
         $car_pic2 = new Zend_Form_Element_File('picture2');
-         $car_pic2->setLabel('Car front')
+         $car_pic2->setLabel('Car photo(back)')
                  ->setDestination($fileDest);
          
          $car_pic2->addValidator('Extension', false, 'jpg,jpeg,png,gif') 
-                ->addValidator('Size', false, '300kB');
+                ->addValidator('Size', false, '4096kB');
  
          
          $car_pic2->addFilter('Rename', array(

@@ -26,7 +26,7 @@
     <!-- details starts -->
     <div class="details_section">
       <div class="top_head">
-        <h1>Connect. Share. Ride.</h1>
+        <h1>Community Ridesharing</h1>
       </div>
       <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/home_top_bg.png" alt=""></div>
     <div class="detail_content">
@@ -57,8 +57,8 @@
         </div>
         <!-- tab 1 ends --> 
         
-    
-        <!-- tab 2 ends --> 
+        
+        
         <!-- tab 3 -->
         <div class="tab_content3 tabing" style="display:block;">
           <div class="common_box">
@@ -140,37 +140,27 @@
         <!-- tab 4 ends --> 
         <!-- tab 5 -->
         <div class="tab_content5 tabing" style="display:none;">
-          <div class="common_box contact_area">
-            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/contact_top.gif" alt=""></div>
-            <div class="common_text">
-              <p>John T: Are you flexible with the price?</p>
-              <p class="green">&gt; Peter M: Yes</p>
-              <p>John T: Which DIA terminal are you going to?</p>
-              <p class="green">&gt; Peter M: East terminal</p>
-              <p>John T: Awesome!</p>
-            </div>
-            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/contact_btm.gif" alt=""></div>
-          </div>
-          <div class="common_box msg_area">
-            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/review_top.gif" alt=""></div>
-            <div class="common_text">
-              <form action="#">
-                <textarea rows="10" cols="10">Type your message here</textarea>
-                <input type="submit" name="" value="send" class="send">
-              </form>
-            </div>
-            <div class="curve"><img src="<?php echo $this->baseUrl(); ?>/img/review_btm.gif" alt=""></div>
-          </div>
+          <div id="fb-root"></div>
+          <div class="fb-comments" data-href="<?php echo $this->contact_url; ?>" data-num-posts="4" data-width="470"></div>
         </div>
         <!-- tab 5 ends --> 
         
       </div>
       <div class="bottom_tab_area"> 
-        <ul class="tab">
+       <ul class="tab">
           <li class="first"><a href=".tab_content1"><?php echo $name_abbv; ?></a></li>
-          <li class="active"><a href=".tab_content3">Request Info</a></li>
-          <li><a href=".tab_content4">Review</a></li>
+           <?php if ($this->show_contact == "true"): ?>
+          <li><a href=".tab_content3">Trip Info</a></li>
+          <li class="active"><a href=".tab_content5 ">Contact</a></li>
+          <script>
+           $(".tabing").hide();
+           $(".tab_content5").show();
+          </script>
+          <?php else: ?>
+          <li class="active"><a href=".tab_content3">Trip Info</a></li>
           <li><a href=".tab_content5 ">Contact</a></li>
+          <?php endif; ?>
+          <li id ="tab_content4"><a href=".tab_content4">Review</a></li>
         </ul>
       </div>
     </div>

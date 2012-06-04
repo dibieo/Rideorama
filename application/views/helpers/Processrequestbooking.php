@@ -18,7 +18,7 @@ class Zend_View_Helper_Processrequestbooking extends Zend_View_Helper_Abstract {
        
        if ($array['request_open'] != null){
            
-           return "";
+           return "Sold Out!";
        }
         //User is loggned in
        if (Zend_Auth::getInstance()->hasIdentity()){
@@ -62,7 +62,7 @@ class Zend_View_Helper_Processrequestbooking extends Zend_View_Helper_Abstract {
          
          //If you've responded to this request then don't show offer ride button
          if ($booked_this_trip){
-             $url = "";
+             $url = "Sold Out!";
              return $url;
          }
              $baseurl = new Zend_View_Helper_BaseUrl();

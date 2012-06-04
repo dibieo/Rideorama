@@ -68,6 +68,10 @@ class Requests_IndexController extends Zend_Controller_Action
     
     }
     
+    /**
+     * Gives additional details regarding a request
+     * for a ride
+     */
     public function detailsAction()
     {
            // action body
@@ -78,9 +82,18 @@ class Requests_IndexController extends Zend_Controller_Action
         $trip = new Requests_Model_RequestService($params['where']);
         $params = $trip->tripdetails($params);
         $this->view->data = $params[0];
-        
+        $this->view->show_contact = "false";
+        $fb = new Application_Model_FacebookService();
+        $contact_url =  explode("?", $fb->getFullUrl($this->getRequest()->getRequestUri()));
+        $this->view->contact_url = $contact_url[0];
+        if (count($contact_url) > 1) {
+         $this->view->show_contact = "true";
+        }
     }
 
+    /**
+     * Post a requests for a ride
+     */
     public function postAction()
     {
         // action body
@@ -179,8 +192,16 @@ class Requests_IndexController extends Zend_Controller_Action
       $request = new Requests_Model_RequestService($where);
       $trip_id = $request->addRequest($formData, $where);
       $formData['trip_id'] = $trip_id;
-      //Share on facebook
+
+      //If this user did not have a phone number
+      //Add the phone number to their record
+       if (isset ($formData['phone_num'])){
+          $user = new Account_Model_UserService();
+          $user->updateUserPhoneNumber(Zend_Auth::getInstance()->getIdentity()->id, $formData['phone_num']);
+      }
       
+      
+      //Share request on facebook
    if (isset ($formData['facebook'])){
      if ($this->formData['facebook'] == "true"){
          $dest = $formData['destination'];
@@ -263,7 +284,7 @@ class Requests_IndexController extends Zend_Controller_Action
         $form->trip_cost->setValue($ride_data['trip_cost']);
         $form->luggage_size->setValue($ride_data['luggage_size']);
         $form->luggage->setValue($ride_data['luggage']);
-        $form->trip_time->setValue($ride_data['trip_time']);
+        $form->trip_time->setValue(date("h:i a", strtotime($ride_data['trip_time'])));
         $form->return->setValue(($this->_hasParam('return') ? $this->_getParam('return') : null));
         
     }

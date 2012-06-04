@@ -12,7 +12,7 @@
         <meta property="og:image" content="http://rideorama.com/favicon.ico" />
         <meta property="og:site_name" content="Rideorama" />
         <meta property="fb:admins" content="193300995" />
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+        <meta name="viewport" content = "width=device-width ,  user-scalable=no">
         <script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
@@ -42,6 +42,27 @@
 
       </head>
       <body>
+          <script>
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '193300995', // App ID
+    channelUrl : 'http://localhost/rideorama/public/channel.html', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+
+    // Additional initialization code here
+  };   
+   
+   (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=370456989661142";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
  <div id ="wrapper">
     <?php
     $logged_in_user = null;
@@ -61,15 +82,10 @@
 
      <div id="content">
         <?php echo $this->layout()->content; ?>
+         
      </div>
      <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=370456989661142";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+
     <footer>
           <ul>
       <li><a href="<?php echo $this->baseUrl();?>/aboutus">About us</a></li>

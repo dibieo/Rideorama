@@ -241,6 +241,19 @@ class Account_Model_UserService extends Application_Model_Service
     }
    
     /**
+     * Updates the user's telephone number
+     * Usually called from the post ride/request forms if the user has not submitted a phone number
+     * @param type $user_id
+     * @param type $phone_number 
+     */
+    public function updateUserPhoneNumber($user_id, $phone_number){
+        $user = $this->getUser($user_id);
+        $user->telephone = $phone_number;
+        $this->em->persist($user);
+        $this->em->flush();
+    }
+    
+    /**
      * Updates a user's password
      * @param string $email_hash
      * @param string $password 
@@ -309,7 +322,7 @@ class Account_Model_UserService extends Application_Model_Service
       */
      public function getPassengerBookedRides($user_id, $entity, $address){
          
-      $q = $this->em->createQuery("select t.id, t.cost, t.city, t.departure_date, a.iata, $address as address from 
+      $q = $this->em->createQuery("select t.id, t.cost, t.city, t.departure_date, t.departure_time as trip_time, a.iata, $address as address from 
                                    '$entity' b JOIN b.trip t JOIN t.airport a where b.passenger = $user_id");
       $result = $q->execute();
       return $result;
@@ -324,7 +337,7 @@ class Account_Model_UserService extends Application_Model_Service
       */
      public function getRequestsFulfilled($user_id, $entity, $address){
          
-       $q = $this->em->createQuery("select t.id, t.cost, t.city, t.departure_date, a.iata, $address as address from 
+       $q = $this->em->createQuery("select t.id, t.cost, t.city, t.departure_date, t.departure_time as trip_time, a.iata, $address as address from 
                                    '$entity' b JOIN b.trip t JOIN t.airport a where b.driver = $user_id");
       $result = $q->execute();
       return $result; 

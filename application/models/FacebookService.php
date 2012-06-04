@@ -68,7 +68,11 @@ class Application_Model_FacebookService extends Application_Model_Service
     }
  
 
-    
+    public function getFullUrl($url){
+                $fbUrl = "http://" . $this->baseUrl->getHost() . $url;
+
+                return $fbUrl;
+    }
 }
 
 

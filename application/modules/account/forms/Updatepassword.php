@@ -42,6 +42,9 @@ class Account_Form_Updatepassword extends Application_Form_Base
        $savepassword->setDecorators($this->submitDecorator('btn_row'));
        $this->setMethod('POST');
        $this->addELements(array($id, $password,$confirm_password,$savepassword));
+          
+    $this->setDecorators($this->getFormDescriptionDecorators());
+     $this->setDescription('Post a ride');
     }
 
 }

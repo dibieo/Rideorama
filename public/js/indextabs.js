@@ -18,10 +18,10 @@ $(document).ready(function() {
 	Cufon.replace('#home_container .bottom_tab ul li a', {fontFamily: 'Helvetica', fontWeight: 700});		
 	            });
         $("#latest").html("Loading");
- 
-        setTimeout("setTicker()", 1000);
-               
-				return false;
+         setTimeout("setTicker()", 500);
+
+        return false;
+
 		});
 	$('.tab ul li').eq(0).trigger('click');
            
@@ -29,26 +29,45 @@ $(document).ready(function() {
 
 
 function setTicker(){
-              console.log(getLocalStorageKey());
-              if (localStorage.getItem(getLocalStorageKey()) != null){
-                  console.log("getting item from local storage");
-                  $("#latest").html(localStorage.getItem(getLocalStorageKey()));
-                 setCarousel();
-
+              var key = getLocalStorageKey();
+              console.log(key);
+              if (localStorage.getItem(key) != null){
+                getItemFromLocalStorageAndSetUpcomingRides(key);
               }else
               {
-                  console.log("Getting item from outside localstorage");
-            
-                $.get("index/homepageticker", {}, function(data){
-                    $("#latest").html(data);
-                    localStorage.setItem(getLocalStorageKey(), data);
-                    console.log("added item to localstorage");
-                }, 'html');
-                setTimeout("setCarousel()", 400); 
-
+                console.log("Getting item from outside localstorage");
+                addItemToLocalStorage(key);
               }
 }
 
+/**
+ * This function gets an item from the browser's local storage
+ * and sets the latest rides div
+ */
+function getItemFromLocalStorageAndSetUpcomingRides(key){
+      console.log("getting item from local storage");
+      $("#latest").html(localStorage.getItem(key));
+      setCarousel(); //Sets the carousel
+    
+}
+
+/**
+ * Adds the upcoming rides item to local storage
+ *
+ */
+function addItemToLocalStorage(key){
+      $.get("index/homepageticker", {}, function(data){
+                  //  $("#hidden-list").html(data);
+                    localStorage.setItem(key, data);
+                    console.log("added item to localstorage");
+                    getItemFromLocalStorageAndSetUpcomingRides(key);
+                }, 'html');
+                
+}
+/**
+ * Generates a key for storing items in localStorage
+ * Right now this uses the date stamp
+ */
 function getLocalStorageKey(){
     var date = new Date();
     var homepageTickerKey = "homepageTickers" +  date.toLocaleDateString() ;

@@ -10,8 +10,6 @@ class Payment_IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-       //$this->_helper->getHelper('layout')->disableLayout();
-       //$this->_helper->viewRenderer->setNoRender();
         $url = new Zend_View_Helper_Url();
         $user = new Account_Model_UserService();
         $driver = $user->getUserByEmail($this->_getParam('driverEmail'));
@@ -43,13 +41,17 @@ class Payment_IndexController extends Zend_Controller_Action
         $baseurl = new Zend_View_Helper_ServerUrl();
         $link = "http://" .$baseurl->getHost();
         
+       $driverName = $this->_getParam("driverName");
+       $driverEmail = $this->_getParam("driverEmail");
+       $date = $this->_getParam('trip_date');
+       $dept_date  = $date;
        
         $payDetails = array(
             'cancelUrl' => "$link"."$cancelUrl",
             'returnUrl' => "$link". "$returnUrl",
             'rideoramaEmail' => Zend_Registry::get('config')->paypal->rideoramaEmail,
             'receiverEmail' =>   $driverPaypal,
-            'memo' => 'Payment from rideorama platform for a ride',
+            'memo' => "Payment to $driverName [$driverEmail] for a trip on $dept_date",
             'amount' => $this->_getParam('tripcost')
         );
         
@@ -79,7 +81,7 @@ class Payment_IndexController extends Zend_Controller_Action
         // action body
      $params = $this->_getAllParams();
      $service = new Application_Model_Service();
-     print_r($this->_getAllParams());
+     //print_r($this->_getAllParams());
      $service->addTripNotification($this->_getAllParams());
     }
 

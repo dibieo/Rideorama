@@ -54,6 +54,7 @@ class Account_EditController extends Zend_Controller_Action
     {
         
         $form = new Account_Form_Editcar();
+        $form->setDescription("Update car profile");
         $this->view->form = $form;
         $id = Zend_Auth::getInstance()->getIdentity()->id;
         $user = new Account_Model_UserService();
@@ -118,6 +119,7 @@ class Account_EditController extends Zend_Controller_Action
         // action body
         $form = new Account_Form_Editcar();
         $this->view->form = $form;   
+        $form->setDescription("Complete car profile");
         
         $id = Zend_Auth::getInstance()->getIdentity()->id;
         $user = new Account_Model_UserService();

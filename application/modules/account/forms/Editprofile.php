@@ -68,7 +68,7 @@ class Account_Form_Editprofile extends Application_Form_Base
            'class' => 'input',
            'label' => 'Phone number',
            'filters'=> array('StringTrim', 'StripTags'),
-           'validators' => array('Digits', $strlength)
+           'validators' => array(new Application_Model_PhoneValidator())
        ));
        $phone->setDecorators($this->generateDecorators());
        
@@ -95,7 +95,7 @@ class Account_Form_Editprofile extends Application_Form_Base
                             ->setDestination($profilepicfileDest);
          
          $user_profile_pic->addValidator('Extension', false, 'jpg,png,gif') 
-                ->addValidator('Size', false, '1MB')
+                ->addValidator('Size', false, '4096kB')
                 ->addFilter('Rename', array(
              'target' => $profilepicfileDest,
              'overwrite' => true
@@ -108,6 +108,8 @@ class Account_Form_Editprofile extends Application_Form_Base
        $this->addELements(array($id, $firstName, $lastName, $email, $paypalemail, $user_profile_pic, $occupation, $phone, $age, $save));
      
        
+    $this->setDecorators($this->getFormDescriptionDecorators());
+       $this->setDescription("Edit your profile");
      }
 
 
